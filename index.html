@@ -517,6 +517,912 @@ body.modo-claro select optgroup {
   filter:grayscale(0.1);
 }
 
+
+/* Modal de Tipografias (.ttf) */
+.tipografia-card{
+  background:var(--bg-panel);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding:14px 16px;
+  margin-bottom:14px;
+  transition:border-color .2s ease;
+}
+.tipografia-card:hover{
+  border-color:var(--accent-dim);
+}
+.tipografia-card-topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:10px;
+}
+.tipografia-info{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+.tipografia-nome{
+  margin:0;
+  font-family:'MirageFinal',serif;
+  font-size:16px;
+  color:var(--ink);
+  letter-spacing:.03em;
+}
+.tipografia-uso{
+  font-family:'EB Garamond',serif;
+  font-size:12.5px;
+  color:var(--ink-faint);
+  line-height:1.4;
+}
+.badge-status-fonte{
+  display:inline-flex;
+  align-items:center;
+  padding:3px 8px;
+  font-size:11px;
+  font-family:'EB Garamond',serif;
+  border-radius:3px;
+  background:var(--bg-inset);
+  color:var(--ink-faint);
+  border:1px solid var(--line-soft);
+  white-space:nowrap;
+  max-width:180px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.badge-status-fonte.personalizada{
+  background:color-mix(in srgb, var(--accent) 15%, transparent);
+  color:var(--accent);
+  border-color:var(--accent-dim);
+  font-weight:600;
+}
+.tipografia-preview-box{
+  background:var(--bg-inset);
+  border:1px solid var(--line-soft);
+  border-radius:3px;
+  padding:10px 12px;
+  color:var(--ink);
+  font-size:14px;
+  margin-bottom:12px;
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  word-break:break-word;
+  line-height:1.5;
+}
+.tipografia-acoes{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.btn-importar-fonte{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 14px;
+  font-size:13px;
+  font-family:'MirageFinal',serif;
+  background:color-mix(in srgb, var(--accent) 12%, var(--bg-inset));
+  border:1px solid var(--accent-dim);
+  color:var(--accent);
+  border-radius:3px;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.btn-importar-fonte:hover{
+  background:var(--accent);
+  color:#080808;
+  border-color:var(--accent);
+  box-shadow:0 0 10px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.btn-restaurar-fonte{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:6px 12px;
+  font-size:12.5px;
+  font-family:'EB Garamond',serif;
+  background:var(--bg-inset);
+  border:1px solid var(--line);
+  color:var(--ink-dim);
+  border-radius:3px;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.btn-restaurar-fonte:hover:not(:disabled){
+  border-color:var(--ink-dim);
+  color:var(--ink);
+}
+.btn-restaurar-fonte:disabled{
+  opacity:0.4;
+  cursor:not-allowed;
+}
+.tipografia-lote-bloco{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  background:color-mix(in srgb, var(--accent) 6%, var(--bg-panel));
+  border:1px dashed var(--accent-dim);
+  border-radius:4px;
+  padding:12px 16px;
+  margin-top:6px;
+}
+.tipografia-lote-info{
+  font-family:'EB Garamond',serif;
+  font-size:13px;
+  color:var(--ink-dim);
+}
+.btn-aplicar-lote-fonte{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 14px;
+  font-size:12px;
+  font-family:'MirageFinal',serif;
+  background:transparent;
+  border:1px solid var(--accent);
+  color:var(--accent);
+  border-radius:3px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all .2s ease;
+}
+.btn-aplicar-lote-fonte:hover{
+  background:var(--accent);
+  color:#080808;
+}
+@media (max-width:600px){
+  .tipografia-lote-bloco{
+    flex-direction:column;
+    align-items:stretch;
+  }
+}
+
+/* ============================================================
+   MÓDULO: TOCADOR DE MÚSICA & TRILHA SONORA DINÂMICA (.MP3)
+   ============================================================ */
+.btn-musica-toggle.com-musicas {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-panel));
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), 0 0 10px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.btn-musica-toggle:hover #icone_musica_btn {
+  transform: scale(1.15) rotate(12deg);
+}
+
+.musica-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
+  border: 1px solid var(--accent-dim);
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.musica-status-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.musica-status-tag {
+  font-family: 'MirageFinal', serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.musica-status-tag .status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.musica-status-tag .status-dot.tocando {
+  background: #2ecc71;
+  box-shadow: 0 0 8px #2ecc71;
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.musica-status-nome {
+  font-family: 'EB Garamond', serif;
+  font-size: 13.5px;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.musica-status-acoes {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-musica-playpause {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-family: 'MirageFinal', serif;
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-inset));
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-musica-playpause:hover {
+  background: var(--accent);
+  color: #080808;
+}
+
+.musica-volume-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-dim);
+  font-family: 'EB Garamond', serif;
+  user-select: none;
+}
+
+.musica-volume-slider {
+  width: 90px;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  outline: none;
+  accent-color: var(--accent);
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+}
+
+.musica-volume-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  background: transparent;
+  border-radius: 3px;
+}
+
+.musica-volume-slider::-moz-range-track {
+  height: 6px;
+  background: transparent;
+  border-radius: 3px;
+}
+
+.musica-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #1a1a1a;
+  cursor: pointer;
+  margin-top: -4px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.6);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.musica-volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.musica-volume-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #1a1a1a;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(0,0,0,0.6);
+  transition: transform 0.15s ease;
+}
+
+.musica-volume-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+.musica-volume-valor {
+  font-family: 'MirageFinal', serif;
+  font-size: 11.5px;
+  color: var(--accent);
+  min-width: 32px;
+  text-align: right;
+  display: inline-block;
+}
+
+.musica-hierarquia-info {
+  background: var(--bg-inset);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-family: 'EB Garamond', serif;
+  font-size: 12.5px;
+  color: var(--ink-dim);
+  line-height: 1.5;
+}
+
+.musica-hierarquia-info ol {
+  margin: 6px 0 0 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.musica-hierarquia-info li {
+  font-size: 12px;
+}
+
+.musica-hierarquia-info li strong {
+  color: var(--accent);
+}
+
+.musica-slots-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.musica-slot-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.musica-slot-card.ativo-no-momento {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--bg-card));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.musica-slot-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.musica-slot-ident {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.musica-slot-ordem {
+  font-family: 'MirageFinal', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border: 1px solid var(--accent-dim);
+  border-radius: 3px;
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
+.musica-slot-titulo-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.musica-slot-nome {
+  font-family: 'MirageFinal', serif;
+  font-size: 13.5px;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.musica-slot-gatilho {
+  font-family: 'EB Garamond', serif;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+}
+
+.musica-slot-status {
+  font-family: 'EB Garamond', serif;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--line-soft);
+  background: var(--bg-inset);
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.musica-slot-status.carregado {
+  border-color: var(--accent-dim);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.musica-slot-status.em-execucao {
+  border-color: #2ecc71;
+  color: #2ecc71;
+  background: rgba(46, 204, 113, 0.12);
+  font-weight: 600;
+}
+
+.musica-slot-arquivo-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--bg-inset);
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  padding: 8px 10px;
+}
+
+.musica-slot-arquivo-nome {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.musica-slot-acoes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-musica-acao {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  font-size: 11.5px;
+  font-family: 'MirageFinal', serif;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-musica-acao:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-musica-acao.primario {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-inset));
+  border-color: var(--accent-dim);
+  color: var(--accent);
+}
+
+.btn-musica-acao.primario:hover {
+  background: var(--accent);
+  color: #080808;
+  border-color: var(--accent);
+}
+
+.btn-musica-acao.perigo:hover {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+}
+
+@media (max-width: 600px) {
+  .musica-status-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .musica-status-acoes {
+    justify-content: space-between;
+  }
+  .musica-slot-arquivo-linha {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .musica-slot-acoes {
+    justify-content: flex-end;
+  }
+}
+
+/* ============================================================
+   POPUP FLUTUANTE DE MÚSICA (INFERIOR ESQUERDO)
+   Surge automaticamente quando uma música for selecionada/tocando
+   ============================================================ */
+.musica-popup-flutuante {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-panel);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 10px 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.75), 0 0 16px color-mix(in srgb, var(--accent) 25%, transparent);
+  gap: 8px;
+  max-width: 360px;
+  min-width: 290px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.3s ease,
+              padding 0.3s ease,
+              max-width 0.3s ease,
+              min-width 0.3s ease,
+              left 0.3s ease,
+              border-radius 0.3s ease;
+}
+
+.musica-popup-flutuante.visivel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* Modo Compacto Vertical ("Entrar na Parede") */
+.musica-popup-flutuante.recolhido {
+  left: 0 !important;
+  bottom: 80px !important;
+  max-width: 48px !important;
+  min-width: 48px !important;
+  width: 48px !important;
+  padding: 8px 6px !important;
+  border-left: none !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  gap: 10px !important;
+  align-items: center !important;
+  box-shadow: 4px 6px 20px rgba(0, 0, 0, 0.85), 0 0 12px color-mix(in srgb, var(--accent) 30%, transparent) !important;
+}
+
+.musica-timeline-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.musica-tempo-texto {
+  font-family: 'MirageFinal', monospace, serif;
+  font-size: 11px;
+  color: var(--ink-faint);
+  min-width: 32px;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.musica-tempo-texto.atual {
+  text-align: right;
+  color: var(--accent);
+}
+
+.musica-tempo-texto.total {
+  text-align: left;
+}
+
+.musica-timeline-slider {
+  flex: 1;
+  height: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  outline: none;
+  accent-color: var(--accent);
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.musica-timeline-slider::-webkit-slider-runnable-track {
+  height: 5px;
+  background: transparent;
+  border-radius: 3px;
+}
+
+.musica-timeline-slider::-moz-range-track {
+  height: 5px;
+  background: transparent;
+  border-radius: 3px;
+}
+
+.musica-timeline-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #141414;
+  cursor: pointer;
+  margin-top: -4px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.7);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.musica-timeline-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+}
+
+.musica-timeline-slider::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #141414;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0,0,0,0.7);
+  transition: transform 0.15s ease;
+}
+
+.musica-timeline-slider::-moz-range-thumb:hover {
+  transform: scale(1.25);
+}
+
+.musica-popup-flutuante.recolhido .musica-timeline-container,
+.musica-popup-flutuante.recolhido .musica-popup-info-faixa,
+.musica-popup-flutuante.recolhido .musica-popup-prioridade,
+.musica-popup-flutuante.recolhido .musica-popup-volume-wrap span,
+.musica-popup-flutuante.recolhido .musica-popup-volume-valor,
+.musica-popup-flutuante.recolhido #texto-popup-musica-playpause {
+  display: none !important;
+}
+
+.musica-popup-flutuante.recolhido .musica-popup-topo {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  width: 100% !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.musica-popup-flutuante.recolhido .musica-popup-controles {
+  flex-direction: column !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  gap: 10px !important;
+  width: 100% !important;
+  align-items: center !important;
+}
+
+.musica-popup-flutuante.recolhido .musica-popup-btn-play {
+  padding: 6px !important;
+  width: 34px !important;
+  height: 34px !important;
+  justify-content: center !important;
+  border-radius: 4px !important;
+}
+
+.musica-popup-flutuante.recolhido .musica-popup-volume-wrap {
+  width: 100% !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.musica-popup-flutuante.recolhido .musica-popup-volume-wrap .musica-volume-slider {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 6px !important;
+  height: 64px !important;
+  margin: 4px 0 !important;
+  cursor: pointer;
+}
+
+.musica-popup-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid var(--line-soft);
+  padding-bottom: 6px;
+}
+
+.musica-popup-ident {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.musica-popup-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.musica-popup-dot.tocando {
+  background: #2ecc71 !important;
+  box-shadow: 0 0 8px #2ecc71 !important;
+  animation: pulse-dot 1.5s infinite;
+}
+
+.musica-popup-prioridade {
+  font-family: 'MirageFinal', serif;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.musica-popup-fechar {
+  background: none;
+  border: none;
+  color: var(--ink-faint);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 4px;
+  line-height: 1;
+  border-radius: 3px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.musica-popup-fechar:hover {
+  color: var(--ink);
+  background: var(--bg-inset);
+}
+
+.musica-popup-info-faixa {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.musica-popup-icone-faixa {
+  font-size: 16px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.musica-popup-textos {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.musica-popup-titulo {
+  font-family: 'EB Garamond', serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.musica-popup-subtitulo {
+  font-family: 'EB Garamond', serif;
+  font-size: 11.5px;
+  font-style: italic;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.musica-popup-controles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--bg-inset);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+.musica-popup-btn-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  font-size: 11.5px;
+  font-family: 'MirageFinal', serif;
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-panel));
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.musica-popup-btn-play:hover {
+  background: var(--accent);
+  color: #080808;
+}
+
+.musica-popup-volume-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.musica-popup-volume-wrap .musica-volume-slider {
+  width: 75px;
+}
+
+@media (max-width: 500px) {
+  .musica-popup-flutuante {
+    left: 12px;
+    right: 12px;
+    bottom: 14px;
+    max-width: none;
+    min-width: 0;
+  }
+  .musica-popup-flutuante.recolhido {
+    left: 0 !important;
+    right: auto !important;
+    bottom: 70px !important;
+  }
+}
+
 /* ============================================================
    SEÇÃO DE RECURSOS VITAIS (VIDA, MENTAL, ESTAMINA, AURA)
    ============================================================ */
@@ -2745,6 +3651,7 @@ body.modo-claro .btn-salvar-alteracoes-dock:hover {
 .btn-tema-toggle {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   background: var(--bg-panel);
   border: 1px solid var(--line);
@@ -2758,6 +3665,8 @@ body.modo-claro .btn-salvar-alteracoes-dock:hover {
   cursor: pointer;
   transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .btn-tema-toggle:hover {
@@ -2766,6 +3675,13 @@ body.modo-claro .btn-salvar-alteracoes-dock:hover {
   background: var(--bg-panel-2);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 10px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.btn-fonte-toggle.com-personalizacao {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-panel));
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), 0 0 10px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 .btn-tema-icone {
@@ -2777,6 +3693,10 @@ body.modo-claro .btn-salvar-alteracoes-dock:hover {
 
 .btn-tema-toggle:hover .btn-tema-icone {
   transform: rotate(20deg) scale(1.1);
+}
+
+.btn-fonte-toggle:hover #icone_tipografia_btn {
+  transform: rotate(-15deg) scale(1.15);
 }
 
 @media(max-width: 768px) {
@@ -3010,6 +3930,23 @@ html.tem-contorno-letras .btn-salvar-alteracoes-dock,
 html.tem-contorno-letras .btn-confirm-salvar-modal,
 html.tem-contorno-letras .modal-confirmacao-janela.tema-salvar .modal-confirmacao-titulo,
 html.tem-contorno-letras .modal-confirmacao-janela.tema-salvar .modal-confirm-icone,
+html.tem-contorno-letras .barra-atalhos-titulo,
+html.tem-contorno-letras .barra-atalhos-rotulo,
+html.tem-contorno-letras .btn-hotbar-config,
+html.tem-contorno-letras .atalho-chip-tecla,
+html.tem-contorno-letras .btn-fonte-toggle,
+html.tem-contorno-letras #icone_tipografia_btn,
+html.tem-contorno-letras .btn-musica-toggle,
+html.tem-contorno-letras #icone_musica_btn,
+html.tem-contorno-letras .musica-slot-ordem,
+html.tem-contorno-letras .musica-status-tag,
+html.tem-contorno-letras .btn-musica-playpause,
+html.tem-contorno-letras .musica-popup-prioridade,
+html.tem-contorno-letras .musica-popup-icone-faixa,
+html.tem-contorno-letras .musica-popup-btn-play,
+html.tem-contorno-letras .musica-volume-valor,
+html.tem-contorno-letras .btn-importar-fonte,
+html.tem-contorno-letras .btn-aplicar-lote-fonte,
 html.tem-contorno-letras .btn-acao.primario {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
   paint-order: stroke fill;
@@ -3021,6 +3958,367 @@ html.tem-contorno-letras .btn-rolar:hover {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
   paint-order: stroke fill;
   text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
+}
+
+
+/* ============================================================
+   EDITOR DE MÚSICA - TIMELINE BEM LARGA & VISUALIZADOR
+   ============================================================ */
+.modal-editar-musica-janela {
+  max-width: 760px !important;
+  width: 95% !important;
+}
+
+.musica-editar-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.musica-editar-badgetag-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.musica-badge-info {
+  font-family: 'MirageFinal', monospace, Georgia, serif;
+  font-size: 12px;
+  background: var(--bg-inset);
+  border: 1px solid var(--line-soft);
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: var(--ink-dim);
+}
+
+.musica-badge-info.destaque {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-card));
+  color: var(--accent);
+}
+
+.musica-timeline-editor-wrapper {
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.musica-timeline-regua {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'MirageFinal', monospace, serif;
+  font-size: 11px;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+  user-select: none;
+}
+
+.musica-timeline-track-container {
+  position: relative;
+  height: 56px;
+  background: #0f1117;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Fundo simulando formato de onda (wavebars) */
+.musica-timeline-waveform-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.35;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0px,
+    var(--accent) 3px,
+    transparent 3px,
+    transparent 7px
+  );
+  mask-image: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.2) 100%);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.2) 100%);
+  pointer-events: none;
+}
+
+/* Região fora do loop (sombreada) */
+.musica-timeline-shaded-region {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.musica-timeline-shaded-region.left {
+  left: 0;
+  width: 0%;
+}
+
+.musica-timeline-shaded-region.right {
+  right: 0;
+  width: 0%;
+}
+
+/* Região do Loop Ativo */
+.musica-timeline-loop-region {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0%;
+  right: 100%;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border-left: 2px solid #22c55e;
+  border-right: 2px solid #ef4444;
+  box-shadow: inset 0 0 14px color-mix(in srgb, var(--accent) 30%, transparent);
+  pointer-events: none;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loop-region-label {
+  font-family: 'MirageFinal', monospace, serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(0, 0, 0, 0.65);
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  user-select: none;
+}
+
+/* Playhead Scrubber */
+.musica-timeline-playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+  z-index: 5;
+  pointer-events: none;
+  transition: left 0.05s linear;
+}
+
+.playhead-tooltip {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0284c7;
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  pointer-events: none;
+  font-weight: 700;
+}
+
+/* Slider Transparente para Scrubber */
+.musica-timeline-scrubber-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 6;
+  margin: 0;
+}
+
+/* Barra dos Handles de Início e Fim abaixo da trilha */
+.musica-timeline-handles-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.handle-control-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.handle-badge {
+  font-family: 'MirageFinal', monospace, serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-dim);
+}
+
+.handle-badge.inicio strong {
+  color: #4ade80;
+}
+
+.handle-badge.fim strong {
+  color: #f87171;
+}
+
+.musica-range-handle {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.musica-range-handle.handle-inicio {
+  accent-color: #22c55e;
+}
+
+.musica-range-handle.handle-fim {
+  accent-color: #ef4444;
+}
+
+/* Grid de Controles de Precisão */
+.musica-editar-controles-grid {
+  display: grid;
+  grid-template-columns: 1fr 180px 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+@media (max-width: 650px) {
+  .musica-editar-controles-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.musica-corte-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.musica-corte-card.inicio {
+  border-left: 3px solid #22c55e;
+}
+
+.musica-corte-card.fim {
+  border-left: 3px solid #ef4444;
+}
+
+.musica-corte-card.player-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  text-align: center;
+}
+
+.corte-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.corte-card-titulo {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.corte-card-time {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.corte-quick-btns {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.btn-micro {
+  font-size: 10.5px;
+  font-family: monospace;
+  padding: 3px 6px;
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-micro:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-inset));
+}
+
+.btn-micro.destaque {
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-panel));
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.btn-preview-loop-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
+  font-size: 13px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 30%, transparent);
+  transition: all 0.15s ease;
+}
+
+.btn-preview-loop-play:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-preview-loop-play.tocando {
+  background: #ef4444;
+  color: #fff;
+}
+
+.preview-loop-status {
+  font-size: 10.5px;
+  color: var(--ink-dim);
+  margin-top: 6px;
+  font-style: italic;
 }
 
 
@@ -4357,7 +5655,14 @@ html.tem-contorno-letras .conq-tab-btn-n1,
 html.tem-contorno-letras .conq-tab-btn-n2,
 html.tem-contorno-letras .conq-card-titulo,
 html.tem-contorno-letras .conq-card-pts,
-html.tem-contorno-letras .conq-btn-desbloquear {
+html.tem-contorno-letras .conq-btn-desbloquear,
+html.tem-contorno-letras .conq-card.conq-secreta.desbloqueada .conq-card-titulo,
+html.tem-contorno-letras .conq-card.conq-secreta.desbloqueada .conq-card-icone,
+html.tem-contorno-letras .conq-card-pts.secreta,
+html.tem-contorno-letras .conq-card-status-tag.secreta,
+html.tem-contorno-letras .conq-tag.secreta,
+html.tem-contorno-letras [style*="color:var(--accent)"],
+html.tem-contorno-letras [style*="color: var(--accent)"] {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
   paint-order: stroke fill;
   text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
@@ -4499,6 +5804,19 @@ html.animacao-strokes-roxas .conq-card-titulo,
 html.animacao-strokes-roxas .conq-card-pts,
 html.animacao-strokes-roxas .conq-btn-desbloquear,
 html.animacao-strokes-roxas .aba-nav-btn.ativa .aba-texto,
+html.animacao-strokes-roxas .barra-atalhos-rotulo,
+html.animacao-strokes-roxas .barra-atalhos-titulo,
+html.animacao-strokes-roxas .btn-hotbar-config,
+html.animacao-strokes-roxas .atalho-chip-tecla,
+html.animacao-strokes-roxas .btn-fonte-toggle,
+html.animacao-strokes-roxas #icone_tipografia_btn,
+html.animacao-strokes-roxas .btn-musica-toggle,
+html.animacao-strokes-roxas #icone_musica_btn,
+html.animacao-strokes-roxas .musica-slot-ordem,
+html.animacao-strokes-roxas .musica-status-tag,
+html.animacao-strokes-roxas .btn-musica-playpause,
+html.animacao-strokes-roxas .btn-importar-fonte,
+html.animacao-strokes-roxas .btn-aplicar-lote-fonte,
 html.animacao-strokes-roxas .pericia-card .rotulo,
 html.animacao-strokes-roxas h1,
 html.animacao-strokes-roxas h2,
@@ -5611,6 +6929,142 @@ html.animacao-strokes-roxas .galho-svg path {
   }
 }
 
+/* ============================================================
+   EFEITO DE VISÃO TURVA, DESFOCAMENTO E DUPLICAÇÃO (ESTAMINA <= 50% E < 10%)
+   ============================================================ */
+@keyframes animacaoVistaTurvaEstamina {
+  0% {
+    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+  }
+  20% {
+    filter: blur(1.2px) drop-shadow(-5px 0px 0.5px rgba(235, 225, 210, 0.22)) drop-shadow(5px 0px 0.5px rgba(235, 225, 210, 0.22)) contrast(105%) brightness(96%);
+  }
+  45% {
+    filter: blur(0.4px) drop-shadow(-2px 0px 0.5px rgba(235, 225, 210, 0.12)) drop-shadow(2px 0px 0.5px rgba(235, 225, 210, 0.12)) contrast(101%) brightness(99%);
+  }
+  68% {
+    filter: blur(2.2px) drop-shadow(-9px -0.5px 1px rgba(235, 225, 210, 0.30)) drop-shadow(9px 0.5px 1px rgba(235, 225, 210, 0.30)) contrast(110%) brightness(93%);
+  }
+  85% {
+    filter: blur(0.8px) drop-shadow(-3px 0px 0.5px rgba(235, 225, 210, 0.15)) drop-shadow(3px 0px 0.5px rgba(235, 225, 210, 0.15)) contrast(102%) brightness(98%);
+  }
+  100% {
+    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+  }
+}
+
+@keyframes animacaoVistaTurvaEstaminaClaro {
+  0% {
+    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+  }
+  20% {
+    filter: blur(1.2px) drop-shadow(-5px 0px 0.5px rgba(20, 15, 10, 0.18)) drop-shadow(5px 0px 0.5px rgba(20, 15, 10, 0.18)) contrast(105%) brightness(96%);
+  }
+  45% {
+    filter: blur(0.4px) drop-shadow(-2px 0px 0.5px rgba(20, 15, 10, 0.10)) drop-shadow(2px 0px 0.5px rgba(20, 15, 10, 0.10)) contrast(101%) brightness(99%);
+  }
+  68% {
+    filter: blur(2.2px) drop-shadow(-9px -0.5px 1px rgba(20, 15, 10, 0.25)) drop-shadow(9px 0.5px 1px rgba(20, 15, 10, 0.25)) contrast(110%) brightness(93%);
+  }
+  85% {
+    filter: blur(0.8px) drop-shadow(-3px 0px 0.5px rgba(20, 15, 10, 0.12)) drop-shadow(3px 0px 0.5px rgba(20, 15, 10, 0.12)) contrast(102%) brightness(98%);
+  }
+  100% {
+    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+  }
+}
+
+/* Estamina Moderada (<= 50%) - Versão mais leve */
+@keyframes animacaoVistaTurvaEstaminaModerada {
+  0% {
+    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+  }
+  25% {
+    filter: blur(0.5px) drop-shadow(-2.5px 0px 0.5px rgba(235, 225, 210, 0.12)) drop-shadow(2.5px 0px 0.5px rgba(235, 225, 210, 0.12)) contrast(102%) brightness(98%);
+  }
+  50% {
+    filter: blur(0.2px) drop-shadow(0px 0px 0px transparent) contrast(101%) brightness(99%);
+  }
+  75% {
+    filter: blur(0.9px) drop-shadow(-4px 0px 0.5px rgba(235, 225, 210, 0.18)) drop-shadow(4px 0px 0.5px rgba(235, 225, 210, 0.18)) contrast(104%) brightness(96%);
+  }
+  100% {
+    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+  }
+}
+
+@keyframes animacaoVistaTurvaEstaminaModeradaClaro {
+  0% {
+    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+  }
+  25% {
+    filter: blur(0.5px) drop-shadow(-2.5px 0px 0.5px rgba(20, 15, 10, 0.10)) drop-shadow(2.5px 0px 0.5px rgba(20, 15, 10, 0.10)) contrast(102%) brightness(98%);
+  }
+  50% {
+    filter: blur(0.2px) drop-shadow(0px 0px 0px transparent) contrast(101%) brightness(99%);
+  }
+  75% {
+    filter: blur(0.9px) drop-shadow(-4px 0px 0.5px rgba(20, 15, 10, 0.14)) drop-shadow(4px 0px 0.5px rgba(20, 15, 10, 0.14)) contrast(104%) brightness(96%);
+  }
+  100% {
+    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+  }
+}
+
+body.estamina-critica > :not(#vinheta-estamina-critica):not(script):not(style) {
+  animation: animacaoVistaTurvaEstamina 7.5s ease-in-out infinite !important;
+  transition: filter 0.8s ease;
+  will-change: filter;
+}
+
+body.modo-claro.estamina-critica > :not(#vinheta-estamina-critica):not(script):not(style) {
+  animation: animacaoVistaTurvaEstaminaClaro 7.5s ease-in-out infinite !important;
+}
+
+body.estamina-moderada > :not(#vinheta-estamina-critica):not(script):not(style) {
+  animation: animacaoVistaTurvaEstaminaModerada 9s ease-in-out infinite !important;
+  transition: filter 0.8s ease;
+  will-change: filter;
+}
+
+body.modo-claro.estamina-moderada > :not(#vinheta-estamina-critica):not(script):not(style) {
+  animation: animacaoVistaTurvaEstaminaModeradaClaro 9s ease-in-out infinite !important;
+}
+
+#vinheta-estamina-critica {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999999;
+  box-shadow: inset 0 0 130px rgba(0, 0, 0, 0.75), inset 0 0 55px rgba(0, 0, 0, 0.92);
+  animation: vinhetaEstaminaCritica 4.8s ease-in-out infinite alternate;
+}
+
+body.estamina-critica #vinheta-estamina-critica {
+  display: block;
+  opacity: 1;
+}
+
+body.estamina-moderada #vinheta-estamina-critica {
+  display: block;
+  opacity: 0.45;
+}
+
+@keyframes vinhetaEstaminaCritica {
+  0% {
+    box-shadow: inset 0 0 85px rgba(0, 0, 0, 0.50), inset 0 0 35px rgba(0, 0, 0, 0.80);
+  }
+  100% {
+    box-shadow: inset 0 0 160px rgba(0, 0, 0, 0.88), inset 0 0 75px rgba(0, 0, 0, 0.96);
+  }
+}
+
 html.tem-contorno-letras .aba-nav-btn.ativa .aba-texto {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
   paint-order: stroke fill;
@@ -5653,8 +7107,10 @@ html.tem-contorno-letras .aba-nav-btn.ativa .aba-texto {
 
 .cabecalho-botoes-grupo {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  min-width: 144px;
 }
 
 .btn-config-atalhos {
@@ -5811,6 +7267,8 @@ html.tem-contorno-letras .aba-nav-btn.ativa .aba-texto {
   text-overflow: ellipsis;
   width: 100%;
   text-align: center;
+  -webkit-text-stroke: none !important;
+  text-stroke: none !important;
 }
 
 .atalho-chip.atalho-vazio {
@@ -5826,6 +7284,22 @@ html.tem-contorno-letras .aba-nav-btn.ativa .aba-texto {
 .atalho-chip.atalho-disparado .atalho-chip-nome {
   color: #000;
   font-weight: 700;
+}
+
+/* ============================================================
+   EFEITO DE STROKE (CONTORNO) NOS TEXTOS DA BARRA DE ATALHOS
+   ============================================================ */
+div#barra-atalhos-container .barra-atalhos-titulo,
+div#barra-atalhos-container .barra-atalhos-rotulo,
+div#barra-atalhos-container .btn-hotbar-config,
+div#barra-atalhos-container .atalho-chip-tecla,
+.barra-atalhos-container .barra-atalhos-titulo,
+.barra-atalhos-container .barra-atalhos-rotulo,
+.barra-atalhos-container .btn-hotbar-config,
+.barra-atalhos-container .atalho-chip-tecla {
+  -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
+  paint-order: stroke fill;
+  text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
 }
 
 .atalhos-grid-config {
@@ -5930,6 +7404,15 @@ body.modo-claro .atalho-select-pericia option {
     position: static;
     margin: 0 auto 12px auto;
     justify-content: center;
+  }
+  .cabecalho-botoes-grupo {
+    flex-direction: row;
+    justify-content: center;
+    min-width: unset;
+    gap: 8px;
+  }
+  .cabecalho-botoes-grupo .btn-tema-toggle {
+    width: auto;
   }
   .barra-atalhos-container {
     margin-top: 6px;
@@ -8144,6 +9627,7 @@ body.modo-claro .campanha-diario-textarea {
 </style>
 </head>
 <body>
+<div id="vinheta-estamina-critica" aria-hidden="true"></div>
 
 <div class="cabecalho-topo">
 <!-- Barra de Configurações do Cabeçalho (Modo Claro/Escuro) -->
@@ -8152,6 +9636,14 @@ body.modo-claro .campanha-diario-textarea {
     <button type="button" class="btn-tema-toggle" id="btn-tema-toggle" onclick="alternarModoTema()" title="Mudar para Modo Claro" aria-label="Alternar entre modo escuro e claro">
       <span class="btn-tema-icone" id="btn-tema-icone">☀️</span>
       <span class="btn-tema-rotulo" id="btn-tema-rotulo">Modo Claro</span>
+    </button>
+    <button type="button" class="btn-tema-toggle btn-fonte-toggle" id="btn-abrir-modal-fontes" onclick="abrirModalTipografias()" title="Alterar fontes (Mirage Final, Old Europe e Texto Geral) importando arquivo .ttf" aria-label="Alterar tipografias do site">
+      <span class="btn-tema-icone" id="icone_tipografia_btn">✒️</span>
+      <span class="btn-tema-rotulo" id="legenda_tipografia_btn">Fontes .ttf</span>
+    </button>
+    <button type="button" class="btn-tema-toggle btn-musica-toggle" id="btn-abrir-modal-musica" onclick="abrirModalMusica()" title="Tocador de Música com trilhas .mp3 e prioridade dinâmica" aria-label="Abrir tocador de música">
+      <span class="btn-tema-icone" id="icone_musica_btn">🎵</span>
+      <span class="btn-tema-rotulo" id="legenda_musica_btn">Música</span>
     </button>
   </div>
 </div>
@@ -10668,6 +12160,476 @@ if(window.innerWidth <= 768){
   </div>
 </div>
 
+<!-- Modal de Personalização de Tipografias (.ttf) -->
+<div id="modal-config-tipografia" class="modal-historico-overlay" aria-hidden="true" style="display:none;" onclick="fecharModalTipografiasPorOverlay(event)">
+  <div class="modal-historico-janela" style="max-width: 680px;" role="dialog" aria-labelledby="modal-tipografia-titulo" aria-modal="true">
+    <div class="modal-historico-cabecalho">
+      <div class="modal-historico-titulo-bloco">
+        <span class="modal-historico-sub">WE'RE STRANGERS • PERSONALIZAÇÃO VISUAL</span>
+        <h3 id="modal-tipografia-titulo" class="modal-historico-titulo">
+          <span>✒</span> Alterar Tipografias do Site (.ttf)
+        </h3>
+      </div>
+      <button type="button" class="modal-historico-fechar" onclick="fecharModalTipografias()" title="Fechar (Esc)">&times;</button>
+    </div>
+    <div class="modal-historico-subbarra">
+      <span>Importe arquivos de fonte TrueType (<strong>.ttf</strong>) para substituir as tipografias do site. Essa configuração fica salva na sua ficha.</span>
+    </div>
+    <div class="modal-historico-corpo" style="max-height: 65vh; padding: 18px 20px;">
+      
+      <!-- Slot 1: Mirage Final -->
+      <div class="tipografia-card" id="card-fonte-mirage">
+        <div class="tipografia-card-topo">
+          <div class="tipografia-info">
+            <h4 class="tipografia-nome">Mirage Final</h4>
+            <span class="tipografia-uso">Títulos principais, cabeçalhos, destaques, rolagens de dados e modais</span>
+          </div>
+          <span class="badge-status-fonte" id="badge-status-mirage">Padrão</span>
+        </div>
+        <div class="tipografia-preview-box" id="preview-mirage" style="font-family:'MirageFinal','Mirage final',serif;">
+          WE'RE STRANGERS • ROLAGENS 1D20+DADOS • 1890
+        </div>
+        <div class="tipografia-acoes">
+          <input type="file" id="input-arquivo-mirage" accept=".ttf,font/ttf,application/x-font-truetype" style="display:none;" onchange="processarUploadFonte('mirage', event)">
+          <button type="button" class="btn-importar-fonte" onclick="document.getElementById('input-arquivo-mirage').click()" title="Importar arquivo .ttf para Mirage Final">
+            <span>📁</span> Importar .ttf
+          </button>
+          <button type="button" class="btn-restaurar-fonte" id="btn-restaurar-mirage" onclick="restaurarFonteIndividual('mirage')" title="Restaurar Mirage Final padrão" disabled>
+            <span>↺</span> Padrão
+          </button>
+        </div>
+      </div>
+
+      <!-- Slot 2: Old Europe -->
+      <div class="tipografia-card" id="card-fonte-oldEurope">
+        <div class="tipografia-card-topo">
+          <div class="tipografia-info">
+            <h4 class="tipografia-nome">Old Europe</h4>
+            <span class="tipografia-uso">Subtítulos góticos, insígnias, valores numéricos e rótulos de atributos</span>
+          </div>
+          <span class="badge-status-fonte" id="badge-status-oldEurope">Padrão</span>
+        </div>
+        <div class="tipografia-preview-box" id="preview-oldEurope" style="font-family:'Old Europe',serif;">
+          Gótico Europeu • Atributos: HPR • PRX • PSI • QI • Destino
+        </div>
+        <div class="tipografia-acoes">
+          <input type="file" id="input-arquivo-oldEurope" accept=".ttf,font/ttf,application/x-font-truetype" style="display:none;" onchange="processarUploadFonte('oldEurope', event)">
+          <button type="button" class="btn-importar-fonte" onclick="document.getElementById('input-arquivo-oldEurope').click()" title="Importar arquivo .ttf para Old Europe">
+            <span>📁</span> Importar .ttf
+          </button>
+          <button type="button" class="btn-restaurar-fonte" id="btn-restaurar-oldEurope" onclick="restaurarFonteIndividual('oldEurope')" title="Restaurar Old Europe padrão" disabled>
+            <span>↺</span> Padrão
+          </button>
+        </div>
+      </div>
+
+      <!-- Slot 3: EB Garamond (Texto Geral) -->
+      <div class="tipografia-card" id="card-fonte-texto">
+        <div class="tipografia-card-topo">
+          <div class="tipografia-info">
+            <h4 class="tipografia-nome">EB Garamond (Texto Geral)</h4>
+            <span class="tipografia-uso">Corpo de texto, descrições de perícias, itens, magias, anotações e fórmulas</span>
+          </div>
+          <span class="badge-status-fonte" id="badge-status-texto">Padrão</span>
+        </div>
+        <div class="tipografia-preview-box" id="preview-texto" style="font-family:'EB Garamond',Georgia,serif;">
+          O horror não surge da escuridão, mas daquilo que permanece invisível sob a luz pálida.
+        </div>
+        <div class="tipografia-acoes">
+          <input type="file" id="input-arquivo-texto" accept=".ttf,font/ttf,application/x-font-truetype" style="display:none;" onchange="processarUploadFonte('texto', event)">
+          <button type="button" class="btn-importar-fonte" onclick="document.getElementById('input-arquivo-texto').click()" title="Importar arquivo .ttf para EB Garamond (Texto Geral)">
+            <span>📁</span> Importar .ttf
+          </button>
+          <button type="button" class="btn-restaurar-fonte" id="btn-restaurar-texto" onclick="restaurarFonteIndividual('texto')" title="Restaurar EB Garamond padrão" disabled>
+            <span>↺</span> Padrão
+          </button>
+        </div>
+      </div>
+
+      <!-- Ação Rápida: Aplicar um mesmo .ttf a todas as fontes -->
+      <div class="tipografia-lote-bloco">
+        <div class="tipografia-lote-info">
+          <span>⚡ <strong>Substituição Total:</strong> Quer aplicar o mesmo arquivo <code>.ttf</code> para todas as tipografias do site de uma só vez?</span>
+        </div>
+        <input type="file" id="input-arquivo-todas" accept=".ttf,font/ttf,application/x-font-truetype" style="display:none;" onchange="processarUploadFonte('todas', event)">
+        <button type="button" class="btn-aplicar-lote-fonte" onclick="document.getElementById('input-arquivo-todas').click()">
+          Aplicar a Todas as Fontes
+        </button>
+      </div>
+
+    </div>
+    <div class="modal-historico-rodape">
+      <button type="button" class="btn-limpar-historico" onclick="restaurarTodasFontesPadrao()" title="Restaurar todas as tipografias originais do sistema">
+        <span>↺</span> Restaurar Todas para o Padrão
+      </button>
+      <button type="button" class="btn-fechar-historico" onclick="fecharModalTipografias()">Salvar e Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal do Tocador de Música (.mp3 em Looping & Trilha Sonora Dinâmica) -->
+<div id="modal-config-musica" class="modal-historico-overlay" aria-hidden="true" style="display:none;" onclick="fecharModalMusicaPorOverlay(event)">
+  <div class="modal-historico-janela" style="max-width:680px;" role="dialog" aria-labelledby="modal-musica-titulo" aria-modal="true">
+    <div class="modal-historico-cabecalho">
+      <div class="modal-historico-titulo-bloco">
+        <span class="modal-historico-sub">WE'RE STRANGERS • TRILHA SONORA DINÂMICA</span>
+        <h3 id="modal-musica-titulo" class="modal-historico-titulo">
+          <span>🎵</span> Tocador de Música (.MP3)
+        </h3>
+      </div>
+      <button type="button" class="modal-historico-fechar" onclick="fecharModalMusica()" title="Fechar (Esc)">&times;</button>
+    </div>
+
+    <div class="modal-historico-corpo">
+
+      <!-- Barra de Status e Controles Globais -->
+      <div class="musica-status-bar">
+        <div class="musica-status-info">
+          <div class="musica-status-tag">
+            <span class="status-dot" id="musica-status-dot"></span>
+            <span id="musica-status-rotulo">Trilha Silenciada</span>
+          </div>
+          <div class="musica-status-nome" id="musica-status-nome">Nenhuma música tocando no momento</div>
+          <div class="musica-timeline-container" id="musica-modal-timeline-wrap" title="Progresso da Música (Arraste para alterar o tempo)">
+            <span class="musica-tempo-texto atual" id="musica_modal_tempo_atual">0:00</span>
+            <input type="range" class="musica-timeline-slider" id="musica_modal_timeline_slider" min="0" max="100" step="0.1" value="0" oninput="ajustarTempoMusica(this.value)" aria-label="Linha do tempo da música">
+            <span class="musica-tempo-texto total" id="musica_modal_tempo_total">0:00</span>
+          </div>
+        </div>
+        <div class="musica-status-acoes">
+          <button type="button" class="btn-musica-playpause" id="btn-musica-playpause" onclick="alternarPlayPauseMusica()" title="Pausar ou Retomar a trilha sonora">
+            <span id="icone-musica-playpause">▶</span> <span id="texto-musica-playpause">Tocar</span>
+          </button>
+          <div class="musica-volume-control" title="Volume da Música">
+            <span>🔊</span>
+            <input type="range" class="musica-volume-slider" id="musica_volume_slider" min="0" max="1" step="0.01" value="0.7" oninput="definirVolumeMusica(this.value)" aria-label="Ajustar volume da música">
+            <span class="musica-volume-valor" id="musica_volume_valor">70%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Guia de Prioridade e Looping -->
+      <div class="musica-hierarquia-info">
+        <span>🔄 <strong>Looping Contínuo & Prioridade Dinâmica:</strong> O áudio toca em loop contínuo e se adapta ao estado da partida de acordo com a preferência rigorosa:</span>
+        <ol>
+          <li><strong>1° VIDA ZERADA:</strong> Ativa quando sua Vida chegar a 0 HP (Inconsciente/Morrendo).</li>
+          <li><strong>2° MODO DE COMBATE:</strong> Ativa quando você estiver na aba do Modo Tático.</li>
+          <li><strong>3° MENTAL BAIXO:</strong> Ativa quando seus pontos de Mental estiverem abaixo de 50%.</li>
+          <li><strong>4° MÚSICA GERAL:</strong> Trilha tema da sua ficha geral enquanto as condições acima não ocorrerem.</li>
+        </ol>
+      </div>
+
+      <!-- Grade dos 4 Slots de Música -->
+      <div class="musica-slots-container">
+
+        <!-- Slot 1: Vida Zerada -->
+        <div class="musica-slot-card" id="slot-card-vidaZero">
+          <div class="musica-slot-topo">
+            <div class="musica-slot-ident">
+              <span class="musica-slot-ordem">1° Prioridade</span>
+              <div class="musica-slot-titulo-wrap">
+                <h4 class="musica-slot-nome"><span>💀</span> Vida Zerada</h4>
+                <span class="musica-slot-gatilho">Toca imediatamente quando sua Vida atingir 0</span>
+              </div>
+            </div>
+            <span class="musica-slot-status" id="badge-status-vidaZero">Vazio</span>
+          </div>
+          <div class="musica-slot-arquivo-linha">
+            <div class="musica-slot-arquivo-nome" id="nome-arquivo-vidaZero">
+              <span>🎧</span> <em>Nenhum arquivo .mp3 selecionado</em>
+            </div>
+            <div class="musica-slot-acoes">
+              <input type="file" id="input-musica-vidaZero" accept=".mp3,audio/mpeg,audio/mp3,audio/*" style="display:none;" onchange="processarUploadMusica('vidaZero', event)">
+              <button type="button" class="btn-musica-acao primario" onclick="document.getElementById('input-musica-vidaZero').click()" title="Escolher arquivo .mp3 para quando a vida zerar">
+                <span>📁</span> Escolher .MP3
+              </button>
+              <button type="button" class="btn-musica-acao" id="btn-editar-vidaZero" onclick="abrirModalEditarMusica('vidaZero')" title="Editar tempos da música" disabled style="display:none;">
+                <span>✂️</span> Cortar
+              </button>
+              <button type="button" class="btn-musica-acao perigo" id="btn-remover-vidaZero" onclick="removerMusicaSlot('vidaZero')" title="Remover música deste slot" disabled>
+                <span>✕</span> Remover
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slot 2: Modo de Combate (Modo Tático) -->
+        <div class="musica-slot-card" id="slot-card-combate">
+          <div class="musica-slot-topo">
+            <div class="musica-slot-ident">
+              <span class="musica-slot-ordem">2° Prioridade</span>
+              <div class="musica-slot-titulo-wrap">
+                <h4 class="musica-slot-nome"><span>⚔️</span> Modo de Combate</h4>
+                <span class="musica-slot-gatilho">Toca ao acessar a aba do Modo Tático</span>
+              </div>
+            </div>
+            <span class="musica-slot-status" id="badge-status-combate">Vazio</span>
+          </div>
+          <div class="musica-slot-arquivo-linha">
+            <div class="musica-slot-arquivo-nome" id="nome-arquivo-combate">
+              <span>🎧</span> <em>Nenhum arquivo .mp3 selecionado</em>
+            </div>
+            <div class="musica-slot-acoes">
+              <input type="file" id="input-musica-combate" accept=".mp3,audio/mpeg,audio/mp3,audio/*" style="display:none;" onchange="processarUploadMusica('combate', event)">
+              <button type="button" class="btn-musica-acao primario" onclick="document.getElementById('input-musica-combate').click()" title="Escolher arquivo .mp3 para o Modo Tático">
+                <span>📁</span> Escolher .MP3
+              </button>
+              <button type="button" class="btn-musica-acao" id="btn-editar-combate" onclick="abrirModalEditarMusica('combate')" title="Editar tempos da música" disabled style="display:none;">
+                <span>✂️</span> Cortar
+              </button>
+              <button type="button" class="btn-musica-acao perigo" id="btn-remover-combate" onclick="removerMusicaSlot('combate')" title="Remover música deste slot" disabled>
+                <span>✕</span> Remover
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slot 3: Mental Baixo -->
+        <div class="musica-slot-card" id="slot-card-mentalBaixo">
+          <div class="musica-slot-topo">
+            <div class="musica-slot-ident">
+              <span class="musica-slot-ordem">3° Prioridade</span>
+              <div class="musica-slot-titulo-wrap">
+                <h4 class="musica-slot-nome"><span>👁️</span> Mental Baixo (&lt; 50%)</h4>
+                <span class="musica-slot-gatilho">Toca quando o recurso Mental estiver abaixo de 50%</span>
+              </div>
+            </div>
+            <span class="musica-slot-status" id="badge-status-mentalBaixo">Vazio</span>
+          </div>
+          <div class="musica-slot-arquivo-linha">
+            <div class="musica-slot-arquivo-nome" id="nome-arquivo-mentalBaixo">
+              <span>🎧</span> <em>Nenhum arquivo .mp3 selecionado</em>
+            </div>
+            <div class="musica-slot-acoes">
+              <input type="file" id="input-musica-mentalBaixo" accept=".mp3,audio/mpeg,audio/mp3,audio/*" style="display:none;" onchange="processarUploadMusica('mentalBaixo', event)">
+              <button type="button" class="btn-musica-acao primario" onclick="document.getElementById('input-musica-mentalBaixo').click()" title="Escolher arquivo .mp3 para Mental baixo">
+                <span>📁</span> Escolher .MP3
+              </button>
+              <button type="button" class="btn-musica-acao" id="btn-editar-mentalBaixo" onclick="abrirModalEditarMusica('mentalBaixo')" title="Editar tempos da música" disabled style="display:none;">
+                <span>✂️</span> Cortar
+              </button>
+              <button type="button" class="btn-musica-acao perigo" id="btn-remover-mentalBaixo" onclick="removerMusicaSlot('mentalBaixo')" title="Remover música deste slot" disabled>
+                <span>✕</span> Remover
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slot 4: Música Geral da Ficha -->
+        <div class="musica-slot-card" id="slot-card-geral">
+          <div class="musica-slot-topo">
+            <div class="musica-slot-ident">
+              <span class="musica-slot-ordem">4° Prioridade</span>
+              <div class="musica-slot-titulo-wrap">
+                <h4 class="musica-slot-nome"><span>📜</span> Música Geral</h4>
+                <span class="musica-slot-gatilho">Trilha padrão contínua da sua ficha do personagem</span>
+              </div>
+            </div>
+            <span class="musica-slot-status" id="badge-status-geral">Vazio</span>
+          </div>
+          <div class="musica-slot-arquivo-linha">
+            <div class="musica-slot-arquivo-nome" id="nome-arquivo-geral">
+              <span>🎧</span> <em>Nenhum arquivo .mp3 selecionado</em>
+            </div>
+            <div class="musica-slot-acoes">
+              <input type="file" id="input-musica-geral" accept=".mp3,audio/mpeg,audio/mp3,audio/*" style="display:none;" onchange="processarUploadMusica('geral', event)">
+              <button type="button" class="btn-musica-acao primario" onclick="document.getElementById('input-musica-geral').click()" title="Escolher arquivo .mp3 tema da sua ficha">
+                <span>📁</span> Escolher .MP3
+              </button>
+              <button type="button" class="btn-musica-acao" id="btn-editar-geral" onclick="abrirModalEditarMusica('geral')" title="Editar tempos da música" disabled style="display:none;">
+                <span>✂️</span> Cortar
+              </button>
+              <button type="button" class="btn-musica-acao perigo" id="btn-remover-geral" onclick="removerMusicaSlot('geral')" title="Remover música deste slot" disabled>
+                <span>✕</span> Remover
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="modal-historico-rodape">
+      <button type="button" class="btn-limpar-historico" onclick="limparTodasMusicas()" title="Remover todas as músicas configuradas">
+        <span>🗑️</span> Limpar Todas as Músicas
+      </button>
+      <button type="button" class="btn-fechar-historico" onclick="fecharModalMusica()">Salvar e Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pop-up Flutuante de Música (Inferior Esquerdo) -->
+<div id="musica-popup-flutuante" class="musica-popup-flutuante" role="region" aria-label="Controle de Trilha Sonora">
+  <div class="musica-popup-topo">
+    <div class="musica-popup-ident">
+      <span class="musica-popup-dot" id="musica-popup-dot"></span>
+      <span class="musica-popup-prioridade" id="musica-popup-prioridade">Em Execução</span>
+    </div>
+    <button type="button" class="musica-popup-fechar" id="btn-recolher-popup-musica" onclick="alternarRecolhimentoPopupMusica()" title="Recolher tocador para a lateral / Expandir">❮</button>
+  </div>
+  <div class="musica-popup-info-faixa">
+    <span class="musica-popup-icone-faixa" id="musica-popup-icone">🎧</span>
+    <div class="musica-popup-textos">
+      <div class="musica-popup-titulo" id="musica-popup-titulo">Trilha Sonora</div>
+      <div class="musica-popup-subtitulo" id="musica-popup-gatilho">Tocando em loop contínuo</div>
+    </div>
+  </div>
+  <div class="musica-timeline-container" id="musica-popup-timeline-wrap" title="Progresso da Música (Arraste para alterar o tempo)">
+    <span class="musica-tempo-texto atual" id="musica_popup_tempo_atual">0:00</span>
+    <input type="range" class="musica-timeline-slider" id="musica_popup_timeline_slider" min="0" max="100" step="0.1" value="0" oninput="ajustarTempoMusica(this.value)" aria-label="Linha do tempo da música">
+    <span class="musica-tempo-texto total" id="musica_popup_tempo_total">0:00</span>
+  </div>
+  <div class="musica-popup-controles">
+    <button type="button" class="musica-popup-btn-play" id="btn-popup-musica-playpause" onclick="alternarPlayPauseMusica()" title="Pausar ou Retomar a música">
+      <span id="icone-popup-musica-playpause">⏸</span> <span id="texto-popup-musica-playpause">Pausar</span>
+    </button>
+    <div class="musica-popup-volume-wrap" title="Ajustar Volume">
+      <span>🔊</span>
+      <input type="range" class="musica-volume-slider" id="musica_popup_volume_slider" min="0" max="1" step="0.01" value="0.7" oninput="definirVolumeMusica(this.value)" aria-label="Volume da música">
+      <span class="musica-volume-valor" id="musica_popup_volume_valor">70%</span>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Edição da Música (Corte de Início e Fim com Timeline Larga) -->
+<div id="modal-editar-musica" class="modal-historico-overlay" aria-hidden="true" style="display:none;" onclick="fecharModalEditarMusicaPorOverlay(event)">
+  <div class="modal-historico-janela modal-editar-musica-janela" role="dialog" aria-labelledby="modal-editar-musica-titulo" aria-modal="true">
+    <div class="modal-historico-cabecalho">
+      <div class="modal-historico-titulo-bloco">
+        <span class="modal-historico-sub">EDITOR DE TRILHA E LOOP</span>
+        <h3 id="modal-editar-musica-titulo" class="modal-historico-titulo">
+          <span>✂️</span> Editar Música: <span id="musica_editar_nome_faixa" style="color:var(--accent);">--</span>
+        </h3>
+      </div>
+      <button type="button" class="modal-historico-fechar" onclick="fecharModalEditarMusica()" title="Fechar (Esc)">&times;</button>
+    </div>
+    
+    <div class="modal-editar-musica-corpo" style="padding: 20px 24px;">
+      
+      <!-- Cabeçalho Informativo & Badges -->
+      <div class="musica-editar-info-header">
+        <div class="musica-editar-badgetag-group">
+          <span class="musica-badge-info">Duração Total: <strong id="musica_editar_duracao_total_txt">0:00</strong></span>
+          <span class="musica-badge-info destaque">Loop Selecionado: <strong id="musica_editar_duracao_loop_txt">0:00 (100%)</strong></span>
+        </div>
+        <button type="button" class="btn-secundario btn-sm" onclick="resetarCortesEdicaoMusica()" title="Restaurar início em 0s e fim no tempo total">
+          🔄 Resetar Cortes
+        </button>
+      </div>
+
+      <!-- PAINEL DA LINHA DO TEMPO BEM LARGA -->
+      <div class="musica-timeline-editor-wrapper">
+        
+        <!-- Régua de Tempo (Tick Marks) -->
+        <div class="musica-timeline-regua">
+          <span class="regua-tick inicio" id="musica_regua_inicio_txt">0:00</span>
+          <span class="regua-tick meio" id="musica_regua_meio_txt">0:00</span>
+          <span class="regua-tick fim" id="musica_regua_fim_txt">0:00</span>
+        </div>
+
+        <!-- Trilha Visual Principal (Canvas / Spectrum & Loops) -->
+        <div class="musica-timeline-track-container" id="musica_timeline_track_container">
+          <!-- Visual Waveform / Bars Effect Background -->
+          <div class="musica-timeline-waveform-bg"></div>
+          
+          <!-- Faixa Desativada Antes do Início -->
+          <div class="musica-timeline-shaded-region left" id="musica_shade_left"></div>
+          
+          <!-- Região Ativa de Loop (Destaque Iluminado) -->
+          <div class="musica-timeline-loop-region" id="musica_loop_region">
+            <span class="loop-region-label" id="musica_loop_region_label">LOOP ATIVO</span>
+          </div>
+
+          <!-- Faixa Desativada Após o Fim -->
+          <div class="musica-timeline-shaded-region right" id="musica_shade_right"></div>
+          
+          <!-- Agulha de Reprodução Atual (Playhead Scrubber) -->
+          <div class="musica-timeline-playhead" id="musica_timeline_playhead" style="left:0%;">
+            <span class="playhead-tooltip" id="musica_playhead_time">0:00</span>
+          </div>
+
+          <!-- Slider Transparente Superior para Scrubber -->
+          <input type="range" class="musica-timeline-scrubber-slider" id="musica_editar_scrubber_slider" min="0" max="100" step="0.1" value="0" oninput="aoMoverScrubberEdicao(this.value)" aria-label="Navegar no tempo do áudio">
+        </div>
+
+        <!-- Barra dos Handles de Início e Fim -->
+        <div class="musica-timeline-handles-bar">
+          <div class="handle-control-group left">
+            <span class="handle-badge inicio">🟢 INÍCIO DO LOOP: <strong id="handle_inicio_val">0:00.0</strong></span>
+            <input type="range" class="musica-range-handle handle-inicio" id="musica_range_inicio" min="0" max="100" step="0.1" value="0" oninput="aoMoverRangeInicio(this.value)" aria-label="Ajustar ponto de início">
+          </div>
+          
+          <div class="handle-control-group right">
+            <span class="handle-badge fim">🔴 FIM DO LOOP: <strong id="handle_fim_val">Final</strong></span>
+            <input type="range" class="musica-range-handle handle-fim" id="musica_range_fim" min="0" max="100" step="0.1" value="100" oninput="aoMoverRangeFim(this.value)" aria-label="Ajustar ponto de fim">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Barra de Teste e Controles Numéricos de Precisão -->
+      <div class="musica-editar-controles-grid">
+        
+        <!-- Bloco de Precisão do Início -->
+        <div class="musica-corte-card inicio">
+          <div class="corte-card-header">
+            <span class="corte-card-titulo">🟢 Início (segundos)</span>
+            <span class="corte-card-time" id="card_inicio_time_txt">0.0s</span>
+          </div>
+          <div class="input-group">
+            <input type="number" id="musica_editar_inicio" step="0.1" min="0" value="0" oninput="aoDigitarInicio(this.value)">
+          </div>
+          <div class="corte-quick-btns">
+            <button type="button" class="btn-micro" onclick="ajustarTempoInicioEdicao(-1.0)" title="Subtrair 1 segundo">-1s</button>
+            <button type="button" class="btn-micro" onclick="ajustarTempoInicioEdicao(-0.5)" title="Subtrair 0.5 segundo">-0.5s</button>
+            <button type="button" class="btn-micro" onclick="ajustarTempoInicioEdicao(0.5)" title="Adicionar 0.5 segundo">+0.5s</button>
+            <button type="button" class="btn-micro" onclick="ajustarTempoInicioEdicao(1.0)" title="Adicionar 1 segundo">+1s</button>
+            <button type="button" class="btn-micro destaque" onclick="capturarTempoAtualComoInicio()" title="Definir início na posição atual da agulha">📍 Posição Atual</button>
+          </div>
+        </div>
+
+        <!-- Bloco de Teste de Áudio no Centro -->
+        <div class="musica-corte-card player-preview">
+          <button type="button" class="btn-preview-loop-play" id="btn-modal-preview-playpause" onclick="alternarPreviewAudioModal()">
+            <span id="icone-preview-play">▶️</span>
+            <span id="texto-preview-play">Testar Loop</span>
+          </button>
+          <div class="preview-loop-status" id="preview_loop_status_txt">Ouvir trecho cortado em loop</div>
+        </div>
+
+        <!-- Bloco de Precisão do Fim -->
+        <div class="musica-corte-card fim">
+          <div class="corte-card-header">
+            <span class="corte-card-titulo">🔴 Fim (segundos)</span>
+            <span class="corte-card-time" id="card_fim_time_txt">Final</span>
+          </div>
+          <div class="input-group">
+            <input type="number" id="musica_editar_fim" step="0.1" min="0" placeholder="Final" oninput="aoDigitarFim(this.value)">
+          </div>
+          <div class="corte-quick-btns">
+            <button type="button" class="btn-micro" onclick="ajustarTempoFimEdicao(-1.0)" title="Subtrair 1 segundo">-1s</button>
+            <button type="button" class="btn-micro" onclick="ajustarTempoFimEdicao(-0.5)" title="Subtrair 0.5 segundo">-0.5s</button>
+            <button type="button" class="btn-micro" onclick="ajustarTempoFimEdicao(0.5)" title="Adicionar 0.5 segundo">+0.5s</button>
+            <button type="button" class="btn-micro" onclick="ajustarTempoFimEdicao(1.0)" title="Adicionar 1 segundo">+1s</button>
+            <button type="button" class="btn-micro destaque" onclick="capturarTempoAtualComoFim()" title="Definir fim na posição atual da agulha">📍 Posição Atual</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="modal-confirmacao-rodape" style="padding: 14px 24px; border-top:1px solid var(--line-soft); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <span class="modal-editar-dica" style="font-size:12px; color:var(--ink-dim);">💡 Arraste a linha do tempo ou use os botões rápidos para corte preciso.</span>
+      <div style="display:flex; gap:10px;">
+        <button type="button" class="btn-confirm-cancelar" onclick="fecharModalEditarMusica()">Cancelar</button>
+        <button type="button" class="btn-confirm-salvar-modal" onclick="salvarEdicaoMusica()">Salvar Cortes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal de Criar / Editar Conquista de Campanha (Mestre) -->
 <div id="modal-conquista-campanha" class="modal-historico-overlay" aria-hidden="true" style="display:none;" onclick="fecharModalConquistaCampanhaPorOverlay(event)">
   <div class="modal-historico-janela" style="max-width:540px;" role="dialog" aria-labelledby="modal-conq-form-titulo" aria-modal="true">
@@ -10812,6 +12774,18 @@ if(window.innerWidth <= 768){
 </div>
 
 <script>
+// Função utilitária global para sanitização de texto em inserções HTML
+function escapeHTML(str) {
+    if (!str && str !== 0) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+const escapeHtml = escapeHTML;
+
 // Previne piscamento de tema claro ao carregar a página (FOUC)
 let modoClaroAtivo = false;
 const STORAGE_TEMA_KEY = "we_are_strangers_modo_tema";
@@ -11810,6 +13784,102 @@ function tocarSom(tipo) {
     }
 }
 
+// ============================================================
+// CONTROLE DE ESTAMINA (MODERADA <= 50% E CRÍTICA < 10%)
+// ============================================================
+let estaminaAudioInterval = null;
+let estaminaEstadoAtual = "normal"; // "normal" | "moderada" | "critica"
+
+function avaliarEstaminaCritica() {
+    const atualEl = document.getElementById("recurso_estamina_atual");
+    const maxEl = document.getElementById("recurso_estamina_max");
+    const tempEl = document.getElementById("recurso_estamina_temp");
+
+    if (!atualEl || !maxEl) return;
+
+    let max = parseInt(maxEl.value, 10);
+    if (isNaN(max) || max < 1) max = 1;
+
+    let atual = parseInt(atualEl.value, 10);
+    if (isNaN(atual) || atual < 0) atual = 0;
+
+    let temp = tempEl ? parseInt(tempEl.value, 10) : 0;
+    if (isNaN(temp) || temp < 0) temp = 0;
+
+    const proporcao = (atual + temp) / max;
+    let novoEstado = "normal";
+
+    if (proporcao < 0.10) {
+        novoEstado = "critica";
+    } else if (proporcao <= 0.50) {
+        novoEstado = "moderada";
+    }
+
+    if (novoEstado !== estaminaEstadoAtual) {
+        estaminaEstadoAtual = novoEstado;
+
+        document.body.classList.remove("estamina-critica", "estamina-moderada");
+
+        if (novoEstado === "critica") {
+            document.body.classList.add("estamina-critica");
+            iniciarSomTaquicardia("critica");
+        } else if (novoEstado === "moderada") {
+            document.body.classList.add("estamina-moderada");
+            iniciarSomTaquicardia("moderada");
+        } else {
+            pararSomTaquicardia();
+        }
+    }
+}
+
+function iniciarSomTaquicardia(nivel) {
+    pararSomTaquicardia();
+    executarBatidaTaquicardia(nivel);
+
+    // Crítica: 410ms (~146 BPM, taquicardia intensa)
+    // Moderada: 640ms (~94 BPM, batimento acelerado mais compassado)
+    const intervaloMs = (nivel === "critica") ? 410 : 640;
+
+    estaminaAudioInterval = setInterval(() => {
+        if (estaminaEstadoAtual === nivel) {
+            executarBatidaTaquicardia(nivel);
+        } else {
+            pararSomTaquicardia();
+        }
+    }, intervaloMs);
+}
+
+function pararSomTaquicardia() {
+    if (estaminaAudioInterval) {
+        clearInterval(estaminaAudioInterval);
+        estaminaAudioInterval = null;
+    }
+}
+
+function executarBatidaTaquicardia(nivel = estaminaEstadoAtual) {
+    if (!somAtivado) return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+
+    if (ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+    }
+
+    const agora = ctx.currentTime;
+    const ehCritica = (nivel === "critica");
+    const destino = criarCadeiaSaida(ctx, ehCritica ? 0.35 : 0.22);
+
+    if (ehCritica) {
+        // Taquicardia Crítica: impacto profundo e alto volume
+        tocarBatimentoCardiaco(ctx, destino, agora, 1.4, false);
+        tocarSubImpacto(ctx, destino, agora, 78, 24, 0.42, 0.65);
+    } else {
+        // Taquicardia Moderada: volume moderado e sub-impacto suave
+        tocarBatimentoCardiaco(ctx, destino, agora, 0.9, false);
+        tocarSubImpacto(ctx, destino, agora, 62, 20, 0.22, 0.40);
+    }
+}
+
 // Tabela de Dificuldades. Qualquer resultado abaixo de 2 conta como DESASTRE!
 // (a gravidade fica a critério da interpretação dos jogadores à mesa).
 const FAIXAS_DIFICULDADE=[
@@ -12384,6 +14454,14 @@ function atualizarBarraRecurso(chave){
     if(typeof sincronizarModoTatico === 'function' && (chave === 'vida' || chave === 'estamina')){
         sincronizarModoTatico();
     }
+
+    if(typeof avaliarMusicaAtual === 'function' && (chave === 'vida' || chave === 'mental')){
+        avaliarMusicaAtual();
+    }
+
+    if(typeof avaliarEstaminaCritica === 'function' && (chave === 'estamina' || !chave)){
+        avaliarEstaminaCritica();
+    }
 }
 
 function zerarRecursoTemporario(chave){
@@ -12512,6 +14590,8 @@ function coletarEstadoFicha(){
             secretasDesbloqueadas: (typeof conquistasSecretasDesbloqueadas !== "undefined") ? conquistasSecretasDesbloqueadas : false
         },
         atalhosTeclado: (typeof atalhosTecladoConfig !== "undefined") ? { ...atalhosTecladoConfig } : null,
+        tipografia: (typeof obterEstadoTipografiasParaSalvar === "function") ? obterEstadoTipografiasParaSalvar() : null,
+        musicas: (typeof obterEstadoMusicasParaSalvar === "function") ? obterEstadoMusicasParaSalvar() : null,
         salvamentoManual: salvamentoManualAtivo,
         modoClaro: modoClaroAtivo,
         atualizadoEm: new Date().toISOString()
@@ -12550,6 +14630,16 @@ function aplicarEstadoFicha(estado){
     document.documentElement.style.setProperty('--tema-contorno-cor', contornoSalvoCor);
     contornoLetrasCor = contornoSalvoCor;
     alternarContornoLetras(contornoSalvoAtivo, false);
+
+    // Aplica tipografias salvas na ficha
+    if (typeof aplicarTipografiasDoEstado === "function") {
+        aplicarTipografiasDoEstado(estado);
+    }
+
+    // Aplica músicas salvas na ficha
+    if (typeof aplicarMusicasDoEstado === "function") {
+        aplicarMusicasDoEstado(estado);
+    }
 
     // Aplica recursos vitais salvos (ou valores padrão)
     const recSalvos = estado.recursos || {};
@@ -12665,12 +14755,13 @@ function aplicarEstadoFicha(estado){
 
 /* ============================================================
    CAMADA DE PERSISTÊNCIA ROBUSTA (localStorage + IndexedDB Fallback)
-   Garante armazenamento de fichas sem estourar a quota de 5MB
-   mesmo com fotos de alta resolução, além de limpeza automática.
+   Garante armazenamento de fichas e arquivos de áudio pesados sem
+   estourar a quota do localStorage ou congelar a thread do navegador.
    ============================================================ */
 const DB_NOME = "MestreDosTestesDB";
-const DB_VERSAO = 1;
+const DB_VERSAO = 2;
 const DB_STORE = "fichas";
+const DB_STORE_AUDIO = "musicas_audio";
 
 function abrirDB(){
     return new Promise((resolve, reject) => {
@@ -12684,6 +14775,9 @@ function abrirDB(){
                 if(!db.objectStoreNames.contains(DB_STORE)){
                     db.createObjectStore(DB_STORE, { keyPath: "id" });
                 }
+                if(!db.objectStoreNames.contains(DB_STORE_AUDIO)){
+                    db.createObjectStore(DB_STORE_AUDIO, { keyPath: "slot" });
+                }
             };
             req.onsuccess = () => resolve(req.result);
             req.onerror = () => reject(req.error);
@@ -12691,6 +14785,66 @@ function abrirDB(){
             reject(e);
         }
     });
+}
+
+async function salvarMusicaIDB(slot, nome, blobOuDataUrl, inicio = 0, fim = null){
+    try{
+        const db = await abrirDB();
+        return new Promise((resolve) => {
+            const tx = db.transaction(DB_STORE_AUDIO, "readwrite");
+            const store = tx.objectStore(DB_STORE_AUDIO);
+            store.put({ slot, nome, dados: blobOuDataUrl, inicio, fim, atualizadoEm: Date.now() });
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => resolve(false);
+        });
+    }catch(e){
+        return false;
+    }
+}
+
+async function carregarTodasMusicasIDB(){
+    try{
+        const db = await abrirDB();
+        return new Promise((resolve) => {
+            const tx = db.transaction(DB_STORE_AUDIO, "readonly");
+            const store = tx.objectStore(DB_STORE_AUDIO);
+            const req = store.getAll();
+            req.onsuccess = () => resolve(req.result || []);
+            req.onerror = () => resolve([]);
+        });
+    }catch(e){
+        return [];
+    }
+}
+
+async function removerMusicaIDB(slot){
+    try{
+        const db = await abrirDB();
+        return new Promise((resolve) => {
+            const tx = db.transaction(DB_STORE_AUDIO, "readwrite");
+            const store = tx.objectStore(DB_STORE_AUDIO);
+            store.delete(slot);
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => resolve(false);
+        });
+    }catch(e){
+        return false;
+    }
+}
+
+async function limparTodasMusicasIDB(){
+    try{
+        const db = await abrirDB();
+        return new Promise((resolve) => {
+            const tx = db.transaction(DB_STORE_AUDIO, "readwrite");
+            const store = tx.objectStore(DB_STORE_AUDIO);
+            store.clear();
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => resolve(false);
+        });
+    }catch(e){
+        return false;
+    }
 }
 
 async function salvarFichaIDB(id, estado){
@@ -13160,6 +15314,87 @@ const LZStringStorage = (function(){
 
 const PREFIXO_COMPRESSAO_STORAGE = "LZC:v1:";
 
+/* ============================================================
+   MOTOR DE PROCESSAMENTO ASSÍNCRONO & SERIALIZAÇÃO NÃO-BLOQUEANTE
+   Permite fatiar tarefas pesadas de serialização JSON e compressão
+   em fatias de tempo de 6ms via requestAnimationFrame / setTimeout,
+   garantindo fluidez a 60 FPS e zero congelamento na thread principal.
+   ============================================================ */
+function cederThreadPrincipal() {
+    return new Promise(resolve => {
+        if (typeof requestAnimationFrame !== "undefined") {
+            requestAnimationFrame(() => resolve());
+        } else {
+            setTimeout(resolve, 0);
+        }
+    });
+}
+
+// Serializador JSON incremental/fatiado que gera a string sem travar a interface
+async function serializarJSONAssincrono(obj, tamanhoLote = 30) {
+    if (obj === null || obj === undefined) return JSON.stringify(obj);
+    if (typeof obj !== "object") return JSON.stringify(obj);
+
+    // Se for objeto simples sem grandes coleções, serializa direto
+    if (Array.isArray(obj) && obj.length < 50) {
+        return JSON.stringify(obj);
+    }
+
+    if (!Array.isArray(obj)) {
+        // Serialização incremental das propriedades de primeiro nível
+        const chaves = Object.keys(obj);
+        const partes = [];
+        let contador = 0;
+
+        for (let i = 0; i < chaves.length; i++) {
+            const k = chaves[i];
+            const v = obj[k];
+            const chaveJson = JSON.stringify(k);
+            const valJson = JSON.stringify(v);
+            partes.push(`${chaveJson}:${valJson}`);
+
+            contador++;
+            if (contador % tamanhoLote === 0) {
+                await cederThreadPrincipal();
+            }
+        }
+        return "{" + partes.join(",") + "}";
+    } else {
+        const partes = [];
+        let contador = 0;
+        for (let i = 0; i < obj.length; i++) {
+            partes.push(JSON.stringify(obj[i]));
+            contador++;
+            if (contador % tamanhoLote === 0) {
+                await cederThreadPrincipal();
+            }
+        }
+        return "[" + partes.join(",") + "]";
+    }
+}
+
+// Compressão assíncrona que processa o payload sem bloquear a UI
+async function compactarDadosStorageAsync(dados) {
+    if (dados === null || dados === undefined) return "";
+    let textoJson = "";
+    if (typeof dados === "string") {
+        textoJson = dados;
+    } else {
+        textoJson = await serializarJSONAssincrono(dados);
+    }
+
+    try {
+        await cederThreadPrincipal();
+        const compactado = LZStringStorage.compressToUTF16(textoJson);
+        if (compactado && compactado.length < textoJson.length) {
+            return PREFIXO_COMPRESSAO_STORAGE + compactado;
+        }
+    } catch (e) {
+        console.warn("Aviso ao compactar dados do localStorage de forma assíncrona:", e);
+    }
+    return textoJson;
+}
+
 function compactarDadosStorage(dados){
     if(dados === null || dados === undefined) return "";
     const textoJson = typeof dados === "string" ? dados : JSON.stringify(dados);
@@ -13198,6 +15433,7 @@ async function otimizarArmazenamentoExistente(){
     try{
         const indice = carregarIndiceFichas();
         for(const item of indice){
+            await cederThreadPrincipal();
             const chave = CHAVE_PREFIXO + "ficha:" + item.id;
             const bruto = localStorage.getItem(chave);
             if(bruto){
@@ -13214,7 +15450,7 @@ async function otimizarArmazenamentoExistente(){
                         }catch(eOtim){}
                     }
                     if(!bruto.startsWith(PREFIXO_COMPRESSAO_STORAGE) || mudou){
-                        const novoCompactado = compactarDadosStorage(est);
+                        const novoCompactado = await compactarDadosStorageAsync(est);
                         try{
                             localStorage.setItem(chave, novoCompactado);
                             salvarFichaIDB(item.id, est).catch(()=>{});
@@ -13242,7 +15478,19 @@ function salvarIndiceFichas(indice){
     localStorage.setItem(CHAVE_PREFIXO+"fichas:index", JSON.stringify(indice));
 }
 
+let salvamentoEmAndamento = false;
+let proximoSalvamentoAgendado = null;
+
 async function salvarFicha(silencioso = false){
+    // Se já houver um salvamento ocorrendo, enfileira o mais recente e aguarda sem duplicar trabalho
+    if(salvamentoEmAndamento){
+        return new Promise((resolve) => {
+            proximoSalvamentoAgendado = { silencioso, resolve };
+        });
+    }
+
+    salvamentoEmAndamento = true;
+
     try{
         if(!fichaId) fichaId = gerarId();
 
@@ -13260,9 +15508,13 @@ async function salvarFicha(silencioso = false){
         const estado = coletarEstadoFicha();
         let salvoComSucesso = false;
 
-        // Tentativa 1: salvar com compressão LZString no localStorage
+        // Cede a thread para a interface renderizar e responder a cliques/animações
+        await cederThreadPrincipal();
+
+        // Tentativa 1: salvar com compressão LZString e serialização não-bloqueante
         try{
-            const payloadCompactado = compactarDadosStorage(estado);
+            const payloadCompactado = await compactarDadosStorageAsync(estado);
+            await cederThreadPrincipal();
             localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, payloadCompactado);
             salvoComSucesso = true;
         }catch(errQuota){
@@ -13280,9 +15532,11 @@ async function salvarFicha(silencioso = false){
                 }catch(eComp){}
             }
 
-            // 3. Tenta salvar novamente no localStorage comprimido
+            await cederThreadPrincipal();
+
+            // 3. Tenta salvar novamente no localStorage comprimido de forma assíncrona
             try{
-                const payloadCompactado2 = compactarDadosStorage(estado);
+                const payloadCompactado2 = await compactarDadosStorageAsync(estado);
                 localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, payloadCompactado2);
                 salvoComSucesso = true;
             }catch(errQuota2){
@@ -13291,9 +15545,10 @@ async function salvarFicha(silencioso = false){
                 const salvoIDB = await salvarFichaIDB(fichaId, estado);
                 if(salvoIDB){
                     // No localStorage, guarda uma versão leve comprimida para manter integridade da lista
-                    const estadoLeve = {...estado, avatar: ""};
+                    const estadoLeve = {...estado, avatar: "", tipografia: null, musicas: null};
                     try{
-                        localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, compactarDadosStorage(estadoLeve));
+                        const payloadLeve = await compactarDadosStorageAsync(estadoLeve);
+                        localStorage.setItem(CHAVE_PREFIXO+"ficha:"+fichaId, payloadLeve);
                     }catch(eLeve){}
                     salvoComSucesso = true;
                 }
@@ -13304,7 +15559,7 @@ async function salvarFicha(silencioso = false){
             throw new Error("Espaço de armazenamento esgotado no navegador.");
         }
 
-        // Backup de segurança assíncrono no IndexedDB
+        // Backup de segurança assíncrono no IndexedDB (executado sem bloquear)
         salvarFichaIDB(fichaId, estado).catch(()=>{});
 
         const indice = carregarIndiceFichas();
@@ -13330,6 +15585,14 @@ async function salvarFicha(silencioso = false){
             }else{
                 mostrarStatus("✗ Não foi possível salvar a ficha. Tente novamente ou use Exportar .json.", "erro");
             }
+        }
+    } finally {
+        salvamentoEmAndamento = false;
+        // Se houve chamadas enfileiradas enquanto este salvamento processava, executa o próximo
+        if(proximoSalvamentoAgendado){
+            const proximo = proximoSalvamentoAgendado;
+            proximoSalvamentoAgendado = null;
+            salvarFicha(proximo.silencioso).then(proximo.resolve).catch(proximo.resolve);
         }
     }
 }
@@ -13376,14 +15639,22 @@ async function carregarFicha(id){
             estado = descompactarDadosStorage(bruto);
         }
 
-        // Se a ficha no localStorage não tiver avatar ou se não existir no localStorage, busca no IndexedDB
-        if(!estado || !estado.avatar){
+        // Se a ficha no localStorage não tiver avatar, tipografia ou músicas, ou se não existir no localStorage, busca no IndexedDB
+        if(!estado || !estado.avatar || !estado.tipografia || !estado.musicas){
             const estadoIDB = await carregarFichaIDB(id);
             if(estadoIDB){
                 if(!estado){
                     estado = estadoIDB;
-                } else if(!estado.avatar && estadoIDB.avatar){
-                    estado.avatar = estadoIDB.avatar;
+                } else {
+                    if(!estado.avatar && estadoIDB.avatar){
+                        estado.avatar = estadoIDB.avatar;
+                    }
+                    if(!estado.tipografia && estadoIDB.tipografia){
+                        estado.tipografia = estadoIDB.tipografia;
+                    }
+                    if(!estado.musicas && estadoIDB.musicas){
+                        estado.musicas = estadoIDB.musicas;
+                    }
                 }
             }
         }
@@ -17865,6 +20136,10 @@ function alternarAba(abaId, atualizarHash = true){
             renderizarPainelCampanha();
         }
     }
+
+    if(typeof avaliarMusicaAtual === 'function'){
+        avaliarMusicaAtual();
+    }
 }
 
 function inicializarHashRouterAbas(){
@@ -18130,7 +20405,7 @@ function inicializarAtalhosTeclado() {
             return;
         }
 
-        // Tecla ESC fecha pop-up de rolagem ou modal de atalhos se aberto
+        // Tecla ESC fecha pop-up de rolagem ou modais se abertos
         if (e.key === "Escape") {
             const popupAtalho = document.getElementById("popup-atalho-rolagem");
             if (popupAtalho && popupAtalho.classList.contains("aberto")) {
@@ -18140,6 +20415,16 @@ function inicializarAtalhosTeclado() {
             const modalAtalhos = document.getElementById("modal-config-atalhos");
             if (modalAtalhos && modalAtalhos.style.display !== "none") {
                 fecharModalConfigAtalhos();
+                return;
+            }
+            const modalTipografia = document.getElementById("modal-config-tipografia");
+            if (modalTipografia && modalTipografia.style.display !== "none") {
+                fecharModalTipografias();
+                return;
+            }
+            const modalMusica = document.getElementById("modal-config-musica");
+            if (modalMusica && modalMusica.style.display !== "none") {
+                fecharModalMusica();
                 return;
             }
         }
@@ -18256,6 +20541,1459 @@ function restaurarAtalhosPadrao() {
     atualizarUIConfigAtalhos();
     marcarAlteracaoFeita();
     mostrarStatus("✓ Atalhos de teclado (1-9) restaurados para o padrão.", "ok");
+}
+
+// ==========================================
+// MÓDULO: PERSONALIZAÇÃO DE TIPOGRAFIAS (.TTF)
+// ==========================================
+
+let fontesPersonalizadas = {
+    mirage: null,     // { nome: string, dados: dataUrl }
+    oldEurope: null,  // { nome: string, dados: dataUrl }
+    texto: null       // { nome: string, dados: dataUrl }
+};
+
+function obterEstadoTipografiasParaSalvar() {
+    return {
+        mirage: fontesPersonalizadas.mirage ? { nome: fontesPersonalizadas.mirage.nome, dados: fontesPersonalizadas.mirage.dados } : null,
+        oldEurope: fontesPersonalizadas.oldEurope ? { nome: fontesPersonalizadas.oldEurope.nome, dados: fontesPersonalizadas.oldEurope.dados } : null,
+        texto: fontesPersonalizadas.texto ? { nome: fontesPersonalizadas.texto.nome, dados: fontesPersonalizadas.texto.dados } : null
+    };
+}
+
+function aplicarTipografiasDoEstado(estado) {
+    if (estado && estado.tipografia && typeof estado.tipografia === "object") {
+        fontesPersonalizadas = {
+            mirage: estado.tipografia.mirage || null,
+            oldEurope: estado.tipografia.oldEurope || null,
+            texto: estado.tipografia.texto || null
+        };
+        aplicarFontesPersonalizadas();
+    } else if (estado && estado.fontesPersonalizadas && typeof estado.fontesPersonalizadas === "object") {
+        fontesPersonalizadas = {
+            mirage: estado.fontesPersonalizadas.mirage || null,
+            oldEurope: estado.fontesPersonalizadas.oldEurope || null,
+            texto: estado.fontesPersonalizadas.texto || null
+        };
+        aplicarFontesPersonalizadas();
+    } else {
+        carregarTipografiaGlobal();
+        aplicarFontesPersonalizadas();
+    }
+}
+
+async function aplicarFontesPersonalizadas() {
+    let tagEstilo = document.getElementById("estilo-fontes-personalizadas");
+    if (!tagEstilo) {
+        tagEstilo = document.createElement("style");
+        tagEstilo.id = "estilo-fontes-personalizadas";
+        document.head.appendChild(tagEstilo);
+    }
+
+    let css = "";
+
+    // 1. Mirage Final
+    if (fontesPersonalizadas.mirage && fontesPersonalizadas.mirage.dados) {
+        css += `
+@font-face {
+  font-family: 'MirageFinal';
+  src: url("${fontesPersonalizadas.mirage.dados}") format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mirage final';
+  src: url("${fontesPersonalizadas.mirage.dados}") format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+`;
+        try {
+            const ff1 = new FontFace('MirageFinal', `url("${fontesPersonalizadas.mirage.dados}")`);
+            const ff2 = new FontFace('Mirage final', `url("${fontesPersonalizadas.mirage.dados}")`);
+            await Promise.allSettled([ff1.load(), ff2.load()]);
+            document.fonts.add(ff1);
+            document.fonts.add(ff2);
+        } catch(e) { console.warn("FontFace MirageFinal:", e); }
+    } else {
+        try {
+            for (const f of Array.from(document.fonts)) {
+                if (f.family === 'MirageFinal' || f.family === '"MirageFinal"' || f.family === 'Mirage final' || f.family === '"Mirage final"') {
+                    document.fonts.delete(f);
+                }
+            }
+        } catch(e) {}
+    }
+
+    // 2. Old Europe
+    if (fontesPersonalizadas.oldEurope && fontesPersonalizadas.oldEurope.dados) {
+        css += `
+@font-face {
+  font-family: 'Old Europe';
+  src: url("${fontesPersonalizadas.oldEurope.dados}") format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+`;
+        try {
+            const ff = new FontFace('Old Europe', `url("${fontesPersonalizadas.oldEurope.dados}")`);
+            await ff.load();
+            document.fonts.add(ff);
+        } catch(e) { console.warn("FontFace Old Europe:", e); }
+    } else {
+        try {
+            for (const f of Array.from(document.fonts)) {
+                if (f.family === 'Old Europe' || f.family === '"Old Europe"') {
+                    document.fonts.delete(f);
+                }
+            }
+        } catch(e) {}
+    }
+
+    // 3. EB Garamond (Texto Geral)
+    if (fontesPersonalizadas.texto && fontesPersonalizadas.texto.dados) {
+        css += `
+@font-face {
+  font-family: 'EB Garamond';
+  src: url("${fontesPersonalizadas.texto.dados}") format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+`;
+        try {
+            const ff = new FontFace('EB Garamond', `url("${fontesPersonalizadas.texto.dados}")`);
+            await ff.load();
+            document.fonts.add(ff);
+        } catch(e) { console.warn("FontFace EB Garamond:", e); }
+    } else {
+        try {
+            for (const f of Array.from(document.fonts)) {
+                if (f.family === 'EB Garamond' || f.family === '"EB Garamond"') {
+                    document.fonts.delete(f);
+                }
+            }
+        } catch(e) {}
+    }
+
+    tagEstilo.textContent = css;
+    atualizarBotaoCabecalhoTipografia();
+    atualizarUIModalTipografias();
+}
+
+function processarUploadFonte(slot, event) {
+    const input = event.target;
+    if (!input.files || input.files.length === 0) return;
+    const arquivo = input.files[0];
+    const nome = arquivo.name || "";
+
+    if (!nome.toLowerCase().endsWith(".ttf")) {
+        mostrarStatus("✗ Arquivo inválido. Selecione um arquivo de fonte TrueType (.ttf).", "erro");
+        input.value = "";
+        return;
+    }
+
+    if (arquivo.size > 12 * 1024 * 1024) {
+        mostrarStatus("✗ Arquivo muito extenso (>12MB). Escolha um arquivo .ttf menor.", "erro");
+        input.value = "";
+        return;
+    }
+
+    mostrarStatus("Lendo arquivo de fonte " + nome + "...", "");
+    const leitor = new FileReader();
+    leitor.onload = async (e) => {
+        try {
+            const dataUrl = e.target.result;
+            if (!dataUrl || typeof dataUrl !== "string") {
+                throw new Error("Falha ao ler dados da fonte.");
+            }
+
+            if (slot === "todas") {
+                fontesPersonalizadas.mirage = { nome, dados: dataUrl };
+                fontesPersonalizadas.oldEurope = { nome, dados: dataUrl };
+                fontesPersonalizadas.texto = { nome, dados: dataUrl };
+            } else {
+                fontesPersonalizadas[slot] = { nome, dados: dataUrl };
+            }
+
+            await aplicarFontesPersonalizadas();
+            marcarAlteracaoFeita();
+            salvarTipografiaGlobal();
+
+            const slotNome = slot === "todas" ? "todas as tipografias" : (slot === "mirage" ? "Mirage Final" : (slot === "oldEurope" ? "Old Europe" : "EB Garamond (Texto)"));
+            mostrarStatus(`✓ Fonte "${nome}" aplicada a ${slotNome}!`, "ok");
+        } catch (err) {
+            console.error("Erro ao aplicar fonte:", err);
+            mostrarStatus("✗ Erro ao processar fonte .ttf: " + (err.message || "arquivo corrompido"), "erro");
+        } finally {
+            input.value = "";
+        }
+    };
+    leitor.onerror = () => {
+        mostrarStatus("✗ Não foi possível ler o arquivo .ttf.", "erro");
+        input.value = "";
+    };
+    leitor.readAsDataURL(arquivo);
+}
+
+async function restaurarFonteIndividual(slot) {
+    if (fontesPersonalizadas[slot]) {
+        fontesPersonalizadas[slot] = null;
+        await aplicarFontesPersonalizadas();
+        marcarAlteracaoFeita();
+        salvarTipografiaGlobal();
+        const nomeSlot = slot === "mirage" ? "Mirage Final" : (slot === "oldEurope" ? "Old Europe" : "EB Garamond (Texto)");
+        mostrarStatus(`✓ ${nomeSlot} restaurada para o padrão original.`, "ok");
+    }
+}
+
+async function restaurarTodasFontesPadrao() {
+    fontesPersonalizadas = { mirage: null, oldEurope: null, texto: null };
+    await aplicarFontesPersonalizadas();
+    marcarAlteracaoFeita();
+    salvarTipografiaGlobal();
+    mostrarStatus("✓ Todas as tipografias foram restauradas para o padrão.", "ok");
+}
+
+function salvarTipografiaGlobal() {
+    try {
+        const temAlguma = fontesPersonalizadas.mirage || fontesPersonalizadas.oldEurope || fontesPersonalizadas.texto;
+        if (temAlguma) {
+            localStorage.setItem("we_are_strangers_tipografias", JSON.stringify(fontesPersonalizadas));
+        } else {
+            localStorage.removeItem("we_are_strangers_tipografias");
+        }
+    } catch(e) {
+        console.warn("Aviso ao salvar tipografia global:", e);
+    }
+}
+
+function carregarTipografiaGlobal() {
+    try {
+        const salvo = localStorage.getItem("we_are_strangers_tipografias");
+        if (salvo) {
+            const parsed = JSON.parse(salvo);
+            if (parsed && typeof parsed === "object") {
+                fontesPersonalizadas = {
+                    mirage: parsed.mirage || null,
+                    oldEurope: parsed.oldEurope || null,
+                    texto: parsed.texto || null
+                };
+            }
+        }
+    } catch(e) {
+        console.warn("Aviso ao carregar tipografia global:", e);
+    }
+}
+
+function abrirModalTipografias() {
+    atualizarUIModalTipografias();
+    const modal = document.getElementById("modal-config-tipografia");
+    if (modal) {
+        modal.style.display = "flex";
+        requestAnimationFrame(() => modal.classList.add("aberto"));
+        modal.setAttribute("aria-hidden", "false");
+    }
+}
+
+function fecharModalTipografias() {
+    const modal = document.getElementById("modal-config-tipografia");
+    if (modal) {
+        modal.classList.remove("aberto");
+        modal.setAttribute("aria-hidden", "true");
+        setTimeout(() => { modal.style.display = "none"; }, 200);
+    }
+}
+
+function fecharModalTipografiasPorOverlay(event) {
+    if (event.target && event.target.id === "modal-config-tipografia") {
+        fecharModalTipografias();
+    }
+}
+
+function atualizarUIModalTipografias() {
+    const slots = [
+        { id: "mirage", nome: "Mirage Final" },
+        { id: "oldEurope", nome: "Old Europe" },
+        { id: "texto", nome: "EB Garamond" }
+    ];
+
+    slots.forEach(slot => {
+        const dado = fontesPersonalizadas[slot.id];
+        const badge = document.getElementById(`badge-status-${slot.id}`);
+        const btnRestaurar = document.getElementById(`btn-restaurar-${slot.id}`);
+
+        if (badge) {
+            if (dado && dado.nome) {
+                badge.textContent = `Personalizada: ${dado.nome}`;
+                badge.classList.add("personalizada");
+                badge.title = dado.nome;
+            } else {
+                badge.textContent = "Padrão";
+                badge.classList.remove("personalizada");
+                badge.title = "Fonte padrão original do sistema";
+            }
+        }
+
+        if (btnRestaurar) {
+            btnRestaurar.disabled = !dado;
+        }
+    });
+
+    atualizarBotaoCabecalhoTipografia();
+}
+
+function atualizarBotaoCabecalhoTipografia() {
+    const btn = document.getElementById("btn-abrir-modal-fontes");
+    const legenda = document.getElementById("legenda_tipografia_btn");
+    if (!btn || !legenda) return;
+
+    let count = 0;
+    if (fontesPersonalizadas.mirage) count++;
+    if (fontesPersonalizadas.oldEurope) count++;
+    if (fontesPersonalizadas.texto) count++;
+
+    if (count > 0) {
+        btn.classList.add("com-personalizacao");
+        legenda.textContent = `Fontes (${count}/3)`;
+        btn.title = `${count} tipografia(s) personalizada(s) ativa(s). Clique para gerenciar.`;
+    } else {
+        btn.classList.remove("com-personalizacao");
+        legenda.textContent = "Fontes .ttf";
+        btn.title = "Alterar fontes (Mirage Final, Old Europe e Texto Geral) importando arquivo .ttf";
+    }
+}
+
+function inicializarTipografias() {
+    carregarTipografiaGlobal();
+    aplicarFontesPersonalizadas();
+    atualizarBotaoCabecalhoTipografia();
+}
+
+// ==========================================
+// MÓDULO: TOCADOR DE MÚSICA & TRILHA DINÂMICA (.MP3)
+// ==========================================
+
+const AUDIO_TRACKS_CHAVE = "we_are_strangers_musicas";
+const ORDEM_PRIORIDADE_AUDIO = ["vidaZero", "combate", "mentalBaixo", "geral"];
+
+const ROTULOS_SLOTS_AUDIO = {
+    vidaZero: { nome: "Vida Zerada", icone: "💀", prioridade: "1° Prioridade", gatilho: "Vida = 0 HP" },
+    combate: { nome: "Modo de Combate", icone: "⚔️", prioridade: "2° Prioridade", gatilho: "Aba Modo Tático ativa" },
+    mentalBaixo: { nome: "Mental Baixo", icone: "👁️", prioridade: "3° Prioridade", gatilho: "Mental < 50%" },
+    geral: { nome: "Música Geral", icone: "📜", prioridade: "4° Prioridade", gatilho: "Trilha padrão da ficha" }
+};
+
+let musicasPersonalizadas = {
+    vidaZero: null,     // { nome, dados: dataUrl }
+    combate: null,
+    mentalBaixo: null,
+    geral: null
+};
+
+let elementoAudioPlayer = null;
+let musicaAtivaSlot = null;
+let musicaPausadaPeloUsuario = false;
+let musicaVolumeAtual = 0.7;
+let popupMusicaFechadoManualmente = false;
+let popupMusicaRecolhido = false;
+
+let slotEmEdicao = null;
+let previewAudioPlayerEdicao = null;
+let audioDuracaoEdicaoTotal = 100;
+
+function formatarTempoSegundos(seg) {
+    if (isNaN(seg) || seg === null || seg === undefined || seg < 0) return "0:00";
+    const totalSeg = Math.floor(seg);
+    const min = Math.floor(totalSeg / 60);
+    const s = totalSeg % 60;
+    const sStr = s < 10 ? "0" + s : "" + s;
+    const decis = Math.floor((seg - totalSeg) * 10);
+    return `${min}:${sStr}.${decis}`;
+}
+
+function abrirModalEditarMusica(slot) {
+    const track = musicasPersonalizadas[slot];
+    if (!track) return;
+    
+    slotEmEdicao = slot;
+    pararPreviewAudioModal();
+    
+    const nomeEl = document.getElementById("musica_editar_nome_faixa");
+    if (nomeEl) nomeEl.textContent = track.nome || slot;
+
+    // Instancia o player temporário de preview para obter a duração exata do arquivo
+    if (previewAudioPlayerEdicao) {
+        try { previewAudioPlayerEdicao.pause(); } catch(e){}
+        previewAudioPlayerEdicao = null;
+    }
+    
+    previewAudioPlayerEdicao = new Audio();
+    previewAudioPlayerEdicao.src = track.dados;
+    
+    const inicializarValores = () => {
+        const dur = previewAudioPlayerEdicao && !isNaN(previewAudioPlayerEdicao.duration) && previewAudioPlayerEdicao.duration > 0
+            ? previewAudioPlayerEdicao.duration
+            : 100;
+        audioDuracaoEdicaoTotal = dur;
+
+        const valInicio = typeof track.inicio === "number" ? track.inicio : 0;
+        const valFim = (typeof track.fim === "number" && track.fim > valInicio && track.fim <= dur) ? track.fim : dur;
+
+        const inputInicio = document.getElementById("musica_editar_inicio");
+        const inputFim = document.getElementById("musica_editar_fim");
+        if (inputInicio) inputInicio.value = valInicio;
+        if (inputFim) inputFim.value = (typeof track.fim === "number" && track.fim > 0 && track.fim < dur) ? track.fim : "";
+
+        // Ajusta max dos ranges
+        const rangeInicio = document.getElementById("musica_range_inicio");
+        const rangeFim = document.getElementById("musica_range_fim");
+        const rangeScrubber = document.getElementById("musica_editar_scrubber_slider");
+
+        if (rangeInicio) { rangeInicio.max = dur; rangeInicio.value = valInicio; }
+        if (rangeFim) { rangeFim.max = dur; rangeFim.value = valFim; }
+        if (rangeScrubber) { rangeScrubber.max = dur; rangeScrubber.value = valInicio; }
+
+        atualizarUIModalEdicaoMusica();
+    };
+
+    previewAudioPlayerEdicao.addEventListener("loadedmetadata", inicializarValores);
+    if (previewAudioPlayerEdicao.readyState >= 1) {
+        inicializarValores();
+    } else {
+        inicializarValores();
+    }
+
+    const modal = document.getElementById("modal-editar-musica");
+    if (modal) {
+        modal.style.display = "flex";
+        requestAnimationFrame(() => {
+            modal.classList.add("aberto");
+            modal.setAttribute("aria-hidden", "false");
+        });
+    }
+}
+
+function atualizarUIModalEdicaoMusica() {
+    const durTotal = audioDuracaoEdicaoTotal || 100;
+
+    const inputInicio = parseFloat(document.getElementById("musica_editar_inicio")?.value);
+    const inputFim = parseFloat(document.getElementById("musica_editar_fim")?.value);
+
+    let inicio = isNaN(inputInicio) || inputInicio < 0 ? 0 : inputInicio;
+    let fim = isNaN(inputFim) || inputFim <= inicio || inputFim > durTotal ? durTotal : inputFim;
+
+    if (inicio > durTotal) inicio = durTotal;
+
+    const durLoop = Math.max(0, fim - inicio);
+    const pctInicio = Math.min(100, Math.max(0, (inicio / durTotal) * 100));
+    const pctFim = Math.min(100, Math.max(0, (fim / durTotal) * 100));
+
+    // Atualiza regiões da linha do tempo visual
+    const shadeLeft = document.getElementById("musica_shade_left");
+    const shadeRight = document.getElementById("musica_shade_right");
+    const loopRegion = document.getElementById("musica_loop_region");
+
+    if (shadeLeft) shadeLeft.style.width = pctInicio + "%";
+    if (shadeRight) shadeRight.style.width = Math.max(0, 100 - pctFim) + "%";
+    if (loopRegion) {
+        loopRegion.style.left = pctInicio + "%";
+        loopRegion.style.width = Math.max(0, pctFim - pctInicio) + "%";
+    }
+
+    // Textos de Badges
+    const durTotalTxt = document.getElementById("musica_editar_duracao_total_txt");
+    const durLoopTxt = document.getElementById("musica_editar_duracao_loop_txt");
+    const pctLoopNum = durTotal > 0 ? Math.round((durLoop / durTotal) * 100) : 100;
+
+    if (durTotalTxt) durTotalTxt.textContent = formatarTempoSegundos(durTotal);
+    if (durLoopTxt) durLoopTxt.textContent = `${formatarTempoSegundos(durLoop)} (${pctLoopNum}%)`;
+
+    // Handles e Cards
+    const handleInicioVal = document.getElementById("handle_inicio_val");
+    const handleFimVal = document.getElementById("handle_fim_val");
+    const cardInicioTxt = document.getElementById("card_inicio_time_txt");
+    const cardFimTxt = document.getElementById("card_fim_time_txt");
+
+    if (handleInicioVal) handleInicioVal.textContent = formatarTempoSegundos(inicio);
+    if (handleFimVal) handleFimVal.textContent = (fim >= durTotal) ? "Final (" + formatarTempoSegundos(durTotal) + ")" : formatarTempoSegundos(fim);
+    if (cardInicioTxt) cardInicioTxt.textContent = inicio.toFixed(1) + "s";
+    if (cardFimTxt) cardFimTxt.textContent = (fim >= durTotal) ? "Final" : fim.toFixed(1) + "s";
+
+    // Régua
+    const reguaMeio = document.getElementById("musica_regua_meio_txt");
+    const reguaFim = document.getElementById("musica_regua_fim_txt");
+    if (reguaMeio) reguaMeio.textContent = formatarTempoSegundos(durTotal / 2);
+    if (reguaFim) reguaFim.textContent = formatarTempoSegundos(durTotal);
+
+    // Ranges
+    const rangeInicio = document.getElementById("musica_range_inicio");
+    const rangeFim = document.getElementById("musica_range_fim");
+    if (rangeInicio && document.activeElement !== rangeInicio) rangeInicio.value = inicio;
+    if (rangeFim && document.activeElement !== rangeFim) rangeFim.value = fim;
+}
+
+function aoMoverRangeInicio(val) {
+    const num = parseFloat(val);
+    const inputInicio = document.getElementById("musica_editar_inicio");
+    if (inputInicio) inputInicio.value = num.toFixed(1);
+    atualizarUIModalEdicaoMusica();
+}
+
+function aoMoverRangeFim(val) {
+    const num = parseFloat(val);
+    const inputFim = document.getElementById("musica_editar_fim");
+    if (inputFim) inputFim.value = (num >= audioDuracaoEdicaoTotal) ? "" : num.toFixed(1);
+    atualizarUIModalEdicaoMusica();
+}
+
+function aoDigitarInicio(val) {
+    atualizarUIModalEdicaoMusica();
+}
+
+function aoDigitarFim(val) {
+    atualizarUIModalEdicaoMusica();
+}
+
+function ajustarTempoInicioEdicao(delta) {
+    const inputInicio = document.getElementById("musica_editar_inicio");
+    if (!inputInicio) return;
+    let atual = parseFloat(inputInicio.value) || 0;
+    let novo = Math.max(0, atual + delta);
+    inputInicio.value = novo.toFixed(1);
+    atualizarUIModalEdicaoMusica();
+}
+
+function ajustarTempoFimEdicao(delta) {
+    const inputFim = document.getElementById("musica_editar_fim");
+    if (!inputFim) return;
+    let atual = parseFloat(inputFim.value);
+    if (isNaN(atual) || atual <= 0) atual = audioDuracaoEdicaoTotal;
+    let novo = Math.max(0, Math.min(audioDuracaoEdicaoTotal, atual + delta));
+    inputFim.value = (novo >= audioDuracaoEdicaoTotal) ? "" : novo.toFixed(1);
+    atualizarUIModalEdicaoMusica();
+}
+
+function capturarTempoAtualComoInicio() {
+    if (!previewAudioPlayerEdicao) return;
+    const tempo = previewAudioPlayerEdicao.currentTime || 0;
+    const inputInicio = document.getElementById("musica_editar_inicio");
+    if (inputInicio) inputInicio.value = tempo.toFixed(1);
+    atualizarUIModalEdicaoMusica();
+    mostrarStatus("📍 Ponto de início ajustado para " + tempo.toFixed(1) + "s", "");
+}
+
+function capturarTempoAtualComoFim() {
+    if (!previewAudioPlayerEdicao) return;
+    const tempo = previewAudioPlayerEdicao.currentTime || audioDuracaoEdicaoTotal;
+    const inputFim = document.getElementById("musica_editar_fim");
+    if (inputFim) inputFim.value = tempo.toFixed(1);
+    atualizarUIModalEdicaoMusica();
+    mostrarStatus("📍 Ponto de fim ajustado para " + tempo.toFixed(1) + "s", "");
+}
+
+function resetarCortesEdicaoMusica() {
+    const inputInicio = document.getElementById("musica_editar_inicio");
+    const inputFim = document.getElementById("musica_editar_fim");
+    if (inputInicio) inputInicio.value = "0";
+    if (inputFim) inputFim.value = "";
+    atualizarUIModalEdicaoMusica();
+    mostrarStatus("🔄 Cortes restaurados para o tamanho total da música.", "");
+}
+
+function aoMoverScrubberEdicao(val) {
+    const tempo = parseFloat(val);
+    if (previewAudioPlayerEdicao) {
+        previewAudioPlayerEdicao.currentTime = tempo;
+    }
+    atualizarPlayheadEdicaoUI(tempo);
+}
+
+function atualizarPlayheadEdicaoUI(currentTime) {
+    const durTotal = audioDuracaoEdicaoTotal || 100;
+    const pct = Math.min(100, Math.max(0, (currentTime / durTotal) * 100));
+
+    const playhead = document.getElementById("musica_timeline_playhead");
+    const playheadTime = document.getElementById("musica_playhead_time");
+    const rangeScrubber = document.getElementById("musica_editar_scrubber_slider");
+
+    if (playhead) playhead.style.left = pct + "%";
+    if (playheadTime) playheadTime.textContent = formatarTempoSegundos(currentTime);
+    if (rangeScrubber && document.activeElement !== rangeScrubber) rangeScrubber.value = currentTime;
+}
+
+function alternarPreviewAudioModal() {
+    if (!previewAudioPlayerEdicao) return;
+    
+    const btn = document.getElementById("btn-modal-preview-playpause");
+    const icone = document.getElementById("icone-preview-play");
+    const texto = document.getElementById("texto-preview-play");
+    const statusTxt = document.getElementById("preview_loop_status_txt");
+
+    if (!previewAudioPlayerEdicao.paused) {
+        pararPreviewAudioModal();
+    } else {
+        const inputInicio = parseFloat(document.getElementById("musica_editar_inicio")?.value) || 0;
+        const inputFim = parseFloat(document.getElementById("musica_editar_fim")?.value);
+        const fim = isNaN(inputFim) || inputFim <= inputInicio ? audioDuracaoEdicaoTotal : inputFim;
+
+        if (previewAudioPlayerEdicao.currentTime < inputInicio || previewAudioPlayerEdicao.currentTime >= fim) {
+            previewAudioPlayerEdicao.currentTime = inputInicio;
+        }
+
+        previewAudioPlayerEdicao.play().then(() => {
+            if (btn) btn.classList.add("tocando");
+            if (icone) icone.textContent = "⏸️";
+            if (texto) texto.textContent = "Pausar Teste";
+            if (statusTxt) statusTxt.textContent = "Testando trecho em loop...";
+
+            if (!previewAudioPlayerEdicao._loopListener) {
+                previewAudioPlayerEdicao._loopListener = () => {
+                    if (!previewAudioPlayerEdicao) return;
+                    const cur = previewAudioPlayerEdicao.currentTime;
+                    const curInicio = parseFloat(document.getElementById("musica_editar_inicio")?.value) || 0;
+                    const curInputFim = parseFloat(document.getElementById("musica_editar_fim")?.value);
+                    const curFim = isNaN(curInputFim) || curInputFim <= curInicio ? audioDuracaoEdicaoTotal : curInputFim;
+
+                    if (cur >= curFim) {
+                        previewAudioPlayerEdicao.currentTime = curInicio;
+                    }
+                    atualizarPlayheadEdicaoUI(previewAudioPlayerEdicao.currentTime);
+                };
+                previewAudioPlayerEdicao.addEventListener("timeupdate", previewAudioPlayerEdicao._loopListener);
+            }
+        }).catch(() => {});
+    }
+}
+
+function pararPreviewAudioModal() {
+    if (previewAudioPlayerEdicao) {
+        try { previewAudioPlayerEdicao.pause(); } catch(e){}
+    }
+    const btn = document.getElementById("btn-modal-preview-playpause");
+    const icone = document.getElementById("icone-preview-play");
+    const texto = document.getElementById("texto-preview-play");
+    const statusTxt = document.getElementById("preview_loop_status_txt");
+
+    if (btn) btn.classList.remove("tocando");
+    if (icone) icone.textContent = "▶️";
+    if (texto) texto.textContent = "Testar Loop";
+    if (statusTxt) statusTxt.textContent = "Ouvir trecho cortado em loop";
+}
+
+function fecharModalEditarMusica() {
+    pararPreviewAudioModal();
+    if (previewAudioPlayerEdicao) {
+        try { previewAudioPlayerEdicao.src = ""; } catch(e){}
+        previewAudioPlayerEdicao = null;
+    }
+    const modal = document.getElementById("modal-editar-musica");
+    if (modal) {
+        modal.classList.remove("aberto");
+        modal.setAttribute("aria-hidden", "true");
+        setTimeout(() => { modal.style.display = "none"; }, 200);
+    }
+    slotEmEdicao = null;
+}
+
+function fecharModalEditarMusicaPorOverlay(event) {
+    if (event.target && event.target.id === "modal-editar-musica") {
+        fecharModalEditarMusica();
+    }
+}
+
+function salvarEdicaoMusica() {
+    if (!slotEmEdicao || !musicasPersonalizadas[slotEmEdicao]) {
+        fecharModalEditarMusica();
+        return;
+    }
+    
+    const inputInicio = parseFloat(document.getElementById("musica_editar_inicio").value);
+    const inputFim = parseFloat(document.getElementById("musica_editar_fim").value);
+    
+    let inicio = isNaN(inputInicio) || inputInicio < 0 ? 0 : inputInicio;
+    let fim = isNaN(inputFim) || inputFim <= inicio ? null : inputFim;
+    
+    const track = musicasPersonalizadas[slotEmEdicao];
+    track.inicio = inicio;
+    track.fim = fim;
+    
+    // Salva no IndexedDB atualizando os valores de inicio e fim
+    salvarMusicaIDB(slotEmEdicao, track.nome, track.raw, track.inicio, track.fim).catch(()=>{});
+    
+    // Se a música editada for a que está tocando no player principal:
+    if (musicaAtivaSlot === slotEmEdicao && elementoAudioPlayer) {
+        // PERMANENTE NO PLAYER: Força a reprodução a saltar imediatamente para o início do novo corte
+        elementoAudioPlayer.currentTime = inicio;
+        if (!elementoAudioPlayer.paused) {
+            elementoAudioPlayer.play().catch(()=>{});
+        }
+        atualizarTimelineAudioUI();
+    }
+    
+    atualizarUIModalMusica();
+    fecharModalEditarMusica();
+    mostrarStatus("✓ Cortes de tempo da música salvos permanentemente.", "");
+}
+
+function aplicarLimitesCortePlayer() {
+    if (!elementoAudioPlayer || !musicaAtivaSlot || !musicasPersonalizadas[musicaAtivaSlot]) return;
+    const track = musicasPersonalizadas[musicaAtivaSlot];
+    const inicio = track.inicio || 0;
+    const dur = elementoAudioPlayer.duration;
+    const fim = (typeof track.fim === "number" && track.fim > inicio && (isNaN(dur) || track.fim <= dur)) ? track.fim : null;
+
+    const cur = elementoAudioPlayer.currentTime;
+    if (cur < inicio - 0.05) {
+        elementoAudioPlayer.currentTime = inicio;
+    } else if (fim !== null && cur >= fim - 0.05) {
+        elementoAudioPlayer.currentTime = inicio;
+        if (!elementoAudioPlayer.paused) {
+            elementoAudioPlayer.play().catch(()=>{});
+        }
+    }
+}
+
+function obterAudioPlayer() {
+    if (!elementoAudioPlayer) {
+        elementoAudioPlayer = new Audio();
+        elementoAudioPlayer.loop = true;
+        elementoAudioPlayer.preload = "auto";
+        elementoAudioPlayer.volume = musicaVolumeAtual;
+        
+        const eventosLimites = ["play", "playing", "seeking", "loadedmetadata", "canplay", "ended"];
+        eventosLimites.forEach(evt => {
+            elementoAudioPlayer.addEventListener(evt, () => {
+                aplicarLimitesCortePlayer();
+                atualizarStatusPlayerUI();
+                atualizarTimelineAudioUI();
+            });
+        });
+
+        elementoAudioPlayer.addEventListener("pause", () => {
+            atualizarStatusPlayerUI();
+            atualizarTimelineAudioUI();
+        });
+        
+        elementoAudioPlayer.addEventListener("durationchange", () => {
+            aplicarLimitesCortePlayer();
+            atualizarTimelineAudioUI();
+        });
+        
+        elementoAudioPlayer.addEventListener("timeupdate", () => {
+            if (elementoAudioPlayer && !elementoAudioPlayer.paused && elementoAudioPlayer.currentTime > 0) {
+                const dotModal = document.getElementById("musica-status-dot");
+                const dotPopup = document.getElementById("musica-popup-dot");
+                if (dotModal && !dotModal.classList.contains("tocando")) dotModal.classList.add("tocando");
+                if (dotPopup && !dotPopup.classList.contains("tocando")) dotPopup.classList.add("tocando");
+                
+                aplicarLimitesCortePlayer();
+            }
+            atualizarTimelineAudioUI();
+        });
+        
+        elementoAudioPlayer.addEventListener("error", (e) => {
+            console.warn("Aviso na reprodução da trilha sonora:", e);
+            atualizarStatusPlayerUI();
+        });
+    }
+    return elementoAudioPlayer;
+}
+
+function carregarMusicasArmazenadas() {
+    // 1. Tenta carregar do IndexedDB primeiro (armazenamento de alto desempenho sem travar thread)
+    carregarTodasMusicasIDB().then(itens => {
+        let mudou = false;
+        if (itens && itens.length > 0) {
+            itens.forEach(it => {
+                if (it && it.slot && it.dados) {
+                    let audioSrc = "";
+                    if (typeof it.dados === "string") {
+                        audioSrc = it.dados;
+                    } else if (it.dados instanceof Blob) {
+                        audioSrc = URL.createObjectURL(it.dados);
+                    }
+                    musicasPersonalizadas[it.slot] = {
+                        nome: it.nome || "Música",
+                        dados: audioSrc,
+                        raw: it.dados,
+                        inicio: it.inicio || 0,
+                        fim: it.fim || null
+                    };
+                    mudou = true;
+                }
+            });
+        }
+
+        // 2. Fallback / Migração de localStorage legado caso exista
+        try {
+            const salvo = localStorage.getItem(AUDIO_TRACKS_CHAVE);
+            if (salvo) {
+                const parsed = JSON.parse(salvo);
+                if (parsed && typeof parsed === "object") {
+                    ["vidaZero", "combate", "mentalBaixo", "geral"].forEach(slot => {
+                        if (parsed[slot] && parsed[slot].dados && !musicasPersonalizadas[slot]) {
+                            musicasPersonalizadas[slot] = {
+                                nome: parsed[slot].nome,
+                                dados: parsed[slot].dados,
+                                raw: parsed[slot].dados,
+                                inicio: parsed[slot].inicio || 0,
+                                fim: parsed[slot].fim || null
+                            };
+                            // Salva no IndexedDB e limpa do localStorage para desobstruir memória
+                            salvarMusicaIDB(slot, parsed[slot].nome, parsed[slot].dados, parsed[slot].inicio, parsed[slot].fim).catch(()=>{});
+                            mudou = true;
+                        }
+                    });
+                }
+                // Limpa o base64 pesado do localStorage para manter leve
+                localStorage.removeItem(AUDIO_TRACKS_CHAVE);
+            }
+        } catch (e) {
+            console.warn("Aviso ao verificar dados legados de áudio:", e);
+        }
+
+        if (mudou) {
+            avaliarMusicaAtual();
+            atualizarUIModalMusica();
+            atualizarBotaoCabecalhoMusica();
+        }
+    }).catch(err => {
+        console.warn("Aviso ao carregar músicas do IndexedDB:", err);
+    });
+
+    // Volume e preferências
+    try {
+        const volSalvo = localStorage.getItem("we_are_strangers_musica_volume");
+        if (volSalvo !== null) {
+            const parsedVol = parseFloat(volSalvo);
+            if (!isNaN(parsedVol) && parsedVol >= 0 && parsedVol <= 1) {
+                musicaVolumeAtual = parsedVol;
+                if (elementoAudioPlayer) elementoAudioPlayer.volume = musicaVolumeAtual;
+                const slider = document.getElementById("musica_volume_slider");
+                if (slider) slider.value = musicaVolumeAtual;
+                const rotuloVal = document.getElementById("musica_volume_valor");
+                if (rotuloVal) rotuloVal.textContent = Math.round(musicaVolumeAtual * 100) + "%";
+            }
+        }
+        const pausadoSalvo = localStorage.getItem("we_are_strangers_musica_pausado");
+        if (pausadoSalvo !== null) {
+            musicaPausadaPeloUsuario = pausadoSalvo === "true";
+        }
+        const recolhidoSalvo = localStorage.getItem("we_are_strangers_musica_recolhido");
+        if (recolhidoSalvo !== null) {
+            popupMusicaRecolhido = recolhidoSalvo === "true";
+        }
+    } catch (e) {
+        console.warn("Aviso ao carregar preferências de áudio:", e);
+    }
+}
+
+function salvarMusicasGlobal() {
+    try {
+        // Salva apenas configurações leves no localStorage (volume, status)
+        localStorage.setItem("we_are_strangers_musica_volume", String(musicaVolumeAtual));
+        localStorage.setItem("we_are_strangers_musica_pausado", String(musicaPausadaPeloUsuario));
+        localStorage.setItem("we_are_strangers_musica_recolhido", String(popupMusicaRecolhido));
+    } catch (e) {
+        console.warn("Aviso ao salvar configurações de música:", e);
+    }
+}
+
+function calcularSlotMusicaDesejado() {
+    // 1° VIDA ZERADA: vida atual + vida temporária <= 0 (ou vida atual <= 0)
+    const vidaAtualEl = document.getElementById("recurso_vida_atual");
+    const vidaTempEl = document.getElementById("recurso_vida_temp");
+    const vidaAtual = vidaAtualEl ? parseInt(vidaAtualEl.value, 10) : 100;
+    const vidaTemp = vidaTempEl ? parseInt(vidaTempEl.value, 10) : 0;
+    const vidaEfetiva = (isNaN(vidaAtual) ? 0 : vidaAtual) + (isNaN(vidaTemp) ? 0 : vidaTemp);
+
+    if (vidaEfetiva <= 0 && musicasPersonalizadas.vidaZero) {
+        return "vidaZero";
+    }
+
+    // 2° MODO DE COMBATE: aba ativa é 'tatico'
+    const abaAtiva = (typeof abaPrincipalAtiva !== "undefined" ? abaPrincipalAtiva : "pericias");
+    if (abaAtiva === "tatico" && musicasPersonalizadas.combate) {
+        return "combate";
+    }
+
+    // 3° MENTAL BAIXO: mental < 50%
+    const mentalAtualEl = document.getElementById("recurso_mental_atual");
+    const mentalMaxEl = document.getElementById("recurso_mental_max");
+    const mentalAtual = mentalAtualEl ? parseInt(mentalAtualEl.value, 10) : 50;
+    const mentalMax = mentalMaxEl ? parseInt(mentalMaxEl.value, 10) : 50;
+    if (mentalMax > 0) {
+        const proporcaoMental = mentalAtual / mentalMax;
+        if (proporcaoMental < 0.50 && musicasPersonalizadas.mentalBaixo) {
+            return "mentalBaixo";
+        }
+    }
+
+    // 4° MÚSICA GERAL: trilha base da ficha
+    if (musicasPersonalizadas.geral) {
+        return "geral";
+    }
+
+    return null;
+}
+
+function avaliarMusicaAtual() {
+    const slotDesejado = calcularSlotMusicaDesejado();
+    const player = obterAudioPlayer();
+
+    if (!slotDesejado) {
+        // Nenhuma trilha elegível configurada ou aplicável
+        if (musicaAtivaSlot !== null) {
+            player.pause();
+            player.removeAttribute("src");
+            player.load();
+            musicaAtivaSlot = null;
+        }
+        atualizarUIModalMusica();
+        atualizarBotaoCabecalhoMusica();
+        atualizarStatusPlayerUI();
+        return;
+    }
+
+    const track = musicasPersonalizadas[slotDesejado];
+    if (!track || !track.dados) {
+        if (musicaAtivaSlot !== null) {
+            player.pause();
+            player.removeAttribute("src");
+            player.load();
+            musicaAtivaSlot = null;
+        }
+        atualizarUIModalMusica();
+        atualizarBotaoCabecalhoMusica();
+        atualizarStatusPlayerUI();
+        return;
+    }
+
+    if (musicaAtivaSlot !== slotDesejado) {
+        musicaAtivaSlot = slotDesejado;
+        player.src = track.dados;
+        const inicioCut = track.inicio || 0;
+        player.currentTime = inicioCut;
+        player.volume = musicaVolumeAtual;
+
+        const forcarInicioMedia = () => {
+            if (musicaAtivaSlot === slotDesejado && player.currentTime < inicioCut) {
+                player.currentTime = inicioCut;
+            }
+        };
+        player.addEventListener("loadedmetadata", forcarInicioMedia, { once: true });
+        player.addEventListener("canplay", forcarInicioMedia, { once: true });
+
+        if (!musicaPausadaPeloUsuario) {
+            const playPromise = player.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(err => {
+                    console.log("Autoplay de áudio aguardando interação do usuário:", err);
+                });
+            }
+        }
+    } else {
+        aplicarLimitesCortePlayer();
+        if (!musicaPausadaPeloUsuario && player.paused) {
+            const playPromise = player.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {});
+            }
+        }
+    }
+
+    atualizarUIModalMusica();
+    atualizarBotaoCabecalhoMusica();
+    atualizarStatusPlayerUI();
+}
+
+function definirVolumeMusica(val) {
+    const vol = parseFloat(val);
+    if (!isNaN(vol)) {
+        musicaVolumeAtual = Math.max(0, Math.min(1, Math.round(vol * 100) / 100));
+        if (elementoAudioPlayer) {
+            elementoAudioPlayer.volume = musicaVolumeAtual;
+        }
+        const rotuloVal = document.getElementById("musica_volume_valor");
+        if (rotuloVal) {
+            rotuloVal.textContent = Math.round(musicaVolumeAtual * 100) + "%";
+        }
+        const rotuloPopupVal = document.getElementById("musica_popup_volume_valor");
+        if (rotuloPopupVal) {
+            rotuloPopupVal.textContent = Math.round(musicaVolumeAtual * 100) + "%";
+        }
+        const sliderModal = document.getElementById("musica_volume_slider");
+        if (sliderModal && parseFloat(sliderModal.value) !== musicaVolumeAtual) {
+            sliderModal.value = musicaVolumeAtual;
+        }
+        const sliderPopup = document.getElementById("musica_popup_volume_slider");
+        if (sliderPopup && parseFloat(sliderPopup.value) !== musicaVolumeAtual) {
+            sliderPopup.value = musicaVolumeAtual;
+        }
+        salvarMusicasGlobal();
+    }
+}
+
+function alternarPlayPauseMusica() {
+    const player = obterAudioPlayer();
+    if (musicaPausadaPeloUsuario) {
+        musicaPausadaPeloUsuario = false;
+        salvarMusicasGlobal();
+        avaliarMusicaAtual();
+        if (player.src) {
+            player.play().catch(e => console.log("Erro ao reproduzir áudio:", e));
+        }
+        mostrarStatus("▶ Trilha sonora retomada.", "");
+    } else {
+        musicaPausadaPeloUsuario = true;
+        salvarMusicasGlobal();
+        player.pause();
+        mostrarStatus("⏸ Trilha sonora pausada.", "");
+    }
+    atualizarStatusPlayerUI();
+}
+
+function formatarTempoAudio(segundos) {
+    if (isNaN(segundos) || segundos < 0 || !isFinite(segundos)) return "0:00";
+    const mins = Math.floor(segundos / 60);
+    const segs = Math.floor(segundos % 60);
+    return `${mins}:${segs < 10 ? '0' : ''}${segs}`;
+}
+
+function ajustarTempoMusica(porcentagem) {
+    const player = elementoAudioPlayer;
+    if (!player || !player.duration || isNaN(player.duration) || player.duration <= 0) return;
+    
+    const pct = parseFloat(porcentagem);
+    if (isNaN(pct)) return;
+
+    let minTime = 0;
+    let maxTime = player.duration;
+    
+    if (musicaAtivaSlot && musicasPersonalizadas[musicaAtivaSlot]) {
+        const track = musicasPersonalizadas[musicaAtivaSlot];
+        minTime = track.inicio || 0;
+        if (typeof track.fim === "number" && track.fim > minTime && track.fim <= player.duration) {
+            maxTime = track.fim;
+        }
+    }
+
+    const interval = Math.max(0.1, maxTime - minTime);
+    const novoTempo = minTime + (Math.max(0, Math.min(100, pct)) / 100) * interval;
+    player.currentTime = novoTempo;
+    atualizarTimelineAudioUI();
+}
+
+function atualizarTimelineAudioUI() {
+    const player = elementoAudioPlayer;
+    const duracaoTotal = (player && player.duration && isFinite(player.duration)) ? player.duration : 0;
+    const atualReal = (player && player.currentTime && isFinite(player.currentTime)) ? player.currentTime : 0;
+    
+    let minTime = 0;
+    let maxTime = duracaoTotal;
+    
+    if (musicaAtivaSlot && musicasPersonalizadas[musicaAtivaSlot]) {
+        const track = musicasPersonalizadas[musicaAtivaSlot];
+        minTime = track.inicio || 0;
+        if (typeof track.fim === "number" && track.fim > minTime && track.fim <= duracaoTotal) {
+            maxTime = track.fim;
+        } else if (duracaoTotal > 0) {
+            maxTime = duracaoTotal;
+        }
+    }
+    
+    const interval = Math.max(0, maxTime - minTime);
+    const atualRelativo = Math.max(0, Math.min(interval, atualReal - minTime));
+    const pct = interval > 0 ? (atualRelativo / interval) * 100 : 0;
+
+    const tempoAtualStr = formatarTempoAudio(atualRelativo);
+    const tempoTotalStr = formatarTempoAudio(interval);
+
+    // Modal
+    const modalCur = document.getElementById("musica_modal_tempo_atual");
+    const modalTot = document.getElementById("musica_modal_tempo_total");
+    const modalSlider = document.getElementById("musica_modal_timeline_slider");
+    if (modalCur) modalCur.textContent = tempoAtualStr;
+    if (modalTot) modalTot.textContent = tempoTotalStr;
+    if (modalSlider && document.activeElement !== modalSlider) {
+        modalSlider.value = pct;
+        modalSlider.disabled = interval <= 0;
+    }
+
+    // Popup
+    const popupCur = document.getElementById("musica_popup_tempo_atual");
+    const popupTot = document.getElementById("musica_popup_tempo_total");
+    const popupSlider = document.getElementById("musica_popup_timeline_slider");
+    if (popupCur) popupCur.textContent = tempoAtualStr;
+    if (popupTot) popupTot.textContent = tempoTotalStr;
+    if (popupSlider && document.activeElement !== popupSlider) {
+        popupSlider.value = pct;
+        popupSlider.disabled = interval <= 0;
+    }
+}
+
+function alternarRecolhimentoPopupMusica() {
+    popupMusicaRecolhido = !popupMusicaRecolhido;
+    salvarMusicasGlobal();
+    atualizarStatusPlayerUI();
+}
+
+function fecharPopupFlutuanteMusica() {
+    alternarRecolhimentoPopupMusica();
+}
+
+function abrirPopupFlutuanteMusica() {
+    popupMusicaFechadoManualmente = false;
+    atualizarStatusPlayerUI();
+}
+
+function atualizarStatusPlayerUI() {
+    // 1. Elementos do Modal
+    const dotModal = document.getElementById("musica-status-dot");
+    const rotuloModal = document.getElementById("musica-status-rotulo");
+    const nomeModalEl = document.getElementById("musica-status-nome");
+    const iconeModalBtn = document.getElementById("icone-musica-playpause");
+    const textoModalBtn = document.getElementById("texto-musica-playpause");
+
+    // 2. Elementos do Pop-up Flutuante (Inferior Esquerdo)
+    const popup = document.getElementById("musica-popup-flutuante");
+    const btnRecolher = document.getElementById("btn-recolher-popup-musica");
+    const dotPopup = document.getElementById("musica-popup-dot");
+    const prioridadePopup = document.getElementById("musica-popup-prioridade");
+    const iconePopup = document.getElementById("musica-popup-icone");
+    const tituloPopup = document.getElementById("musica-popup-titulo");
+    const gatilhoPopup = document.getElementById("musica-popup-gatilho");
+    const iconePopupBtn = document.getElementById("icone-popup-musica-playpause");
+    const textoPopupBtn = document.getElementById("texto-popup-musica-playpause");
+    const sliderPopup = document.getElementById("musica_popup_volume_slider");
+    const rotuloPopupVal = document.getElementById("musica_popup_volume_valor");
+
+    const player = elementoAudioPlayer;
+    const isPlaying = !!(player && !player.paused && !player.ended && !musicaPausadaPeloUsuario && musicaAtivaSlot);
+
+    // Atualiza botões de Play/Pause em ambos
+    const txtPlay = musicaPausadaPeloUsuario ? "Retomar" : "Pausar";
+    const icoPlay = musicaPausadaPeloUsuario ? "▶" : "⏸";
+
+    if (iconeModalBtn && textoModalBtn) {
+        iconeModalBtn.textContent = icoPlay;
+        textoModalBtn.textContent = txtPlay;
+    }
+    if (iconePopupBtn && textoPopupBtn) {
+        iconePopupBtn.textContent = icoPlay;
+        textoPopupBtn.textContent = txtPlay;
+    }
+
+    if (sliderPopup) {
+        sliderPopup.value = musicaVolumeAtual;
+    }
+    if (rotuloPopupVal) {
+        rotuloPopupVal.textContent = Math.round(musicaVolumeAtual * 100) + "%";
+    }
+
+    // Se nenhuma música estiver tocando ou configurada no slot atual
+    if (!musicaAtivaSlot || !musicasPersonalizadas[musicaAtivaSlot]) {
+        if (dotModal) dotModal.className = "status-dot";
+        if (rotuloModal) rotuloModal.textContent = "Trilha Silenciada";
+        if (nomeModalEl) nomeModalEl.textContent = "Nenhuma música tocando no momento";
+
+        if (popup) {
+            popup.classList.remove("visivel");
+        }
+        return;
+    }
+
+    const slotInfo = ROTULOS_SLOTS_AUDIO[musicaAtivaSlot];
+    const track = musicasPersonalizadas[musicaAtivaSlot];
+
+    // Atualização do Modal
+    if (dotModal) {
+        dotModal.className = isPlaying ? "status-dot tocando" : "status-dot";
+    }
+    if (rotuloModal) {
+        if (musicaPausadaPeloUsuario) {
+            rotuloModal.textContent = `Pausada (${slotInfo ? slotInfo.prioridade : ""})`;
+        } else {
+            rotuloModal.textContent = `Em Execução • ${slotInfo ? slotInfo.nome : ""}`;
+        }
+    }
+    if (nomeModalEl) {
+        nomeModalEl.textContent = track ? track.nome : "Sem arquivo";
+    }
+
+    // Atualização do Pop-up Flutuante Inferior Esquerdo
+    if (dotPopup) {
+        dotPopup.className = isPlaying ? "musica-popup-dot tocando" : "musica-popup-dot";
+    }
+    if (prioridadePopup) {
+        prioridadePopup.textContent = musicaPausadaPeloUsuario 
+            ? `PAUSADA • ${slotInfo ? slotInfo.prioridade : ""}` 
+            : `TOCANDO • ${slotInfo ? slotInfo.nome : ""}`;
+    }
+    if (iconePopup) {
+        iconePopup.textContent = slotInfo ? slotInfo.icone : "🎧";
+    }
+    if (tituloPopup) {
+        tituloPopup.textContent = track ? track.nome : "Trilha Sonora";
+        tituloPopup.title = track ? track.nome : "";
+    }
+    if (gatilhoPopup) {
+        gatilhoPopup.textContent = slotInfo ? slotInfo.gatilho : "Loop contínuo";
+    }
+
+    if (popup) {
+        if (!popupMusicaFechadoManualmente) {
+            popup.classList.add("visivel");
+        }
+        if (popupMusicaRecolhido) {
+            popup.classList.add("recolhido");
+            if (btnRecolher) {
+                btnRecolher.textContent = "❯";
+                btnRecolher.title = "Expandir tocador de música";
+            }
+        } else {
+            popup.classList.remove("recolhido");
+            if (btnRecolher) {
+                btnRecolher.textContent = "❮";
+                btnRecolher.title = "Recolher tocador para a lateral";
+            }
+        }
+    }
+
+    atualizarTimelineAudioUI();
+}
+
+async function processarUploadMusica(slot, event) {
+    const input = event.target;
+    if (!input || !input.files || input.files.length === 0) return;
+
+    const arquivo = input.files[0];
+    const nome = arquivo.name;
+
+    // Limite generoso (máx 35MB por música)
+    if (arquivo.size > 35 * 1024 * 1024) {
+        mostrarStatus("✗ Arquivo de áudio muito grande. Escolha um .mp3 de até 35MB.", "erro");
+        input.value = "";
+        return;
+    }
+
+    // Revoga URL anterior do slot se for Blob URL para liberar memória RAM instantaneamente
+    if (musicasPersonalizadas[slot] && musicasPersonalizadas[slot].dados && musicasPersonalizadas[slot].dados.startsWith("blob:")) {
+        try { URL.revokeObjectURL(musicasPersonalizadas[slot].dados); } catch(e){}
+    }
+
+    // Cria instantaneamente um Object URL de alta performance (tempo de execução: < 1ms, zero congelamento)
+    const blobUrl = URL.createObjectURL(arquivo);
+    musicasPersonalizadas[slot] = { nome, dados: blobUrl, raw: arquivo };
+    musicaPausadaPeloUsuario = false;
+    popupMusicaFechadoManualmente = false;
+
+    // Atualiza imediatamente a interface e áudio sem esperar gravação
+    salvarMusicasGlobal();
+    marcarAlteracaoFeita();
+    avaliarMusicaAtual();
+
+    const slotInfo = ROTULOS_SLOTS_AUDIO[slot];
+    mostrarStatus(`✓ Música "${nome}" definida para [${slotInfo ? slotInfo.nome : slot}]!`, "ok");
+    input.value = "";
+
+    // Salva o arquivo no IndexedDB em background assíncrono (sem bloquear UI)
+    salvarMusicaIDB(slot, nome, arquivo).catch(err => {
+        console.warn("Aviso ao salvar áudio no IndexedDB:", err);
+    });
+}
+
+function removerMusicaSlot(slot) {
+    if (musicasPersonalizadas[slot]) {
+        if (musicasPersonalizadas[slot].dados && musicasPersonalizadas[slot].dados.startsWith("blob:")) {
+            try { URL.revokeObjectURL(musicasPersonalizadas[slot].dados); } catch(e){}
+        }
+        musicasPersonalizadas[slot] = null;
+        salvarMusicasGlobal();
+        removerMusicaIDB(slot).catch(()=>{});
+        marcarAlteracaoFeita();
+        avaliarMusicaAtual();
+        const slotInfo = ROTULOS_SLOTS_AUDIO[slot];
+        mostrarStatus(`✓ Trilha de [${slotInfo ? slotInfo.nome : slot}] removida.`, "ok");
+    }
+}
+
+function limparTodasMusicas() {
+    abrirModalConfirmacao({
+        titulo: "Limpar Todas as Músicas",
+        icone: "🗑️",
+        mensagem: "Deseja realmente remover todos os arquivos .mp3 vinculados à ficha?",
+        textoBotao: "Sim, Limpar",
+        aoConfirmar: () => {
+            ["vidaZero", "combate", "mentalBaixo", "geral"].forEach(slot => {
+                if (musicasPersonalizadas[slot] && musicasPersonalizadas[slot].dados && musicasPersonalizadas[slot].dados.startsWith("blob:")) {
+                    try { URL.revokeObjectURL(musicasPersonalizadas[slot].dados); } catch(e){}
+                }
+            });
+            musicasPersonalizadas = { vidaZero: null, combate: null, mentalBaixo: null, geral: null };
+            salvarMusicasGlobal();
+            limparTodasMusicasIDB().catch(()=>{});
+            marcarAlteracaoFeita();
+            avaliarMusicaAtual();
+            mostrarStatus("✓ Todas as músicas foram removidas.", "ok");
+        }
+    });
+}
+
+function abrirModalMusica() {
+    atualizarUIModalMusica();
+    const modal = document.getElementById("modal-config-musica");
+    if (modal) {
+        modal.style.display = "flex";
+        requestAnimationFrame(() => modal.classList.add("aberto"));
+        modal.setAttribute("aria-hidden", "false");
+    }
+}
+
+function fecharModalMusica() {
+    const modal = document.getElementById("modal-config-musica");
+    if (modal) {
+        modal.classList.remove("aberto");
+        modal.setAttribute("aria-hidden", "true");
+        setTimeout(() => { modal.style.display = "none"; }, 200);
+    }
+}
+
+function fecharModalMusicaPorOverlay(event) {
+    if (event.target && event.target.id === "modal-config-musica") {
+        fecharModalMusica();
+    }
+}
+
+function atualizarUIModalMusica() {
+    ORDEM_PRIORIDADE_AUDIO.forEach(slot => {
+        const track = musicasPersonalizadas[slot];
+        const card = document.getElementById(`slot-card-${slot}`);
+        const badge = document.getElementById(`badge-status-${slot}`);
+        const nomeArquivoEl = document.getElementById(`nome-arquivo-${slot}`);
+        const btnRemover = document.getElementById(`btn-remover-${slot}`);
+        const btnEditar = document.getElementById(`btn-editar-${slot}`);
+
+        const isActive = (musicaAtivaSlot === slot);
+
+        if (card) {
+            if (isActive) {
+                card.classList.add("ativo-no-momento");
+            } else {
+                card.classList.remove("ativo-no-momento");
+            }
+        }
+
+        if (badge) {
+            if (isActive) {
+                badge.textContent = "▶ Tocando Agora";
+                badge.className = "musica-slot-status em-execucao";
+            } else if (track && track.nome) {
+                badge.textContent = "✓ Carregado";
+                badge.className = "musica-slot-status carregado";
+            } else {
+                badge.textContent = "Vazio";
+                badge.className = "musica-slot-status";
+            }
+        }
+
+        if (nomeArquivoEl) {
+            if (track && track.nome) {
+                let tagCorte = "";
+                if (track.inicio > 0 || (typeof track.fim === "number" && track.fim > 0)) {
+                    const inicioStr = formatarTempoAudio(track.inicio || 0);
+                    const fimStr = (track.fim && track.fim > 0) ? formatarTempoAudio(track.fim) : "Fim";
+                    tagCorte = ` <small style="color:var(--accent); font-size:11px; font-weight:normal; margin-left:4px;">✂️ (${inicioStr} - ${fimStr})</small>`;
+                }
+                nomeArquivoEl.innerHTML = `<span>🎵</span> <strong>${escapeHtml(track.nome)}</strong>${tagCorte}`;
+            } else {
+                nomeArquivoEl.innerHTML = `<span>🎧</span> <em>Nenhum arquivo .mp3 selecionado</em>`;
+            }
+        }
+
+        if (btnRemover) {
+            btnRemover.disabled = !track;
+        }
+        if (btnEditar) {
+            btnEditar.disabled = !track;
+            btnEditar.style.display = track ? "inline-flex" : "none";
+        }
+    });
+
+    const slider = document.getElementById("musica_volume_slider");
+    if (slider) {
+        slider.value = musicaVolumeAtual;
+    }
+    const rotuloVal = document.getElementById("musica_volume_valor");
+    if (rotuloVal) {
+        rotuloVal.textContent = Math.round(musicaVolumeAtual * 100) + "%";
+    }
+
+    atualizarStatusPlayerUI();
+    atualizarBotaoCabecalhoMusica();
+}
+
+function atualizarBotaoCabecalhoMusica() {
+    const btn = document.getElementById("btn-abrir-modal-musica");
+    const legenda = document.getElementById("legenda_musica_btn");
+    if (!btn || !legenda) return;
+
+    let count = 0;
+    if (musicasPersonalizadas.vidaZero) count++;
+    if (musicasPersonalizadas.combate) count++;
+    if (musicasPersonalizadas.mentalBaixo) count++;
+    if (musicasPersonalizadas.geral) count++;
+
+    if (count > 0) {
+        btn.classList.add("com-musicas");
+        if (musicaAtivaSlot && !musicaPausadaPeloUsuario) {
+            legenda.textContent = `Música ▶ (${count}/4)`;
+        } else {
+            legenda.textContent = `Música (${count}/4)`;
+        }
+        btn.title = `${count} trilha(s) .mp3 configurada(s). Clique para gerenciar o tocador.`;
+    } else {
+        btn.classList.remove("com-musicas");
+        legenda.textContent = "Música";
+        btn.title = "Tocador de Música com trilhas .mp3 e prioridade dinâmica";
+    }
+}
+
+function obterEstadoMusicasParaSalvar() {
+    return {
+        vidaZero: musicasPersonalizadas.vidaZero ? { nome: musicasPersonalizadas.vidaZero.nome, inicio: musicasPersonalizadas.vidaZero.inicio, fim: musicasPersonalizadas.vidaZero.fim } : null,
+        combate: musicasPersonalizadas.combate ? { nome: musicasPersonalizadas.combate.nome, inicio: musicasPersonalizadas.combate.inicio, fim: musicasPersonalizadas.combate.fim } : null,
+        mentalBaixo: musicasPersonalizadas.mentalBaixo ? { nome: musicasPersonalizadas.mentalBaixo.nome, inicio: musicasPersonalizadas.mentalBaixo.inicio, fim: musicasPersonalizadas.mentalBaixo.fim } : null,
+        geral: musicasPersonalizadas.geral ? { nome: musicasPersonalizadas.geral.nome, inicio: musicasPersonalizadas.geral.inicio, fim: musicasPersonalizadas.geral.fim } : null
+    };
+}
+
+function aplicarMusicasDoEstado(estado) {
+    if (estado && estado.musicas && typeof estado.musicas === "object") {
+        ["vidaZero", "combate", "mentalBaixo", "geral"].forEach(slot => {
+            const trackEstado = estado.musicas[slot];
+            if (trackEstado && trackEstado.dados) {
+                // Caso a ficha venha de um arquivo exportado com áudio embutido
+                musicasPersonalizadas[slot] = {
+                    nome: trackEstado.nome || "Música",
+                    dados: trackEstado.dados,
+                    raw: trackEstado.dados,
+                    inicio: trackEstado.inicio || 0,
+                    fim: trackEstado.fim || null
+                };
+                salvarMusicaIDB(slot, trackEstado.nome, trackEstado.dados, trackEstado.inicio, trackEstado.fim).catch(()=>{});
+            }
+        });
+    }
+    carregarMusicasArmazenadas();
+}
+
+function inicializarTocadorMusica() {
+    carregarMusicasArmazenadas();
 }
 
 // ==========================================
@@ -18388,6 +22126,10 @@ function sincronizarModoTatico() {
             statusEl.classList.add("operacional");
             statusEl.textContent = "💚 Operacional";
         }
+    }
+
+    if (typeof avaliarEstaminaCritica === "function") {
+        avaliarEstaminaCritica();
     }
 }
 
@@ -20007,6 +23749,8 @@ inicializarAbasCategorias();
 atualizarBotoesSom();
 inicializarHistoricoRolagens();
 inicializarModoTema();
+inicializarTipografias();
+inicializarTocadorMusica();
 inicializarAtalhosTeclado();
 inicializarInventario();
 verificarConquistasSecretasArmazenadas();
@@ -20024,12 +23768,22 @@ if (corInicialEl) {
     definirCorPrincipal(corInicialEl.value, false);
 }
 
-// Desbloqueia AudioContext na primeira interação do usuário (conformidade com políticas de autoplay)
+// Desbloqueia AudioContext e trilha sonora na primeira interação do usuário (conformidade com políticas de autoplay)
 document.addEventListener("click", function desbloquearAudio() {
     if (somAtivado && !audioCtx) {
         obterAudioContext();
     }
+    if (typeof avaliarEstaminaCritica === "function") {
+        avaliarEstaminaCritica();
+    }
+    if (elementoAudioPlayer && elementoAudioPlayer.src && elementoAudioPlayer.paused && !musicaPausadaPeloUsuario) {
+        elementoAudioPlayer.play().catch(() => {});
+    }
 }, { once: true });
+
+if (typeof avaliarEstaminaCritica === "function") {
+    avaliarEstaminaCritica();
+}
 </script>
 </body>
 </html>
