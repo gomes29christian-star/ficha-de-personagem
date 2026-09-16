@@ -9,7 +9,7 @@
 <meta property="og:description" content="Ficha de personagem para o sistema We're Strangers">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    CALCULADORA DE TESTES — WE'RE STRANGERS
@@ -1633,6 +1633,109 @@ body.modo-claro select optgroup {
   gap: 5px;
 }
 
+/* Espaço para Digitação Direta de Perda / Ganho (Calcula e Ajusta no Enter) */
+.recurso-delta-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: var(--bg-panel-2);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  height: 24px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  overflow: hidden;
+}
+
+.recurso-delta-box:focus-within {
+  border-color: var(--recurso-cor);
+  box-shadow: 0 0 7px var(--recurso-glow);
+  background: color-mix(in srgb, var(--recurso-cor) 6%, var(--bg-panel-2));
+}
+
+.recurso-delta-sinal {
+  font-family: 'MirageFinal', monospace, serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-faint);
+  padding: 0 0 0 6px;
+  user-select: none;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.recurso-delta-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-family: 'MirageFinal', monospace, Georgia, serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 4px;
+  box-sizing: border-box;
+}
+
+.recurso-delta-input::placeholder {
+  color: var(--ink-faint);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 10.5px;
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.btn-recurso-delta-enter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--ink-dim);
+  font-family: monospace, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 0 6px;
+  height: 100%;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+  user-select: none;
+}
+
+.btn-recurso-delta-enter:hover {
+  color: var(--recurso-cor);
+  background: color-mix(in srgb, var(--recurso-cor) 14%, transparent);
+}
+
+.btn-recurso-delta-enter:active {
+  transform: scale(0.92);
+}
+
+.recurso-delta-box.delta-ganho {
+  border-color: #22c55e !important;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.45) !important;
+  background: rgba(34, 197, 94, 0.14) !important;
+}
+
+.recurso-delta-box.delta-perda {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.45) !important;
+  background: rgba(239, 68, 68, 0.14) !important;
+}
+
+.recurso-delta-box.delta-invalido {
+  border-color: #f59e0b !important;
+  animation: shakeDeltaInput 0.3s ease-in-out;
+}
+
+@keyframes shakeDeltaInput {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
 .btn-recurso-passo {
   flex: 1;
   background: var(--bg-panel-2);
@@ -1654,6 +1757,8 @@ body.modo-claro select optgroup {
   color: var(--ink);
 }
 .btn-recurso-passo.recurso-btn-max {
+  flex: 0 0 42px;
+  width: 42px;
   font-family: 'EB Garamond', Georgia, serif;
   font-weight: 700;
   font-size: 10.5px;
@@ -3684,6 +3789,115 @@ body.modo-claro .btn-salvar-alteracoes-dock:hover {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), 0 0 10px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
+.btn-estamina-toggle {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.btn-estamina-toggle:active {
+  transform: scale(0.94);
+}
+
+.btn-estamina-toggle:hover #icone_efeitos_estamina_btn {
+  transform: scale(1.22);
+}
+
+.btn-estamina-toggle.desativado {
+  opacity: 0.65;
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--ink-dim);
+}
+
+body.modo-claro .btn-estamina-toggle.desativado {
+  border-color: rgba(0, 0, 0, 0.25);
+  color: #78716c;
+}
+
+.btn-estamina-toggle.em-alerta {
+  border-color: #ef4444 !important;
+  color: #fca5a5 !important;
+  background: color-mix(in srgb, #ef4444 14%, var(--bg-panel)) !important;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.5) !important;
+  animation: pulsoBotaoEstamina 1.6s infinite ease-in-out;
+}
+
+body.modo-claro .btn-estamina-toggle.em-alerta {
+  color: #b91c1c !important;
+  border-color: #dc2626 !important;
+  background: rgba(239, 68, 68, 0.12) !important;
+}
+
+/* Indicador visual e brilho sutil para Estamina Crítica */
+.indicador-estamina-critica {
+  display: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 6px #ef4444, 0 0 12px rgba(239, 68, 68, 0.8);
+  flex-shrink: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.btn-estamina-toggle.estamina-critica-ativa,
+body.estamina-critica #btn-toggle-efeitos-estamina {
+  border-color: #ef4444 !important;
+  color: #fca5a5 !important;
+  background: color-mix(in srgb, #ef4444 16%, var(--bg-panel)) !important;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.45), 0 0 20px rgba(239, 68, 68, 0.25), inset 0 0 6px rgba(239, 68, 68, 0.2) !important;
+  animation: brilhoSutilEstaminaCritica 1.5s infinite ease-in-out !important;
+}
+
+body.modo-claro .btn-estamina-toggle.estamina-critica-ativa,
+body.modo-claro.estamina-critica #btn-toggle-efeitos-estamina {
+  color: #991b1b !important;
+  border-color: #dc2626 !important;
+  background: rgba(239, 68, 68, 0.15) !important;
+  box-shadow: 0 0 10px rgba(220, 38, 38, 0.45), 0 0 18px rgba(220, 38, 38, 0.2), inset 0 0 6px rgba(220, 38, 38, 0.15) !important;
+}
+
+.btn-estamina-toggle.estamina-critica-ativa .indicador-estamina-critica,
+body.estamina-critica #btn-toggle-efeitos-estamina .indicador-estamina-critica {
+  display: inline-block;
+  animation: pulsoIndicadorEstaminaCritica 1.4s infinite ease-in-out;
+}
+
+@keyframes brilhoSutilEstaminaCritica {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.35), 0 0 14px rgba(239, 68, 68, 0.15), inset 0 0 4px rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.65);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.8), 0 0 26px rgba(239, 68, 68, 0.35), inset 0 0 8px rgba(239, 68, 68, 0.3);
+    border-color: #ef4444;
+  }
+}
+
+@keyframes pulsoIndicadorEstaminaCritica {
+  0%, 100% {
+    transform: scale(0.85);
+    opacity: 0.75;
+    box-shadow: 0 0 4px #ef4444, 0 0 8px rgba(239, 68, 68, 0.5);
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+    box-shadow: 0 0 8px #ef4444, 0 0 16px rgba(239, 68, 68, 0.9);
+  }
+}
+
+@keyframes pulsoBotaoEstamina {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.7);
+    transform: scale(1.02);
+  }
+}
+
 .btn-tema-icone {
   font-size: 14px;
   line-height: 1;
@@ -3938,6 +4152,10 @@ html.tem-contorno-letras .btn-fonte-toggle,
 html.tem-contorno-letras #icone_tipografia_btn,
 html.tem-contorno-letras .btn-musica-toggle,
 html.tem-contorno-letras #icone_musica_btn,
+html.tem-contorno-letras .btn-cabecalho-hamburguer:hover,
+html.tem-contorno-letras .btn-cabecalho-hamburguer.ativo,
+html.tem-contorno-letras .cabecalho-botoes-grupo .btn-tema-toggle:hover,
+html.tem-contorno-letras .cabecalho-botoes-grupo .btn-tema-toggle:hover span,
 html.tem-contorno-letras .musica-slot-ordem,
 html.tem-contorno-letras .musica-status-tag,
 html.tem-contorno-letras .btn-musica-playpause,
@@ -5661,6 +5879,15 @@ html.tem-contorno-letras .conq-card.conq-secreta.desbloqueada .conq-card-icone,
 html.tem-contorno-letras .conq-card-pts.secreta,
 html.tem-contorno-letras .conq-card-status-tag.secreta,
 html.tem-contorno-letras .conq-tag.secreta,
+html.tem-contorno-letras #btn_max_aura,
+html.tem-contorno-letras #btn_max_tatico_aura,
+html.tem-contorno-letras #card-recurso-aura .btn-recurso-delta-enter:hover,
+html.tem-contorno-letras #box_tatico_delta_aura .btn-recurso-delta-enter:hover,
+html.tem-contorno-letras #tatico-card-aura .tatico-recurso-icone,
+html.tem-contorno-letras #tatico-card-aura .tatico-recurso-nome,
+html.tem-contorno-letras #wrap_tatico_aura_temp .tatico-temp-sinal,
+html.tem-contorno-letras #wrap_tatico_aura_temp input,
+html.tem-contorno-letras #tatico_aura_pct,
 html.tem-contorno-letras [style*="color:var(--accent)"],
 html.tem-contorno-letras [style*="color: var(--accent)"] {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
@@ -6698,40 +6925,12 @@ html.animacao-strokes-roxas .galho-svg path {
   }
 }
 
-/* Efeito visual na Logo do Rodapé para o Easter Egg */
+/* Interação na Logo do Rodapé para o Easter Egg */
 .rodape-spec {
   cursor: pointer;
   user-select: none;
   transition: all 0.3s ease;
   position: relative;
-}
-.rodape-spec::after {
-  content: "🖕🙂🖕";
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(6px);
-  background: #141218;
-  color: #fff;
-  border: 1px solid rgba(157, 78, 221, 0.65);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 14px rgba(157, 78, 221, 0.4);
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 18px;
-  line-height: 1;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
-  z-index: 1000;
-}
-.rodape-spec:hover::after,
-#rodape-spec-logo:hover::after,
-#rodape-spec-logo > svg:hover ~ .rodape-spec::after {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
 }
 .rodape-spec:active {
   transform: scale(0.96);
@@ -7042,27 +7241,42 @@ body.modo-claro.estamina-moderada > :not(#vinheta-estamina-critica):not(script):
   height: 100vh;
   pointer-events: none;
   z-index: 999999;
-  box-shadow: inset 0 0 130px rgba(0, 0, 0, 0.75), inset 0 0 55px rgba(0, 0, 0, 0.92);
-  animation: vinhetaEstaminaCritica 4.8s ease-in-out infinite alternate;
+  box-shadow: none;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.6) 100%);
 }
 
 body.estamina-critica #vinheta-estamina-critica {
   display: block;
-  opacity: 1;
+  animation: vinhetaEstaminaCritica 4.8s ease-in-out infinite alternate;
 }
 
 body.estamina-moderada #vinheta-estamina-critica {
   display: block;
-  opacity: 0.45;
+  animation: vinhetaEstaminaModerada 6s ease-in-out infinite alternate;
 }
 
 @keyframes vinhetaEstaminaCritica {
   0% {
-    box-shadow: inset 0 0 85px rgba(0, 0, 0, 0.50), inset 0 0 35px rgba(0, 0, 0, 0.80);
+    opacity: 0.65;
   }
   100% {
-    box-shadow: inset 0 0 160px rgba(0, 0, 0, 0.88), inset 0 0 75px rgba(0, 0, 0, 0.96);
+    opacity: 1;
   }
+}
+
+@keyframes vinhetaEstaminaModerada {
+  0% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0.50;
+  }
+}
+
+body.estamina-critica .cabecalho-controles-wrap,
+body.estamina-moderada .cabecalho-controles-wrap {
+  filter: none !important;
+  z-index: 9999999;
 }
 
 html.tem-contorno-letras .aba-nav-btn.ativa .aba-texto {
@@ -7102,15 +7316,136 @@ html.tem-contorno-letras .aba-nav-btn.ativa .aba-texto {
   display: flex;
   align-items: center;
   gap: 8px;
-  z-index: 25;
+  z-index: 50;
+}
+
+.btn-cabecalho-hamburguer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: color-mix(in srgb, var(--bg-void) 50%, var(--bg-panel));
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+  font-family: 'MirageFinal', serif;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 13px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.btn-cabecalho-hamburguer:hover,
+.btn-cabecalho-hamburguer.ativo {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--bg-panel));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 10px var(--accent-glow);
+}
+
+.cabecalho-hamb-icone {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 14px;
+  height: 11px;
+}
+
+.cabecalho-hamb-linha {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-cabecalho-hamburguer.ativo .cabecalho-hamb-linha:nth-child(1) {
+  transform: translateY(4.5px) rotate(45deg);
+}
+.btn-cabecalho-hamburguer.ativo .cabecalho-hamb-linha:nth-child(2) {
+  opacity: 0;
+}
+.btn-cabecalho-hamburguer.ativo .cabecalho-hamb-linha:nth-child(3) {
+  transform: translateY(-4.5px) rotate(-45deg);
+}
+
+.cabecalho-hamb-rotulo {
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .cabecalho-botoes-grupo {
-  display: flex;
+  display: none;
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
   flex-direction: column;
   align-items: stretch;
   gap: 6px;
-  min-width: 144px;
+  min-width: 156px;
+  background: color-mix(in srgb, var(--bg-void) 88%, var(--bg-panel));
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  animation: cabecalhoMenuEntrada 0.16s ease-out;
+}
+
+.cabecalho-botoes-grupo.menu-aberto {
+  display: flex !important;
+}
+
+@keyframes cabecalhoMenuEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+body.modo-claro .btn-cabecalho-hamburguer {
+  background: #eae1d0;
+  border-color: #cbbfab;
+  color: #4a3e2c;
+  box-shadow: 0 2px 6px rgba(40, 30, 15, 0.12);
+}
+
+body.modo-claro .btn-cabecalho-hamburguer:hover,
+body.modo-claro .btn-cabecalho-hamburguer.ativo {
+  background: #dfd5c2;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+body.modo-claro .cabecalho-botoes-grupo {
+  background: #f1ebd9;
+  border-color: #cbbfab;
+  box-shadow: 0 10px 25px rgba(40, 30, 15, 0.22);
+}
+
+html.tem-contorno-letras .btn-cabecalho-hamburguer:hover,
+html.tem-contorno-letras .btn-cabecalho-hamburguer.ativo {
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000,
+     0px -1px 0 #000,
+     0px  1px 0 #000,
+    -1px  0px 0 #000,
+     1px  0px 0 #000;
 }
 
 .btn-config-atalhos {
@@ -7401,18 +7736,15 @@ body.modo-claro .atalho-select-pericia option {
 
 @media (max-width: 640px) {
   .cabecalho-controles-wrap {
-    position: static;
-    margin: 0 auto 12px auto;
-    justify-content: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin: 0;
+    z-index: 50;
   }
   .cabecalho-botoes-grupo {
-    flex-direction: row;
-    justify-content: center;
-    min-width: unset;
-    gap: 8px;
-  }
-  .cabecalho-botoes-grupo .btn-tema-toggle {
-    width: auto;
+    min-width: 146px;
+    right: 0;
   }
   .barra-atalhos-container {
     margin-top: 6px;
@@ -7670,8 +8002,8 @@ body.modo-claro .popup-atalho-rodape {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: 14px;
+  position: relative;
 }
 
 .tatico-titulo-bloco {
@@ -7793,24 +8125,25 @@ body.modo-claro .popup-atalho-rodape {
   box-shadow: 0 0 10px var(--accent-glow);
 }
 
-/* Grade de Recursos de Combate (Vida & Estamina apenas) */
+/* Grade de Recursos de Combate (Vida, Mental, Estamina e Aura em 2x2) */
 .tatico-recursos-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
 .tatico-recurso-card {
   background: color-mix(in srgb, var(--bg-void) 50%, var(--bg-panel));
   border: 1px solid var(--line);
   border-radius: 4px;
-  padding: 16px 18px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  gap: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.22);
   position: relative;
   overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .tatico-recurso-card::before {
@@ -7826,49 +8159,67 @@ body.modo-claro .popup-atalho-rodape {
   background: linear-gradient(90deg, #b71c1c, #e63946, #ff758f);
 }
 
+.tatico-card-mental::before {
+  background: linear-gradient(90deg, #0d2a86, #1e4fd8, #4895ef);
+}
+
 .tatico-card-estamina::before {
   background: linear-gradient(90deg, #c78300, #ffbe0b, #ffe066);
+}
+
+.tatico-card-aura::before {
+  background: linear-gradient(90deg, var(--accent-dim, #a68953), var(--accent, #c9b183), #ffffff);
 }
 
 .tatico-recurso-cabecalho {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 8px;
+  flex-wrap: nowrap;
 }
 
 .tatico-recurso-ident {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-shrink: 0;
+  min-width: fit-content;
 }
 
 .tatico-recurso-icone {
-  font-size: 26px;
+  font-size: 18px;
   line-height: 1;
+  flex-shrink: 0;
 }
+
+.tatico-card-vida .tatico-recurso-icone { color: #e63946; }
+.tatico-card-mental .tatico-recurso-icone { color: #3a86ff; }
+.tatico-card-estamina .tatico-recurso-icone { color: #ffbe0b; }
+.tatico-card-aura .tatico-recurso-icone { color: var(--accent); }
 
 .tatico-recurso-nome {
   font-family: 'MirageFinal', serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--ink);
-  display: block;
+  white-space: nowrap;
+}
+
+.tatico-card-aura .tatico-recurso-nome {
+  color: var(--accent);
 }
 
 .tatico-recurso-sub {
-  font-size: 11px;
-  color: var(--ink-dim);
-  display: block;
+  display: none;
 }
 
 .tatico-recurso-valores {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .tatico-recurso-inputs-wrap {
@@ -7877,19 +8228,24 @@ body.modo-claro .popup-atalho-rodape {
   background: var(--bg-inset);
   border: 1px solid var(--line);
   border-radius: 3px;
-  padding: 2px 8px;
+  padding: 0 6px;
+  height: 28px;
+  box-sizing: border-box;
 }
 
 .tatico-recurso-inputs-wrap input[type="number"] {
-  width: 54px;
+  width: 44px;
+  height: 24px;
   background: transparent;
   border: none;
   color: var(--ink);
   font-family: 'MirageFinal', serif;
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 700;
   text-align: center;
-  padding: 4px 0;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
   -moz-appearance: textfield;
 }
 
@@ -7902,7 +8258,8 @@ body.modo-claro .popup-atalho-rodape {
 .tatico-recurso-div {
   color: var(--ink-dim);
   font-weight: bold;
-  padding: 0 4px;
+  font-size: 12px;
+  padding: 0 3px;
 }
 
 .tatico-temp-wrap {
@@ -7911,25 +8268,33 @@ body.modo-claro .popup-atalho-rodape {
   background: color-mix(in srgb, var(--accent) 15%, var(--bg-inset));
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   border-radius: 3px;
-  padding: 2px 6px;
+  padding: 0 6px;
   gap: 2px;
+  height: 28px;
+  box-sizing: border-box;
 }
 
 .tatico-temp-sinal {
   color: var(--accent);
   font-weight: bold;
-  font-size: 12px;
+  font-size: 11px;
+  line-height: 1;
+  user-select: none;
 }
 
 .tatico-temp-wrap input[type="number"] {
-  width: 38px;
+  width: 28px;
+  height: 24px;
   background: transparent;
   border: none;
   color: var(--accent);
   font-family: 'MirageFinal', serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   text-align: center;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
   -moz-appearance: textfield;
 }
 
@@ -7941,22 +8306,26 @@ body.modo-claro .popup-atalho-rodape {
 
 .tatico-recurso-badge {
   font-family: 'MirageFinal', serif;
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 4px;
+  height: 28px;
+  line-height: 26px;
+  padding: 0 7px;
+  box-sizing: border-box;
+  border-radius: 3px;
   background: var(--bg-inset);
   color: var(--ink-dim);
   border: 1px solid var(--line);
+  white-space: nowrap;
 }
 
-/* Barras Táticas */
+/* Barras Táticas Compactas */
 .tatico-barra-trilho {
   position: relative;
-  height: 14px;
+  height: 9px;
   background: rgba(0, 0, 0, 0.45);
   border: 1px solid var(--line);
-  border-radius: 3px;
+  border-radius: 2px;
   overflow: hidden;
 }
 
@@ -7970,12 +8339,22 @@ body.modo-claro .popup-atalho-rodape {
 
 .tatico-barra-fill.vida {
   background: linear-gradient(90deg, #b71c1c 0%, #e63946 100%);
-  box-shadow: 0 0 8px rgba(230, 57, 70, 0.5);
+  box-shadow: 0 0 6px rgba(230, 57, 70, 0.4);
+}
+
+.tatico-barra-fill.mental {
+  background: linear-gradient(90deg, #0d2a86 0%, #1e4fd8 100%);
+  box-shadow: 0 0 6px rgba(30, 79, 216, 0.4);
 }
 
 .tatico-barra-fill.estamina {
   background: linear-gradient(90deg, #b37300 0%, #ffbe0b 100%);
-  box-shadow: 0 0 8px rgba(255, 190, 11, 0.5);
+  box-shadow: 0 0 6px rgba(255, 190, 11, 0.4);
+}
+
+.tatico-barra-fill.aura {
+  background: linear-gradient(90deg, var(--accent-dim, #9b814e) 0%, var(--accent, #c9b183) 100%);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 .tatico-barra-temp-fill {
@@ -7987,39 +8366,94 @@ body.modo-claro .popup-atalho-rodape {
 }
 
 .tatico-barra-temp-fill.vida {
-  background: repeating-linear-gradient(45deg, #ff758f, #ff758f 6px, #e63946 6px, #e63946 12px);
+  background: repeating-linear-gradient(45deg, #ff758f, #ff758f 5px, #e63946 5px, #e63946 10px);
+}
+
+.tatico-barra-temp-fill.mental {
+  background: repeating-linear-gradient(45deg, #4895ef, #4895ef 5px, #1e4fd8 5px, #1e4fd8 10px);
 }
 
 .tatico-barra-temp-fill.estamina {
-  background: repeating-linear-gradient(45deg, #ffe066, #ffe066 6px, #ffbe0b 6px, #ffbe0b 12px);
+  background: repeating-linear-gradient(45deg, #ffe066, #ffe066 5px, #ffbe0b 5px, #ffbe0b 10px);
 }
 
-/* Linha de Passos / Ajustes Rápidos */
-.tatico-passos-row {
+.tatico-barra-temp-fill.aura {
+  background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--accent) 70%, white), color-mix(in srgb, var(--accent) 70%, white) 5px, var(--accent) 5px, var(--accent) 10px);
+}
+
+/* Linha de Ações Táticas: Input de Ajuste Direto + MAX */
+.tatico-recurso-acoes {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
-  padding-top: 4px;
 }
 
-.tatico-passos-legenda {
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  font-weight: 700;
+.tatico-delta-box {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0 6px;
+  gap: 4px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.tatico-delta-box .recurso-delta-sinal {
+  font-size: 12px;
+  opacity: 0.65;
+  user-select: none;
+  font-weight: bold;
+}
+
+.tatico-delta-box .recurso-delta-input {
+  flex: 1;
+  min-width: 0;
+  height: 24px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 11.5px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.tatico-delta-box .recurso-delta-input::placeholder {
+  font-size: 11px;
+  opacity: 0.55;
+}
+
+.tatico-delta-box .btn-recurso-delta-enter {
+  background: transparent;
+  border: none;
   color: var(--ink-dim);
-  text-transform: uppercase;
-  margin-right: 2px;
-}
-
-.tatico-botoes-grupo {
+  font-weight: bold;
+  font-size: 13px;
+  padding: 0 6px;
+  cursor: pointer;
+  border-radius: 2px;
+  height: 22px;
+  line-height: 22px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  transition: all 0.15s ease;
 }
 
-.btn-tatico-passo {
-  min-width: 32px;
+.tatico-delta-box .btn-recurso-delta-enter:hover {
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: var(--accent);
+}
+
+.btn-tatico-max {
+  flex: 0 0 46px;
   height: 28px;
   padding: 0 6px;
   background: var(--bg-inset);
@@ -8027,36 +8461,50 @@ body.modo-claro .popup-atalho-rodape {
   border-radius: 3px;
   color: var(--ink-dim);
   font-family: inherit;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
+  letter-spacing: 0.05em;
   cursor: pointer;
   transition: all 0.15s ease;
   user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
-.btn-tatico-passo:hover {
-  color: var(--ink);
-  border-color: var(--line-soft);
-  background: color-mix(in srgb, var(--bg-inset) 80%, white);
+.tatico-card-vida .btn-tatico-max:hover {
+  background: #e63946;
+  color: #fff;
+  border-color: #e63946;
+  box-shadow: 0 0 6px rgba(230, 57, 70, 0.4);
 }
 
-.btn-tatico-passo.dano:hover {
-  color: #ff6b6b;
-  border-color: rgba(230, 57, 70, 0.6);
-  background: rgba(230, 57, 70, 0.12);
+.tatico-card-mental .btn-tatico-max:hover {
+  background: #1e4fd8;
+  color: #fff;
+  border-color: #1e4fd8;
+  box-shadow: 0 0 6px rgba(30, 79, 216, 0.4);
 }
 
-.btn-tatico-passo.cura:hover,
-.btn-tatico-passo.rec:hover {
-  color: #2ec4b6;
-  border-color: rgba(46, 196, 182, 0.6);
-  background: rgba(46, 196, 182, 0.12);
+.tatico-card-estamina .btn-tatico-max:hover {
+  background: #ffbe0b;
+  color: #1a1a1a;
+  border-color: #ffbe0b;
+  box-shadow: 0 0 6px rgba(255, 190, 11, 0.4);
 }
 
-.btn-tatico-passo.max:hover {
-  color: var(--accent);
+.tatico-card-aura .btn-tatico-max:hover {
+  background: var(--accent);
+  color: #fff;
   border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 15%, var(--bg-inset));
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+@media (max-width: 680px) {
+  .tatico-recursos-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Condições & Posturas de Combate */
@@ -8485,6 +8933,8 @@ body.modo-claro .tatico-skill-card {
 
 body.modo-claro .tatico-recurso-inputs-wrap,
 body.modo-claro .tatico-temp-wrap,
+body.modo-claro .tatico-delta-box,
+body.modo-claro .btn-tatico-max,
 body.modo-claro .btn-tatico-passo,
 body.modo-claro .tatico-cond-chip,
 body.modo-claro .btn-tatico-filtro,
@@ -9321,27 +9771,31 @@ body.modo-claro .tatico-res-item {
   }
 }
 
-/* Banner Notificação Flutuante de Conquista de Equipe */
+/* Banner Notificação Flutuante de Conquista (Estilo 8-Bit Pixel Art com Digitação Gradual) */
 .toast-conquista-equipe {
   position: fixed;
   top: 24px;
   left: 50%;
-  transform: translateX(-50%) translateY(-150px);
+  transform: translateX(-50%) translateY(-180px);
   opacity: 0;
   visibility: hidden;
-  background: linear-gradient(135deg, #1b1626, #2d1838);
-  border: 2px solid #f1c40f;
-  color: #fff;
-  border-radius: 8px;
-  padding: 16px 24px;
+  background: #000000;
+  border: 4px solid #ffffff;
+  color: #ffffff;
+  border-radius: 0px;
+  padding: 14px 20px;
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(241, 196, 15, 0.4);
-  z-index: 10000;
-  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease, visibility 0.35s;
-  max-width: 90vw;
-  pointer-events: none;
+  box-shadow: 0 0 0 4px #000000, 0 0 0 8px #f1c40f, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(241, 196, 15, 0.4);
+  z-index: 100000;
+  max-width: 92vw;
+  width: auto;
+  pointer-events: auto;
+  cursor: pointer;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s steps(4), visibility 0.25s;
 }
 .toast-conquista-equipe.visivel {
   transform: translateX(-50%) translateY(0);
@@ -9349,34 +9803,64 @@ body.modo-claro .tatico-res-item {
   visibility: visible;
 }
 .toast-conquista-icone {
-  font-size: 36px;
-  animation: pulseIcon 1s infinite alternate;
+  font-size: 32px;
+  line-height: 1;
+  flex-shrink: 0;
+  animation: pixelIconBounce 0.8s steps(3, start) infinite alternate;
+  image-rendering: pixelated;
 }
-@keyframes pulseIcon {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.18); }
+@keyframes pixelIconBounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
 }
 .toast-conquista-texto {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
 }
 .toast-conquista-sub {
-  font-size: 10.5px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9.5px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 800;
-  color: #f1c40f;
+  letter-spacing: 0.5px;
+  color: #ffff00;
+  text-shadow: 2px 2px #000000;
+  line-height: 1.4;
 }
 .toast-conquista-titulo {
-  font-family: 'MirageFinal', serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  font-weight: normal;
+  color: #00f0ff;
+  text-shadow: 2px 2px #000000;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .toast-conquista-desc {
-  font-size: 12px;
-  color: #d1c4e9;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8.5px;
+  color: #ffffff;
+  text-shadow: 1px 1px #000000;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.toast-conquista-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 10px;
+  background-color: currentColor;
+  margin-left: 2px;
+  vertical-align: baseline;
+  animation: toastCursorBlink 0.4s steps(2, start) infinite;
+}
+@keyframes toastCursorBlink {
+  to { visibility: hidden; }
 }
 
 /* Modal Detalhes de Conquistas do Membro */
@@ -9624,6 +10108,187 @@ body.modo-claro .campanha-diario-textarea {
   }
 }
 
+/* ============================================================
+   CONQUISTA SECRETA "ESQUELE-BROS" - CINEMÁTICA VISUAL & OSSOS
+   ============================================================ */
+.esquelebros-cinematica-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 36px;
+  animation: esqueleBrosFadeIn 0.35s ease-out forwards;
+}
+
+@keyframes esqueleBrosFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.esquelebros-dialogo-box {
+  pointer-events: auto;
+  background: #000000;
+  border: 4px solid #ffffff;
+  border-radius: 0px;
+  box-shadow: 0 0 0 4px #000000, 0 0 0 8px #ffffff, 0 16px 50px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 240, 255, 0.4), 0 0 40px rgba(255, 153, 0, 0.35);
+  max-width: 660px;
+  width: 92vw;
+  padding: 16px 20px;
+  color: #ffffff;
+  font-family: 'Press Start 2P', 'Courier New', monospace;
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  animation: esqueleBrosPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes esqueleBrosPop {
+  0% { transform: translateY(60px) scale(0.85); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.esquelebros-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.45);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+  gap: 8px;
+}
+
+.esquelebros-titulo-tag {
+  font-size: 10px;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+  color: #ffff00;
+  text-shadow: 2px 2px #000;
+  line-height: 1.5;
+}
+
+.esquelebros-fechar-btn {
+  background: #000;
+  border: 2px solid #ffffff;
+  color: #fff;
+  font-size: 9px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  transition: background 0.1s, color 0.1s;
+}
+.esquelebros-fechar-btn:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+.esquelebros-fala-linha {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-size: 11px;
+  line-height: 1.85;
+}
+
+.esquelebros-fala-linha:last-child {
+  margin-bottom: 0;
+}
+
+.esquelebros-fala-avatar {
+  font-size: 26px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.esquelebros-fala-avatar.sans {
+  filter: drop-shadow(0 0 10px #00f0ff);
+  animation: sansEyeGlow 1.2s ease-in-out infinite alternate;
+}
+
+.esquelebros-fala-avatar.papyrus {
+  filter: drop-shadow(0 0 10px #ff9900);
+  animation: papyrusCapeFlutter 1s ease-in-out infinite alternate;
+}
+
+@keyframes sansEyeGlow {
+  0% { transform: scale(1); filter: drop-shadow(0 0 6px #00f0ff); }
+  100% { transform: scale(1.15); filter: drop-shadow(0 0 18px #00f0ff); }
+}
+
+@keyframes papyrusCapeFlutter {
+  0% { transform: rotate(-5deg); filter: drop-shadow(0 0 6px #ff9900); }
+  100% { transform: rotate(5deg); filter: drop-shadow(0 0 18px #ff9900); }
+}
+
+.esquelebros-fala-texto {
+  flex: 1;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10.5px;
+  line-height: 1.85;
+  letter-spacing: 0.2px;
+  white-space: pre-wrap;
+  min-height: 22px;
+}
+
+.esquelebros-fala-texto.sans-texto {
+  color: #8ce8ff;
+  text-shadow: 1px 1px 0px #000;
+}
+
+.esquelebros-fala-texto.papyrus-texto {
+  color: #ffbe76;
+  text-shadow: 1px 1px 0px #000;
+}
+
+.esquelebros-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 11px;
+  background-color: currentColor;
+  margin-left: 2px;
+  vertical-align: baseline;
+  animation: esqueleBrosCursorBlink 0.5s steps(2, start) infinite;
+}
+
+@keyframes esqueleBrosCursorBlink {
+  to { visibility: hidden; }
+}
+
+.esquelebros-osso-flutuante {
+  position: absolute;
+  pointer-events: none;
+  font-size: 28px;
+  opacity: 0.9;
+  animation: esqueleBrosOssoSubindo 3.5s ease-out forwards;
+}
+
+@keyframes esqueleBrosOssoSubindo {
+  0% {
+    transform: translateY(100vh) rotate(0deg) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-20vh) rotate(720deg) scale(1.4);
+    opacity: 0;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -9631,8 +10296,23 @@ body.modo-claro .campanha-diario-textarea {
 
 <div class="cabecalho-topo">
 <!-- Barra de Configurações do Cabeçalho (Modo Claro/Escuro) -->
-<div class="cabecalho-controles-wrap">
-  <div class="cabecalho-botoes-grupo">
+<div class="cabecalho-controles-wrap" id="cabecalho-controles-wrap">
+  <button type="button" 
+          class="btn-cabecalho-hamburguer" 
+          id="btn-cabecalho-hamburguer" 
+          onclick="alternarMenuCabecalho(event)" 
+          aria-expanded="false" 
+          aria-haspopup="true" 
+          aria-controls="cabecalho-botoes-grupo" 
+          title="Opções do Sistema (Hambúrguer)">
+    <span class="cabecalho-hamb-icone" aria-hidden="true">
+      <span class="cabecalho-hamb-linha"></span>
+      <span class="cabecalho-hamb-linha"></span>
+      <span class="cabecalho-hamb-linha"></span>
+    </span>
+    <span class="cabecalho-hamb-rotulo">Opções</span>
+  </button>
+  <div class="cabecalho-botoes-grupo" id="cabecalho-botoes-grupo">
     <button type="button" class="btn-tema-toggle" id="btn-tema-toggle" onclick="alternarModoTema()" title="Mudar para Modo Claro" aria-label="Alternar entre modo escuro e claro">
       <span class="btn-tema-icone" id="btn-tema-icone">☀️</span>
       <span class="btn-tema-rotulo" id="btn-tema-rotulo">Modo Claro</span>
@@ -9644,6 +10324,11 @@ body.modo-claro .campanha-diario-textarea {
     <button type="button" class="btn-tema-toggle btn-musica-toggle" id="btn-abrir-modal-musica" onclick="abrirModalMusica()" title="Tocador de Música com trilhas .mp3 e prioridade dinâmica" aria-label="Abrir tocador de música">
       <span class="btn-tema-icone" id="icone_musica_btn">🎵</span>
       <span class="btn-tema-rotulo" id="legenda_musica_btn">Música</span>
+    </button>
+    <button type="button" class="btn-tema-toggle btn-estamina-toggle" id="btn-toggle-efeitos-estamina" onclick="alternarEfeitosEstamina()" title="Efeitos de estamina baixa: ATIVADOS (Clique para desativar)" aria-label="Ativar ou desativar efeitos visuais e sonoros de estamina baixa">
+      <span class="indicador-estamina-critica" id="indicador_estamina_critica" aria-hidden="true"></span>
+      <span class="btn-tema-icone" id="icone_efeitos_estamina_btn">🫀</span>
+      <span class="btn-tema-rotulo" id="legenda_efeitos_estamina_btn">Efeitos ON</span>
     </button>
   </div>
 </div>
@@ -9791,7 +10476,7 @@ body.modo-claro .campanha-diario-textarea {
 <line x1="-102.3" y1="56.6" x2="-109.8" y2="60.6" stroke-width="1.23"/>
 <line x1="-109.8" y1="60.6" x2="-116.2" y2="66.3" stroke-width="1.23"/></g></svg>
 <div class="titulo-bloco" id="titulo-bloco-logo" ondblclick="tratarCliqueDuploRodape(event)" onclick="tratarCliqueRodape(event)" ontouchend="tratarToqueRodape(event)" title="WE'RE STRANGERS" style="cursor:pointer; user-select:none;">
-  <div class="titulo-universo" id="rodape-spec-logo">
+  <div class="titulo-universo" id="titulo-universo-header">
     <span class="adorno-linha esq"></span>
     <span class="adorno-texto">WE'RE STRANGERS</span>
     <span class="adorno-linha dir"></span>
@@ -9998,11 +10683,25 @@ body.modo-claro .campanha-diario-textarea {
           <input type="range" class="recurso-slider" id="slider_vida" min="0" max="100" value="100" oninput="sliderRecursoAlterado('vida', this.value)" aria-label="Ajustar Vida em barra">
         </div>
         <div class="recurso-acoes-rapidas">
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('vida', -5)" title="Reduzir 5 de Vida">-5</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('vida', -1)" title="Reduzir 1 de Vida">-1</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('vida', +1)" title="Aumentar 1 de Vida">+1</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('vida', +5)" title="Aumentar 5 de Vida">+5</button>
-          <button type="button" class="btn-recurso-passo recurso-btn-max" onclick="maximizarRecurso('vida')" title="Encher Vida ao Máximo">MAX</button>
+          <div class="recurso-delta-box" id="box_recurso_delta_vida">
+            <span class="recurso-delta-sinal" aria-hidden="true">±</span>
+            <input type="text"
+                   id="recurso_delta_vida"
+                   class="recurso-delta-input"
+                   placeholder="Ex: -10 ou +5 (Enter)"
+                   autocomplete="off"
+                   inputmode="text"
+                   onkeydown="if(event.key==='Enter'){event.preventDefault();aplicarAjusteDigitado('vida', this);}"
+                   title="Digite quanto perdeu ou ganhou (ex: -10 ou +5) e pressione Enter para calcular"
+                   aria-label="Ajustar Vida: digite quanto perdeu ou ganhou e aperte Enter">
+            <button type="button"
+                    class="btn-recurso-delta-enter"
+                    id="btn_delta_enter_vida"
+                    onclick="aplicarAjusteDigitado('vida')"
+                    title="Calcular e aplicar ajuste (Enter)"
+                    aria-label="Aplicar ajuste de Vida">↵</button>
+          </div>
+          <button type="button" class="btn-recurso-passo recurso-btn-max" id="btn_max_vida" onclick="maximizarRecurso('vida')" title="Encher Vida ao Máximo">MAX</button>
         </div>
       </div>
 
@@ -10035,11 +10734,25 @@ body.modo-claro .campanha-diario-textarea {
           <input type="range" class="recurso-slider" id="slider_mental" min="0" max="50" value="50" oninput="sliderRecursoAlterado('mental', this.value)" aria-label="Ajustar Mental em barra">
         </div>
         <div class="recurso-acoes-rapidas">
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('mental', -5)" title="Reduzir 5 de Mental">-5</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('mental', -1)" title="Reduzir 1 de Mental">-1</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('mental', +1)" title="Aumentar 1 de Mental">+1</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('mental', +5)" title="Aumentar 5 de Mental">+5</button>
-          <button type="button" class="btn-recurso-passo recurso-btn-max" onclick="maximizarRecurso('mental')" title="Encher Mental ao Máximo">MAX</button>
+          <div class="recurso-delta-box" id="box_recurso_delta_mental">
+            <span class="recurso-delta-sinal" aria-hidden="true">±</span>
+            <input type="text"
+                   id="recurso_delta_mental"
+                   class="recurso-delta-input"
+                   placeholder="Ex: -10 ou +5 (Enter)"
+                   autocomplete="off"
+                   inputmode="text"
+                   onkeydown="if(event.key==='Enter'){event.preventDefault();aplicarAjusteDigitado('mental', this);}"
+                   title="Digite quanto perdeu ou ganhou (ex: -10 ou +5) e pressione Enter para calcular"
+                   aria-label="Ajustar Mental: digite quanto perdeu ou ganhou e aperte Enter">
+            <button type="button"
+                    class="btn-recurso-delta-enter"
+                    id="btn_delta_enter_mental"
+                    onclick="aplicarAjusteDigitado('mental')"
+                    title="Calcular e aplicar ajuste (Enter)"
+                    aria-label="Aplicar ajuste de Mental">↵</button>
+          </div>
+          <button type="button" class="btn-recurso-passo recurso-btn-max" id="btn_max_mental" onclick="maximizarRecurso('mental')" title="Encher Mental ao Máximo">MAX</button>
         </div>
       </div>
 
@@ -10072,11 +10785,25 @@ body.modo-claro .campanha-diario-textarea {
           <input type="range" class="recurso-slider" id="slider_estamina" min="0" max="80" value="80" oninput="sliderRecursoAlterado('estamina', this.value)" aria-label="Ajustar Estamina em barra">
         </div>
         <div class="recurso-acoes-rapidas">
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('estamina', -5)" title="Reduzir 5 de Estamina">-5</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('estamina', -1)" title="Reduzir 1 de Estamina">-1</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('estamina', +1)" title="Aumentar 1 de Estamina">+1</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('estamina', +5)" title="Aumentar 5 de Estamina">+5</button>
-          <button type="button" class="btn-recurso-passo recurso-btn-max" onclick="maximizarRecurso('estamina')" title="Encher Estamina ao Máximo">MAX</button>
+          <div class="recurso-delta-box" id="box_recurso_delta_estamina">
+            <span class="recurso-delta-sinal" aria-hidden="true">±</span>
+            <input type="text"
+                   id="recurso_delta_estamina"
+                   class="recurso-delta-input"
+                   placeholder="Ex: -10 ou +5 (Enter)"
+                   autocomplete="off"
+                   inputmode="text"
+                   onkeydown="if(event.key==='Enter'){event.preventDefault();aplicarAjusteDigitado('estamina', this);}"
+                   title="Digite quanto perdeu ou ganhou (ex: -10 ou +5) e pressione Enter para calcular"
+                   aria-label="Ajustar Estamina: digite quanto perdeu ou ganhou e aperte Enter">
+            <button type="button"
+                    class="btn-recurso-delta-enter"
+                    id="btn_delta_enter_estamina"
+                    onclick="aplicarAjusteDigitado('estamina')"
+                    title="Calcular e aplicar ajuste (Enter)"
+                    aria-label="Aplicar ajuste de Estamina">↵</button>
+          </div>
+          <button type="button" class="btn-recurso-passo recurso-btn-max" id="btn_max_estamina" onclick="maximizarRecurso('estamina')" title="Encher Estamina ao Máximo">MAX</button>
         </div>
       </div>
 
@@ -10109,11 +10836,25 @@ body.modo-claro .campanha-diario-textarea {
           <input type="range" class="recurso-slider" id="slider_aura" min="0" max="30" value="30" oninput="sliderRecursoAlterado('aura', this.value)" aria-label="Ajustar Aura em barra">
         </div>
         <div class="recurso-acoes-rapidas">
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('aura', -5)" title="Reduzir 5 de Aura">-5</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('aura', -1)" title="Reduzir 1 de Aura">-1</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('aura', +1)" title="Aumentar 1 de Aura">+1</button>
-          <button type="button" class="btn-recurso-passo" onclick="ajustarRecurso('aura', +5)" title="Aumentar 5 de Aura">+5</button>
-          <button type="button" class="btn-recurso-passo recurso-btn-max" onclick="maximizarRecurso('aura')" title="Encher Aura ao Máximo">MAX</button>
+          <div class="recurso-delta-box" id="box_recurso_delta_aura">
+            <span class="recurso-delta-sinal" aria-hidden="true">±</span>
+            <input type="text"
+                   id="recurso_delta_aura"
+                   class="recurso-delta-input"
+                   placeholder="Ex: -10 ou +5 (Enter)"
+                   autocomplete="off"
+                   inputmode="text"
+                   onkeydown="if(event.key==='Enter'){event.preventDefault();aplicarAjusteDigitado('aura', this);}"
+                   title="Digite quanto perdeu ou ganhou (ex: -10 ou +5) e pressione Enter para calcular"
+                   aria-label="Ajustar Aura: digite quanto perdeu ou ganhou e aperte Enter">
+            <button type="button"
+                    class="btn-recurso-delta-enter"
+                    id="btn_delta_enter_aura"
+                    onclick="aplicarAjusteDigitado('aura')"
+                    title="Calcular e aplicar ajuste (Enter)"
+                    aria-label="Aplicar ajuste de Aura">↵</button>
+          </div>
+          <button type="button" class="btn-recurso-passo recurso-btn-max" id="btn_max_aura" onclick="maximizarRecurso('aura')" title="Encher Aura ao Máximo">MAX</button>
         </div>
       </div>
     </div>
@@ -11109,17 +11850,14 @@ if(window.innerWidth <= 768){
     </div>
   </div>
 
-  <!-- 2. Grade de Recursos Vitais de Combate (APENAS VIDA E ESTAMINA) -->
+  <!-- 2. Grade de Recursos Vitais de Combate (Vida, Estamina, Mental e Aura) -->
   <div class="tatico-recursos-grid">
     <!-- RECURSO 1: VIDA -->
     <div class="tatico-recurso-card tatico-card-vida" id="tatico-card-vida">
       <div class="tatico-recurso-cabecalho">
         <div class="tatico-recurso-ident">
           <span class="tatico-recurso-icone" aria-hidden="true">❤</span>
-          <div>
-            <span class="tatico-recurso-nome">VIDA</span>
-            <span class="tatico-recurso-sub">Pontos de Vida & Integridade Física</span>
-          </div>
+          <span class="tatico-recurso-nome">VIDA</span>
         </div>
         <div class="tatico-recurso-valores">
           <div class="tatico-recurso-inputs-wrap">
@@ -11141,22 +11879,27 @@ if(window.innerWidth <= 768){
         <div class="tatico-barra-temp-fill vida" id="tatico_barra_vida_temp_fill" style="left: 100%; width: 0%; display: none;"></div>
       </div>
 
-      <!-- Ações Rápidas de Vida em Combate -->
-      <div class="tatico-passos-row">
-        <span class="tatico-passos-legenda">DANO / PERDA:</span>
-        <div class="tatico-botoes-grupo">
-          <button type="button" class="btn-tatico-passo dano" onclick="ajustarRecursoTatico('vida', -20)" title="Sofrer 20 de dano">-20</button>
-          <button type="button" class="btn-tatico-passo dano" onclick="ajustarRecursoTatico('vida', -10)" title="Sofrer 10 de dano">-10</button>
-          <button type="button" class="btn-tatico-passo dano" onclick="ajustarRecursoTatico('vida', -5)" title="Sofrer 5 de dano">-5</button>
-          <button type="button" class="btn-tatico-passo dano" onclick="ajustarRecursoTatico('vida', -1)" title="Sofrer 1 de dano">-1</button>
+      <!-- Ajuste Digitado e MAX -->
+      <div class="tatico-recurso-acoes">
+        <div class="recurso-delta-box tatico-delta-box" id="box_tatico_delta_vida">
+          <span class="recurso-delta-sinal" aria-hidden="true">±</span>
+          <input type="text"
+                 id="tatico_delta_vida"
+                 class="recurso-delta-input"
+                 placeholder="Ex: -10 ou +5 (Enter)"
+                 autocomplete="off"
+                 inputmode="text"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();aplicarAjusteDigitado('vida', this);}"
+                 title="Digite quanto perdeu ou ganhou (ex: -10 ou +5) e pressione Enter para calcular"
+                 aria-label="Ajustar Vida no modo tático">
+          <button type="button"
+                  class="btn-recurso-delta-enter"
+                  id="btn_delta_enter_tatico_vida"
+                  onclick="aplicarAjusteDigitado('vida', document.getElementById('tatico_delta_vida'))"
+                  title="Calcular e aplicar ajuste (Enter)"
+                  aria-label="Aplicar ajuste de Vida">↵</button>
         </div>
-        <span class="tatico-passos-legenda cura">CURA:</span>
-        <div class="tatico-botoes-grupo">
-          <button type="button" class="btn-tatico-passo cura" onclick="ajustarRecursoTatico('vida', +1)" title="Curar 1 de vida">+1</button>
-          <button type="button" class="btn-tatico-passo cura" onclick="ajustarRecursoTatico('vida', +5)" title="Curar 5 de vida">+5</button>
-          <button type="button" class="btn-tatico-passo cura" onclick="ajustarRecursoTatico('vida', +10)" title="Curar 10 de vida">+10</button>
-          <button type="button" class="btn-tatico-passo max" onclick="maximizarRecursoTatico('vida')" title="Encher Vida ao Máximo">MAX</button>
-        </div>
+        <button type="button" class="btn-tatico-max" id="btn_max_tatico_vida" onclick="maximizarRecursoTatico('vida')" title="Encher Vida ao Máximo">MAX</button>
       </div>
     </div>
 
@@ -11165,10 +11908,7 @@ if(window.innerWidth <= 768){
       <div class="tatico-recurso-cabecalho">
         <div class="tatico-recurso-ident">
           <span class="tatico-recurso-icone" aria-hidden="true">⚡</span>
-          <div>
-            <span class="tatico-recurso-nome">ESTAMINA</span>
-            <span class="tatico-recurso-sub">Reserva de Combate, Esquivas & Ações</span>
-          </div>
+          <span class="tatico-recurso-nome">ESTAMINA</span>
         </div>
         <div class="tatico-recurso-valores">
           <div class="tatico-recurso-inputs-wrap">
@@ -11190,22 +11930,129 @@ if(window.innerWidth <= 768){
         <div class="tatico-barra-temp-fill estamina" id="tatico_barra_estamina_temp_fill" style="left: 100%; width: 0%; display: none;"></div>
       </div>
 
-      <!-- Ações Rápidas de Estamina em Combate -->
-      <div class="tatico-passos-row">
-        <span class="tatico-passos-legenda">GASTO / AÇÃO:</span>
-        <div class="tatico-botoes-grupo">
-          <button type="button" class="btn-tatico-passo dano" onclick="ajustarRecursoTatico('estamina', -10)" title="Gastar 10 de estamina">-10</button>
-          <button type="button" class="btn-tatico-passo dano" onclick="ajustarRecursoTatico('estamina', -5)" title="Gastar 5 de estamina">-5</button>
-          <button type="button" class="btn-tatico-passo dano" onclick="ajustarRecursoTatico('estamina', -2)" title="Gastar 2 de estamina">-2</button>
-          <button type="button" class="btn-tatico-passo dano" onclick="ajustarRecursoTatico('estamina', -1)" title="Gastar 1 de estamina">-1</button>
+      <!-- Ajuste Digitado e MAX -->
+      <div class="tatico-recurso-acoes">
+        <div class="recurso-delta-box tatico-delta-box" id="box_tatico_delta_estamina">
+          <span class="recurso-delta-sinal" aria-hidden="true">±</span>
+          <input type="text"
+                 id="tatico_delta_estamina"
+                 class="recurso-delta-input"
+                 placeholder="Ex: -10 ou +5 (Enter)"
+                 autocomplete="off"
+                 inputmode="text"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();aplicarAjusteDigitado('estamina', this);}"
+                 title="Digite quanto perdeu ou ganhou (ex: -10 ou +5) e pressione Enter para calcular"
+                 aria-label="Ajustar Estamina no modo tático">
+          <button type="button"
+                  class="btn-recurso-delta-enter"
+                  id="btn_delta_enter_tatico_estamina"
+                  onclick="aplicarAjusteDigitado('estamina', document.getElementById('tatico_delta_estamina'))"
+                  title="Calcular e aplicar ajuste (Enter)"
+                  aria-label="Aplicar ajuste de Estamina">↵</button>
         </div>
-        <span class="tatico-passos-legenda cura">RECUPERAÇÃO:</span>
-        <div class="tatico-botoes-grupo">
-          <button type="button" class="btn-tatico-passo rec" onclick="ajustarRecursoTatico('estamina', +1)" title="Recuperar 1 de estamina">+1</button>
-          <button type="button" class="btn-tatico-passo rec" onclick="ajustarRecursoTatico('estamina', +2)" title="Recuperar 2 de estamina">+2</button>
-          <button type="button" class="btn-tatico-passo rec" onclick="ajustarRecursoTatico('estamina', +5)" title="Recuperar 5 de estamina">+5</button>
-          <button type="button" class="btn-tatico-passo max" onclick="maximizarRecursoTatico('estamina')" title="Recuperar Estamina ao Máximo">MAX</button>
+        <button type="button" class="btn-tatico-max" id="btn_max_tatico_estamina" onclick="maximizarRecursoTatico('estamina')" title="Recuperar Estamina ao Máximo">MAX</button>
+      </div>
+    </div>
+
+    <!-- RECURSO 3: MENTAL -->
+    <div class="tatico-recurso-card tatico-card-mental" id="tatico-card-mental">
+      <div class="tatico-recurso-cabecalho">
+        <div class="tatico-recurso-ident">
+          <span class="tatico-recurso-icone" aria-hidden="true">Ψ</span>
+          <span class="tatico-recurso-nome">MENTAL</span>
         </div>
+        <div class="tatico-recurso-valores">
+          <div class="tatico-recurso-inputs-wrap">
+            <input type="number" id="tatico_mental_atual" value="50" min="0" oninput="ajustarInputRecursoTatico('mental')" onchange="ajustarInputRecursoTatico('mental')" title="Mental Atual" aria-label="Mental Atual">
+            <span class="tatico-recurso-div">/</span>
+            <input type="number" id="tatico_mental_max" value="50" min="1" oninput="ajustarInputMaxRecursoTatico('mental')" onchange="ajustarInputMaxRecursoTatico('mental')" title="Mental Máximo" aria-label="Mental Máximo">
+          </div>
+          <div class="tatico-temp-wrap" id="wrap_tatico_mental_temp" title="Mental Temporário">
+            <span class="tatico-temp-sinal">+</span>
+            <input type="number" id="tatico_mental_temp" value="0" min="0" oninput="ajustarInputTempRecursoTatico('mental')" onchange="ajustarInputTempRecursoTatico('mental')" title="Mental Temporário" aria-label="Mental Temporário">
+          </div>
+          <span class="tatico-recurso-badge" id="tatico_mental_pct">100%</span>
+        </div>
+      </div>
+
+      <!-- Barra de Mental Tática -->
+      <div class="tatico-barra-trilho" title="Barra de Sanidade & Foco Mental">
+        <div class="tatico-barra-fill mental" id="tatico_barra_mental_fill" style="width: 100%;"></div>
+        <div class="tatico-barra-temp-fill mental" id="tatico_barra_mental_temp_fill" style="left: 100%; width: 0%; display: none;"></div>
+      </div>
+
+      <!-- Ajuste Digitado e MAX -->
+      <div class="tatico-recurso-acoes">
+        <div class="recurso-delta-box tatico-delta-box" id="box_tatico_delta_mental">
+          <span class="recurso-delta-sinal" aria-hidden="true">±</span>
+          <input type="text"
+                 id="tatico_delta_mental"
+                 class="recurso-delta-input"
+                 placeholder="Ex: -10 ou +5 (Enter)"
+                 autocomplete="off"
+                 inputmode="text"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();aplicarAjusteDigitado('mental', this);}"
+                 title="Digite quanto perdeu ou ganhou (ex: -10 ou +5) e pressione Enter para calcular"
+                 aria-label="Ajustar Mental no modo tático">
+          <button type="button"
+                  class="btn-recurso-delta-enter"
+                  id="btn_delta_enter_tatico_mental"
+                  onclick="aplicarAjusteDigitado('mental', document.getElementById('tatico_delta_mental'))"
+                  title="Calcular e aplicar ajuste (Enter)"
+                  aria-label="Aplicar ajuste de Mental">↵</button>
+        </div>
+        <button type="button" class="btn-tatico-max" id="btn_max_tatico_mental" onclick="maximizarRecursoTatico('mental')" title="Encher Mental ao Máximo">MAX</button>
+      </div>
+    </div>
+
+    <!-- RECURSO 4: AURA -->
+    <div class="tatico-recurso-card tatico-card-aura" id="tatico-card-aura">
+      <div class="tatico-recurso-cabecalho">
+        <div class="tatico-recurso-ident">
+          <span class="tatico-recurso-icone" aria-hidden="true">✧</span>
+          <span class="tatico-recurso-nome">AURA</span>
+        </div>
+        <div class="tatico-recurso-valores">
+          <div class="tatico-recurso-inputs-wrap">
+            <input type="number" id="tatico_aura_atual" value="30" min="0" oninput="ajustarInputRecursoTatico('aura')" onchange="ajustarInputRecursoTatico('aura')" title="Aura Atual" aria-label="Aura Atual">
+            <span class="tatico-recurso-div">/</span>
+            <input type="number" id="tatico_aura_max" value="30" min="1" oninput="ajustarInputMaxRecursoTatico('aura')" onchange="ajustarInputMaxRecursoTatico('aura')" title="Aura Máxima" aria-label="Aura Máxima">
+          </div>
+          <div class="tatico-temp-wrap" id="wrap_tatico_aura_temp" title="Aura Temporária">
+            <span class="tatico-temp-sinal">+</span>
+            <input type="number" id="tatico_aura_temp" value="0" min="0" oninput="ajustarInputTempRecursoTatico('aura')" onchange="ajustarInputTempRecursoTatico('aura')" title="Aura Temporária" aria-label="Aura Temporária">
+          </div>
+          <span class="tatico-recurso-badge" id="tatico_aura_pct">100%</span>
+        </div>
+      </div>
+
+      <!-- Barra de Aura Tática -->
+      <div class="tatico-barra-trilho" title="Barra de Aura & Energia Espiritual">
+        <div class="tatico-barra-fill aura" id="tatico_barra_aura_fill" style="width: 100%;"></div>
+        <div class="tatico-barra-temp-fill aura" id="tatico_barra_aura_temp_fill" style="left: 100%; width: 0%; display: none;"></div>
+      </div>
+
+      <!-- Ajuste Digitado e MAX -->
+      <div class="tatico-recurso-acoes">
+        <div class="recurso-delta-box tatico-delta-box" id="box_tatico_delta_aura">
+          <span class="recurso-delta-sinal" aria-hidden="true">±</span>
+          <input type="text"
+                 id="tatico_delta_aura"
+                 class="recurso-delta-input"
+                 placeholder="Ex: -10 ou +5 (Enter)"
+                 autocomplete="off"
+                 inputmode="text"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();aplicarAjusteDigitado('aura', this);}"
+                 title="Digite quanto perdeu ou ganhou (ex: -10 ou +5) e pressione Enter para calcular"
+                 aria-label="Ajustar Aura no modo tático">
+          <button type="button"
+                  class="btn-recurso-delta-enter"
+                  id="btn_delta_enter_tatico_aura"
+                  onclick="aplicarAjusteDigitado('aura', document.getElementById('tatico_delta_aura'))"
+                  title="Calcular e aplicar ajuste (Enter)"
+                  aria-label="Aplicar ajuste de Aura">↵</button>
+        </div>
+        <button type="button" class="btn-tatico-max" id="btn_max_tatico_aura" onclick="maximizarRecursoTatico('aura')" title="Encher Aura ao Máximo">MAX</button>
       </div>
     </div>
   </div>
@@ -13786,16 +14633,449 @@ function tocarSom(tipo) {
 
 // ============================================================
 // CONTROLE DE ESTAMINA (MODERADA <= 50% E CRÍTICA < 10%)
+// EFEITOS DE MÚSICA NO PLAYER (VOLUME REDUZIDO E FORTE REVERBERAÇÃO)
 // ============================================================
 let estaminaAudioInterval = null;
 let estaminaEstadoAtual = "normal"; // "normal" | "moderada" | "critica"
 
+let playerWebAudioConectado = false;
+let playerSourceNode = null;
+let playerMasterGain = null;
+let playerDryGain = null;
+let playerWetGain = null;
+let playerConvolver = null;
+let playerFilter = null;
+let reverbBufferMusica = null;
+
+function gerarReverbBufferMusica(ctx) {
+    if (reverbBufferMusica || !ctx) return reverbBufferMusica;
+    try {
+        const rate = ctx.sampleRate;
+        const dur = 3.2; // Reverberação ampla, profunda e etérea
+        const length = Math.floor(rate * dur);
+        const buffer = ctx.createBuffer(2, length, rate);
+        for (let ch = 0; ch < 2; ch++) {
+            const data = buffer.getChannelData(ch);
+            for (let i = 0; i < length; i++) {
+                const decaimento = Math.exp(-i / (rate * 0.70));
+                data[i] = (Math.random() * 2 - 1) * decaimento;
+            }
+        }
+        reverbBufferMusica = buffer;
+    } catch (e) {}
+    return reverbBufferMusica;
+}
+
+function configurarEfeitosWebAudioPlayer() {
+    if (playerWebAudioConectado) return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+    if (typeof obterAudioPlayer !== "function") return;
+    const player = obterAudioPlayer();
+    if (!player) return;
+
+    try {
+        playerSourceNode = ctx.createMediaElementSource(player);
+
+        playerMasterGain = ctx.createGain();
+        const estadoInicial = (typeof efeitosEstaminaHabilitados !== "undefined" && !efeitosEstaminaHabilitados)
+            ? "normal"
+            : (typeof estaminaEstadoAtual !== "undefined" ? estaminaEstadoAtual : "normal");
+
+        let volInit = 1.0;
+        let dryInit = 1.0;
+        let wetInit = 0.0;
+        let freqInit = 20000;
+        if (estadoInicial === "critica") {
+            volInit = 0.20;
+            dryInit = 0.20;
+            wetInit = 0.90;
+            freqInit = 1600;
+        } else if (estadoInicial === "moderada") {
+            volInit = 0.60;
+            dryInit = 0.60;
+            wetInit = 0.50;
+            freqInit = 4500;
+        }
+
+        playerMasterGain.gain.setValueAtTime(volInit, ctx.currentTime);
+
+        playerDryGain = ctx.createGain();
+        playerDryGain.gain.setValueAtTime(dryInit, ctx.currentTime);
+
+        const revBuf = gerarReverbBufferMusica(ctx) || (typeof reverbBuffer !== "undefined" ? reverbBuffer : null);
+        playerConvolver = ctx.createConvolver();
+        if (revBuf) {
+            playerConvolver.buffer = revBuf;
+        }
+
+        playerWetGain = ctx.createGain();
+        playerWetGain.gain.setValueAtTime(wetInit, ctx.currentTime);
+
+        playerFilter = ctx.createBiquadFilter();
+        playerFilter.type = "lowpass";
+        playerFilter.frequency.setValueAtTime(freqInit, ctx.currentTime);
+
+        // Topologia de áudio:
+        // player -> playerSourceNode -> playerFilter
+        playerSourceNode.connect(playerFilter);
+
+        // Caminho Direto (Dry)
+        playerFilter.connect(playerDryGain);
+        playerDryGain.connect(playerMasterGain);
+
+        // Caminho Reverberante (Wet)
+        playerFilter.connect(playerConvolver);
+        playerConvolver.connect(playerWetGain);
+        playerWetGain.connect(playerMasterGain);
+
+        // Saída de áudio final
+        playerMasterGain.connect(ctx.destination);
+
+        playerWebAudioConectado = true;
+    } catch (e) {
+        console.warn("Aviso ao conectar Web Audio ao player de música:", e);
+    }
+}
+
+let musicaFadeFallbackTimer = null;
+
+function atualizarEfeitosMusicaEstamina(estadoParam, duracao = 1.35) {
+    configurarEfeitosWebAudioPlayer();
+    const ctx = obterAudioContext();
+
+    // Normalizar parâmetro recebido
+    let estado = "normal";
+    if (typeof efeitosEstaminaHabilitados !== "undefined" && !efeitosEstaminaHabilitados) {
+        estado = "normal";
+    } else if (estadoParam === true || estadoParam === "critica") {
+        estado = "critica";
+    } else if (estadoParam === "moderada") {
+        estado = "moderada";
+    } else if (estadoParam === false || estadoParam === "normal") {
+        estado = "normal";
+    } else if (typeof estaminaEstadoAtual !== "undefined") {
+        estado = estaminaEstadoAtual;
+    }
+
+    // Configurações de destino para cada estado:
+    // Critica: Redução suave para ~20%, reverberação profunda e agudos atenuados (desmaio / vista turva)
+    // Moderada: Redução suave para ~60%, reverberação intermediária envolvente e agudos levemente amortecidos
+    // Normal: Retorno suave para 100% de volume, caminho limpo e agudos totalmente cristalinos
+    let targetVol = 1.0;
+    let targetDry = 1.0;
+    let targetWet = 0.0;
+    let targetFreq = 20000;
+
+    if (estado === "critica") {
+        targetVol = 0.20;
+        targetDry = 0.20;
+        targetWet = 0.90;
+        targetFreq = 1600;
+    } else if (estado === "moderada") {
+        targetVol = 0.60;
+        targetDry = 0.60;
+        targetWet = 0.50;
+        targetFreq = 4500;
+    }
+
+    if (playerWebAudioConectado && ctx && playerMasterGain && playerDryGain && playerWetGain && playerFilter) {
+        try {
+            const agora = ctx.currentTime;
+            const tempoFim = agora + duracao;
+
+            // Garantir que o convolver tem o buffer de reverberação carregado
+            if (playerConvolver && !playerConvolver.buffer) {
+                const revBuf = gerarReverbBufferMusica(ctx) || (typeof reverbBuffer !== "undefined" ? reverbBuffer : null);
+                if (revBuf) playerConvolver.buffer = revBuf;
+            }
+
+            // Transição suave de Volume Master
+            playerMasterGain.gain.cancelScheduledValues(agora);
+            playerMasterGain.gain.setValueAtTime(playerMasterGain.gain.value, agora);
+            playerMasterGain.gain.linearRampToValueAtTime(targetVol, tempoFim);
+
+            // Transição suave de Dry (sinal direto)
+            playerDryGain.gain.cancelScheduledValues(agora);
+            playerDryGain.gain.setValueAtTime(playerDryGain.gain.value, agora);
+            playerDryGain.gain.linearRampToValueAtTime(targetDry, tempoFim);
+
+            // Transição suave de Reverb Wet (efeito reverberante de ambiência)
+            playerWetGain.gain.cancelScheduledValues(agora);
+            playerWetGain.gain.setValueAtTime(playerWetGain.gain.value, agora);
+            playerWetGain.gain.linearRampToValueAtTime(targetWet, tempoFim);
+
+            // Transição suave de Filtro Lowpass (sensação de distanciamento e abafamento dos sentidos)
+            playerFilter.frequency.cancelScheduledValues(agora);
+            playerFilter.frequency.setValueAtTime(Math.max(20, playerFilter.frequency.value), agora);
+            playerFilter.frequency.exponentialRampToValueAtTime(targetFreq, tempoFim);
+        } catch (err) {
+            console.warn("Erro ao modular efeitos de áudio na estamina:", err);
+        }
+    }
+
+    // Fallback de volume suave no elemento <audio> caso Web Audio não esteja acoplado
+    if (typeof elementoAudioPlayer !== "undefined" && elementoAudioPlayer && !playerWebAudioConectado) {
+        if (musicaFadeFallbackTimer) {
+            cancelAnimationFrame(musicaFadeFallbackTimer);
+            musicaFadeFallbackTimer = null;
+        }
+        const baseVol = (typeof musicaVolumeAtual === "number") ? musicaVolumeAtual : 0.7;
+        const volumeFinal = baseVol * targetVol;
+        const volumeInicial = elementoAudioPlayer.volume;
+        const inicioAnim = performance.now();
+        const duracaoMs = duracao * 1000;
+
+        function animarVolumeFallback(momento) {
+            const decorrido = momento - inicioAnim;
+            const progresso = Math.min(1, Math.max(0, decorrido / duracaoMs));
+            elementoAudioPlayer.volume = Math.max(0, Math.min(1, volumeInicial + (volumeFinal - volumeInicial) * progresso));
+            if (progresso < 1) {
+                musicaFadeFallbackTimer = requestAnimationFrame(animarVolumeFallback);
+            } else {
+                musicaFadeFallbackTimer = null;
+            }
+        }
+        musicaFadeFallbackTimer = requestAnimationFrame(animarVolumeFallback);
+    }
+}
+
+// ============================================================
+// CONTROLE DE ATIVAÇÃO/DESATIVAÇÃO DOS EFEITOS DE ESTAMINA BAIXA
+// ============================================================
+let efeitosEstaminaHabilitados = true;
+let primeiraAvaliacaoEstaminaConcluida = false;
+try {
+    const salvoEfeitos = localStorage.getItem("we_are_strangers_efeitos_estamina_ativos");
+    if (salvoEfeitos !== null) {
+        efeitosEstaminaHabilitados = (salvoEfeitos === "true");
+    }
+} catch (e) {}
+
+function tocarTransicaoSonoraEstamina(tipo, nivel = "moderada") {
+    if (!somAtivado) return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+    if (ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+    }
+
+    const agora = ctx.currentTime;
+
+    if (tipo === "aparecer") {
+        // Transição sutil sombria: queda de ar expirado e sub-grave de esgotamento
+        const destino = criarCadeiaSaida(ctx, 0.32);
+
+        // 1. Sopro/ar abafado que envolve os sentidos (névoa sonora)
+        try {
+            const len = Math.floor(ctx.sampleRate * 0.75);
+            const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+            const data = buf.getChannelData(0);
+            for (let i = 0; i < len; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.36));
+            }
+            const noise = ctx.createBufferSource();
+            noise.buffer = buf;
+            const filter = ctx.createBiquadFilter();
+            filter.type = "bandpass";
+            filter.frequency.setValueAtTime(340, agora);
+            filter.frequency.exponentialRampToValueAtTime(105, agora + 0.7);
+            filter.Q.setValueAtTime(2.4, agora);
+
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(0.001, agora);
+            gain.gain.linearRampToValueAtTime(nivel === "critica" ? 0.24 : 0.16, agora + 0.14);
+            gain.gain.exponentialRampToValueAtTime(0.0001, agora + 0.72);
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(destino);
+            noise.start(agora);
+            noise.stop(agora + 0.75);
+        } catch (e) {}
+
+        // 2. Sub-drop suave descendente (peso corporal cedendo à fadiga)
+        try {
+            const osc = ctx.createOscillator();
+            const gainOsc = ctx.createGain();
+            const fIni = (nivel === "critica") ? 92 : 74;
+            const fFim = (nivel === "critica") ? 32 : 38;
+
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(fIni, agora);
+            osc.frequency.exponentialRampToValueAtTime(fFim, agora + 0.78);
+
+            gainOsc.gain.setValueAtTime(0.001, agora);
+            gainOsc.gain.linearRampToValueAtTime(nivel === "critica" ? 0.25 : 0.16, agora + 0.12);
+            gainOsc.gain.exponentialRampToValueAtTime(0.0001, agora + 0.78);
+
+            osc.connect(gainOsc);
+            gainOsc.connect(destino);
+            osc.start(agora);
+            osc.stop(agora + 0.80);
+        } catch (e) {}
+    } else if (tipo === "sumir") {
+        // Transição sutil de alívio e clareza: fôlego recuperado e harmônico de lucidez
+        const destino = criarCadeiaSaida(ctx, 0.26);
+
+        // 1. Sopro suave de alívio dissipando a opressão
+        try {
+            const len = Math.floor(ctx.sampleRate * 0.65);
+            const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+            const data = buf.getChannelData(0);
+            for (let i = 0; i < len; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.30));
+            }
+            const noise = ctx.createBufferSource();
+            noise.buffer = buf;
+            const filter = ctx.createBiquadFilter();
+            filter.type = "bandpass";
+            filter.frequency.setValueAtTime(170, agora);
+            filter.frequency.exponentialRampToValueAtTime(560, agora + 0.58);
+            filter.Q.setValueAtTime(1.8, agora);
+
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(0.001, agora);
+            gain.gain.linearRampToValueAtTime(0.14, agora + 0.10);
+            gain.gain.exponentialRampToValueAtTime(0.0001, agora + 0.62);
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(destino);
+            noise.start(agora);
+            noise.stop(agora + 0.65);
+        } catch (e) {}
+
+        // 2. Acorde suave de restauração e equilíbrio (tons puros e calorosos)
+        try {
+            [261.63, 392.00].forEach((freq, idx) => {
+                const osc = ctx.createOscillator();
+                const gainChord = ctx.createGain();
+
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(freq, agora + 0.04);
+
+                const vol = (idx === 0) ? 0.09 : 0.06;
+                gainChord.gain.setValueAtTime(0.001, agora + 0.04);
+                gainChord.gain.linearRampToValueAtTime(vol, agora + 0.14);
+                gainChord.gain.exponentialRampToValueAtTime(0.0001, agora + 0.72);
+
+                osc.connect(gainChord);
+                gainChord.connect(destino);
+                osc.start(agora + 0.04);
+                osc.stop(agora + 0.75);
+            });
+        } catch (e) {}
+    }
+}
+
+function alternarEfeitosEstamina() {
+    const estadoAntes = estaminaEstadoAtual;
+    efeitosEstaminaHabilitados = !efeitosEstaminaHabilitados;
+    try {
+        localStorage.setItem("we_are_strangers_efeitos_estamina_ativos", String(efeitosEstaminaHabilitados));
+    } catch (e) {}
+
+    if (!efeitosEstaminaHabilitados) {
+        if (estadoAntes === "critica" || estadoAntes === "moderada") {
+            tocarTransicaoSonoraEstamina("sumir");
+        }
+        document.body.classList.remove("estamina-critica", "estamina-moderada");
+        estaminaEstadoAtual = "normal";
+        pararSomTaquicardia();
+        atualizarEfeitosMusicaEstamina("normal");
+        if (typeof mostrarStatus === "function") {
+            mostrarStatus("🫀 Efeitos visuais e sonoros de estamina baixa DESATIVADOS.", "");
+        }
+    } else {
+        if (typeof mostrarStatus === "function") {
+            mostrarStatus("🫀 Efeitos visuais e sonoros de estamina baixa ATIVADOS.", "");
+        }
+        avaliarEstaminaCritica();
+    }
+    atualizarBotaoEfeitosEstaminaUI();
+}
+
+function atualizarBotaoEfeitosEstaminaUI() {
+    const btn = document.getElementById("btn-toggle-efeitos-estamina");
+    const icone = document.getElementById("icone_efeitos_estamina_btn");
+    const legenda = document.getElementById("legenda_efeitos_estamina_btn");
+    if (!btn) return;
+
+    let estaCritica = (estaminaEstadoAtual === "critica");
+    if (!estaCritica) {
+        const atualEl = document.getElementById("recurso_estamina_atual");
+        const maxEl = document.getElementById("recurso_estamina_max");
+        const tempEl = document.getElementById("recurso_estamina_temp");
+        if (atualEl && maxEl) {
+            let max = parseInt(maxEl.value, 10) || 1;
+            let atual = parseInt(atualEl.value, 10) || 0;
+            let temp = tempEl ? (parseInt(tempEl.value, 10) || 0) : 0;
+            if (max > 0 && ((atual + temp) / max) < 0.10) {
+                estaCritica = true;
+            }
+        }
+    }
+
+    const estaEmAlerta = (estaCritica || estaminaEstadoAtual === "moderada");
+
+    if (efeitosEstaminaHabilitados) {
+        btn.classList.remove("desativado");
+        btn.classList.add("ativo");
+        if (icone) icone.textContent = estaEmAlerta ? "💓" : "🫀";
+        if (legenda) legenda.textContent = "Efeitos ON";
+        btn.setAttribute("title", estaCritica
+            ? "⚠️ ESTAMINA CRÍTICA! Efeitos ativados (Clique para desativar)."
+            : `Efeitos de estamina baixa: ATIVADOS ${estaEmAlerta ? "(em execução no momento)" : ""}. Clique para desativar.`);
+        btn.setAttribute("aria-label", "Desativar efeitos visuais e sonoros de estamina baixa");
+        if (estaEmAlerta) {
+            btn.classList.add("em-alerta");
+        } else {
+            btn.classList.remove("em-alerta");
+        }
+    } else {
+        btn.classList.remove("ativo", "em-alerta");
+        btn.classList.add("desativado");
+        if (icone) icone.textContent = "🩶";
+        if (legenda) legenda.textContent = "Efeitos OFF";
+        btn.setAttribute("title", estaCritica
+            ? "⚠️ ESTAMINA CRÍTICA! Efeitos desativados no momento (Clique para ativar)."
+            : "Efeitos de estamina baixa: DESATIVADOS. Clique para ativar.");
+        btn.setAttribute("aria-label", "Ativar efeitos visuais e sonoros de estamina baixa");
+    }
+
+    if (estaCritica) {
+        btn.classList.add("estamina-critica-ativa");
+    } else {
+        btn.classList.remove("estamina-critica-ativa");
+    }
+}
+
 function avaliarEstaminaCritica() {
+    if (!efeitosEstaminaHabilitados) {
+        if (estaminaEstadoAtual !== "normal") {
+            if (primeiraAvaliacaoEstaminaConcluida) {
+                tocarTransicaoSonoraEstamina("sumir");
+            }
+            estaminaEstadoAtual = "normal";
+            document.body.classList.remove("estamina-critica", "estamina-moderada");
+            pararSomTaquicardia();
+            atualizarEfeitosMusicaEstamina("normal");
+        }
+        atualizarBotaoEfeitosEstaminaUI();
+        primeiraAvaliacaoEstaminaConcluida = true;
+        return;
+    }
+
     const atualEl = document.getElementById("recurso_estamina_atual");
     const maxEl = document.getElementById("recurso_estamina_max");
     const tempEl = document.getElementById("recurso_estamina_temp");
 
-    if (!atualEl || !maxEl) return;
+    if (!atualEl || !maxEl) {
+        atualizarBotaoEfeitosEstaminaUI();
+        primeiraAvaliacaoEstaminaConcluida = true;
+        return;
+    }
 
     let max = parseInt(maxEl.value, 10);
     if (isNaN(max) || max < 1) max = 1;
@@ -13816,6 +15096,7 @@ function avaliarEstaminaCritica() {
     }
 
     if (novoEstado !== estaminaEstadoAtual) {
+        const estadoAnterior = estaminaEstadoAtual;
         estaminaEstadoAtual = novoEstado;
 
         document.body.classList.remove("estamina-critica", "estamina-moderada");
@@ -13823,13 +15104,29 @@ function avaliarEstaminaCritica() {
         if (novoEstado === "critica") {
             document.body.classList.add("estamina-critica");
             iniciarSomTaquicardia("critica");
+            atualizarEfeitosMusicaEstamina("critica");
+            if (primeiraAvaliacaoEstaminaConcluida) {
+                tocarTransicaoSonoraEstamina("aparecer", "critica");
+            }
         } else if (novoEstado === "moderada") {
             document.body.classList.add("estamina-moderada");
             iniciarSomTaquicardia("moderada");
+            atualizarEfeitosMusicaEstamina("moderada");
+            if (primeiraAvaliacaoEstaminaConcluida) {
+                if (estadoAnterior === "normal") {
+                    tocarTransicaoSonoraEstamina("aparecer", "moderada");
+                }
+            }
         } else {
             pararSomTaquicardia();
+            atualizarEfeitosMusicaEstamina("normal");
+            if (primeiraAvaliacaoEstaminaConcluida && (estadoAnterior === "critica" || estadoAnterior === "moderada")) {
+                tocarTransicaoSonoraEstamina("sumir");
+            }
         }
     }
+    primeiraAvaliacaoEstaminaConcluida = true;
+    atualizarBotaoEfeitosEstaminaUI();
 }
 
 function iniciarSomTaquicardia(nivel) {
@@ -14451,7 +15748,7 @@ function atualizarBarraRecurso(chave){
         pctEl.textContent = `${Math.round(proporcaoAtual)}%`;
     }
 
-    if(typeof sincronizarModoTatico === 'function' && (chave === 'vida' || chave === 'estamina')){
+    if(typeof sincronizarModoTatico === 'function'){
         sincronizarModoTatico();
     }
 
@@ -14514,6 +15811,95 @@ function ajustarRecurso(chave, delta){
     atualEl.value = atual;
     atualizarBarraRecurso(chave);
     marcarAlteracaoFeita();
+}
+
+function aplicarAjusteDigitado(chave, inputOuValor){
+    let inputEl = null;
+    let texto = "";
+    if(typeof inputOuValor === "string" || typeof inputOuValor === "number"){
+        texto = String(inputOuValor);
+    } else if(inputOuValor && inputOuValor.value !== undefined){
+        inputEl = inputOuValor;
+        texto = inputEl.value;
+    } else {
+        inputEl = document.getElementById("tatico_delta_" + chave) || document.getElementById("recurso_delta_" + chave);
+        if(inputEl) texto = inputEl.value;
+    }
+
+    const boxEl = inputEl ? (inputEl.closest(".recurso-delta-box") || inputEl.closest(".tatico-delta-box") || document.getElementById("box_tatico_delta_" + chave) || document.getElementById("box_recurso_delta_" + chave)) : (document.getElementById("box_tatico_delta_" + chave) || document.getElementById("box_recurso_delta_" + chave));
+
+    if(!texto || !texto.trim()){
+        if(inputEl) inputEl.focus();
+        return;
+    }
+    texto = texto.trim();
+
+    if(texto.toLowerCase() === "max"){
+        maximizarRecurso(chave);
+        if(typeof sincronizarModoTatico === 'function') sincronizarModoTatico();
+        if(inputEl) inputEl.value = "";
+        return;
+    }
+
+    const textoLower = texto.toLowerCase();
+    const ehDanoPalavra = textoLower.includes("dano") || textoLower.includes("perda") || textoLower.includes("gasto");
+
+    // Extrai números e sinais de adição/subtração
+    let expressao = texto.replace(/[^0-9+-]/g, "");
+    if(!expressao){
+        if(boxEl){
+            boxEl.classList.remove("delta-invalido");
+            void boxEl.offsetWidth;
+            boxEl.classList.add("delta-invalido");
+            setTimeout(() => { if(boxEl) boxEl.classList.remove("delta-invalido"); }, 400);
+        }
+        return;
+    }
+
+    // Se o usuário digitou ex: "dano 10" sem sinal negativo, interpreta como -10
+    if(ehDanoPalavra && !expressao.startsWith("-") && !expressao.startsWith("+")){
+        expressao = "-" + expressao;
+    }
+
+    let delta = 0;
+    try {
+        const partes = expressao.match(/[+-]?\d+/g);
+        if(partes && partes.length > 0){
+            delta = partes.reduce((acc, curr) => acc + parseInt(curr, 10), 0);
+        }
+    } catch(e){
+        delta = parseInt(expressao, 10);
+    }
+
+    if(isNaN(delta) || delta === 0){
+        if(inputEl) inputEl.value = "";
+        return;
+    }
+
+    ajustarRecurso(chave, delta);
+
+    if(boxEl){
+        boxEl.classList.remove("delta-ganho", "delta-perda", "delta-invalido");
+        void boxEl.offsetWidth;
+        boxEl.classList.add(delta > 0 ? "delta-ganho" : "delta-perda");
+        setTimeout(() => {
+            if(boxEl) boxEl.classList.remove("delta-ganho", "delta-perda");
+        }, 500);
+    }
+
+    if(inputEl){
+        inputEl.value = "";
+    }
+
+    if(typeof mostrarStatus === "function"){
+        const nomes = { vida: "Vida", mental: "Mental", estamina: "Estamina", aura: "Aura" };
+        const nomeRecurso = nomes[chave] || chave;
+        const sinal = delta > 0 ? `+${delta}` : `${delta}`;
+        const atualEl = document.getElementById("recurso_" + chave + "_atual");
+        const maxEl = document.getElementById("recurso_" + chave + "_max");
+        const valorTexto = (atualEl && maxEl) ? ` (${atualEl.value}/${maxEl.value})` : "";
+        mostrarStatus(`${nomeRecurso}: ajuste de ${sinal}${valorTexto} calculado e aplicado.`, delta > 0 ? "ok" : "");
+    }
 }
 
 function maximizarRecurso(chave){
@@ -14736,6 +16122,9 @@ function aplicarEstadoFicha(estado){
         conquistasDesbloqueadas = new Set(idsDecodificados);
         if (typeof salvarSegredosDesbloqueadosStorage === "function") {
             salvarSegredosDesbloqueadosStorage();
+        }
+        if (typeof atualizarTooltipLogoRodape === "function") {
+            atualizarTooltipLogoRodape();
         }
         // A aba SECRETAS só é exibida mediante duplo-clique na logo do rodapé
         conquistasSecretasDesbloqueadas = false;
@@ -16506,6 +17895,57 @@ function verificarGatilhoEpileptico() {
         _historicoAlternanciaTema = [];
     }
 }
+
+function alternarMenuCabecalho(e) {
+    if (e) e.stopPropagation();
+    const menu = document.getElementById("cabecalho-botoes-grupo");
+    if (!menu) return;
+    const aberto = menu.classList.contains("menu-aberto") || menu.style.display === "flex";
+    if (aberto) {
+        fecharMenuCabecalho();
+    } else {
+        abrirMenuCabecalho();
+    }
+}
+
+function abrirMenuCabecalho() {
+    const menu = document.getElementById("cabecalho-botoes-grupo");
+    const btn = document.getElementById("btn-cabecalho-hamburguer");
+    if (menu) {
+        menu.classList.add("menu-aberto");
+        menu.style.display = "flex";
+    }
+    if (btn) {
+        btn.classList.add("ativo");
+        btn.setAttribute("aria-expanded", "true");
+    }
+}
+
+function fecharMenuCabecalho() {
+    const menu = document.getElementById("cabecalho-botoes-grupo");
+    const btn = document.getElementById("btn-cabecalho-hamburguer");
+    if (menu) {
+        menu.classList.remove("menu-aberto");
+        menu.style.display = "none";
+    }
+    if (btn) {
+        btn.classList.remove("ativo");
+        btn.setAttribute("aria-expanded", "false");
+    }
+}
+
+document.addEventListener("click", function(e) {
+    const wrap = document.getElementById("cabecalho-controles-wrap");
+    if (wrap && !wrap.contains(e.target)) {
+        fecharMenuCabecalho();
+    }
+});
+
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+        fecharMenuCabecalho();
+    }
+});
 
 function alternarModoTema() {
     if (window._bloqueioEpilepticoEmAndamento) return;
@@ -18877,6 +20317,15 @@ const CONQUISTAS_SECRETAS = [
         titulo: "Anti-Contraste",
         pontos: 0,
         desc: "Tire os textos da ficha sem tirar os textos da ficha"
+    },
+    {
+        id: "sec_esquelebros",
+        nivel1: "secretas",
+        nivel2: "individual",
+        icone: "💀",
+        titulo: "Esquele-BROS",
+        pontos: 0,
+        desc: "Interprete ao pé das LETRAS"
     }
 ];
 
@@ -18970,6 +20419,23 @@ function salvarSegredosDesbloqueadosStorage() {
     } catch(e) {}
 }
 
+function atualizarTooltipLogoRodape() {
+    const desbloqueada = (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+    const textoTooltip = desbloqueada ? "🖕🫠🖕" : "🖕🙂🖕";
+    const logoEl = document.getElementById("rodape-spec-logo") || document.querySelector(".rodape-spec");
+    if (logoEl) {
+        logoEl.setAttribute("title", textoTooltip);
+        const svgEl = logoEl.querySelector("svg");
+        if (svgEl) {
+            svgEl.setAttribute("title", textoTooltip);
+            const titleEl = svgEl.querySelector("title");
+            if (titleEl) {
+                titleEl.textContent = textoTooltip;
+            }
+        }
+    }
+}
+
 function verificarConquistasSecretasArmazenadas() {
     try {
         localStorage.removeItem("we_are_strangers_conquistas_secretas");
@@ -18987,6 +20453,9 @@ function verificarConquistasSecretasArmazenadas() {
         }
         // Garante armazenamento ofuscado
         salvarSegredosDesbloqueadosStorage();
+
+        // Atualiza a mensagem com emojis na logo conforme o estado da conquista
+        atualizarTooltipLogoRodape();
 
         // A aba de SECRETAS sempre inicia estritamente oculta até o jogador dar duplo-clique na logo
         conquistasSecretasDesbloqueadas = false;
@@ -19020,6 +20489,7 @@ function desbloquearConquistaSecreta(id) {
     // Revela a aba de secretas caso ainda esteja oculta para que a nova conquista apareça
     if (id === "sec_easteregg_rodape") {
         conquistasSecretasDesbloqueadas = true;
+        atualizarTooltipLogoRodape();
     }
     const btnSecretas = document.getElementById("conq-btn-n1-secretas");
     if (btnSecretas && conquistasSecretasDesbloqueadas) {
@@ -19041,6 +20511,10 @@ function desbloquearConquistaSecreta(id) {
         mostrarStatus(`🔮 Conquista Secreta Desbloqueada: ${titulo}! (${conquista?.desc || ""})`, "ok");
     }
 
+    if (id !== "sec_esquelebros" && typeof exibirToastConquista === "function") {
+        exibirToastConquista(conquista || { id, titulo, desc: "" }, "🔮 CONQUISTA SECRETA DESBLOQUEADA!");
+    }
+
     if (typeof salvarFichaAutomatico === "function") {
         salvarFichaAutomatico();
     } else if (typeof marcarAlteracaoFeita === "function") {
@@ -19059,6 +20533,8 @@ function desbloquearConquistaSecreta(id) {
         executarCinematicaEpileptico();
     } else if (id === "sec_anti_contraste") {
         executarAnimacaoStrokesRoxas();
+    } else if (id === "sec_esquelebros") {
+        executarCinematicaEsqueleBros();
     }
 
     return true;
@@ -19437,6 +20913,321 @@ function verificarGatilhoAntiContraste() {
     }
 }
 
+/* ============================================================
+   CONQUISTA SECRETA "ESQUELE-BROS" - LÓGICA, ÁUDIO & CINEMÁTICA
+   ============================================================ */
+function verificarGatilhoEsqueleBros() {
+    // 1. Só pode ser desbloqueada após a primeira conquista secreta "eSPECtador Incherido" (duplo clique na logo)
+    const eSPECtadorDesbloqueado = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+
+    if (!eSPECtadorDesbloqueado) {
+        return;
+    }
+
+    if (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_esquelebros")) {
+        return;
+    }
+
+    if (typeof fontesPersonalizadas !== "object" || !fontesPersonalizadas) {
+        return;
+    }
+
+    // Coletar nomes das fontes configuradas na ficha
+    const nomes = [
+        fontesPersonalizadas.mirage?.nome,
+        fontesPersonalizadas.oldEurope?.nome,
+        fontesPersonalizadas.texto?.nome
+    ].filter(Boolean).map(n => String(n).toLowerCase().trim());
+
+    // Requer pelo menos 2 fontes ativas na ficha
+    if (nomes.length < 2) {
+        return;
+    }
+
+    // Uma delas precisa ter "sans" e a outra precisa ter "papyrus"
+    const temSans = nomes.some(n => n.includes("sans"));
+    const temPapyrus = nomes.some(n => n.includes("papyrus"));
+
+    if (temSans && temPapyrus) {
+        desbloquearConquistaSecreta("sec_esquelebros");
+    }
+}
+
+function tocarAudioEsqueleBros() {
+    if (!somAtivado) return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+    if (ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+    }
+
+    const agora = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.35, agora);
+    master.connect(ctx.destination);
+
+    // 1. Sons de diálogo 8-bit estilo Undertale (voz grave de Sans e estridente de Papyrus)
+    for (let i = 0; i < 14; i++) {
+        const blipTime = agora + i * 0.055;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = i < 7 ? "square" : "triangle";
+        const freq = i < 7 ? 125 + (i % 2) * 12 : 320 + (i % 3) * 28;
+        osc.frequency.setValueAtTime(freq, blipTime);
+        gain.gain.setValueAtTime(0.24, blipTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, blipTime + 0.04);
+        osc.connect(gain);
+        gain.connect(master);
+        osc.start(blipTime);
+        osc.stop(blipTime + 0.045);
+    }
+
+    // 2. Riff Chiptune Megalovania & Bonetrousle (Papyrus)
+    const notasMegalovania = [
+        { f: 293.66, t: 0.72, d: 0.12 }, // D4
+        { f: 293.66, t: 0.85, d: 0.12 }, // D4
+        { f: 587.33, t: 0.98, d: 0.22 }, // D5
+        { f: 440.00, t: 1.22, d: 0.28 }, // A4
+        { f: 415.30, t: 1.52, d: 0.22 }, // Ab4
+        { f: 392.00, t: 1.76, d: 0.22 }, // G4
+        { f: 349.23, t: 2.00, d: 0.22 }, // F4
+        { f: 293.66, t: 2.24, d: 0.14 }, // D4
+        { f: 349.23, t: 2.40, d: 0.14 }, // F4
+        { f: 392.00, t: 2.56, d: 0.24 }, // G4
+
+        // Papyrus / Bonetrousle Xilofone de Ossos
+        { f: 587.33, t: 2.84, d: 0.14 }, // D5
+        { f: 698.46, t: 3.00, d: 0.14 }, // F5
+        { f: 783.99, t: 3.16, d: 0.14 }, // G5
+        { f: 830.61, t: 3.32, d: 0.14 }, // G#5
+        { f: 880.00, t: 3.48, d: 0.32 }, // A5
+        { f: 587.33, t: 3.84, d: 0.16 }, // D5
+        { f: 440.00, t: 4.02, d: 0.22 }, // A4
+        { f: 587.33, t: 4.26, d: 0.45 }  // D5 final triunfante
+    ];
+
+    notasMegalovania.forEach(n => {
+        const t = agora + n.t;
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = n.t < 2.8 ? "square" : "triangle";
+        osc.frequency.setValueAtTime(n.f, t);
+
+        g.gain.setValueAtTime(0.001, t);
+        g.gain.linearRampToValueAtTime(0.28, t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.001, t + n.d);
+
+        osc.connect(g);
+        g.connect(master);
+        osc.start(t);
+        osc.stop(t + n.d + 0.02);
+    });
+
+    // 3. Efeito cômico de trombone deslizante no final
+    const slideTime = agora + 4.75;
+    const oscTrombone = ctx.createOscillator();
+    const gainTrombone = ctx.createGain();
+    oscTrombone.type = "sawtooth";
+    oscTrombone.frequency.setValueAtTime(174.61, slideTime); // F3
+    oscTrombone.frequency.exponentialRampToValueAtTime(130.81, slideTime + 0.45); // C3
+    gainTrombone.gain.setValueAtTime(0.2, slideTime);
+    gainTrombone.gain.exponentialRampToValueAtTime(0.001, slideTime + 0.5);
+
+    oscTrombone.connect(gainTrombone);
+    gainTrombone.connect(master);
+    oscTrombone.start(slideTime);
+    oscTrombone.stop(slideTime + 0.52);
+}
+
+let timersEsqueleBros = [];
+
+function limparTimersEsqueleBros() {
+    if (Array.isArray(timersEsqueleBros)) {
+        timersEsqueleBros.forEach(t => clearTimeout(t));
+    }
+    timersEsqueleBros = [];
+}
+
+function tocarVoz8BitSans() {
+    if (!somAtivado) return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+    if (ctx.state === "suspended") ctx.resume().catch(() => {});
+    const t = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "square";
+    osc.frequency.setValueAtTime(125 + (Math.random() * 14 - 7), t);
+    gain.gain.setValueAtTime(0.07, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.038);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.04);
+}
+
+function tocarVoz8BitPapyrus() {
+    if (!somAtivado) return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+    if (ctx.state === "suspended") ctx.resume().catch(() => {});
+    const t = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(340 + (Math.random() * 32 - 16), t);
+    gain.gain.setValueAtTime(0.09, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.035);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.038);
+}
+
+function executarCinematicaEsqueleBros() {
+    // Bloqueia caso as conquistas secretas não tenham sido desbloqueadas pelo duplo-clique na logo
+    const segredosDesbloqueados = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+    if (!segredosDesbloqueados) return;
+
+    limparTimersEsqueleBros();
+
+    // Disparar áudio personalizado
+    tocarAudioEsqueleBros();
+
+    // Remove overlay anterior se existir
+    const antigo = document.getElementById("esquelebros-cinematica-overlay");
+    if (antigo) antigo.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "esquelebros-cinematica-overlay";
+    overlay.className = "esquelebros-cinematica-overlay";
+
+    // Criar ossos flutuantes coloridos
+    const coresOssos = ["#00f0ff", "#ff9900", "#ffffff", "#ffff00"];
+    for (let i = 0; i < 16; i++) {
+        const osso = document.createElement("div");
+        osso.className = "esquelebros-osso-flutuante";
+        osso.textContent = i % 3 === 0 ? "💀" : "🦴";
+        osso.style.left = `${Math.random() * 90 + 5}%`;
+        osso.style.animationDelay = `${Math.random() * 1.5}s`;
+        osso.style.animationDuration = `${2.5 + Math.random() * 2}s`;
+        osso.style.filter = `drop-shadow(0 0 10px ${coresOssos[i % coresOssos.length]})`;
+        overlay.appendChild(osso);
+    }
+
+    const box = document.createElement("div");
+    box.className = "esquelebros-dialogo-box";
+    box.title = "Clique para pular / acelerar o texto";
+    box.innerHTML = `
+        <div class="esquelebros-topo">
+            <span class="esquelebros-titulo-tag">💀 CONQUISTA SECRETA DESBLOQUEADA • ESQUELE-BROS 🦴</span>
+            <button type="button" class="esquelebros-fechar-btn" id="esquelebros-fechar-btn" onclick="document.getElementById('esquelebros-cinematica-overlay')?.remove()">[ X ] FECHAR</button>
+        </div>
+        <div class="esquelebros-fala-linha" id="esquelebros-linha-sans">
+            <div class="esquelebros-fala-avatar sans">💀</div>
+            <div class="esquelebros-fala-texto sans-texto" id="esquelebros-texto-sans"></div>
+        </div>
+        <div class="esquelebros-fala-linha" id="esquelebros-linha-papyrus" style="display: none;">
+            <div class="esquelebros-fala-avatar papyrus">🦴</div>
+            <div class="esquelebros-fala-texto papyrus-texto" id="esquelebros-texto-papyrus"></div>
+        </div>
+    `;
+
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+
+    const textoSans = "* sans: ei. parece que você combinou as fontes certas. interpretação ao pé das letras, hein?";
+    const textoPapyrus = "* PAPYRUS: NYEH HEH HEH! NOSSOS NOMES SÃO LENDÁRIOS ATÉ MESMO NESTE UNIVERSO!";
+
+    const elSans = box.querySelector("#esquelebros-texto-sans");
+    const elPapyrus = box.querySelector("#esquelebros-texto-papyrus");
+    const linhaPapyrus = box.querySelector("#esquelebros-linha-papyrus");
+
+    let animacaoConcluida = false;
+
+    function finalizarTextoImediato() {
+        if (animacaoConcluida) return;
+        animacaoConcluida = true;
+        limparTimersEsqueleBros();
+        if (elSans) elSans.textContent = textoSans;
+        if (linhaPapyrus) linhaPapyrus.style.display = "flex";
+        if (elPapyrus) elPapyrus.textContent = textoPapyrus;
+        agendarAutoFechamento(8500);
+    }
+
+    // Clique na caixa de diálogo pula a animação letra-a-letra
+    box.addEventListener("click", (e) => {
+        if (e.target.closest("#esquelebros-fechar-btn")) return;
+        if (!animacaoConcluida) {
+            finalizarTextoImediato();
+        }
+    });
+
+    function agendarAutoFechamento(ms = 8500) {
+        const timer = setTimeout(() => {
+            if (overlay && overlay.parentNode) {
+                overlay.style.transition = "opacity 0.6s ease-out";
+                overlay.style.opacity = "0";
+                setTimeout(() => overlay.remove(), 650);
+            }
+        }, ms);
+        timersEsqueleBros.push(timer);
+    }
+
+    function digitar(elemento, textoCompleto, somCallback, onComplete) {
+        let index = 0;
+        elemento.innerHTML = '<span class="esquelebros-cursor"></span>';
+
+        function passo() {
+            if (animacaoConcluida) return;
+            index++;
+            const charAtual = textoCompleto[index - 1];
+            elemento.textContent = textoCompleto.slice(0, index);
+            elemento.innerHTML = elemento.textContent + '<span class="esquelebros-cursor"></span>';
+
+            if (charAtual && /[a-zA-Z0-9À-ÿ]/.test(charAtual)) {
+                if (typeof somCallback === "function") {
+                    somCallback();
+                }
+            }
+
+            if (index < textoCompleto.length) {
+                let delay = 32;
+                if ([".", "!", "?"].includes(charAtual)) {
+                    delay = 180;
+                } else if ([",", ":"].includes(charAtual)) {
+                    delay = 110;
+                }
+                const timer = setTimeout(passo, delay);
+                timersEsqueleBros.push(timer);
+            } else {
+                elemento.textContent = textoCompleto;
+                if (typeof onComplete === "function") {
+                    onComplete();
+                }
+            }
+        }
+
+        const tInicial = setTimeout(passo, 120);
+        timersEsqueleBros.push(tInicial);
+    }
+
+    // Iniciar digitação da fala do Sans
+    digitar(elSans, textoSans, tocarVoz8BitSans, () => {
+        const timerPausa = setTimeout(() => {
+            if (animacaoConcluida) return;
+            if (linhaPapyrus) linhaPapyrus.style.display = "flex";
+            digitar(elPapyrus, textoPapyrus, tocarVoz8BitPapyrus, () => {
+                animacaoConcluida = true;
+                agendarAutoFechamento(8500);
+            });
+        }, 360);
+        timersEsqueleBros.push(timerPausa);
+    });
+}
+
 function desbloquearAbaConquistasSecretas(comAnimacao = true) {
     conquistasSecretasDesbloqueadas = true;
 
@@ -19453,12 +21244,15 @@ function desbloquearAbaConquistasSecretas(comAnimacao = true) {
 
     if (!conquistasDesbloqueadas.has("sec_easteregg_rodape")) {
         conquistasDesbloqueadas.add("sec_easteregg_rodape");
+        atualizarTooltipLogoRodape();
         salvarSegredosDesbloqueadosStorage();
         if (typeof salvarFichaAutomatico === "function") {
             salvarFichaAutomatico();
         } else if (typeof marcarAlteracaoFeita === "function") {
             marcarAlteracaoFeita();
         }
+    } else {
+        atualizarTooltipLogoRodape();
     }
 
     if (typeof renderizarListaConquistas === "function") {
@@ -19467,6 +21261,10 @@ function desbloquearAbaConquistasSecretas(comAnimacao = true) {
 
     if (typeof verificarGatilhoAntiContraste === "function") {
         verificarGatilhoAntiContraste();
+    }
+
+    if (typeof verificarGatilhoEsqueleBros === "function") {
+        verificarGatilhoEsqueleBros();
     }
 }
 
@@ -19853,6 +21651,9 @@ function alternarDesbloqueioConquista(id) {
     if (!estavaDesbloqueada) {
         const c = [...CONQUISTAS_OFICIAIS, ...conquistasCampanha].find(item => item.id === id);
         if (c) {
+            if (typeof exibirToastConquista === "function") {
+                exibirToastConquista(c, c.nivel2 === "equipe" ? "🤝 FEITO DE EQUIPE DESBLOQUEADO!" : "🌟 CONQUISTA DESBLOQUEADA!");
+            }
             if (c.nivel2 === "equipe") {
                 if (typeof transmitirDesbloqueioEquipeCampanha === "function") {
                     transmitirDesbloqueioEquipeCampanha(c);
@@ -20682,6 +22483,9 @@ async function aplicarFontesPersonalizadas() {
     tagEstilo.textContent = css;
     atualizarBotaoCabecalhoTipografia();
     atualizarUIModalTipografias();
+    if (typeof verificarGatilhoEsqueleBros === "function") {
+        verificarGatilhoEsqueleBros();
+    }
 }
 
 function processarUploadFonte(slot, event) {
@@ -20766,6 +22570,9 @@ function salvarTipografiaGlobal() {
         } else {
             localStorage.removeItem("we_are_strangers_tipografias");
         }
+        if (typeof verificarGatilhoEsqueleBros === "function") {
+            verificarGatilhoEsqueleBros();
+        }
     } catch(e) {
         console.warn("Aviso ao salvar tipografia global:", e);
     }
@@ -20790,6 +22597,7 @@ function carregarTipografiaGlobal() {
 }
 
 function abrirModalTipografias() {
+    if (typeof fecharMenuCabecalho === "function") fecharMenuCabecalho();
     atualizarUIModalTipografias();
     const modal = document.getElementById("modal-config-tipografia");
     if (modal) {
@@ -21262,11 +23070,18 @@ function obterAudioPlayer() {
         elementoAudioPlayer = new Audio();
         elementoAudioPlayer.loop = true;
         elementoAudioPlayer.preload = "auto";
+        try { elementoAudioPlayer.crossOrigin = "anonymous"; } catch(e){}
         elementoAudioPlayer.volume = musicaVolumeAtual;
         
         const eventosLimites = ["play", "playing", "seeking", "loadedmetadata", "canplay", "ended"];
         eventosLimites.forEach(evt => {
             elementoAudioPlayer.addEventListener(evt, () => {
+                if (typeof configurarEfeitosWebAudioPlayer === "function") {
+                    configurarEfeitosWebAudioPlayer();
+                }
+                if (typeof atualizarEfeitosMusicaEstamina === "function" && typeof estaminaEstadoAtual !== "undefined") {
+                    atualizarEfeitosMusicaEstamina(estaminaEstadoAtual);
+                }
                 aplicarLimitesCortePlayer();
                 atualizarStatusPlayerUI();
                 atualizarTimelineAudioUI();
@@ -21516,7 +23331,16 @@ function definirVolumeMusica(val) {
     if (!isNaN(vol)) {
         musicaVolumeAtual = Math.max(0, Math.min(1, Math.round(vol * 100) / 100));
         if (elementoAudioPlayer) {
-            elementoAudioPlayer.volume = musicaVolumeAtual;
+            if (typeof playerWebAudioConectado !== "undefined" && playerWebAudioConectado) {
+                elementoAudioPlayer.volume = musicaVolumeAtual;
+            } else {
+                let mult = 1.0;
+                if (typeof estaminaEstadoAtual !== "undefined" && typeof efeitosEstaminaHabilitados !== "undefined" && efeitosEstaminaHabilitados) {
+                    if (estaminaEstadoAtual === "critica") mult = 0.20;
+                    else if (estaminaEstadoAtual === "moderada") mult = 0.60;
+                }
+                elementoAudioPlayer.volume = musicaVolumeAtual * mult;
+            }
         }
         const rotuloVal = document.getElementById("musica_volume_valor");
         if (rotuloVal) {
@@ -21545,6 +23369,11 @@ function alternarPlayPauseMusica() {
         salvarMusicasGlobal();
         avaliarMusicaAtual();
         if (player.src) {
+            if (typeof obterAudioContext === "function") obterAudioContext();
+            if (typeof configurarEfeitosWebAudioPlayer === "function") configurarEfeitosWebAudioPlayer();
+            if (typeof atualizarEfeitosMusicaEstamina === "function" && typeof estaminaEstadoAtual !== "undefined") {
+                atualizarEfeitosMusicaEstamina(estaminaEstadoAtual);
+            }
             player.play().catch(e => console.log("Erro ao reproduzir áudio:", e));
         }
         mostrarStatus("▶ Trilha sonora retomada.", "");
@@ -21845,6 +23674,7 @@ function limparTodasMusicas() {
 }
 
 function abrirModalMusica() {
+    if (typeof fecharMenuCabecalho === "function") fecharMenuCabecalho();
     atualizarUIModalMusica();
     const modal = document.getElementById("modal-config-musica");
     if (modal) {
@@ -22106,7 +23936,87 @@ function sincronizarModoTatico() {
         taticoEstPctEl.textContent = eTemp > 0 ? `${pctTotal}% (+${eTemp})` : `${Math.round(propEst)}%`;
     }
 
-    // 4. Badge de Status
+    // 4. Mental
+    const mentalAtualEl = document.getElementById("recurso_mental_atual");
+    const mentalMaxEl = document.getElementById("recurso_mental_max");
+    const mentalTempEl = document.getElementById("recurso_mental_temp");
+
+    const taticoMentalAtualEl = document.getElementById("tatico_mental_atual");
+    const taticoMentalMaxEl = document.getElementById("tatico_mental_max");
+    const taticoMentalTempEl = document.getElementById("tatico_mental_temp");
+    const taticoMentalPctEl = document.getElementById("tatico_mental_pct");
+    const taticoBarraMentalFill = document.getElementById("tatico_barra_mental_fill");
+    const taticoBarraMentalTempFill = document.getElementById("tatico_barra_mental_temp_fill");
+
+    const mAtual = mentalAtualEl ? parseInt(mentalAtualEl.value, 10) || 0 : 50;
+    const mMax = mentalMaxEl ? parseInt(mentalMaxEl.value, 10) || 1 : 50;
+    const mTemp = mentalTempEl ? parseInt(mentalTempEl.value, 10) || 0 : 0;
+
+    if (taticoMentalAtualEl && document.activeElement !== taticoMentalAtualEl) taticoMentalAtualEl.value = mAtual;
+    if (taticoMentalMaxEl && document.activeElement !== taticoMentalMaxEl) taticoMentalMaxEl.value = mMax;
+    if (taticoMentalTempEl && document.activeElement !== taticoMentalTempEl) taticoMentalTempEl.value = mTemp;
+
+    const propMental = Math.min(100, Math.max(0, (mAtual / mMax) * 100));
+    if (taticoBarraMentalFill) taticoBarraMentalFill.style.width = propMental + "%";
+
+    if (taticoBarraMentalTempFill) {
+        if (mTemp > 0) {
+            const propTemp = (mTemp / mMax) * 100;
+            taticoBarraMentalTempFill.style.left = propMental + "%";
+            taticoBarraMentalTempFill.style.width = Math.min(100 - propMental, propTemp) + "%";
+            taticoBarraMentalTempFill.style.display = "block";
+        } else {
+            taticoBarraMentalTempFill.style.width = "0%";
+            taticoBarraMentalTempFill.style.display = "none";
+        }
+    }
+
+    if (taticoMentalPctEl) {
+        const pctTotal = Math.round(((mAtual + mTemp) / mMax) * 100);
+        taticoMentalPctEl.textContent = mTemp > 0 ? `${pctTotal}% (+${mTemp})` : `${Math.round(propMental)}%`;
+    }
+
+    // 5. Aura
+    const auraAtualEl = document.getElementById("recurso_aura_atual");
+    const auraMaxEl = document.getElementById("recurso_aura_max");
+    const auraTempEl = document.getElementById("recurso_aura_temp");
+
+    const taticoAuraAtualEl = document.getElementById("tatico_aura_atual");
+    const taticoAuraMaxEl = document.getElementById("tatico_aura_max");
+    const taticoAuraTempEl = document.getElementById("tatico_aura_temp");
+    const taticoAuraPctEl = document.getElementById("tatico_aura_pct");
+    const taticoBarraAuraFill = document.getElementById("tatico_barra_aura_fill");
+    const taticoBarraAuraTempFill = document.getElementById("tatico_barra_aura_temp_fill");
+
+    const aAtual = auraAtualEl ? parseInt(auraAtualEl.value, 10) || 0 : 30;
+    const aMax = auraMaxEl ? parseInt(auraMaxEl.value, 10) || 1 : 30;
+    const aTemp = auraTempEl ? parseInt(auraTempEl.value, 10) || 0 : 0;
+
+    if (taticoAuraAtualEl && document.activeElement !== taticoAuraAtualEl) taticoAuraAtualEl.value = aAtual;
+    if (taticoAuraMaxEl && document.activeElement !== taticoAuraMaxEl) taticoAuraMaxEl.value = aMax;
+    if (taticoAuraTempEl && document.activeElement !== taticoAuraTempEl) taticoAuraTempEl.value = aTemp;
+
+    const propAura = Math.min(100, Math.max(0, (aAtual / aMax) * 100));
+    if (taticoBarraAuraFill) taticoBarraAuraFill.style.width = propAura + "%";
+
+    if (taticoBarraAuraTempFill) {
+        if (aTemp > 0) {
+            const propTemp = (aTemp / aMax) * 100;
+            taticoBarraAuraTempFill.style.left = propAura + "%";
+            taticoBarraAuraTempFill.style.width = Math.min(100 - propAura, propTemp) + "%";
+            taticoBarraAuraTempFill.style.display = "block";
+        } else {
+            taticoBarraAuraTempFill.style.width = "0%";
+            taticoBarraAuraTempFill.style.display = "none";
+        }
+    }
+
+    if (taticoAuraPctEl) {
+        const pctTotal = Math.round(((aAtual + aTemp) / aMax) * 100);
+        taticoAuraPctEl.textContent = aTemp > 0 ? `${pctTotal}% (+${aTemp})` : `${Math.round(propAura)}%`;
+    }
+
+    // 6. Badge de Status
     const statusEl = document.getElementById("tatico-status-personagem");
     if (statusEl) {
         statusEl.className = "tatico-status-badge";
@@ -22119,6 +24029,9 @@ function sincronizarModoTatico() {
         } else if (vAtual <= vMax * 0.5) {
             statusEl.classList.add("alerta");
             statusEl.textContent = "🩸 Ferido Grave";
+        } else if (mAtual <= 0) {
+            statusEl.classList.add("critico");
+            statusEl.textContent = "🌀 Colapso Mental";
         } else if (eAtual <= 10) {
             statusEl.classList.add("alerta");
             statusEl.textContent = "⚡ Exausto / Esgotado";
@@ -22202,11 +24115,13 @@ function recuperarFolegoCombate() {
 
 function restaurarCombateCompleto() {
     maximizarRecurso('vida');
+    maximizarRecurso('mental');
     maximizarRecurso('estamina');
+    maximizarRecurso('aura');
     sincronizarModoTatico();
     marcarAlteracaoFeita();
     if (typeof reproduzirSomCliqueSuave === "function") reproduzirSomCliqueSuave();
-    mostrarStatus("✓ Vida e Estamina restauradas ao máximo!", "ok");
+    mostrarStatus("✓ Recursos vitais restaurados ao máximo!", "ok");
 }
 
 function rolarIniciativaCombate() {
@@ -23259,23 +25174,161 @@ function atualizarSeletoresMembros() {
     if (valorAtual) destSelect.value = valorAtual;
 }
 
-function exibirToastConquistaEquipe(conquista, desbloqueadoPor) {
+let timersToastConquista = [];
+let animacaoToastConquistaConcluida = false;
+
+function tocarSomBip8Bit(frequencia = 440) {
+    if (typeof somAtivado !== "undefined" && !somAtivado) return;
+    if (typeof obterAudioContext !== "function") return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+    if (ctx.state === "suspended") ctx.resume().catch(() => {});
+    const t = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "square";
+    osc.frequency.setValueAtTime(frequencia, t);
+    gain.gain.setValueAtTime(0.035, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.028);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.03);
+}
+
+function limparTimersToastConquista() {
+    if (Array.isArray(timersToastConquista)) {
+        timersToastConquista.forEach(t => clearTimeout(t));
+    }
+    timersToastConquista = [];
+}
+
+function exibirToastConquista(conquista, subTextoPersonalizado = "", autor = "") {
     const toast = document.getElementById("toast-conquista-equipe");
-    if (!toast) return;
+    if (!toast || !conquista) return;
+
+    limparTimersToastConquista();
+    animacaoToastConquistaConcluida = false;
+
     const iconeEl = document.getElementById("toast-conquista-icone");
     const subEl = document.getElementById("toast-conquista-sub");
     const titEl = document.getElementById("toast-conquista-titulo");
     const descEl = document.getElementById("toast-conquista-desc");
 
-    if (iconeEl) iconeEl.textContent = conquista.icone || '🏆';
-    if (subEl) subEl.textContent = "🤝 FEITO DE EQUIPE DESBLOQUEADO!";
-    if (titEl) titEl.textContent = conquista.titulo || "Conquista Coletiva";
-    if (descEl) descEl.textContent = `Desbloqueado por ${desbloqueadoPor || "um membro da equipe"} para todas as fichas do grupo! (+${conquista.pontos || 0} pts)`;
+    const icone = conquista.icone || '🏆';
+    let subtitulo = subTextoPersonalizado;
+    if (!subtitulo) {
+        if (conquista.nivel1 === "secretas") {
+            subtitulo = "🔮 CONQUISTA SECRETA DESBLOQUEADA!";
+        } else if (conquista.nivel2 === "equipe") {
+            subtitulo = "🤝 FEITO DE EQUIPE DESBLOQUEADO!";
+        } else {
+            subtitulo = "🌟 CONQUISTA DESBLOQUEADA!";
+        }
+    }
+
+    const textoTitulo = (conquista.titulo || "Conquista") + (conquista.pontos ? ` (+${conquista.pontos} pts)` : "");
+    let textoDesc = conquista.desc || "";
+    if (autor && conquista.nivel2 === "equipe") {
+        textoDesc = `Desbloqueado por ${autor} para todos do grupo! ${textoDesc ? `• ${textoDesc}` : ''}`;
+    }
+
+    if (iconeEl) iconeEl.textContent = icone;
+    if (subEl) subEl.textContent = subtitulo;
+    if (titEl) titEl.innerHTML = '<span class="toast-conquista-cursor"></span>';
+    if (descEl) descEl.innerHTML = '';
 
     toast.classList.add("visivel");
-    setTimeout(() => {
-        toast.classList.remove("visivel");
-    }, 6000);
+
+    function finalizarImediato() {
+        if (animacaoToastConquistaConcluida) return;
+        animacaoToastConquistaConcluida = true;
+        limparTimersToastConquista();
+        if (titEl) titEl.textContent = textoTitulo;
+        if (descEl) descEl.textContent = textoDesc;
+        agendarFechamentoToast(5000);
+    }
+
+    toast.onclick = function() {
+        if (!animacaoToastConquistaConcluida) {
+            finalizarImediato();
+        } else {
+            toast.classList.remove("visivel");
+        }
+    };
+
+    function agendarFechamentoToast(ms = 6000) {
+        const timer = setTimeout(() => {
+            toast.classList.remove("visivel");
+        }, ms);
+        timersToastConquista.push(timer);
+    }
+
+    // Digitação Gradual Letra por Letra
+    let indexTit = 0;
+    function digitarTitulo() {
+        if (animacaoToastConquistaConcluida) return;
+        indexTit++;
+        const char = textoTitulo[indexTit - 1];
+        if (titEl) {
+            titEl.innerHTML = textoTitulo.slice(0, indexTit) + '<span class="toast-conquista-cursor"></span>';
+        }
+        if (char && /[a-zA-Z0-9À-ÿ]/.test(char) && indexTit % 2 === 0) {
+            tocarSomBip8Bit(330 + (indexTit % 4) * 35);
+        }
+
+        if (indexTit < textoTitulo.length) {
+            const timer = setTimeout(digitarTitulo, 28);
+            timersToastConquista.push(timer);
+        } else {
+            if (titEl) titEl.textContent = textoTitulo;
+            if (textoDesc) {
+                const timerDesc = setTimeout(iniciarDigitacaoDescricao, 180);
+                timersToastConquista.push(timerDesc);
+            } else {
+                animacaoToastConquistaConcluida = true;
+                agendarFechamentoToast(5500);
+            }
+        }
+    }
+
+    let indexDesc = 0;
+    function iniciarDigitacaoDescricao() {
+        if (animacaoToastConquistaConcluida) return;
+        if (descEl) descEl.innerHTML = '<span class="toast-conquista-cursor"></span>';
+
+        function passoDesc() {
+            if (animacaoToastConquistaConcluida) return;
+            indexDesc++;
+            const char = textoDesc[indexDesc - 1];
+            if (descEl) {
+                descEl.innerHTML = textoDesc.slice(0, indexDesc) + '<span class="toast-conquista-cursor"></span>';
+            }
+            if (char && /[a-zA-Z0-9À-ÿ]/.test(char) && indexDesc % 3 === 0) {
+                tocarSomBip8Bit(220 + (indexDesc % 3) * 25);
+            }
+
+            if (indexDesc < textoDesc.length) {
+                let delay = 22;
+                if ([".", "!", "?"].includes(char)) delay = 120;
+                const timer = setTimeout(passoDesc, delay);
+                timersToastConquista.push(timer);
+            } else {
+                if (descEl) descEl.textContent = textoDesc;
+                animacaoToastConquistaConcluida = true;
+                agendarFechamentoToast(6000);
+            }
+        }
+
+        passoDesc();
+    }
+
+    const tInicial = setTimeout(digitarTitulo, 100);
+    timersToastConquista.push(tInicial);
+}
+
+function exibirToastConquistaEquipe(conquista, desbloqueadoPor) {
+    exibirToastConquista(conquista, "🤝 FEITO DE EQUIPE DESBLOQUEADO!", desbloqueadoPor);
 }
 
 function filtrarFeedCampanha(tipo) {
@@ -23754,6 +25807,9 @@ inicializarTocadorMusica();
 inicializarAtalhosTeclado();
 inicializarInventario();
 verificarConquistasSecretasArmazenadas();
+if (typeof atualizarTooltipLogoRodape === "function") {
+    atualizarTooltipLogoRodape();
+}
 renderizarListaConquistas();
 atualizarModoTatico();
 inicializarCampanhasMultiplayer();
@@ -23781,6 +25837,9 @@ document.addEventListener("click", function desbloquearAudio() {
     }
 }, { once: true });
 
+if (typeof atualizarBotaoEfeitosEstaminaUI === "function") {
+    atualizarBotaoEfeitosEstaminaUI();
+}
 if (typeof avaliarEstaminaCritica === "function") {
     avaliarEstaminaCritica();
 }
