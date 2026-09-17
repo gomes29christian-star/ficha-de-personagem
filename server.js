@@ -45,17 +45,37 @@ function serializarSala(sala) {
       nomeJogador: membro.nomeJogador,
       avatar: membro.avatar,
       isMestre: !!membro.isMestre,
+      classe1: membro.classe1 || '',
+      classe2: membro.classe2 || '',
+      nivel: membro.nivel || '',
+      corTema: membro.corTema || '#c9b183',
       vidaAtual: membro.vidaAtual ?? 100,
       vidaMax: membro.vidaMax ?? 100,
-      sanidadeAtual: membro.sanidadeAtual ?? 100,
-      sanidadeMax: membro.sanidadeMax ?? 100,
-      recursoAtual: membro.recursoAtual ?? 0,
-      recursoMax: membro.recursoMax ?? 100,
-      recursoNome: membro.recursoNome || 'Recurso',
+      vidaTemp: membro.vidaTemp ?? 0,
+      estaminaAtual: membro.estaminaAtual ?? 80,
+      estaminaMax: membro.estaminaMax ?? 80,
+      estaminaTemp: membro.estaminaTemp ?? 0,
+      mentalAtual: membro.mentalAtual ?? 50,
+      mentalMax: membro.mentalMax ?? 50,
+      mentalTemp: membro.mentalTemp ?? 0,
+      auraAtual: membro.auraAtual ?? 30,
+      auraMax: membro.auraMax ?? 30,
+      auraTemp: membro.auraTemp ?? 0,
+      sanidadeAtual: membro.sanidadeAtual ?? (membro.mentalAtual ?? 50),
+      sanidadeMax: membro.sanidadeMax ?? (membro.mentalMax ?? 50),
+      recursoAtual: membro.recursoAtual ?? (membro.estaminaAtual ?? 80),
+      recursoMax: membro.recursoMax ?? (membro.estaminaMax ?? 80),
+      recursoNome: membro.recursoNome || 'Estamina',
+      atributos: membro.atributos || { HPR: 1, PRX: 1, PSI: 1, QI: 1 },
+      periciasTop: Array.isArray(membro.periciasTop) ? membro.periciasTop : [],
       condicoes: membro.condicoes || [],
       conquistasIndividuais: membro.conquistasIndividuais || [],
       conquistasSecretas: membro.conquistasSecretas || [],
       conquistasEquipe: membro.conquistasEquipe || [],
+      trocarPorCodinome: !!membro.trocarPorCodinome,
+      identidadeReal: membro.identidadeReal || '',
+      codinomeOriginal: membro.codinomeOriginal || '',
+      reveladoPara: Array.isArray(membro.reveladoPara) ? membro.reveladoPara : [],
       online: membro.online,
       ultimoVisto: membro.ultimoVisto
     });
@@ -133,25 +153,58 @@ wss.on('connection', (ws) => {
           }
         }
 
+        const salaExiste = salasCampanhas.has(cod);
         const sala = obterOuCriarSala(cod, nomeCampanha, jogador?.id, jogador?.nomeJogador || jogador?.nomePersonagem);
         ws.salaCodigo = cod;
+        
+        const ehCriadorOriginal = (sala.criadorId === (jogador?.id || ws.id));
+        let mestrePermitido = ehCriadorOriginal;
+        if (!mestrePermitido && jogador?.id) {
+            // Verifica se o jogador já havia recebido status de Mestre previamente nesta sala
+            sala.membros.forEach(m => {
+                if (m.id === jogador.id && m.isMestre) {
+                    mestrePermitido = true;
+                }
+            });
+        }
+
         ws.jogadorInfo = {
           id: jogador?.id || ws.id,
           nomePersonagem: jogador?.nomePersonagem || 'Personagem',
           nomeJogador: jogador?.nomeJogador || 'Jogador',
           avatar: jogador?.avatar || '',
-          isMestre: !!jogador?.isMestre,
+          isMestre: mestrePermitido,
+          classe1: jogador?.classe1 || '',
+          classe2: jogador?.classe2 || '',
+          nivel: jogador?.nivel || '',
+          corTema: jogador?.corTema || '#c9b183',
           vidaAtual: jogador?.vidaAtual ?? 100,
           vidaMax: jogador?.vidaMax ?? 100,
-          sanidadeAtual: jogador?.sanidadeAtual ?? 100,
-          sanidadeMax: jogador?.sanidadeMax ?? 100,
-          recursoAtual: jogador?.recursoAtual ?? 0,
-          recursoMax: jogador?.recursoMax ?? 100,
-          recursoNome: jogador?.recursoNome || 'Recurso',
+          vidaTemp: jogador?.vidaTemp ?? 0,
+          estaminaAtual: jogador?.estaminaAtual ?? 80,
+          estaminaMax: jogador?.estaminaMax ?? 80,
+          estaminaTemp: jogador?.estaminaTemp ?? 0,
+          mentalAtual: jogador?.mentalAtual ?? 50,
+          mentalMax: jogador?.mentalMax ?? 50,
+          mentalTemp: jogador?.mentalTemp ?? 0,
+          auraAtual: jogador?.auraAtual ?? 30,
+          auraMax: jogador?.auraMax ?? 30,
+          auraTemp: jogador?.auraTemp ?? 0,
+          sanidadeAtual: jogador?.sanidadeAtual ?? (jogador?.mentalAtual ?? 50),
+          sanidadeMax: jogador?.sanidadeMax ?? (jogador?.mentalMax ?? 50),
+          recursoAtual: jogador?.recursoAtual ?? (jogador?.estaminaAtual ?? 80),
+          recursoMax: jogador?.recursoMax ?? (jogador?.estaminaMax ?? 80),
+          recursoNome: jogador?.recursoNome || 'Estamina',
+          atributos: jogador?.atributos || { HPR: 1, PRX: 1, PSI: 1, QI: 1 },
+          periciasTop: Array.isArray(jogador?.periciasTop) ? jogador.periciasTop : [],
           condicoes: Array.isArray(jogador?.condicoes) ? jogador.condicoes : [],
           conquistasIndividuais: Array.isArray(jogador?.conquistasIndividuais) ? jogador.conquistasIndividuais : [],
           conquistasSecretas: Array.isArray(jogador?.conquistasSecretas) ? jogador.conquistasSecretas : [],
           conquistasEquipe: Array.isArray(jogador?.conquistasEquipe) ? jogador.conquistasEquipe : [],
+          trocarPorCodinome: !!jogador?.trocarPorCodinome,
+          identidadeReal: jogador?.identidadeReal || '',
+          codinomeOriginal: jogador?.codinomeOriginal || '',
+          reveladoPara: Array.isArray(jogador?.reveladoPara) ? jogador.reveladoPara : [],
           online: true,
           ultimoVisto: Date.now()
         };
@@ -196,17 +249,37 @@ wss.on('connection', (ws) => {
             nomeJogador: jogador.nomeJogador || ws.jogadorInfo.nomeJogador,
             avatar: jogador.avatar !== undefined ? jogador.avatar : ws.jogadorInfo.avatar,
             isMestre: jogador.isMestre !== undefined ? !!jogador.isMestre : ws.jogadorInfo.isMestre,
+            classe1: jogador.classe1 !== undefined ? jogador.classe1 : ws.jogadorInfo.classe1,
+            classe2: jogador.classe2 !== undefined ? jogador.classe2 : ws.jogadorInfo.classe2,
+            nivel: jogador.nivel !== undefined ? jogador.nivel : ws.jogadorInfo.nivel,
+            corTema: jogador.corTema !== undefined ? jogador.corTema : ws.jogadorInfo.corTema,
             vidaAtual: jogador.vidaAtual !== undefined ? jogador.vidaAtual : ws.jogadorInfo.vidaAtual,
             vidaMax: jogador.vidaMax !== undefined ? jogador.vidaMax : ws.jogadorInfo.vidaMax,
+            vidaTemp: jogador.vidaTemp !== undefined ? jogador.vidaTemp : ws.jogadorInfo.vidaTemp,
+            estaminaAtual: jogador.estaminaAtual !== undefined ? jogador.estaminaAtual : ws.jogadorInfo.estaminaAtual,
+            estaminaMax: jogador.estaminaMax !== undefined ? jogador.estaminaMax : ws.jogadorInfo.estaminaMax,
+            estaminaTemp: jogador.estaminaTemp !== undefined ? jogador.estaminaTemp : ws.jogadorInfo.estaminaTemp,
+            mentalAtual: jogador.mentalAtual !== undefined ? jogador.mentalAtual : ws.jogadorInfo.mentalAtual,
+            mentalMax: jogador.mentalMax !== undefined ? jogador.mentalMax : ws.jogadorInfo.mentalMax,
+            mentalTemp: jogador.mentalTemp !== undefined ? jogador.mentalTemp : ws.jogadorInfo.mentalTemp,
+            auraAtual: jogador.auraAtual !== undefined ? jogador.auraAtual : ws.jogadorInfo.auraAtual,
+            auraMax: jogador.auraMax !== undefined ? jogador.auraMax : ws.jogadorInfo.auraMax,
+            auraTemp: jogador.auraTemp !== undefined ? jogador.auraTemp : ws.jogadorInfo.auraTemp,
             sanidadeAtual: jogador.sanidadeAtual !== undefined ? jogador.sanidadeAtual : ws.jogadorInfo.sanidadeAtual,
             sanidadeMax: jogador.sanidadeMax !== undefined ? jogador.sanidadeMax : ws.jogadorInfo.sanidadeMax,
             recursoAtual: jogador.recursoAtual !== undefined ? jogador.recursoAtual : ws.jogadorInfo.recursoAtual,
             recursoMax: jogador.recursoMax !== undefined ? jogador.recursoMax : ws.jogadorInfo.recursoMax,
             recursoNome: jogador.recursoNome || ws.jogadorInfo.recursoNome,
+            atributos: jogador.atributos || ws.jogadorInfo.atributos,
+            periciasTop: Array.isArray(jogador.periciasTop) ? jogador.periciasTop : ws.jogadorInfo.periciasTop,
             condicoes: Array.isArray(jogador.condicoes) ? jogador.condicoes : ws.jogadorInfo.condicoes,
             conquistasIndividuais: jogador.conquistasIndividuais || ws.jogadorInfo.conquistasIndividuais,
             conquistasSecretas: jogador.conquistasSecretas || ws.jogadorInfo.conquistasSecretas,
             conquistasEquipe: jogador.conquistasEquipe || ws.jogadorInfo.conquistasEquipe,
+            trocarPorCodinome: jogador.trocarPorCodinome !== undefined ? !!jogador.trocarPorCodinome : ws.jogadorInfo.trocarPorCodinome,
+            identidadeReal: jogador.identidadeReal !== undefined ? jogador.identidadeReal : ws.jogadorInfo.identidadeReal,
+            codinomeOriginal: jogador.codinomeOriginal !== undefined ? jogador.codinomeOriginal : ws.jogadorInfo.codinomeOriginal,
+            reveladoPara: Array.isArray(jogador.reveladoPara) ? jogador.reveladoPara : ws.jogadorInfo.reveladoPara,
             ultimoVisto: Date.now()
           });
           sala.membros.set(ws.id, ws.jogadorInfo);
@@ -215,6 +288,98 @@ wss.on('connection', (ws) => {
             type: 'sala_atualizada',
             sala: serializarSala(sala)
           });
+        }
+
+      } else if (type === 'alterar_papel_membro') {
+        if (!ws.salaCodigo) return;
+        const sala = salasCampanhas.get(ws.salaCodigo);
+        if (!sala) return;
+
+        const { alvoId, novoIsMestre } = msg;
+        if (!alvoId) return;
+
+        const ehCriador = (sala.criadorId === ws.jogadorInfo?.id);
+        const ehMestre = !!ws.jogadorInfo?.isMestre;
+
+        if (!ehCriador && !ehMestre) {
+          return ws.send(JSON.stringify({ type: 'erro', mensagem: 'Apenas o Mestre pode alterar papéis da sala.' }));
+        }
+
+        if (alvoId === sala.criadorId && !novoIsMestre) {
+          return ws.send(JSON.stringify({ type: 'erro', mensagem: 'O criador original da sala permanece Mestre.' }));
+        }
+
+        let alterado = false;
+        let nomeAlvo = 'Membro';
+        sala.membros.forEach((membro) => {
+          if (membro.id === alvoId) {
+            membro.isMestre = !!novoIsMestre;
+            nomeAlvo = membro.nomePersonagem || membro.nomeJogador || 'Membro';
+            alterado = true;
+          }
+        });
+
+        if (alterado) {
+          const logPapel = {
+            id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+            tipo: 'alteracao_papel',
+            texto: `🎭 ${nomeAlvo} foi ${novoIsMestre ? 'promovido(a) a Mestre' : 'rebaixado(a) a Jogador'} por ${ws.jogadorInfo?.nomePersonagem || 'Mestre'}.`,
+            data: Date.now()
+          };
+          sala.historico.push(logPapel);
+
+          broadcastParaSala(ws.salaCodigo, {
+            type: 'sala_atualizada',
+            sala: serializarSala(sala),
+            evento: logPapel
+          });
+        }
+
+      } else if (type === 'revelar_identidade_secreta') {
+        if (!ws.salaCodigo) return;
+        const sala = salasCampanhas.get(ws.salaCodigo);
+        if (!sala) return;
+
+        const { destinatarioId, remetenteId, identidadeReal, codinome } = msg;
+        if (!destinatarioId) return;
+
+        let socketDest = null;
+        wss.clients.forEach(client => {
+          if (client.salaCodigo === ws.salaCodigo && client.jogadorInfo?.id === destinatarioId) {
+            socketDest = client;
+          }
+        });
+
+        if (socketDest && socketDest.readyState === WebSocket.OPEN) {
+          socketDest.send(JSON.stringify({
+            type: 'revelar_identidade_secreta_recebido',
+            remetenteId: remetenteId || ws.jogadorInfo?.id,
+            remetenteNome: ws.jogadorInfo?.nomePersonagem || codinome || 'Aliado',
+            identidadeReal: identidadeReal || 'Identidade Secreta',
+            codinome: codinome || ws.jogadorInfo?.nomePersonagem || 'Codinome'
+          }));
+        }
+
+      } else if (type === 'revogar_identidade_secreta') {
+        if (!ws.salaCodigo) return;
+        const sala = salasCampanhas.get(ws.salaCodigo);
+        if (!sala) return;
+
+        const { destinatarioId, remetenteId } = msg;
+        if (!destinatarioId) return;
+
+        let socketDest = null;
+        wss.clients.forEach(client => {
+          if (client.salaCodigo === ws.salaCodigo && client.jogadorInfo?.id === destinatarioId) {
+            socketDest = client;
+          }
+        });
+
+        if (socketDest && socketDest.readyState === WebSocket.OPEN) {
+          socketDest.send(JSON.stringify({
+            type: 'revogar_identidade_secreta_recebido',
+            remetenteId: remetenteId || ws.jogadorInfo?.id
+          }));
         }
 
       } else if (type === 'transmitir_rolagem') {
