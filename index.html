@@ -6165,10 +6165,42 @@ html.tem-contorno-letras .secao-banner-disfarce button,
 html.tem-contorno-letras [style*="color:var(--accent)"],
 html.tem-contorno-letras [style*="color: var(--accent)"],
 html.tem-contorno-letras [style*="color:var(--accent-dim)"],
-html.tem-contorno-letras [style*="color: var(--accent-dim)"] {
+html.tem-contorno-letras [style*="color: var(--accent-dim)"],
+html.tem-contorno-letras [style*="color:var(--accent-claro)"],
+html.tem-contorno-letras [style*="color: var(--accent-claro)"],
+html.tem-contorno-letras .icone-tema-cor,
+html.tem-contorno-letras .texto-tema-cor,
+html.tem-contorno-letras .accent-color,
+html.tem-contorno-letras .accent-texto,
+html.tem-contorno-letras .ficha-rotulo-destaque,
+html.tem-contorno-letras .ficha-campo-valor-destaque,
+html.tem-contorno-letras .btn-primario,
+html.tem-contorno-letras .btn-salvar-disfarce-modal,
+html.tem-contorno-letras .btn-acao.primario,
+html.tem-contorno-letras .btn-modo-salvamento.manual-ativo,
+html.tem-contorno-letras .conq-hud-valor,
+html.tem-contorno-letras .conq-hud-pct,
+html.tem-contorno-letras .conq-card.desbloqueada .conq-card-titulo,
+html.tem-contorno-letras .conq-card.desbloqueada .conq-card-icone,
+html.tem-contorno-letras .conq-card.desbloqueada .conq-card-check,
+html.tem-contorno-letras .conq-card-status-tag,
+html.tem-contorno-letras .chat-campanha-autor,
+html.tem-contorno-letras .campanha-membro-nome,
+html.tem-contorno-letras .dado-resultado-numero,
+html.tem-contorno-letras .dado-resultado-detalhe,
+html.tem-contorno-letras .modal-confirm-icone,
+html.tem-contorno-letras svg[stroke="var(--accent)"],
+html.tem-contorno-letras svg[fill="var(--accent)"] {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
   paint-order: stroke fill;
   text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
+}
+
+#btn-abrir-modal-identidade-secreta-hamb,
+#legenda_identidade_secreta_btn,
+#icone_identidade_secreta_btn {
+  -webkit-text-stroke: 0px transparent !important;
+  text-stroke: 0px transparent !important;
 }
 
 /* ==========================================================================
@@ -7027,6 +7059,109 @@ html.animacao-strokes-roxas .galho-svg path {
   background: rgba(157, 78, 221, 0.2);
   color: #c77dff;
   border-color: rgba(157, 78, 221, 0.45);
+}
+
+/* ==========================================================================
+   EFEITO DE TRANSIÇÃO VISUAL DO DISFARCE (DESFOQUE / DISTORÇÃO)
+   ========================================================================== */
+#modal-identidade-secreta .modal-historico-janela {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+#modal-identidade-secreta.disfarce-ativo-visual .modal-historico-janela {
+  border-color: #8e44ad;
+  box-shadow: 0 0 32px rgba(142, 68, 173, 0.5), inset 0 0 22px rgba(142, 68, 173, 0.18);
+}
+
+@keyframes distorcaoDisfarceAtivacao {
+  0% {
+    filter: blur(0px) contrast(100%) hue-rotate(0deg) brightness(1);
+    transform: scale(1) skewX(0deg);
+  }
+  18% {
+    filter: blur(5px) contrast(150%) hue-rotate(60deg) brightness(1.3);
+    transform: scale(0.985) skewX(-2deg) translateY(-2px);
+  }
+  38% {
+    filter: blur(8px) contrast(190%) hue-rotate(-80deg) brightness(1.45) saturate(2.2);
+    transform: scale(1.02) skewX(2.5deg) translateY(2px);
+    box-shadow: 0 0 45px rgba(168, 85, 247, 0.85), inset 0 0 35px rgba(142, 68, 173, 0.55);
+  }
+  62% {
+    filter: blur(4.5px) contrast(135%) hue-rotate(30deg) brightness(1.18) saturate(1.6);
+    transform: scale(0.995) skewX(-1deg);
+  }
+  82% {
+    filter: blur(2px) contrast(110%) hue-rotate(-10deg) brightness(1.06);
+    transform: scale(1.005) skewX(0.5deg);
+  }
+  100% {
+    filter: blur(0px) contrast(100%) hue-rotate(0deg) brightness(1);
+    transform: scale(1) skewX(0deg);
+  }
+}
+
+@keyframes distorcaoDisfarceDesativacao {
+  0% {
+    filter: blur(0px) contrast(100%) hue-rotate(0deg) brightness(1);
+    transform: scale(1) skewX(0deg);
+  }
+  20% {
+    filter: blur(5.5px) contrast(135%) hue-rotate(-50deg) brightness(1.3) grayscale(0.5);
+    transform: scale(0.988) skewX(2deg);
+  }
+  48% {
+    filter: blur(8.5px) contrast(165%) hue-rotate(95deg) brightness(1.4) grayscale(0.2);
+    transform: scale(1.015) skewX(-2.5deg);
+    box-shadow: 0 0 45px rgba(231, 76, 60, 0.7), inset 0 0 30px rgba(231, 76, 60, 0.4);
+  }
+  78% {
+    filter: blur(3px) contrast(115%) hue-rotate(15deg) brightness(1.1);
+    transform: scale(0.995) skewX(0.8deg);
+  }
+  100% {
+    filter: blur(0px) contrast(100%) hue-rotate(0deg) brightness(1);
+    transform: scale(1) skewX(0deg);
+  }
+}
+
+@keyframes ondaHolograficaVarredura {
+  0% {
+    top: -25%;
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.95;
+  }
+  75% {
+    opacity: 0.95;
+  }
+  100% {
+    top: 125%;
+    opacity: 0;
+  }
+}
+
+.disfarce-onda-varredura {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.7), rgba(224, 170, 255, 0.95), rgba(142, 68, 173, 0.6), transparent);
+  box-shadow: 0 0 25px #c77dff, 0 0 45px rgba(157, 78, 221, 0.85);
+  pointer-events: none;
+  z-index: 10;
+  animation: ondaHolograficaVarredura 0.75s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+#modal-identidade-secreta.transicao-ativando .modal-historico-janela {
+  animation: distorcaoDisfarceAtivacao 0.75s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+}
+
+#modal-identidade-secreta.transicao-desativando .modal-historico-janela {
+  animation: distorcaoDisfarceDesativacao 0.75s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
 }
 
 /* ============================================================
@@ -11072,7 +11207,7 @@ body.modo-claro .campanha-diario-textarea {
       <span class="btn-tema-icone" id="icone_efeitos_estamina_btn">🫀</span>
       <span class="btn-tema-rotulo" id="legenda_efeitos_estamina_btn">Efeitos ON</span>
     </button>
-    <button type="button" class="btn-tema-toggle btn-identidade-secreta-toggle" id="btn-abrir-modal-identidade-secreta-hamb" onclick="abrirModalIdentidadeSecreta()" title="Criar ou alternar Ficha de Identidade Secreta (Disfarce)" aria-label="Criar ou alternar Ficha de Identidade Secreta">
+    <button type="button" class="btn-tema-toggle btn-identidade-secreta-toggle" id="btn-abrir-modal-identidade-secreta-hamb" onclick="abrirModalIdentidadeSecreta()" title="Identidade Secreta" aria-label="Identidade Secreta">
       <span class="btn-tema-icone" id="icone_identidade_secreta_btn">🎭</span>
       <span class="btn-tema-rotulo" id="legenda_identidade_secreta_btn">Identidade Secreta</span>
     </button>
@@ -14502,6 +14637,21 @@ if(window.innerWidth <= 768){
     </div>
 
     <div class="modal-historico-corpo" style="max-height: 72vh; padding: 18px 20px;">
+      <!-- Aviso Explícito de Segurança, Backup Obrigatório (.json) e Salvamento no Navegador -->
+      <div id="aviso_opsec_modal_identidade" style="background: rgba(234, 179, 8, 0.12); border: 1px solid rgba(234, 179, 8, 0.45); border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+          <div style="font-weight: 700; font-size: 12.5px; color: #facc15; display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 15px;">⚠️</span> PROTOCOLO OBRIGATÓRIO: BACKUP (.JSON) &amp; NAVEGADOR
+          </div>
+          <button type="button" class="btn-primario" onclick="exportarBackupSecretoIdentidade()" style="background: #8e44ad; border-color: #9b59b6; font-size: 12px; font-weight: 700; padding: 5px 12px; height: auto; display: inline-flex; align-items: center; gap: 6px;" title="Exportar arquivo JSON de backup agora">
+            <span>⇣</span> Exportar Backup (.json)
+          </button>
+        </div>
+        <div style="font-size: 11.5px; color: var(--ink); line-height: 1.5;">
+          <strong>Instrução ao Jogador:</strong> Exporte sempre o backup da sua ficha em arquivo <code>.json</code> e guarde-o <strong>ESCONDIDO nos seus arquivos pessoais</strong>. Além disso, <strong>DESATIVE o salvamento automático / preenchimento de senhas do seu NAVEGADOR</strong> (Chrome, Edge, Firefox, Safari) para não salvar senhas nem dados deste site, garantindo sigilo absoluto caso outra pessoa acesse seu computador.
+        </div>
+      </div>
+
       <!-- Toggle Principal Ativar Disfarce -->
       <div style="background: color-mix(in srgb, #8e44ad 12%, var(--bg-card)); border: 1px solid color-mix(in srgb, #8e44ad 40%, var(--line)); padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
         <div>
@@ -14728,7 +14878,6 @@ if(window.innerWidth <= 768){
     <div class="modal-confirmacao-rodape" style="padding: 14px 20px; border-top:1px solid var(--line-soft); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
       <span style="font-size:12px; color:var(--ink-dim);">💡 A ficha disfarçada protege a sua verdadeira identidade em sessões multiplayer.</span>
       <div style="display:flex; align-items:center; gap:8px;">
-        <button type="button" class="btn-confirm-cancelar" onclick="bloquearAcessoIdentidadeSecreta()" style="color:#e0aaff; border-color:rgba(142, 68, 173, 0.45); font-size:11px;" title="Bloquear o acesso exigindo o código de segurança novamente">🔒 Bloquear</button>
         <button type="button" class="btn-confirm-cancelar" onclick="fecharModalIdentidadeSecreta()">Cancelar</button>
         <button type="button" id="btn_salvar_config_disfarce" class="btn-salvar-disfarce-modal" onclick="salvarConfigIdentidadeSecreta()" title="Salvar e aplicar configurações da Identidade Secreta">
           <span style="font-size:12px; line-height:1;">🎭</span> Salvar Disfarce
@@ -14738,133 +14887,106 @@ if(window.innerWidth <= 768){
   </div>
 </div>
 
-<!-- Modal 1: Criar Código de Segurança da Identidade Secreta -->
-<div id="modal-segredo-criar-codigo" class="modal-historico-overlay" aria-hidden="true" style="display:none; z-index:11000;" onclick="fecharModalCriarCodigoPorOverlay(event)">
-  <div class="modal-historico-janela" style="max-width: 480px;" role="dialog" aria-labelledby="modal-segredo-criar-titulo" aria-modal="true">
+<!-- Modal Único de Senha da Identidade Secreta (Denegação Plausível Absoluta: sempre idêntico) -->
+<div id="modal-segredo-senha-unica" class="modal-historico-overlay" aria-hidden="true" style="display:none; z-index:11000;" onclick="fecharModalSenhaIdentidadeSecretaPorOverlay(event)">
+  <div class="modal-historico-janela" style="max-width: 440px;" role="dialog" aria-labelledby="modal-segredo-senha-titulo" aria-modal="true">
     <div class="modal-historico-cabecalho" style="border-bottom-color: #8e44ad;">
       <div class="modal-historico-titulo-bloco">
-        <span class="modal-historico-sub" style="color: #e0aaff;">WE'RE STRANGERS • SEGURANÇA E PROTEÇÃO</span>
-        <h3 id="modal-segredo-criar-titulo" class="modal-historico-titulo">
-          <span class="modal-confirm-icone">🔐</span> Código da Identidade Secreta
-        </h3>
-      </div>
-      <button type="button" class="modal-historico-fechar" onclick="fecharModalCriarCodigo()" title="Fechar">&times;</button>
-    </div>
-
-    <div class="modal-historico-corpo" style="padding: 20px;">
-      <p style="font-size: 13px; color: var(--ink); margin-bottom: 12px; line-height: 1.5;">
-        Para ativar e proteger sua <strong>Identidade Secreta (Ficha Oculta)</strong>, você precisa primeiro definir um código de acesso exclusivo.
-      </p>
-
-      <div style="background: rgba(142, 68, 173, 0.12); border: 1px solid #8e44ad; border-radius: 6px; padding: 12px 14px; margin-bottom: 16px;">
-        <div style="font-size: 12px; font-weight: 700; color: #e0aaff; display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-          <span>⚠️</span> REGRA DE SEGURANÇA E ESQUECIMENTO
-        </div>
-        <div style="font-size: 11.5px; color: var(--ink-dim); line-height: 1.45;">
-          Guarde bem sua senha. Se você esquecer o código, <strong>não há como recuperá-lo</strong>: a Identidade Secreta terá que ser deletada e feita de novo por você.
-        </div>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <div>
-          <label for="input_novo_codigo_segredo" style="font-size: 12px; font-weight: 600; color: var(--ink-dim); display: block; margin-bottom: 4px;">
-            Digite um Código / Senha:
-          </label>
-          <input type="password" id="input_novo_codigo_segredo" placeholder="Ex: 4 números ou palavra-chave..." maxlength="30" style="width: 100%; padding: 8px 12px; background: var(--bg-inset); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); font-size: 14px;" onkeydown="if(event.key==='Enter') document.getElementById('input_confirmar_codigo_segredo').focus()">
-        </div>
-
-        <div>
-          <label for="input_confirmar_codigo_segredo" style="font-size: 12px; font-weight: 600; color: var(--ink-dim); display: block; margin-bottom: 4px;">
-            Confirme o Código:
-          </label>
-          <input type="password" id="input_confirmar_codigo_segredo" placeholder="Repita o código digitado acima..." maxlength="30" style="width: 100%; padding: 8px 12px; background: var(--bg-inset); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); font-size: 14px;" onkeydown="if(event.key==='Enter') salvarNovoCodigoIdentidadeSecreta()">
-        </div>
-
-        <div id="erro_criar_codigo_segredo" style="display: none; color: #ff6b6b; font-size: 12px; font-weight: 600;"></div>
-      </div>
-    </div>
-
-    <div class="modal-confirmacao-rodape" style="padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; justify-content: flex-end; gap: 10px;">
-      <button type="button" class="btn-confirm-cancelar" onclick="fecharModalCriarCodigo()">Cancelar</button>
-      <button type="button" class="btn-salvar-disfarce-modal" onclick="salvarNovoCodigoIdentidadeSecreta()">
-        <span style="font-size:12px; line-height:1;">🔐</span> Criar Código e Acessar
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal 2: Autenticar / Digitar Código para Acessar Identidade Secreta -->
-<div id="modal-segredo-autenticar" class="modal-historico-overlay" aria-hidden="true" style="display:none; z-index:11000;" onclick="fecharModalAutenticarPorOverlay(event)">
-  <div class="modal-historico-janela" style="max-width: 440px;" role="dialog" aria-labelledby="modal-segredo-autenticar-titulo" aria-modal="true">
-    <div class="modal-historico-cabecalho" style="border-bottom-color: #8e44ad;">
-      <div class="modal-historico-titulo-bloco">
-        <span class="modal-historico-sub" style="color: #e0aaff;">WE'RE STRANGERS • ACESSO RESTRITO</span>
-        <h3 id="modal-segredo-autenticar-titulo" class="modal-historico-titulo">
+        <span class="modal-historico-sub" style="color: #e0aaff;">WE'RE STRANGERS • IDENTIDADE SECRETA</span>
+        <h3 id="modal-segredo-senha-titulo" class="modal-historico-titulo">
           <span class="modal-confirm-icone">🎭</span> Identidade Secreta
         </h3>
       </div>
-      <button type="button" class="modal-historico-fechar" onclick="fecharModalAutenticarCodigo()" title="Fechar">&times;</button>
+      <button type="button" class="modal-historico-fechar" onclick="fecharModalSenhaIdentidadeSecreta()" title="Fechar (Esc)">&times;</button>
     </div>
 
     <div class="modal-historico-corpo" style="padding: 20px;">
-      <p style="font-size: 13px; color: var(--ink); margin-bottom: 14px; line-height: 1.5;">
-        Insira seu código de segurança para acessar e gerenciar sua <strong>Identidade Secreta</strong>:
-      </p>
-
       <div style="margin-bottom: 14px;">
-        <label for="input_autenticar_codigo_segredo" style="font-size: 12px; font-weight: 600; color: var(--ink-dim); display: block; margin-bottom: 4px;">
-          Código de Segurança:
+        <label for="input_senha_identidade_secreta" style="font-size: 13px; font-weight: 600; color: var(--ink); display: block; margin-bottom: 8px;">
+          Crie/ponha a sua senha:
         </label>
-        <input type="password" id="input_autenticar_codigo_segredo" placeholder="Digite seu código..." maxlength="30" style="width: 100%; padding: 8px 12px; background: var(--bg-inset); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); font-size: 14px;" onkeydown="if(event.key==='Enter') autenticarCodigoIdentidadeSecreta()">
-        <div id="erro_autenticar_codigo_segredo" style="display: none; color: #ff6b6b; font-size: 12px; font-weight: 600; margin-top: 6px;"></div>
-      </div>
-
-      <div style="margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--line-soft); display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 11.5px; color: var(--ink-dim);">Esqueceu sua senha?</span>
-        <button type="button" class="btn-confirm-cancelar" onclick="solicitarDeletarIdentidadeSecretaPorEsquecimento()" style="color: #ff6b6b; border-color: rgba(231,76,60,0.5); font-size: 11px; padding: 4px 10px;">
-          🗑️ Esqueci a Senha
-        </button>
+        <input type="password" id="input_senha_identidade_secreta" placeholder="Crie/ponha a sua senha..." maxlength="30" autocomplete="off" style="width: 100%; padding: 10px 14px; background: var(--bg-inset); border: 1px solid var(--line); border-radius: 4px; color: var(--ink); font-size: 14px;" onkeydown="if(event.key==='Enter') processarSenhaIdentidadeSecreta()">
+        <div id="erro_senha_identidade_secreta" style="display: none; color: #ff6b6b; font-size: 12px; font-weight: 600; margin-top: 6px;"></div>
       </div>
     </div>
 
     <div class="modal-confirmacao-rodape" style="padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; justify-content: flex-end; gap: 10px;">
-      <button type="button" class="btn-confirm-cancelar" onclick="fecharModalAutenticarCodigo()">Cancelar</button>
-      <button type="button" class="btn-salvar-disfarce-modal" onclick="autenticarCodigoIdentidadeSecreta()">
-        <span style="font-size:12px; line-height:1;">🔓</span> Desbloquear
+      <button type="button" class="btn-confirm-cancelar" onclick="fecharModalSenhaIdentidadeSecreta()">Cancelar</button>
+      <button type="button" class="btn-salvar-disfarce-modal" onclick="processarSenhaIdentidadeSecreta()">
+        <span style="font-size:12px; line-height:1;">🔐</span> Continuar
       </button>
     </div>
   </div>
 </div>
 
-<!-- Modal 3: Confirmação de Deleção por Esquecimento de Senha -->
-<div id="modal-segredo-confirmar-esquecimento" class="modal-historico-overlay" aria-hidden="true" style="display:none; z-index:11500;" onclick="fecharModalConfirmarEsquecimentoPorOverlay(event)">
-  <div class="modal-historico-janela" style="max-width: 460px; border-color: #e74c3c;" role="dialog" aria-labelledby="modal-esquecimento-titulo" aria-modal="true">
-    <div class="modal-historico-cabecalho" style="border-bottom-color: #e74c3c; background: rgba(231,76,60,0.12);">
+<!-- Modal de Backup Obrigatório e Instruções de Segurança (OpSec) pós-criação da Identidade Secreta -->
+<div id="modal-segredo-backup-opsec" class="modal-historico-overlay" aria-hidden="true" style="display:none; z-index:11500;" onclick="fecharModalBackupOpsecPorOverlay(event)">
+  <div class="modal-historico-janela" style="max-width: 520px; border-color: #8e44ad;" role="dialog" aria-labelledby="modal-backup-opsec-titulo" aria-modal="true">
+    <div class="modal-historico-cabecalho" style="border-bottom-color: #8e44ad; background: rgba(142, 68, 173, 0.12);">
       <div class="modal-historico-titulo-bloco">
-        <span class="modal-historico-sub" style="color: #ff6b6b;">CONFIRMAÇÃO DE SEGURANÇA</span>
-        <h3 id="modal-esquecimento-titulo" class="modal-historico-titulo" style="color: #ff6b6b;">
-          <span class="modal-confirm-icone">⚠️</span> Deletar Identidade Secreta
+        <span class="modal-historico-sub" style="color: #e0aaff;">PROTOCOLO DE SEGURANÇA E BACKUP</span>
+        <h3 id="modal-backup-opsec-titulo" class="modal-historico-titulo" style="color: #e0aaff;">
+          <span class="modal-confirm-icone">⚠️</span> Backup da Identidade Secreta
         </h3>
       </div>
-      <button type="button" class="modal-historico-fechar" onclick="fecharModalConfirmarEsquecimento()" title="Fechar">&times;</button>
+      <button type="button" class="modal-historico-fechar" onclick="fecharModalBackupOpsec()" title="Fechar">&times;</button>
     </div>
 
     <div class="modal-historico-corpo" style="padding: 20px;">
-      <p style="font-size: 13px; color: var(--ink); margin-bottom: 12px; line-height: 1.5;">
-        Você indicou que esqueceu seu código de segurança.
-      </p>
-      <div style="background: rgba(231,76,60,0.1); border: 1px solid #e74c3c; border-radius: 6px; padding: 12px 14px; margin-bottom: 14px; font-size: 12px; color: var(--ink); line-height: 1.5;">
-        <strong>Consequência irreversível:</strong> Toda a sua Identidade Secreta configurada será <strong>deletada permanentemente</strong>, o disfarce será desativado e você precisará definir um novo código e montar uma nova ficha secreta do zero.
+      <div style="font-size: 13px; color: var(--ink); line-height: 1.55; margin-bottom: 16px;">
+        Sua <strong>Identidade Secreta</strong> foi configurada com sucesso. Para garantir que seus dados nunca sejam comprometidos ou perdidos, siga as diretrizes abaixo:
       </div>
-      <p style="font-size: 12.5px; color: var(--ink-dim); margin-bottom: 0;">
-        Tem certeza absoluta de que deseja deletar a Identidade Secreta atual e começar de novo?
-      </p>
+
+      <!-- 1. Senha com botão de cópia -->
+      <div style="background: var(--bg-inset); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; margin-bottom: 14px;">
+        <div style="font-size: 11px; font-weight: 700; color: #e0aaff; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.05em;">
+          🔑 Senha da Identidade Secreta
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <input type="text" id="opsec_campo_senha_exibicao" readonly value="" style="background: var(--bg-card); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; font-family: monospace; font-size: 14px; color: var(--ink); font-weight: bold; flex: 1;">
+          <button type="button" class="btn-secundario" onclick="copiarSenhaSecretaOpsec()" style="font-size: 12px; height: 34px; padding: 0 12px; margin: 0; white-space: nowrap;">
+            📋 Copiar Senha
+          </button>
+        </div>
+        <div style="font-size: 11px; color: var(--ink-dim); margin-top: 6px; line-height: 1.4;">
+          Recomendação: Copie esta senha e deixe-a salva em um <strong>lugar escondido do seu computador</strong>.
+        </div>
+      </div>
+
+      <!-- 2. Exportação de Backup Obrigatória -->
+      <div style="background: rgba(142, 68, 173, 0.1); border: 1px solid rgba(142, 68, 173, 0.4); border-radius: 6px; padding: 12px 14px; margin-bottom: 14px;">
+        <div style="font-size: 11.5px; font-weight: 700; color: #ffb703; display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+          <span>⇣</span> BACKUP ESSENCIAL DA FICHA
+        </div>
+        <div style="font-size: 12px; color: var(--ink); line-height: 1.5; margin-bottom: 10px;">
+          Exporte sua ficha agora para criar um arquivo de backup. <strong>Guarde este arquivo ESCONDIDO nos seus arquivos pessoais</strong>.
+          <br><br>
+          <span style="color:#e0aaff;"><strong>Atenção:</strong> Se uma outra senha for digitada e outro disfarce for inventado, a ficha de disfarce será considerada a ficha verdadeira e a verdadeira original será <strong>EXCLUÍDA do navegador</strong>. Assim, você só poderá recuperar sua identidade verdadeira importando este backup.</span>
+        </div>
+        <button type="button" class="btn-primario" onclick="exportarBackupSecretoIdentidade()" style="background: #8e44ad; border-color: #9b59b6; width: 100%; height: 36px; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <span>⇣</span> Exportar Backup Secreto (.json)
+        </button>
+      </div>
+
+      <!-- 3. Recomendação de Desativar Salvamento Automático do Navegador -->
+      <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 6px; padding: 12px 14px;">
+        <div style="font-size: 11.5px; font-weight: 700; color: #f87171; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+          <span>🛑</span> SEGURANÇA NO NAVEGADOR (CHROME / FIREFOX / EDGE / SAFARI)
+        </div>
+        <div style="font-size: 11.5px; color: var(--ink); line-height: 1.5;">
+          Recomendamos fortemente que você <strong>DESATIVE o salvamento automático de senhas e preenchimento automático do seu NAVEGADOR</strong> para esta página:
+          <ul style="margin: 6px 0 0 16px; padding: 0; list-style-type: disc; color: var(--ink-dim); font-size: 11px;">
+            <li>Quando o navegador perguntar <em>"Salvar senha?"</em>, selecione <strong>"Nunca para este site"</strong>.</li>
+            <li>Se o navegador preencher a senha sozinho, qualquer pessoa terá acesso direto à sua identidade secreta.</li>
+            <li>Mantenha apenas seu arquivo de backup <code>.json</code> e sua senha guardados em uma pasta oculta do seu computador.</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <div class="modal-confirmacao-rodape" style="padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; justify-content: flex-end; gap: 10px;">
-      <button type="button" class="btn-secundario" onclick="fecharModalConfirmarEsquecimento()">Cancelar</button>
-      <button type="button" class="btn-primario" onclick="confirmarDelecaoPorEsquecimento()" style="background: #e74c3c; border-color: #c0392b; color: #ffffff;">
-        🗑️ Sim, Deletar e Fazer de Novo
+      <button type="button" class="btn-salvar-disfarce-modal" onclick="fecharModalBackupOpsec()">
+        ✓ Entendido, Estou Protegido
       </button>
     </div>
   </div>
@@ -25504,6 +25626,11 @@ function salvarCodigoIdentidadeSecretaLocal(cod) {
     } catch (e) {}
 }
 
+let pendenteQueimaDeArquivoIdentidade = false;
+let novaSenhaIdentidade = "";
+let ehCriacaoIdentidadeSecreta = false;
+let acaoAposSenhaIdentidade = "abrir_modal"; // "abrir_modal" ou "alternar_direto"
+
 function abrirModalIdentidadeSecreta() {
     if (typeof fecharMenuCabecalho === "function") fecharMenuCabecalho();
 
@@ -25511,26 +25638,73 @@ function abrirModalIdentidadeSecreta() {
         carregarCodigoIdentidadeSecreta();
     }
 
-    // 1. Caso o jogador ainda não tenha configurado um código de segurança
+    // Exige que o jogador insira a senha para abrir o painel de gerenciamento
+    sessaoIdentidadeSecretaDesbloqueada = false;
+    acaoAposSenhaIdentidade = "abrir_modal";
+    abrirModalSenhaIdentidadeSecreta();
+}
+
+function alternarIdentidadeSecretaComSenha() {
     if (!codigoIdentidadeSecreta) {
-        abrirModalCriarCodigoIdentidadeSecreta();
-        return;
+        carregarCodigoIdentidadeSecreta();
     }
 
-    // 2. Se já possui código mas ainda não autenticou nesta sessão
-    if (!sessaoIdentidadeSecretaDesbloqueada) {
-        abrirModalAutenticarIdentidadeSecreta();
-        return;
+    sessaoIdentidadeSecretaDesbloqueada = false;
+    acaoAposSenhaIdentidade = "alternar_direto";
+    abrirModalSenhaIdentidadeSecreta();
+}
+
+function executarEfeitoTransicaoVisualDisfarce(ativando) {
+    const modal = document.getElementById("modal-identidade-secreta");
+    if (!modal) return;
+    const janela = modal.querySelector(".modal-historico-janela");
+
+    // Remove classes anteriores de transição
+    modal.classList.remove("transicao-ativando", "transicao-desativando");
+    if (janela) {
+        const scanAntiga = janela.querySelector(".disfarce-onda-varredura");
+        if (scanAntiga) scanAntiga.remove();
     }
 
-    // 3. Se autenticado, abre a janela de gerenciamento
-    exibirModalIdentidadeSecretaJanela();
+    // Força reflow para reiniciar animações CSS
+    void modal.offsetWidth;
+
+    if (ativando) {
+        modal.classList.add("transicao-ativando", "disfarce-ativo-visual");
+    } else {
+        modal.classList.add("transicao-desativando");
+        modal.classList.remove("disfarce-ativo-visual");
+    }
+
+    // Adiciona feixe holográfico de varredura no painel
+    if (janela) {
+        const scan = document.createElement("div");
+        scan.className = "disfarce-onda-varredura";
+        janela.appendChild(scan);
+        setTimeout(() => {
+            if (scan && scan.parentNode) scan.remove();
+        }, 850);
+    }
+
+    setTimeout(() => {
+        modal.classList.remove("transicao-ativando", "transicao-desativando");
+        if (identidadeSecretaAtiva) {
+            modal.classList.add("disfarce-ativo-visual");
+        } else {
+            modal.classList.remove("disfarce-ativo-visual");
+        }
+    }, 780);
 }
 
 function exibirModalIdentidadeSecretaJanela() {
     popularmodalIdentidadeSecretaInputs();
     const modal = document.getElementById("modal-identidade-secreta");
     if (modal) {
+        if (identidadeSecretaAtiva) {
+            modal.classList.add("disfarce-ativo-visual");
+        } else {
+            modal.classList.remove("disfarce-ativo-visual");
+        }
         modal.style.display = "flex";
         requestAnimationFrame(() => modal.classList.add("aberto"));
         modal.setAttribute("aria-hidden", "false");
@@ -25538,6 +25712,10 @@ function exibirModalIdentidadeSecretaJanela() {
 }
 
 function fecharModalIdentidadeSecreta() {
+    sessaoIdentidadeSecretaDesbloqueada = false;
+    pendenteQueimaDeArquivoIdentidade = false;
+    novaSenhaIdentidade = "";
+    ehCriacaoIdentidadeSecreta = false;
     const modal = document.getElementById("modal-identidade-secreta");
     if (modal) {
         modal.classList.remove("aberto");
@@ -25553,78 +25731,12 @@ function fecharModalIdentidadeSecretaPorOverlay(event) {
 }
 
 // ============================================================
-// MODAL 1: CRIAR CÓDIGO DE ACESSO INICIAL
+// MODAL ÚNICO DE SENHA (DENEGAÇÃO PLAUSÍVEL ABSOLUTA)
 // ============================================================
-function abrirModalCriarCodigoIdentidadeSecreta() {
-    const modal = document.getElementById("modal-segredo-criar-codigo");
-    const input1 = document.getElementById("input_novo_codigo_segredo");
-    const input2 = document.getElementById("input_confirmar_codigo_segredo");
-    const err = document.getElementById("erro_criar_codigo_segredo");
-    if (input1) input1.value = "";
-    if (input2) input2.value = "";
-    if (err) { err.style.display = "none"; err.textContent = ""; }
-    if (modal) {
-        modal.style.display = "flex";
-        requestAnimationFrame(() => modal.classList.add("aberto"));
-        modal.setAttribute("aria-hidden", "false");
-        setTimeout(() => input1?.focus(), 150);
-    }
-}
-
-function fecharModalCriarCodigo() {
-    const modal = document.getElementById("modal-segredo-criar-codigo");
-    if (modal) {
-        modal.classList.remove("aberto");
-        modal.setAttribute("aria-hidden", "true");
-        setTimeout(() => { modal.style.display = "none"; }, 200);
-    }
-}
-
-function fecharModalCriarCodigoPorOverlay(event) {
-    if (event.target && event.target.id === "modal-segredo-criar-codigo") {
-        fecharModalCriarCodigo();
-    }
-}
-
-function salvarNovoCodigoIdentidadeSecreta() {
-    const input1 = document.getElementById("input_novo_codigo_segredo");
-    const input2 = document.getElementById("input_confirmar_codigo_segredo");
-    const err = document.getElementById("erro_criar_codigo_segredo");
-    const cod1 = (input1?.value || "").trim();
-    const cod2 = (input2?.value || "").trim();
-
-    if (!cod1) {
-        if (err) { err.textContent = "Por favor, digite um código ou senha."; err.style.display = "block"; }
-        input1?.focus();
-        return;
-    }
-    if (cod1 !== cod2) {
-        if (err) { err.textContent = "Os códigos digitados não coincidem!"; err.style.display = "block"; }
-        input2?.focus();
-        return;
-    }
-
-    salvarCodigoIdentidadeSecretaLocal(cod1);
-    sessaoIdentidadeSecretaDesbloqueada = true;
-    fecharModalCriarCodigo();
-
-    if (typeof mostrarStatus === "function") {
-        mostrarStatus("🔐 Código de segurança criado com sucesso!", "ok");
-    }
-    if (typeof marcarAlteracaoFeita === "function") marcarAlteracaoFeita();
-
-    setTimeout(() => {
-        exibirModalIdentidadeSecretaJanela();
-    }, 250);
-}
-
-// ============================================================
-// MODAL 2: AUTENTICAR CÓDIGO DA IDENTIDADE SECRETA
-// ============================================================
-function abrirModalAutenticarIdentidadeSecreta() {
-    const modal = document.getElementById("modal-segredo-autenticar");
-    const input = document.getElementById("input_autenticar_codigo_segredo");
-    const err = document.getElementById("erro_autenticar_codigo_segredo");
+function abrirModalSenhaIdentidadeSecreta() {
+    const modal = document.getElementById("modal-segredo-senha-unica");
+    const input = document.getElementById("input_senha_identidade_secreta");
+    const err = document.getElementById("erro_senha_identidade_secreta");
     if (input) input.value = "";
     if (err) { err.style.display = "none"; err.textContent = ""; }
     if (modal) {
@@ -25635,8 +25747,8 @@ function abrirModalAutenticarIdentidadeSecreta() {
     }
 }
 
-function fecharModalAutenticarCodigo() {
-    const modal = document.getElementById("modal-segredo-autenticar");
+function fecharModalSenhaIdentidadeSecreta() {
+    const modal = document.getElementById("modal-segredo-senha-unica");
     if (modal) {
         modal.classList.remove("aberto");
         modal.setAttribute("aria-hidden", "true");
@@ -25644,50 +25756,148 @@ function fecharModalAutenticarCodigo() {
     }
 }
 
-function fecharModalAutenticarPorOverlay(event) {
-    if (event.target && event.target.id === "modal-segredo-autenticar") {
-        fecharModalAutenticarCodigo();
+function fecharModalSenhaIdentidadeSecretaPorOverlay(event) {
+    if (event.target && event.target.id === "modal-segredo-senha-unica") {
+        fecharModalSenhaIdentidadeSecreta();
     }
 }
 
-function autenticarCodigoIdentidadeSecreta() {
-    const input = document.getElementById("input_autenticar_codigo_segredo");
-    const err = document.getElementById("erro_autenticar_codigo_segredo");
-    const digitado = (input?.value || "").trim();
+function processarSenhaIdentidadeSecreta() {
+    const input = document.getElementById("input_senha_identidade_secreta");
+    const err = document.getElementById("erro_senha_identidade_secreta");
+    const senha = (input?.value || "").trim();
 
-    if (!digitado) {
-        if (err) { err.textContent = "Digite o código para prosseguir."; err.style.display = "block"; }
+    if (!senha) {
+        if (err) {
+            err.textContent = "Por favor, digite uma senha para continuar.";
+            err.style.display = "block";
+        }
         input?.focus();
         return;
     }
 
-    if (digitado === codigoIdentidadeSecreta) {
+    if (!codigoIdentidadeSecreta) {
+        carregarCodigoIdentidadeSecreta();
+    }
+
+    // Caso 1: Nenhuma senha salva no navegador -> Criação da Identidade Secreta
+    if (!codigoIdentidadeSecreta) {
+        ehCriacaoIdentidadeSecreta = true;
+        novaSenhaIdentidade = senha;
+        pendenteQueimaDeArquivoIdentidade = false;
         sessaoIdentidadeSecretaDesbloqueada = true;
-        fecharModalAutenticarCodigo();
-        if (typeof mostrarStatus === "function") {
-            mostrarStatus("🔓 Identidade Secreta desbloqueada!", "ok");
-        }
-        setTimeout(() => {
+        fecharModalSenhaIdentidadeSecreta();
+        exibirModalIdentidadeSecretaJanela();
+        return;
+    }
+
+    // Caso 2: Senha correta digitada
+    if (senha === codigoIdentidadeSecreta) {
+        ehCriacaoIdentidadeSecreta = false;
+        pendenteQueimaDeArquivoIdentidade = false;
+        sessaoIdentidadeSecretaDesbloqueada = true;
+        fecharModalSenhaIdentidadeSecreta();
+
+        if (acaoAposSenhaIdentidade === "alternar_direto") {
+            // Se já tiver dados configurados, alterna direto entre verdadeira e falsa
+            alternarEstadoAtivoDisfarce();
+        } else {
+            if (typeof mostrarStatus === "function") {
+                mostrarStatus("🔓 Identidade Secreta autenticada com sucesso!", "ok");
+            }
             exibirModalIdentidadeSecretaJanela();
-        }, 250);
-    } else {
+        }
+        return;
+    }
+
+    // Caso 3: Senha incorreta digitada
+    if (acaoAposSenhaIdentidade === "alternar_direto") {
+        // No Modo Tático: Apenas avisa que a senha está incorreta sem criar nova ficha nem queimar arquivo
         if (err) {
-            err.textContent = "Código incorreto! Tente novamente ou use 'Esqueci a Senha'.";
+            err.textContent = "Senha incorreta.";
             err.style.display = "block";
         }
+        if (typeof mostrarStatus === "function") {
+            mostrarStatus("Senha incorreta.", "erro");
+        }
         if (input) {
-            input.value = "";
+            input.select();
             input.focus();
         }
+        return;
     }
+
+    // No Menu Principal / Modal: JOGADA DE MESTRE / CHEQUE-MATE (DENEGAÇÃO PLAUSÍVEL ORIGINAL)
+    // Não revelamos que a senha está incorreta para evitar vazamento da existência de segredo.
+    // Simulamos a criação de um disfarce para esta nova senha e preparamos a substituição da ficha.
+    ehCriacaoIdentidadeSecreta = false;
+    pendenteQueimaDeArquivoIdentidade = true;
+    novaSenhaIdentidade = senha;
+    sessaoIdentidadeSecretaDesbloqueada = true;
+    fecharModalSenhaIdentidadeSecreta();
+
+    limparFormularioParaNovoDisfarce();
+    exibirModalIdentidadeSecretaJanela();
+}
+
+function limparFormularioParaNovoDisfarce() {
+    const elId = document.getElementById("secreto_identidade");
+    if (elId) elId.value = "Agente Oculto";
+    const elSocial = document.getElementById("secreto_nome_social");
+    if (elSocial) elSocial.value = "";
+    const elTit = document.getElementById("secreto_titulo");
+    if (elTit) elTit.value = "";
+    const elNivel = document.getElementById("secreto_nivel");
+    if (elNivel) elNivel.value = "MISERÁVEL";
+    const elC1 = document.getElementById("secreto_classe1");
+    if (elC1) elC1.value = "";
+    const elC2 = document.getElementById("secreto_classe2");
+    if (elC2) elC2.value = "";
+    const elCor = document.getElementById("secreto_cor");
+    if (elCor) elCor.value = "#8e44ad";
+    const elContCor = document.getElementById("secreto_contorno_cor");
+    if (elContCor) elContCor.value = "#ffffff";
+    const elContChk = document.getElementById("secreto_contorno_ativo");
+    if (elContChk) elContChk.checked = true;
+
+    ["HPR", "PRX", "PSI", "QI"].forEach(attr => {
+        const el = document.getElementById("secreto_attr_" + attr);
+        if (el) el.value = 1;
+    });
+
+    const vAtual = document.getElementById("secreto_vida_atual");
+    if (vAtual) vAtual.value = 100;
+    const vMax = document.getElementById("secreto_vida_max");
+    if (vMax) vMax.value = 100;
+    const eAtual = document.getElementById("secreto_estamina_atual");
+    if (eAtual) eAtual.value = 80;
+    const eMax = document.getElementById("secreto_estamina_max");
+    if (eMax) eMax.value = 80;
+    const mAtual = document.getElementById("secreto_mental_atual");
+    if (mAtual) mAtual.value = 50;
+    const mMax = document.getElementById("secreto_mental_max");
+    if (mMax) mMax.value = 50;
+    const aAtual = document.getElementById("secreto_aura_atual");
+    if (aAtual) aAtual.value = 30;
+    const aMax = document.getElementById("secreto_aura_max");
+    if (aMax) aMax.value = 30;
+
+    const imgAvatar = document.getElementById("secreto_avatar_preview");
+    if (imgAvatar) imgAvatar.src = "";
+    const phAvatar = document.getElementById("secreto_avatar_placeholder");
+    if (phAvatar) phAvatar.style.display = "flex";
 }
 
 // ============================================================
-// MODAL 3: ESQUECI A SENHA (DELEÇÃO IRREVERSÍVEL E REINÍCIO)
+// MODAL DE BACKUP OBRIGATÓRIO E OPSEC
 // ============================================================
-function solicitarDeletarIdentidadeSecretaPorEsquecimento() {
-    fecharModalAutenticarCodigo();
-    const modal = document.getElementById("modal-segredo-confirmar-esquecimento");
+function abrirModalBackupOpsec(senhaParaExibir) {
+    const modal = document.getElementById("modal-segredo-backup-opsec");
+    const campoSenha = document.getElementById("opsec_campo_senha_exibicao");
+    if (campoSenha) {
+        campoSenha.value = senhaParaExibir || codigoIdentidadeSecreta || "";
+    }
+    atualizarUIOpsecSalvamento();
     if (modal) {
         modal.style.display = "flex";
         requestAnimationFrame(() => modal.classList.add("aberto"));
@@ -25695,8 +25905,8 @@ function solicitarDeletarIdentidadeSecretaPorEsquecimento() {
     }
 }
 
-function fecharModalConfirmarEsquecimento() {
-    const modal = document.getElementById("modal-segredo-confirmar-esquecimento");
+function fecharModalBackupOpsec() {
+    const modal = document.getElementById("modal-segredo-backup-opsec");
     if (modal) {
         modal.classList.remove("aberto");
         modal.setAttribute("aria-hidden", "true");
@@ -25704,68 +25914,128 @@ function fecharModalConfirmarEsquecimento() {
     }
 }
 
-function fecharModalConfirmarEsquecimentoPorOverlay(event) {
-    if (event.target && event.target.id === "modal-segredo-confirmar-esquecimento") {
-        fecharModalConfirmarEsquecimento();
+function fecharModalBackupOpsecPorOverlay(event) {
+    if (event.target && event.target.id === "modal-segredo-backup-opsec") {
+        fecharModalBackupOpsec();
     }
 }
 
-function confirmarDelecaoPorEsquecimento() {
-    fecharModalConfirmarEsquecimento();
-
-    if (identidadeSecretaAtiva && typeof desativarDisfarceFicha === "function") {
-        desativarDisfarceFicha();
+function copiarSenhaSecretaOpsec() {
+    const campo = document.getElementById("opsec_campo_senha_exibicao");
+    const senha = (campo?.value || codigoIdentidadeSecreta || "").trim();
+    if (!senha) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(senha).then(() => {
+            mostrarStatus("📋 Senha copiada! Guarde-a em local oculto do seu computador.", "ok");
+        }).catch(() => {
+            campo?.select();
+            document.execCommand("copy");
+            mostrarStatus("📋 Senha copiada!", "ok");
+        });
+    } else {
+        campo?.select();
+        document.execCommand("copy");
+        mostrarStatus("📋 Senha copiada!", "ok");
     }
+}
 
-    // Deleta os dados da identidade secreta e redefine para o padrão vazio
-    identidadeSecretaDados = {
-        ativa: false,
-        identidade: "Agente Oculto",
-        nomeSocial: "",
-        codinome: "Codinome Disfarçado",
-        titulo: "",
-        nivel: "MISERÁVEL",
-        classe1: "",
-        classe2: "",
-        avatar: "",
-        cor: "#8e44ad",
-        contornoAtivo: true,
-        contornoCor: "#ffffff",
-        atributos: {
-            HPR: 1,
-            PRX: 1,
-            PSI: 1,
-            QI: 1
-        },
-        recursos: {
-            vida: { atual: 100, max: 100, temp: 0 },
-            estamina: { atual: 80, max: 80, temp: 0 },
-            mental: { atual: 50, max: 50, temp: 0 },
-            aura: { atual: 30, max: 30, temp: 0 }
-        }
-    };
-    identidadeRealDados = null;
-    identidadeSecretaAtiva = false;
-
-    // Remove o código de segurança
-    salvarCodigoIdentidadeSecretaLocal("");
-    sessaoIdentidadeSecretaDesbloqueada = false;
-
-    if (typeof atualizarBannerDisfarceUI === "function") {
-        atualizarBannerDisfarceUI();
-    }
-    if (typeof marcarAlteracaoFeita === "function") {
-        marcarAlteracaoFeita();
-    }
-
+function exportarBackupSecretoIdentidade() {
+    exportarJSON();
     if (typeof mostrarStatus === "function") {
-        mostrarStatus("🗑️ Identidade Secreta deletada. Defina um novo código para criá-la de novo.", "info");
+        mostrarStatus("✓ Backup secreto exportado! Guarde-o ESCONDIDO nos seus arquivos.", "ok");
     }
+}
 
-    // Abre imediatamente o modal para criar um novo código e recriar
-    setTimeout(() => {
-        abrirModalCriarCodigoIdentidadeSecreta();
-    }, 300);
+function atualizarUIOpsecSalvamento() {
+    const tag = document.getElementById("opsec_status_salvamento_tag");
+    const btn = document.getElementById("btn_alternar_salvamento_opsec");
+    if (salvamentoManualAtivo) {
+        if (tag) {
+            tag.textContent = "Manual (Recomendado/Seguro)";
+            tag.style.background = "rgba(34, 197, 94, 0.2)";
+            tag.style.color = "#4ade80";
+        }
+        if (btn) {
+            btn.textContent = "✓ Salvamento Automático Desativado (Modo Seguro)";
+            btn.style.color = "#4ade80";
+        }
+    } else {
+        if (tag) {
+            tag.textContent = "Automático Ativo";
+            tag.style.background = "rgba(239, 68, 68, 0.2)";
+            tag.style.color = "#f87171";
+        }
+        if (btn) {
+            btn.textContent = "⚡ Desativar Salvamento Automático Agora";
+            btn.style.color = "var(--ink)";
+        }
+    }
+}
+
+function alternarSalvamentoModoOpsec() {
+    alternarModoSalvamentoManual();
+    atualizarUIOpsecSalvamento();
+}
+
+function aplicarDisfarceComoFichaVerdadeira() {
+    const d = identidadeSecretaDados;
+    if (d) {
+        if (d.identidade && document.getElementById("ficha_identidade")) {
+            document.getElementById("ficha_identidade").value = d.identidade;
+        }
+        if (document.getElementById("ficha_nome_social")) {
+            document.getElementById("ficha_nome_social").value = d.nomeSocial || "";
+        }
+        if (document.getElementById("ficha_titulo")) {
+            document.getElementById("ficha_titulo").value = d.titulo || "";
+        }
+        if (d.avatar) {
+            avatarAtual = d.avatar;
+            if (typeof aplicarAvatar === "function") aplicarAvatar();
+        }
+        if (d.nivel && document.getElementById("ficha_nivel")) {
+            document.getElementById("ficha_nivel").value = d.nivel;
+        }
+        if (d.classe1 && document.getElementById("ficha_classe1")) {
+            document.getElementById("ficha_classe1").value = d.classe1;
+        }
+        if (d.classe2 && document.getElementById("ficha_classe2")) {
+            document.getElementById("ficha_classe2").value = d.classe2;
+        }
+        if (d.cor) {
+            if (document.getElementById("ficha_cor")) document.getElementById("ficha_cor").value = d.cor;
+            if (typeof definirCorPrincipal === "function") definirCorPrincipal(d.cor, false);
+        }
+        if (d.contornoCor) {
+            if (document.getElementById("ficha_contorno_cor")) document.getElementById("ficha_contorno_cor").value = d.contornoCor;
+            if (typeof definirCorContorno === "function") definirCorContorno(d.contornoCor, false);
+        }
+        if (typeof alternarContornoLetras === "function") alternarContornoLetras(!!d.contornoAtivo, false);
+
+        if (d.atributos) {
+            if (document.getElementById("attr_HPR")) document.getElementById("attr_HPR").value = d.atributos.HPR ?? 1;
+            if (document.getElementById("attr_PRX")) document.getElementById("attr_PRX").value = d.atributos.PRX ?? 1;
+            if (document.getElementById("attr_PSI")) document.getElementById("attr_PSI").value = d.atributos.PSI ?? 1;
+            if (document.getElementById("attr_QI"))  document.getElementById("attr_QI").value  = d.atributos.QI ?? 1;
+            if (typeof atualizarPainel === "function") atualizarPainel();
+        }
+    }
+    // A verdadeira identidade original é EXCLUÍDA do navegador
+    identidadeRealDados = null;
+    try {
+        const salvo = localStorage.getItem("we_are_strangers_fichas");
+        if (salvo) {
+            let lista = JSON.parse(salvo);
+            if (Array.isArray(lista) && typeof fichaId !== "undefined" && fichaId) {
+                const idx = lista.findIndex(f => f.id === fichaId);
+                if (idx !== -1) {
+                    lista[idx].identidadeRealDados = null;
+                    if (d && d.identidade) lista[idx].nome = d.identidade;
+                    localStorage.setItem("we_are_strangers_fichas", JSON.stringify(lista));
+                }
+            }
+        }
+    } catch(e) {}
 }
 
 function bloquearAcessoIdentidadeSecreta() {
@@ -26048,7 +26318,7 @@ function popularmodalIdentidadeSecretaInputs() {
     }
 }
 
-function salvarConfigIdentidadeSecreta(comToast = true) {
+function salvarDadosNovosDisfarce() {
     const reais = obterValoresReaisPersonagem();
 
     identidadeSecretaDados.identidade = document.getElementById("secreto_identidade")?.value.trim() || "Agente Oculto";
@@ -26097,6 +26367,43 @@ function salvarConfigIdentidadeSecreta(comToast = true) {
             temp: Math.min(Math.max(0, reais.recursos.aura.temp), Math.max(0, parseInt(document.getElementById("secreto_aura_temp")?.value, 10) || 0))
         }
     };
+}
+
+function salvarConfigIdentidadeSecreta(comToast = true) {
+    if (pendenteQueimaDeArquivoIdentidade) {
+        // JOGADA DE MESTRE: A ficha de disfarce anterior agora é considerada a FICHA VERDADEIRA
+        // E a VERDADEIRA ORIGINAL é EXCLUÍDA do navegador!
+        aplicarDisfarceComoFichaVerdadeira();
+        codigoIdentidadeSecreta = novaSenhaIdentidade;
+        salvarCodigoIdentidadeSecretaLocal(codigoIdentidadeSecreta);
+        pendenteQueimaDeArquivoIdentidade = false;
+
+        salvarDadosNovosDisfarce();
+        fecharModalIdentidadeSecreta();
+        abrirModalBackupOpsec(codigoIdentidadeSecreta);
+        if (typeof mostrarStatus === "function") {
+            mostrarStatus("⚠️ A ficha anterior agora é a sua ficha verdadeira. A original foi excluída deste navegador!", "aviso");
+        }
+        if (typeof marcarAlteracaoFeita === "function") marcarAlteracaoFeita();
+        return;
+    }
+
+    if (ehCriacaoIdentidadeSecreta) {
+        codigoIdentidadeSecreta = novaSenhaIdentidade;
+        salvarCodigoIdentidadeSecretaLocal(codigoIdentidadeSecreta);
+        ehCriacaoIdentidadeSecreta = false;
+
+        salvarDadosNovosDisfarce();
+        fecharModalIdentidadeSecreta();
+        abrirModalBackupOpsec(codigoIdentidadeSecreta);
+        if (typeof mostrarStatus === "function") {
+            mostrarStatus("🎭 Identidade Secreta criada com sucesso!", "ok");
+        }
+        if (typeof marcarAlteracaoFeita === "function") marcarAlteracaoFeita();
+        return;
+    }
+
+    salvarDadosNovosDisfarce();
 
     if (identidadeSecretaAtiva) {
         aplicarDisfarceNaFicha();
@@ -26122,9 +26429,11 @@ function alternarEstadoAtivoDisfarce() {
     } else {
         ativarDisfarceFicha();
     }
+    popularmodalIdentidadeSecretaInputs();
 }
 
 function ativarDisfarceFicha() {
+    executarEfeitoTransicaoVisualDisfarce(true);
     identidadeRealDados = {
         avatar: avatarAtual,
         identidade: document.getElementById("ficha_identidade")?.value || "",
@@ -26185,6 +26494,7 @@ function desativarDisfarceFicha() {
         }
         return;
     }
+    executarEfeitoTransicaoVisualDisfarce(false);
     identidadeSecretaAtiva = false;
     
     if (identidadeRealDados) {
@@ -26355,14 +26665,9 @@ function atualizarBannerDisfarceUI() {
         banner.remove();
     }
 
-    const btnOpcoes = document.getElementById("icone_identidade_secreta_btn");
     const legOpcoes = document.getElementById("legenda_identidade_secreta_btn");
-    if (btnOpcoes && legOpcoes) {
-        if (identidadeSecretaAtiva) {
-            legOpcoes.innerHTML = "<span style='color:#e0aaff; font-weight:bold;'>🎭 Disfarce ON</span>";
-        } else {
-            legOpcoes.textContent = "Identidade Secreta";
-        }
+    if (legOpcoes) {
+        legOpcoes.textContent = "Identidade Secreta";
     }
 }
 
@@ -28595,10 +28900,10 @@ function renderizarMembrosModoTatico() {
 
         let btnTrocarCodinomeMeuCardHtml = '';
         if (ehMeu) {
-            const estaDisfarcadoMeuCard = !!(infoLocal.trocarPorCodinome && infoLocal.codinome);
+            const estaDisfarcadoMeuCard = !!identidadeSecretaAtiva;
             btnTrocarCodinomeMeuCardHtml = `
-                <button type="button" class="btn-secundario" style="height:22px; font-size:10px; padding:0 6px; margin:0; ${estaDisfarcadoMeuCard ? 'border-color:#8e44ad; background:rgba(142,68,173,0.25); color:#e0aaff;' : ''}" onclick="alternarDisfarceCodinomeModoTatico()" title="${estaDisfarcadoMeuCard ? 'Clique para desativar o disfarce e usar sua Identidade Real' : 'Clique para trocar sua identidade pública pelo seu Codinome de operação no Modo Tático'}">
-                    <span>${estaDisfarcadoMeuCard ? '🎭 Usando Codinome' : '🎭 Trocar p/ Codinome'}</span>
+                <button type="button" class="btn-secundario" style="height:22px; font-size:10px; padding:0 6px; margin:0; ${estaDisfarcadoMeuCard ? 'border-color:#8e44ad; background:rgba(142,68,173,0.25); color:#e0aaff;' : ''}" onclick="alternarIdentidadeSecretaComSenha()" title="${estaDisfarcadoMeuCard ? 'Clique para desativar o disfarce e restaurar a Identidade Verdadeira (Exige Senha)' : 'Clique para alternar para a Identidade Falsa / Disfarce (Exige Senha)'}">
+                    <span>${estaDisfarcadoMeuCard ? '🎭 Alternar p/ Verdadeira' : '🎭 Alternar p/ Falsa'}</span>
                 </button>
             `;
         }
