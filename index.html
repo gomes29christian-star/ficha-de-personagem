@@ -24,12 +24,14 @@
   --bg-void:#080808;
   --bg-panel:#111111;
   --bg-panel-2:#161616;
+  --bg-card:#141414;
   --bg-inset:#0a0a0a;
   --ink:#f4f4f2;
   --ink-dim:#b0b0ad;
   --ink-faint:#666663;
   --line:#262626;
   --line-soft:#181818;
+  --shadow:rgba(0,0,0,0.7);
   --accent:#22c55e;
   --accent-dim:color-mix(in srgb, var(--accent) 55%, #000000 35%);
   --tema-contorno-cor:#ffffff;
@@ -196,9 +198,12 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
   background:color-mix(in srgb, var(--bg-void) 45%, var(--bg-panel));
   border:1px solid var(--line);
   padding:clamp(16px, 2.4vw, 22px);
-  border-radius:2px;
+  border-radius:6px;
   position:relative;
   box-shadow:inset 0 1px 0 color-mix(in srgb, var(--accent) 15%, transparent);
+  display:flex;
+  flex-direction:column;
+  gap:16px;
 }
 
 .ficha-cabecalho-row{
@@ -218,47 +223,49 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
 
 .ficha-avatar{
   position:relative;
-  width:clamp(92px, 14vw, 116px);
+  width:clamp(135px, 15vw, 165px);
   aspect-ratio:3/4;
   background:var(--bg-inset);
-  border:1px solid var(--line);
+  border:1.5px solid var(--line);
   cursor:pointer;
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:inset 0 0 0 3px var(--bg-void), inset 0 0 0 4px var(--line-soft), 0 2px 8px rgba(0,0,0,.4);
-  transition:border-color .2s ease, box-shadow .2s ease;
-  border-radius:2px;
+  box-shadow:inset 0 0 0 3px var(--bg-void), inset 0 0 0 4.5px color-mix(in srgb, var(--accent) 25%, var(--line-soft)), 0 6px 18px rgba(0,0,0,.55);
+  transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+  border-radius:6px;
+  overflow:hidden;
 }
 .ficha-avatar:hover{
   border-color:var(--accent);
-  box-shadow:inset 0 0 0 3px var(--bg-void), inset 0 0 0 4px var(--line-soft), 0 0 12px color-mix(in srgb, var(--accent) 25%, transparent);
+  box-shadow:inset 0 0 0 3px var(--bg-void), inset 0 0 0 4.5px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 30%, transparent), 0 8px 24px rgba(0,0,0,.6);
+  transform:translateY(-2px);
 }
 .ficha-avatar img{
   width:100%;
   height:100%;
   object-fit:cover;
   display:none;
-  filter:grayscale(.25) contrast(1.06);
-  border-radius:1px;
+  filter:grayscale(.15) contrast(1.06);
+  border-radius:3px;
 }
 
 .avatar-placeholder{
   font-family:'EB Garamond',serif;
   font-style:italic;
-  font-size:12px;
+  font-size:13px;
   color:var(--ink-faint);
   text-align:center;
   line-height:1.4;
-  padding:8px 6px;
+  padding:12px 8px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:3px;
+  gap:4px;
   user-select:none;
 }
 .avatar-icone-add{
-  font-size:14px;
+  font-size:24px;
   color:var(--accent-dim);
   font-style:normal;
   margin-bottom:2px;
@@ -266,38 +273,39 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
 }
 .ficha-avatar:hover .avatar-icone-add{
   color:var(--accent);
-  transform:scale(1.15);
+  transform:scale(1.18);
 }
 .avatar-dica{
-  font-size:10px;
-  letter-spacing:.05em;
+  font-size:10.5px;
+  letter-spacing:.06em;
   text-transform:uppercase;
-  opacity:.7;
+  opacity:.75;
 }
 
 .avatar-remover{
   position:absolute;
-  top:-7px;
-  right:-7px;
-  width:22px;
-  height:22px;
+  top:6px;
+  right:6px;
+  width:24px;
+  height:24px;
   border-radius:50%;
-  background:var(--bg-void);
+  background:rgba(18, 16, 14, 0.85);
   border:1px solid var(--line);
   color:var(--ink-dim);
-  font-size:13px;
+  font-size:14px;
   line-height:1;
   cursor:pointer;
   display:none;
   align-items:center;
   justify-content:center;
   transition:all .15s ease;
-  z-index:2;
+  z-index:3;
+  backdrop-filter:blur(4px);
 }
 .avatar-remover:hover{
   border-color:var(--erro);
   color:var(--erro);
-  background:color-mix(in srgb, var(--erro) 15%, var(--bg-void));
+  background:color-mix(in srgb, var(--erro) 25%, var(--bg-void));
 }
 
 /* Dados da Identidade */
@@ -312,8 +320,8 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
 
 .ficha-rotulo{
   font-family:'EB Garamond',Georgia,serif;
-  font-size:11px;
-  font-weight:600;
+  font-size:11.5px;
+  font-weight:700;
   letter-spacing:.1em;
   text-transform:uppercase;
   color:var(--ink-dim);
@@ -326,12 +334,12 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
 .ficha-campo-nome-sistema{
   display:flex;
   flex-direction:column;
-  gap:10px;
-  background:color-mix(in srgb, var(--bg-void) 45%, var(--bg-card));
+  gap:12px;
+  background:color-mix(in srgb, var(--bg-void) 55%, var(--bg-card));
   border:1px solid var(--line);
-  border-radius:4px;
-  padding:12px 14px;
-  box-shadow:inset 0 1px 3px rgba(0,0,0,.45);
+  border-radius:6px;
+  padding:14px 16px;
+  box-shadow:inset 0 1px 4px rgba(0,0,0,.5);
 }
 
 .ficha-nomes-topo-bar{
@@ -340,14 +348,20 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
   justify-content:space-between;
   flex-wrap:wrap;
   gap:8px;
-  border-bottom:1px dashed var(--line-soft);
-  padding-bottom:8px;
+  border-bottom:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  padding-bottom:10px;
 }
 
 .ficha-nomes-rotulo-wrap{
   display:flex;
   align-items:center;
-  gap:6px;
+  gap:8px;
+}
+
+.ficha-nomes-rotulo-wrap .ficha-rotulo{
+  font-size:12px;
+  letter-spacing:.12em;
+  color:var(--ink);
 }
 
 .ficha-nomes-toggles{
@@ -367,9 +381,14 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
   font-size:12px;
   color:var(--ink-dim);
   transition:color .2s ease;
+  background:color-mix(in srgb, var(--bg-inset) 80%, transparent);
+  padding:3px 8px;
+  border-radius:4px;
+  border:1px solid var(--line-soft);
 }
 .ficha-nome-toggle-btn:hover{
   color:var(--ink);
+  border-color:var(--accent);
 }
 .ficha-nome-toggle-btn input[type="checkbox"]{
   width:14px;
@@ -379,8 +398,8 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
   margin:0;
 }
 .ficha-nome-toggle-btn .toggle-texto{
-  font-weight:600;
-  letter-spacing:.02em;
+  font-weight:700;
+  letter-spacing:.03em;
 }
 
 /* Opções removidas da barra de identidade/nomenclatura e bloco codinome */
@@ -393,38 +412,17 @@ label[for="ficha_tem_codinome"],
   display: none !important;
 }
 
-.btn-trocar-nomes-rapido{
-  display:inline-flex;
-  align-items:center;
-  gap:4px;
-  background:color-mix(in srgb, var(--bg-void) 50%, var(--bg-panel));
-  border:1px solid var(--line);
-  border-radius:3px;
-  padding:2px 7px;
-  font-family:'EB Garamond',Georgia,serif;
-  font-size:10.5px;
-  color:var(--ink-dim);
-  cursor:pointer;
-  transition:all .18s ease;
-  user-select:none;
-}
-.btn-trocar-nomes-rapido:hover{
-  background:color-mix(in srgb, var(--accent) 15%, var(--bg-panel));
-  border-color:var(--accent);
-  color:var(--accent);
-}
-
 .ficha-nomes-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));
-  gap:10px;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:12px;
   align-items:start;
 }
 
 .ficha-nome-bloco{
   display:flex;
   flex-direction:column;
-  gap:4px;
+  gap:5px;
   min-width:0;
   animation:fadeInNomeBloco .25s ease-out;
 }
@@ -440,46 +438,40 @@ label[for="ficha_tem_codinome"],
   justify-content:space-between;
   gap:6px;
   font-family:'EB Garamond',Georgia,serif;
-  font-size:11px;
+  font-size:11.5px;
   font-weight:600;
-  text-transform:uppercase;
-  letter-spacing:.08em;
+  letter-spacing:.05em;
   color:var(--ink-dim);
 }
 
 .ficha-nome-tag{
   display:inline-flex;
   align-items:center;
-  padding:2px 6px;
-  border-radius:2px;
-  font-size:9.5px;
+  padding:2px 7px;
+  border-radius:3px;
+  font-size:10px;
   font-weight:700;
-  letter-spacing:.08em;
-  background:color-mix(in srgb, var(--accent) 15%, transparent);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  background:color-mix(in srgb, var(--accent) 12%, transparent);
   color:var(--accent);
   border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 .ficha-nome-tag.tag-social{
-  background:rgba(52,152,219,.15);
+  background:rgba(52,152,219,.12);
   color:#3498db;
   border-color:rgba(52,152,219,.35);
 }
 
-.ficha-nome-tag.tag-codinome{
-  background:rgba(155,89,182,.15);
-  color:#9b59b6;
-  border-color:rgba(155,89,182,.35);
-}
-
 .ficha-nome-tag.tag-titulo{
-  background:rgba(241,196,15,.15);
-  color:#f1c40f;
-  border-color:rgba(241,196,15,.35);
+  background:color-mix(in srgb, var(--accent) 12%, transparent);
+  color:var(--accent);
+  border-color:color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 .ficha-nome-sub{
-  font-size:10px;
+  font-size:11px;
   color:var(--ink-faint);
   font-style:italic;
   text-transform:none;
@@ -491,14 +483,14 @@ label[for="ficha_tem_codinome"],
 }
 .ficha-input-nome-wrap input{
   text-align:left;
-  font-weight:700;
-  font-family:'Old Europe',serif;
-  font-size:clamp(14px, 1.3vw, 17px);
+  font-weight:600;
+  font-family:'EB Garamond',Georgia,serif;
+  font-size:15.5px;
   letter-spacing:.02em;
-  padding:8px 12px;
+  padding:9px 12px;
   background:var(--bg-inset);
   border:1px solid var(--line);
-  border-radius:2px;
+  border-radius:4px;
   color:var(--ink);
   transition:border-color .2s ease, box-shadow .2s ease;
   width:100%;
@@ -512,32 +504,35 @@ label[for="ficha_tem_codinome"],
   display:flex;
   align-items:center;
   flex-wrap:wrap;
-  gap:8px;
-  padding:6px 10px;
-  background:color-mix(in srgb, var(--bg-void) 70%, var(--bg-panel));
-  border:1px solid var(--line-soft);
-  border-radius:3px;
-  font-size:12px;
+  gap:10px;
+  padding:9px 14px;
+  background:color-mix(in srgb, var(--accent) 8%, var(--bg-inset));
+  border:1px solid color-mix(in srgb, var(--accent) 25%, var(--line));
+  border-radius:4px;
+  font-size:12.5px;
   color:var(--ink-dim);
+  box-shadow:0 2px 6px rgba(0,0,0,0.25);
 }
 
 .preview-chamada-lbl{
-  font-size:10.5px;
+  font-size:11px;
   text-transform:uppercase;
   letter-spacing:.08em;
-  color:var(--ink-faint);
+  color:var(--ink-dim);
   font-family:'EB Garamond',Georgia,serif;
+  font-weight:700;
 }
 
 .preview-nome-destaque{
-  font-family:'Old Europe',serif;
-  font-size:14.5px;
+  font-family:'MirageFinal',serif;
+  font-size:16px;
+  font-weight:700;
   color:var(--accent);
-  letter-spacing:.02em;
+  letter-spacing:.03em;
 }
 
 .preview-detalhes-sub{
-  font-size:11px;
+  font-size:11.5px;
   color:var(--ink-dim);
   font-style:italic;
   margin-left:auto;
@@ -557,9 +552,12 @@ body.modo-claro .ficha-nome-apresentacao-preview{
 /* Grid de Metadados: Nível, 1ª Classe, 2ª Classe, Cor Principal e Contorno */
 .ficha-metadados-grid{
   display:grid;
-  grid-template-columns:1fr 1.2fr 1.2fr auto auto;
-  gap:12px;
+  grid-template-columns:1.2fr 1.6fr 1.6fr auto auto;
+  gap:14px;
   align-items:end;
+  width:100%;
+  padding-top:14px;
+  border-top:1px dashed color-mix(in srgb, var(--line) 65%, transparent);
 }
 
 .input-group{display:flex;flex-direction:column}
@@ -6155,6 +6153,7 @@ html.tem-contorno-letras .tatico-tag-pilula.voce,
 html.tem-contorno-letras .tatico-membro-nome,
 html.tem-contorno-letras .tatico-attr-pill-lbl,
 html.tem-contorno-letras .tatico-top-skill-nome,
+html.tem-contorno-letras .tatico-membro-vital-linha.aura-linha .tatico-membro-vital-lbl,
 html.tem-contorno-letras .campanha-codigo-destaque,
 html.tem-contorno-letras .aba-nav-btn.ativa .aba-texto,
 html.tem-contorno-letras .aba-nav-btn.ativa .aba-icone,
@@ -7559,105 +7558,106 @@ html.animacao-strokes-roxas .galho-svg path {
 }
 
 /* ============================================================
-   EFEITO DE VISÃO TURVA, DESFOCAMENTO E DUPLICAÇÃO (ESTAMINA <= 50% E < 10%)
+   EFEITO DE VISÃO TURVA, DESFOCAMENTO E VINHETA (ESTAMINA <= 50% E < 10%)
+   Otimizado para Alta Performance (60fps+, aceleração por GPU)
    ============================================================ */
 @keyframes animacaoVistaTurvaEstamina {
   0% {
-    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+    filter: blur(0px) contrast(100%) brightness(100%);
+    transform: translateZ(0);
   }
-  20% {
-    filter: blur(1.2px) drop-shadow(-5px 0px 0.5px rgba(235, 225, 210, 0.22)) drop-shadow(5px 0px 0.5px rgba(235, 225, 210, 0.22)) contrast(105%) brightness(96%);
+  30% {
+    filter: blur(1.1px) contrast(106%) brightness(95%);
+    transform: translateZ(0);
   }
-  45% {
-    filter: blur(0.4px) drop-shadow(-2px 0px 0.5px rgba(235, 225, 210, 0.12)) drop-shadow(2px 0px 0.5px rgba(235, 225, 210, 0.12)) contrast(101%) brightness(99%);
-  }
-  68% {
-    filter: blur(2.2px) drop-shadow(-9px -0.5px 1px rgba(235, 225, 210, 0.30)) drop-shadow(9px 0.5px 1px rgba(235, 225, 210, 0.30)) contrast(110%) brightness(93%);
+  65% {
+    filter: blur(1.8px) contrast(110%) brightness(92%);
+    transform: translateZ(0);
   }
   85% {
-    filter: blur(0.8px) drop-shadow(-3px 0px 0.5px rgba(235, 225, 210, 0.15)) drop-shadow(3px 0px 0.5px rgba(235, 225, 210, 0.15)) contrast(102%) brightness(98%);
+    filter: blur(0.7px) contrast(103%) brightness(98%);
+    transform: translateZ(0);
   }
   100% {
-    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+    filter: blur(0px) contrast(100%) brightness(100%);
+    transform: translateZ(0);
   }
 }
 
 @keyframes animacaoVistaTurvaEstaminaClaro {
   0% {
-    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+    filter: blur(0px) contrast(100%) brightness(100%);
+    transform: translateZ(0);
   }
-  20% {
-    filter: blur(1.2px) drop-shadow(-5px 0px 0.5px rgba(20, 15, 10, 0.18)) drop-shadow(5px 0px 0.5px rgba(20, 15, 10, 0.18)) contrast(105%) brightness(96%);
+  30% {
+    filter: blur(1.1px) contrast(105%) brightness(96%);
+    transform: translateZ(0);
   }
-  45% {
-    filter: blur(0.4px) drop-shadow(-2px 0px 0.5px rgba(20, 15, 10, 0.10)) drop-shadow(2px 0px 0.5px rgba(20, 15, 10, 0.10)) contrast(101%) brightness(99%);
-  }
-  68% {
-    filter: blur(2.2px) drop-shadow(-9px -0.5px 1px rgba(20, 15, 10, 0.25)) drop-shadow(9px 0.5px 1px rgba(20, 15, 10, 0.25)) contrast(110%) brightness(93%);
+  65% {
+    filter: blur(1.8px) contrast(108%) brightness(93%);
+    transform: translateZ(0);
   }
   85% {
-    filter: blur(0.8px) drop-shadow(-3px 0px 0.5px rgba(20, 15, 10, 0.12)) drop-shadow(3px 0px 0.5px rgba(20, 15, 10, 0.12)) contrast(102%) brightness(98%);
+    filter: blur(0.7px) contrast(102%) brightness(98%);
+    transform: translateZ(0);
   }
   100% {
-    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+    filter: blur(0px) contrast(100%) brightness(100%);
+    transform: translateZ(0);
   }
 }
 
-/* Estamina Moderada (<= 50%) - Versão mais leve */
+/* Estamina Moderada (<= 50%) - Versão mais leve e suave */
 @keyframes animacaoVistaTurvaEstaminaModerada {
   0% {
-    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
-  }
-  25% {
-    filter: blur(0.5px) drop-shadow(-2.5px 0px 0.5px rgba(235, 225, 210, 0.12)) drop-shadow(2.5px 0px 0.5px rgba(235, 225, 210, 0.12)) contrast(102%) brightness(98%);
+    filter: blur(0px) contrast(100%) brightness(100%);
+    transform: translateZ(0);
   }
   50% {
-    filter: blur(0.2px) drop-shadow(0px 0px 0px transparent) contrast(101%) brightness(99%);
-  }
-  75% {
-    filter: blur(0.9px) drop-shadow(-4px 0px 0.5px rgba(235, 225, 210, 0.18)) drop-shadow(4px 0px 0.5px rgba(235, 225, 210, 0.18)) contrast(104%) brightness(96%);
+    filter: blur(0.75px) contrast(104%) brightness(97%);
+    transform: translateZ(0);
   }
   100% {
-    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+    filter: blur(0px) contrast(100%) brightness(100%);
+    transform: translateZ(0);
   }
 }
 
 @keyframes animacaoVistaTurvaEstaminaModeradaClaro {
   0% {
-    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
-  }
-  25% {
-    filter: blur(0.5px) drop-shadow(-2.5px 0px 0.5px rgba(20, 15, 10, 0.10)) drop-shadow(2.5px 0px 0.5px rgba(20, 15, 10, 0.10)) contrast(102%) brightness(98%);
+    filter: blur(0px) contrast(100%) brightness(100%);
+    transform: translateZ(0);
   }
   50% {
-    filter: blur(0.2px) drop-shadow(0px 0px 0px transparent) contrast(101%) brightness(99%);
-  }
-  75% {
-    filter: blur(0.9px) drop-shadow(-4px 0px 0.5px rgba(20, 15, 10, 0.14)) drop-shadow(4px 0px 0.5px rgba(20, 15, 10, 0.14)) contrast(104%) brightness(96%);
+    filter: blur(0.75px) contrast(103%) brightness(97%);
+    transform: translateZ(0);
   }
   100% {
-    filter: blur(0px) drop-shadow(0px 0px 0px transparent) drop-shadow(0px 0px 0px transparent) contrast(100%) brightness(100%);
+    filter: blur(0px) contrast(100%) brightness(100%);
+    transform: translateZ(0);
   }
 }
 
-body.estamina-critica > :not(#vinheta-estamina-critica):not(script):not(style) {
-  animation: animacaoVistaTurvaEstamina 7.5s ease-in-out infinite !important;
-  transition: filter 0.8s ease;
-  will-change: filter;
+body.estamina-critica .container-principal,
+body.estamina-critica .aba-painel {
+  animation: animacaoVistaTurvaEstamina 6.5s ease-in-out infinite !important;
+  will-change: filter, transform;
 }
 
-body.modo-claro.estamina-critica > :not(#vinheta-estamina-critica):not(script):not(style) {
-  animation: animacaoVistaTurvaEstaminaClaro 7.5s ease-in-out infinite !important;
+body.modo-claro.estamina-critica .container-principal,
+body.modo-claro.estamina-critica .aba-painel {
+  animation: animacaoVistaTurvaEstaminaClaro 6.5s ease-in-out infinite !important;
 }
 
-body.estamina-moderada > :not(#vinheta-estamina-critica):not(script):not(style) {
-  animation: animacaoVistaTurvaEstaminaModerada 9s ease-in-out infinite !important;
-  transition: filter 0.8s ease;
-  will-change: filter;
+body.estamina-moderada .container-principal,
+body.estamina-moderada .aba-painel {
+  animation: animacaoVistaTurvaEstaminaModerada 8.5s ease-in-out infinite !important;
+  will-change: filter, transform;
 }
 
-body.modo-claro.estamina-moderada > :not(#vinheta-estamina-critica):not(script):not(style) {
-  animation: animacaoVistaTurvaEstaminaModeradaClaro 9s ease-in-out infinite !important;
+body.modo-claro.estamina-moderada .container-principal,
+body.modo-claro.estamina-moderada .aba-painel {
+  animation: animacaoVistaTurvaEstaminaModeradaClaro 8.5s ease-in-out infinite !important;
 }
 
 #vinheta-estamina-critica {
@@ -7670,36 +7670,55 @@ body.modo-claro.estamina-moderada > :not(#vinheta-estamina-critica):not(script):
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 999999;
+  z-index: 999990;
   box-shadow: none;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.6) 100%);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 35%, rgba(12, 4, 4, 0.72) 100%);
+  will-change: opacity, backdrop-filter;
+  transform: translateZ(0);
 }
 
 body.estamina-critica #vinheta-estamina-critica {
   display: block;
-  animation: vinhetaEstaminaCritica 4.8s ease-in-out infinite alternate;
+  animation: vinhetaEstaminaCritica 4.2s ease-in-out infinite alternate;
 }
 
 body.estamina-moderada #vinheta-estamina-critica {
   display: block;
-  animation: vinhetaEstaminaModerada 6s ease-in-out infinite alternate;
+  animation: vinhetaEstaminaModerada 6.0s ease-in-out infinite alternate;
+}
+
+body.modo-claro #vinheta-estamina-critica {
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 35%, rgba(65, 40, 25, 0.58) 100%);
 }
 
 @keyframes vinhetaEstaminaCritica {
   0% {
     opacity: 0.65;
+    backdrop-filter: blur(0.4px);
+    -webkit-backdrop-filter: blur(0.4px);
+  }
+  50% {
+    opacity: 0.90;
+    backdrop-filter: blur(1.2px);
+    -webkit-backdrop-filter: blur(1.2px);
   }
   100% {
-    opacity: 1;
+    opacity: 1.0;
+    backdrop-filter: blur(1.8px);
+    -webkit-backdrop-filter: blur(1.8px);
   }
 }
 
 @keyframes vinhetaEstaminaModerada {
   0% {
     opacity: 0.25;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
   }
   100% {
-    opacity: 0.50;
+    opacity: 0.55;
+    backdrop-filter: blur(0.65px);
+    -webkit-backdrop-filter: blur(0.65px);
   }
 }
 
@@ -8562,6 +8581,14 @@ body.modo-claro .popup-atalho-rodape {
   gap: 12px;
 }
 
+#secao-tatico.em-sala-ativa .tatico-recursos-grid {
+  display: none !important;
+}
+
+#secao-tatico.em-sala-ativa #tatico-equipe-secao {
+  margin-top: 0;
+}
+
 .tatico-recurso-card {
   background: color-mix(in srgb, var(--bg-void) 50%, var(--bg-panel));
   border: 1px solid var(--line);
@@ -8646,37 +8673,66 @@ body.modo-claro .popup-atalho-rodape {
 }
 
 .tatico-recurso-valores {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: inline-flex;
+  align-items: stretch;
+  background: var(--bg-void);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45);
   flex-shrink: 0;
+  height: 28px;
 }
 
 .tatico-recurso-inputs-wrap {
   display: inline-flex;
   align-items: center;
-  background: var(--bg-inset);
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  padding: 0 6px;
-  height: 28px;
-  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  padding: 0 6px 0 8px;
+  height: 100%;
 }
 
 .tatico-recurso-inputs-wrap input[type="number"] {
-  width: 44px;
-  height: 24px;
   background: transparent;
   border: none;
-  color: var(--ink);
   font-family: 'MirageFinal', serif;
-  font-size: 14px;
-  font-weight: 700;
   text-align: center;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   -moz-appearance: textfield;
+}
+
+.tatico-recurso-inputs-wrap input[id$="_atual"] {
+  width: 42px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.tatico-card-vida .tatico-recurso-inputs-wrap input[id$="_atual"] {
+  color: #ff6b6b;
+}
+
+.tatico-card-mental .tatico-recurso-inputs-wrap input[id$="_atual"] {
+  color: #4895ef;
+}
+
+.tatico-card-estamina .tatico-recurso-inputs-wrap input[id$="_atual"] {
+  color: #ffd166;
+}
+
+.tatico-card-aura .tatico-recurso-inputs-wrap input[id$="_atual"] {
+  color: var(--accent);
+}
+
+.tatico-recurso-inputs-wrap input[id$="_max"] {
+  width: 36px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-dim);
 }
 
 .tatico-recurso-inputs-wrap input[type="number"]::-webkit-inner-spin-button,
@@ -8686,40 +8742,41 @@ body.modo-claro .popup-atalho-rodape {
 }
 
 .tatico-recurso-div {
-  color: var(--ink-dim);
-  font-weight: bold;
-  font-size: 12px;
-  padding: 0 3px;
+  color: var(--ink-faint);
+  font-weight: 600;
+  font-size: 11.5px;
+  padding: 0 2px;
+  user-select: none;
 }
 
 .tatico-temp-wrap {
   display: inline-flex;
   align-items: center;
-  background: color-mix(in srgb, var(--accent) 15%, var(--bg-inset));
-  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  border-radius: 3px;
-  padding: 0 6px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: none;
+  border-left: 1px solid var(--line-soft);
+  padding: 0 4px 0 6px;
   gap: 2px;
-  height: 28px;
+  height: 100%;
   box-sizing: border-box;
 }
 
 .tatico-temp-sinal {
   color: var(--accent);
-  font-weight: bold;
-  font-size: 11px;
+  font-weight: 800;
+  font-size: 10.5px;
   line-height: 1;
   user-select: none;
 }
 
 .tatico-temp-wrap input[type="number"] {
-  width: 28px;
-  height: 24px;
+  width: 24px;
+  height: 100%;
   background: transparent;
   border: none;
   color: var(--accent);
   font-family: 'MirageFinal', serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   text-align: center;
   padding: 0;
@@ -8734,19 +8791,51 @@ body.modo-claro .popup-atalho-rodape {
   margin: 0;
 }
 
+.tatico-temp-zerar {
+  background: transparent;
+  border: none;
+  color: var(--ink-faint);
+  font-size: 11px;
+  line-height: 1;
+  padding: 2px 3px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.12s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tatico-temp-zerar:hover {
+  color: var(--erro, #ff4d4d);
+  background: rgba(232, 69, 60, 0.2);
+}
+
+.tatico-temp-wrap:not(.tem-valor) .tatico-temp-zerar {
+  opacity: 0.35;
+}
+
+body.modo-claro .tatico-temp-zerar:hover {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.15);
+}
+
 .tatico-recurso-badge {
   font-family: 'MirageFinal', serif;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
-  height: 28px;
-  line-height: 26px;
-  padding: 0 7px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
   box-sizing: border-box;
-  border-radius: 3px;
-  background: var(--bg-inset);
+  background: color-mix(in srgb, var(--bg-panel) 85%, var(--bg-void));
   color: var(--ink-dim);
-  border: 1px solid var(--line);
+  border: none;
+  border-left: 1px solid var(--line-soft);
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
 /* Barras Táticas Compactas */
@@ -9445,31 +9534,33 @@ body.modo-claro .tatico-membro-card {
 
 .tatico-equipe-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 16px;
 }
 
 /* Card Tático do Membro */
 .tatico-membro-card {
   background: var(--bg-card);
   border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 14px 16px;
+  border-radius: 8px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   position: relative;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 12px var(--shadow);
+  box-shadow: 0 4px 14px var(--shadow);
 }
 
 .tatico-membro-card:hover {
   border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
   transform: translateY(-2px);
+  box-shadow: 0 6px 18px var(--shadow);
 }
 
 .tatico-membro-card.eh-voce {
   border-color: color-mix(in srgb, var(--accent) 70%, var(--line));
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 /* Destaque e Brilho em Vermelho quando a Vida estiver Baixa */
@@ -9511,65 +9602,548 @@ body.modo-claro .tatico-membro-card {
   }
 }
 
-.tatico-membro-topo {
+/* Corpo Principal do Card: Retrato Heroico à Esquerda + Informações & Vitais à Direita */
+.tatico-membro-hero-body {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.tatico-membro-portrait-col {
+  width: 125px;
+  min-width: 125px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.tatico-membro-avatar-wrap {
+  position: relative;
+  width: 100%;
+  height: 130px;
+  flex-shrink: 0;
+  border-radius: 6px;
 }
 
 .tatico-membro-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
   background: var(--bg-inset);
-  border: 1.5px solid var(--accent);
+  border: 2px solid var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
+  font-size: 32px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  position: relative;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-.tatico-membro-dados {
+.tatico-membro-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tatico-avatar-online-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.8);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+.tatico-avatar-online-dot.online {
+  background: #2ecc71;
+  box-shadow: 0 0 8px rgba(46, 204, 113, 0.85);
+}
+
+.tatico-avatar-online-dot.offline {
+  background: #7f8c8d;
+}
+
+.tatico-membro-status-box {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.tatico-membro-status-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  padding: 3px 4px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid currentColor;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Organizador de Condições & Posturas no Card Tático (Preenchimento Proporcional até o fim) */
+.tatico-membro-condicoes-bloco {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 120px;
+  background: color-mix(in srgb, var(--bg-void) 80%, var(--bg-panel));
+  border: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
+  border-radius: 6px;
+  padding: 6px 8px;
+  gap: 6px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+.tatico-membro-condicoes-topo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.tatico-membro-condicoes-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  text-align: center;
+  width: 100%;
+}
+
+.tatico-membro-condicoes-label {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  text-align: center;
+}
+
+.tatico-membro-condicoes-qtd {
+  font-family: 'EB Garamond', monospace, serif;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 14%, var(--bg-void));
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--accent);
+  min-width: 18px;
+  text-align: center;
+  line-height: 1.2;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.tatico-membro-condicoes-qtd.zero {
+  background: rgba(0, 0, 0, 0.35);
+  border-color: color-mix(in srgb, var(--line) 50%, transparent);
+  color: var(--ink-faint);
+}
+
+.btn-tatico-add-cond {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent) 16%, var(--bg-inset));
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  color: var(--accent);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.btn-tatico-add-cond:hover {
+  background: var(--accent);
+  color: #050505;
+  border-color: var(--accent);
+  transform: scale(1.08);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.btn-tatico-add-cond:active {
+  transform: scale(0.95);
+}
+
+body.modo-claro .tatico-membro-condicoes-bloco {
+  background: #e6dcce;
+  border-color: #cbbfab;
+}
+body.modo-claro .tatico-membro-condicoes-topo {
+  border-bottom-color: #cbbfab;
+}
+body.modo-claro .tatico-membro-condicoes-label {
+  color: #2b2520;
+}
+body.modo-claro .tatico-membro-condicoes-qtd {
+  background: color-mix(in srgb, var(--accent) 15%, #eae1d0);
+  border-color: color-mix(in srgb, var(--accent) 45%, #cbbfab);
+  color: color-mix(in srgb, var(--accent) 85%, #000);
+}
+body.modo-claro .tatico-membro-condicoes-qtd.zero {
+  background: #ded4c0;
+  border-color: #cbbfab;
+  color: #8c8273;
+}
+body.modo-claro .btn-tatico-add-cond {
+  background: color-mix(in srgb, var(--accent) 16%, #eae1d0);
+  border-color: color-mix(in srgb, var(--accent) 45%, #cbbfab);
+  color: color-mix(in srgb, var(--accent) 85%, #000);
+}
+body.modo-claro .btn-tatico-add-cond:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.tatico-membro-condicoes-lista {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 55px;
+  max-height: 180px;
+  padding: 4px 2px;
+}
+
+.tatico-membro-condicoes-lista::-webkit-scrollbar {
+  width: 4px;
+}
+
+.tatico-membro-condicoes-lista::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--line) 80%, transparent);
+  border-radius: 2px;
+}
+
+/* Badge apenas com Ícone da Condição */
+.tatico-cond-ico-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  background: color-mix(in srgb, var(--bg-panel) 90%, var(--bg-void));
+  border: 1px solid var(--line);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.tatico-cond-ico-badge:hover {
+  transform: translateY(-2px) scale(1.12);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.7);
+  z-index: 5;
+}
+
+.tatico-cond-ico-badge.buff {
+  background: color-mix(in srgb, var(--accent) 18%, var(--bg-inset));
+  border: 1px solid color-mix(in srgb, var(--accent) 65%, transparent);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.tatico-cond-ico-badge.buff:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.tatico-cond-ico-badge.debuff {
+  background: rgba(245, 158, 11, 0.18);
+  border: 1px solid rgba(245, 158, 11, 0.7);
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.22);
+}
+
+.tatico-cond-ico-badge.debuff:hover {
+  border-color: #fbbf24;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.55);
+}
+
+.tatico-cond-ico-badge.debuff-dano {
+  background: rgba(220, 38, 38, 0.22);
+  border: 1px solid rgba(239, 68, 68, 0.85);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+  animation: tatico-pulso-dano 2.2s infinite ease-in-out;
+}
+
+@keyframes tatico-pulso-dano {
+  0%, 100% {
+    border-color: rgba(239, 68, 68, 0.85);
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.35);
+  }
+  50% {
+    border-color: #ff4d6d;
+    box-shadow: 0 0 12px rgba(255, 77, 109, 0.65);
+  }
+}
+
+.tatico-cond-ico-badge.debuff-dano:hover {
+  border-color: #ff4d6d;
+  box-shadow: 0 0 14px rgba(255, 77, 109, 0.75);
+}
+
+/* Card rápido para adicionar condição direto no grid */
+.tatico-cond-add-tile {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-faint);
+  background: transparent;
+  border: 1px dashed color-mix(in srgb, var(--line) 90%, transparent);
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.tatico-cond-add-tile:hover {
+  border-style: solid;
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-void));
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.tatico-cond-add-tile:active {
+  transform: scale(0.95);
+}
+
+body.modo-claro .tatico-cond-add-tile {
+  border-color: #cbbfab;
+  color: #8c8273;
+}
+body.modo-claro .tatico-cond-add-tile:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, #eae1d0);
+}
+
+body.modo-claro .tatico-cond-ico-badge {
+  background: #eae1d0;
+  border-color: #cbbfab;
+}
+body.modo-claro .tatico-cond-ico-badge.buff {
+  background: color-mix(in srgb, var(--accent) 18%, #eae1d0);
+  border-color: var(--accent);
+}
+body.modo-claro .tatico-cond-ico-badge.debuff {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: #d97706;
+}
+body.modo-claro .tatico-cond-ico-badge.debuff-dano {
+  background: rgba(220, 38, 38, 0.18);
+  border-color: #dc2626;
+}
+
+.tatico-condicoes-vazio-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+  font-size: 9px;
+  color: var(--ink-faint);
+  font-style: italic;
+  gap: 6px;
+  padding: 10px 4px;
+}
+
+.btn-tatico-vazio-add {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed var(--line);
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-tatico-vazio-add:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+/* Modal de Seleção e Gerenciamento de Condições */
+.modal-condicoes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.modal-condicao-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.modal-condicao-card:hover {
+  border-color: var(--line-soft);
+  background: color-mix(in srgb, var(--bg-panel) 85%, transparent);
+}
+
+.modal-condicao-card.ativa {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-inset));
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.modal-condicao-card.alerta.ativa {
+  border-color: #ffbe0b;
+  background: rgba(255, 190, 11, 0.15);
+}
+
+.modal-condicao-card.dano.ativa {
+  border-color: #e63946;
+  background: rgba(230, 57, 70, 0.15);
+}
+
+.modal-condicao-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.modal-condicao-card-titulo {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modal-condicao-card-desc {
+  font-size: 10.5px;
+  color: var(--ink-dim);
+  line-height: 1.3;
+}
+
+.modal-condicao-card-status {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--ink-dim);
+  flex-shrink: 0;
+}
+
+.modal-condicao-card.ativa .modal-condicao-card-status {
+  background: var(--accent);
+  color: #000;
+}
+
+/* Coluna Direita: Dados e Vitais */
+.tatico-membro-main-col {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
+  justify-content: space-between;
 }
 
-.tatico-membro-nome-linha {
+.tatico-membro-header-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 6px;
 }
 
+.tatico-membro-nome-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
 .tatico-membro-nome {
   font-family: 'MirageFinal', serif;
-  font-size: 15.5px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--ink);
   letter-spacing: 0.02em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.25;
 }
 
 .tatico-membro-tags {
   display: flex;
   align-items: center;
   gap: 4px;
-  flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .tatico-tag-pilula {
-  font-size: 9.5px;
-  font-weight: 700;
-  padding: 1px 6px;
-  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1.5px 6px;
+  border-radius: 3px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -9585,20 +10159,71 @@ body.modo-claro .tatico-membro-card {
   color: #fff;
 }
 
+.tatico-membro-acoes-topo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.btn-tatico-acao-rapida {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-inset));
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.btn-tatico-acao-rapida:hover {
+  background: color-mix(in srgb, var(--accent) 25%, var(--bg-inset));
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-tatico-acao-rapida.disfarcado {
+  border-color: #8e44ad;
+  background: rgba(142, 68, 173, 0.25);
+  color: #e0aaff;
+}
+
+.btn-tatico-acao-rapida.disfarcado:hover {
+  background: rgba(142, 68, 173, 0.38);
+  border-color: #bb86fc;
+}
+
+.tatico-membro-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--ink-dim);
+  flex-wrap: wrap;
+}
+
 .tatico-membro-classes {
-  font-size: 11.5px;
   color: var(--ink-dim);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 500;
 }
 
-.tatico-membro-status-tag {
-  font-size: 11px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+.tatico-membro-jogador-tag {
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  white-space: nowrap;
 }
 
 /* Barras Vitais Táticas do Membro */
@@ -9608,37 +10233,104 @@ body.modo-claro .tatico-membro-card {
   gap: 6px;
   background: var(--bg-inset);
   padding: 8px 10px;
-  border-radius: 4px;
+  border-radius: 6px;
   border: 1px solid var(--line);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .tatico-membro-vital-linha {
   display: grid;
-  grid-template-columns: 36px 1fr 64px;
+  grid-template-columns: 44px 1fr auto;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
-}
-
-.tatico-membro-vital-lbl {
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--ink-dim);
   font-size: 10.5px;
 }
 
-.tatico-membro-vital-track {
-  height: 9px;
+/* BARRA DE VIDA (PV) MAIOR E MAIS DESTACADA */
+.tatico-membro-vital-linha.vida-principal {
+  padding-bottom: 5px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  margin-bottom: 1px;
+}
+
+.tatico-membro-vital-linha.vida-principal .tatico-membro-vital-lbl {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #ff6b6b;
+  letter-spacing: 0.05em;
+}
+
+.tatico-membro-vital-linha.vida-principal .tatico-membro-vital-track {
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.tatico-membro-vital-linha.vida-principal .tatico-membro-vital-fill.pv {
+  background: linear-gradient(90deg, #c0392b, #e74c3c, #ff6b6b);
+  box-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
+}
+
+.tatico-membro-vital-linha.vida-principal .tatico-membro-vital-val {
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.tatico-membro-sec-vitais {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* OUTRAS BARRAS (EST, MEN, AUR) COM CORES VÍVIDAS E TEXTO 100% OPACO */
+.tatico-membro-vital-linha.estamina-linha .tatico-membro-vital-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  color: #f1c40f;
+}
+
+.tatico-membro-vital-linha.mental-linha .tatico-membro-vital-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  color: #3498db;
+}
+
+.tatico-membro-vital-linha.aura-linha .tatico-membro-vital-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.tatico-membro-vital-linha:not(.vida-principal) .tatico-membro-vital-track {
+  height: 6px;
+  border-radius: 3px;
   background: rgba(0, 0, 0, 0.45);
-  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tatico-membro-vital-linha:not(.vida-principal) .tatico-membro-vital-val {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.tatico-membro-vital-lbl {
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.tatico-membro-vital-track {
+  background: rgba(0, 0, 0, 0.45);
   overflow: hidden;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  min-width: 40px;
 }
 
 .tatico-membro-vital-fill {
   height: 100%;
-  border-radius: 4px;
+  border-radius: inherit;
   transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -9658,13 +10350,310 @@ body.modo-claro .tatico-membro-card {
   background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #fff));
 }
 
+/* Preenchimento de Pontos Temporários nas Barras dos Membros */
+.tatico-membro-vital-fill-temp {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  border-radius: 0 3px 3px 0;
+  opacity: 0.85;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.tatico-membro-vital-fill-temp.vida {
+  background: repeating-linear-gradient(45deg, #ff758f, #ff758f 3px, #e63946 3px, #e63946 6px);
+  box-shadow: 0 0 6px rgba(255, 117, 143, 0.6);
+}
+
+.tatico-membro-vital-fill-temp.estamina {
+  background: repeating-linear-gradient(45deg, #ffe066, #ffe066 3px, #f1c40f 3px, #f1c40f 6px);
+  box-shadow: 0 0 6px rgba(241, 196, 15, 0.5);
+}
+
+.tatico-membro-vital-fill-temp.mental {
+  background: repeating-linear-gradient(45deg, #4895ef, #4895ef 3px, #1e4fd8 3px, #1e4fd8 6px);
+  box-shadow: 0 0 6px rgba(72, 149, 239, 0.5);
+}
+
+.tatico-membro-vital-fill-temp.aura {
+  background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--accent) 80%, white), color-mix(in srgb, var(--accent) 80%, white) 3px, var(--accent) 3px, var(--accent) 6px);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* Container de Valores e Tags de Pontos Temporários */
+.tatico-membro-vital-val-box {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
 .tatico-membro-vital-val {
   font-family: monospace;
-  font-size: 11px;
-  font-weight: 700;
   color: var(--ink);
   text-align: right;
   white-space: nowrap;
+}
+
+.tatico-membro-temp-tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: monospace;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 3px;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+}
+
+.tatico-membro-temp-tag.vida {
+  color: #ff8fa3;
+  background: rgba(230, 57, 70, 0.25);
+  border: 1px solid rgba(255, 117, 143, 0.5);
+}
+
+.tatico-membro-temp-tag.estamina {
+  color: #ffe066;
+  background: rgba(241, 196, 15, 0.25);
+  border: 1px solid rgba(241, 196, 15, 0.5);
+}
+
+.tatico-membro-temp-tag.mental {
+  color: #70b8ff;
+  background: rgba(30, 79, 216, 0.25);
+  border: 1px solid rgba(72, 149, 239, 0.5);
+}
+
+.tatico-membro-temp-tag.aura {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* Card do Jogador (Você) com Controles Completos e Editáveis de Recursos */
+.tatico-membro-vitais.meu-card-vitais {
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+.tatico-membro-vital-linha-editavel {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed color-mix(in srgb, var(--line) 60%, transparent);
+}
+
+.tatico-membro-vital-linha-editavel:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.tatico-membro-vital-linha-editavel.vida-principal {
+  padding-bottom: 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+}
+
+.tatico-membro-vital-linha-editavel.vida-principal .tatico-membro-vital-lbl {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #ff6b6b;
+  letter-spacing: 0.05em;
+}
+
+.tatico-membro-vital-linha-editavel.estamina-linha .tatico-membro-vital-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #f1c40f;
+}
+
+.tatico-membro-vital-linha-editavel.mental-linha .tatico-membro-vital-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #3498db;
+}
+
+.tatico-membro-vital-linha-editavel.aura-linha .tatico-membro-vital-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.tatico-membro-vital-edit-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.tatico-membro-valores-controles {
+  display: inline-flex;
+  align-items: stretch;
+  height: 26px;
+  background: var(--bg-void);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+}
+
+.tatico-card-inputs-wrap {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 4px 0 6px;
+  background: transparent;
+  height: 100%;
+}
+
+.tatico-card-inputs-wrap input[type="number"] {
+  background: transparent;
+  border: none;
+  font-family: monospace;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -moz-appearance: textfield;
+}
+
+.tatico-card-inputs-wrap input[id$="_atual"] {
+  width: 38px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.tatico-membro-vital-linha-editavel.vida-principal .tatico-card-inputs-wrap input[id$="_atual"] {
+  color: #ff6b6b;
+}
+
+.tatico-membro-vital-linha-editavel.estamina-linha .tatico-card-inputs-wrap input[id$="_atual"] {
+  color: #ffd166;
+}
+
+.tatico-membro-vital-linha-editavel.mental-linha .tatico-card-inputs-wrap input[id$="_atual"] {
+  color: #4895ef;
+}
+
+.tatico-membro-vital-linha-editavel.aura-linha .tatico-card-inputs-wrap input[id$="_atual"] {
+  color: var(--accent);
+}
+
+.tatico-card-inputs-wrap input[id$="_max"] {
+  width: 32px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink-dim);
+}
+
+.tatico-card-inputs-wrap input[type="number"]::-webkit-inner-spin-button,
+.tatico-card-inputs-wrap input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.tatico-card-temp-wrap {
+  display: inline-flex;
+  align-items: center;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border-left: 1px solid var(--line-soft);
+  padding: 0 3px 0 5px;
+  gap: 2px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.tatico-card-temp-wrap input[type="number"] {
+  width: 22px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  -moz-appearance: textfield;
+}
+
+.tatico-card-temp-wrap input[type="number"]::-webkit-inner-spin-button,
+.tatico-card-temp-wrap input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.tatico-card-pct-badge {
+  font-family: 'MirageFinal', serif;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  background: color-mix(in srgb, var(--bg-panel) 85%, var(--bg-void));
+  color: var(--ink-dim);
+  border-left: 1px solid var(--line-soft);
+  white-space: nowrap;
+}
+
+.tatico-membro-delta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1px;
+}
+
+.tatico-card-delta-box {
+  flex: 1;
+  height: 24px;
+  min-height: 24px;
+}
+
+.tatico-card-delta-box .recurso-delta-sinal {
+  font-size: 11px;
+  padding-left: 5px;
+}
+
+.tatico-card-delta-box .recurso-delta-input {
+  font-size: 11px;
+  height: 100%;
+}
+
+.tatico-card-delta-box .btn-recurso-delta-enter {
+  width: 24px;
+  height: 100%;
+  font-size: 11px;
+}
+
+.tatico-card-btn-max {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-panel));
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.tatico-card-btn-max:hover {
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 8px var(--accent-glow);
 }
 
 /* Botão e Seção de Expansão de Atributos & Perícias */
@@ -10757,12 +11746,16 @@ body.modo-claro .tatico-membro-card {
   pointer-events: none;
   transition: opacity 0.2s ease;
 }
-.modal-membro-overlay.aberto {
-  opacity: 1;
-  pointer-events: auto;
+.modal-membro-overlay.aberto,
+.modal-membro-overlay[style*="display: flex"],
+.modal-membro-overlay[style*="display:flex"] {
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 .modal-membro-janela {
-  background: var(--bg-card);
+  background: var(--bg-card, #141414);
+  background-color: var(--bg-card, #141414);
+  color: var(--ink);
   border: 1px solid var(--line);
   border-radius: 8px;
   width: 100%;
@@ -10770,8 +11763,9 @@ body.modo-claro .tatico-membro-card {
   max-height: 85vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 16px 40px var(--shadow);
+  box-shadow: 0 16px 40px var(--shadow, rgba(0, 0, 0, 0.7));
   overflow: hidden;
+  position: relative;
 }
 .modal-membro-cabecalho {
   padding: 16px 20px;
@@ -10779,6 +11773,7 @@ body.modo-claro .tatico-membro-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: color-mix(in srgb, var(--bg-void) 40%, var(--bg-card));
 }
 .modal-membro-corpo {
   padding: 20px;
@@ -10786,6 +11781,87 @@ body.modo-claro .tatico-membro-card {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background: var(--bg-card, #141414);
+}
+
+.btn-fechar-modal {
+  background: color-mix(in srgb, var(--bg-inset) 80%, transparent);
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-family: inherit;
+  line-height: 1;
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.btn-fechar-modal:hover {
+  background: color-mix(in srgb, var(--desastre-glow, #ff4444) 18%, var(--bg-inset));
+  border-color: var(--desastre-glow, #ff4444);
+  color: var(--desastre-glow, #ff4444);
+  transform: rotate(90deg) scale(1.05);
+}
+.btn-fechar-modal:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+.btn-primario {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--accent) 22%, var(--bg-inset));
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 18%, transparent);
+  line-height: 1.2;
+}
+.btn-primario:hover {
+  background: var(--accent);
+  color: #070707;
+  border-color: var(--accent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.btn-primario:active {
+  transform: scale(0.98);
+}
+body.modo-claro .btn-primario {
+  background: color-mix(in srgb, var(--accent) 18%, #eae1d0);
+  color: color-mix(in srgb, var(--accent) 80%, #000000);
+  border-color: var(--accent);
+}
+body.modo-claro .btn-primario:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+body.modo-claro .btn-fechar-modal {
+  background: #dfd5c2;
+  border-color: #bdaf98;
+  color: var(--ink-dim);
+}
+body.modo-claro .btn-fechar-modal:hover {
+  background: color-mix(in srgb, var(--desastre, #8b1515) 15%, #dfd5c2);
+  border-color: var(--desastre, #8b1515);
+  color: var(--desastre, #8b1515);
 }
 
 body.modo-claro .campanha-header-card,
@@ -11433,9 +12509,9 @@ body.modo-claro .campanha-diario-textarea {
         <div class="ficha-avatar" id="avatar-clique" onclick="document.getElementById('input-avatar').click()" title="Clique para escolher uma imagem de retrato">
           <img id="ficha_avatar_img" alt="Retrato do personagem">
           <div id="avatar_placeholder" class="avatar-placeholder">
-            <span class="avatar-icone-add">❖</span>
-            <span>Retrato</span>
-            <span class="avatar-dica">Adicionar</span>
+            <span class="avatar-icone-add">⚜</span>
+            <span style="font-weight:700; font-size:13.5px; color:var(--ink);">Retrato</span>
+            <span class="avatar-dica">Adicionar Retrato</span>
           </div>
           <button type="button" class="avatar-remover" id="avatar_remover" title="Remover imagem" onclick="event.stopPropagation();removerAvatar()">&times;</button>
         </div>
@@ -11518,68 +12594,69 @@ body.modo-claro .campanha-diario-textarea {
             <span class="preview-detalhes-sub" id="ficha_preview_detalhes_sub"></span>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="ficha-metadados-grid">
-          <div class="input-group">
-            <label for="ficha_nivel">Nível</label>
-            <div class="select-wrap">
-              <select id="ficha_nivel">
-                <option value="">—</option>
-                <option>MISERÁVEL</option>
-                <option>MEDÍOCRE</option>
-                <option>HÁBIL</option>
-                <option>FORTE</option>
-                <option>ELITE</option>
-                <option>MESTRE</option>
-                <option>SUPER</option>
-                <option>SUPREMO</option>
-                <option>SEMI-DEUS</option>
-              </select>
-            </div>
-          </div>
-          <div class="input-group">
-            <label for="ficha_classe1">1ª Classe</label>
-            <div class="select-wrap">
-              <select id="ficha_classe1" onchange="atualizarOpcoesClasse()">
-                <option value="">(nenhuma)</option>
-                <option>Lutador</option>
-                <option>Atirador</option>
-                <option>Eteromante</option>
-                <option>Alquimista</option>
-                <option>Ladino</option>
-              </select>
-            </div>
-          </div>
-          <div class="input-group">
-            <label for="ficha_classe2">2ª Classe</label>
-            <div class="select-wrap">
-              <select id="ficha_classe2" onchange="atualizarOpcoesClasse()">
-                <option value="">(nenhuma)</option>
-                <option>Lutador</option>
-                <option>Atirador</option>
-                <option>Eteromante</option>
-                <option>Alquimista</option>
-                <option>Ladino</option>
-              </select>
-            </div>
-          </div>
-          <div class="input-group ficha-cor-grupo">
-            <label for="ficha_cor">Cor do Tema</label>
-            <div class="ficha-cor-caixa" onclick="document.getElementById('ficha_cor').click()" title="Personalizar cor de destaque da ficha">
-              <input type="color" id="ficha_cor" value="#c9b183" oninput="definirCorPrincipal(this.value)" onchange="definirCorPrincipal(this.value)">
-              <span class="ficha-cor-legenda">Personalizar</span>
-            </div>
-          </div>
-          <div class="input-group ficha-contorno-grupo">
-            <label class="ficha-contorno-rotulo" for="ficha_contorno_ativo" title="Adicionar contorno (stroke) nos elementos da cor do tema">
-              <input type="checkbox" id="ficha_contorno_ativo" onchange="alternarContornoLetras(this.checked)">
-              <span>Contorno</span>
-            </label>
-            <div class="ficha-cor-caixa ficha-contorno-caixa desativada" id="caixa_contorno_cor" onclick="clicarCaixaContornoCor()" title="Escolher cor do contorno (stroke)">
-              <input type="color" id="ficha_contorno_cor" value="#ffffff" oninput="definirCorContorno(this.value)" onchange="definirCorContorno(this.value)">
-              <span class="ficha-cor-legenda" id="legenda_contorno_cor">Cor Borda</span>
-            </div>
-          </div>
+    <!-- Linha de Metadados: Enquadrada em toda a largura aproveitando o espaço sob o retrato -->
+    <div class="ficha-metadados-grid">
+      <div class="input-group">
+        <label for="ficha_nivel">Nível</label>
+        <div class="select-wrap">
+          <select id="ficha_nivel">
+            <option value="">—</option>
+            <option>MISERÁVEL</option>
+            <option>MEDÍOCRE</option>
+            <option>HÁBIL</option>
+            <option>FORTE</option>
+            <option>ELITE</option>
+            <option>MESTRE</option>
+            <option>SUPER</option>
+            <option>SUPREMO</option>
+            <option>SEMI-DEUS</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="ficha_classe1">1ª Classe</label>
+        <div class="select-wrap">
+          <select id="ficha_classe1" onchange="atualizarOpcoesClasse()">
+            <option value="">(nenhuma)</option>
+            <option>Lutador</option>
+            <option>Atirador</option>
+            <option>Eteromante</option>
+            <option>Alquimista</option>
+            <option>Ladino</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="ficha_classe2">2ª Classe</label>
+        <div class="select-wrap">
+          <select id="ficha_classe2" onchange="atualizarOpcoesClasse()">
+            <option value="">(nenhuma)</option>
+            <option>Lutador</option>
+            <option>Atirador</option>
+            <option>Eteromante</option>
+            <option>Alquimista</option>
+            <option>Ladino</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group ficha-cor-grupo">
+        <label for="ficha_cor">Cor do Tema</label>
+        <div class="ficha-cor-caixa" onclick="document.getElementById('ficha_cor').click()" title="Personalizar cor de destaque da ficha">
+          <input type="color" id="ficha_cor" value="#c9b183" oninput="definirCorPrincipal(this.value)" onchange="definirCorPrincipal(this.value)">
+          <span class="ficha-cor-legenda">Personalizar</span>
+        </div>
+      </div>
+      <div class="input-group ficha-contorno-grupo">
+        <label class="ficha-contorno-rotulo" for="ficha_contorno_ativo" title="Adicionar contorno (stroke) nos elementos da cor do tema">
+          <input type="checkbox" id="ficha_contorno_ativo" onchange="alternarContornoLetras(this.checked)">
+          <span>Contorno</span>
+        </label>
+        <div class="ficha-cor-caixa ficha-contorno-caixa desativada" id="caixa_contorno_cor" onclick="clicarCaixaContornoCor()" title="Escolher cor do contorno (stroke)">
+          <input type="color" id="ficha_contorno_cor" value="#ffffff" oninput="definirCorContorno(this.value)" onchange="definirCorContorno(this.value)">
+          <span class="ficha-cor-legenda" id="legenda_contorno_cor">Cor Borda</span>
         </div>
       </div>
     </div>
@@ -12817,6 +13894,7 @@ if(window.innerWidth <= 768){
           <div class="tatico-temp-wrap" id="wrap_tatico_vida_temp" title="Vida Temporária">
             <span class="tatico-temp-sinal">+</span>
             <input type="number" id="tatico_vida_temp" value="0" min="0" oninput="ajustarInputTempRecursoTatico('vida')" onchange="ajustarInputTempRecursoTatico('vida')" title="Vida Temporária" aria-label="Vida Temporária">
+            <button type="button" class="tatico-temp-zerar" onclick="zerarRecursoTemporario('vida')" title="Zerar pontos temporários de Vida">✕</button>
           </div>
           <span class="tatico-recurso-badge" id="tatico_vida_pct">100%</span>
         </div>
@@ -12868,6 +13946,7 @@ if(window.innerWidth <= 768){
           <div class="tatico-temp-wrap" id="wrap_tatico_estamina_temp" title="Estamina Temporária">
             <span class="tatico-temp-sinal">+</span>
             <input type="number" id="tatico_estamina_temp" value="0" min="0" oninput="ajustarInputTempRecursoTatico('estamina')" onchange="ajustarInputTempRecursoTatico('estamina')" title="Estamina Temporária" aria-label="Estamina Temporária">
+            <button type="button" class="tatico-temp-zerar" onclick="zerarRecursoTemporario('estamina')" title="Zerar pontos temporários de Estamina">✕</button>
           </div>
           <span class="tatico-recurso-badge" id="tatico_estamina_pct">100%</span>
         </div>
@@ -12919,6 +13998,7 @@ if(window.innerWidth <= 768){
           <div class="tatico-temp-wrap" id="wrap_tatico_mental_temp" title="Mental Temporário">
             <span class="tatico-temp-sinal">+</span>
             <input type="number" id="tatico_mental_temp" value="0" min="0" oninput="ajustarInputTempRecursoTatico('mental')" onchange="ajustarInputTempRecursoTatico('mental')" title="Mental Temporário" aria-label="Mental Temporário">
+            <button type="button" class="tatico-temp-zerar" onclick="zerarRecursoTemporario('mental')" title="Zerar pontos temporários de Mental">✕</button>
           </div>
           <span class="tatico-recurso-badge" id="tatico_mental_pct">100%</span>
         </div>
@@ -12970,6 +14050,7 @@ if(window.innerWidth <= 768){
           <div class="tatico-temp-wrap" id="wrap_tatico_aura_temp" title="Aura Temporária">
             <span class="tatico-temp-sinal">+</span>
             <input type="number" id="tatico_aura_temp" value="0" min="0" oninput="ajustarInputTempRecursoTatico('aura')" onchange="ajustarInputTempRecursoTatico('aura')" title="Aura Temporária" aria-label="Aura Temporária">
+            <button type="button" class="tatico-temp-zerar" onclick="zerarRecursoTemporario('aura')" title="Zerar pontos temporários de Aura">✕</button>
           </div>
           <span class="tatico-recurso-badge" id="tatico_aura_pct">100%</span>
         </div>
@@ -13869,6 +14950,55 @@ if(window.innerWidth <= 768){
     </div>
     <div class="modal-membro-corpo" id="modal-vis-ficha-corpo" style="display:flex; flex-direction:column; gap:14px; padding:16px; max-height:80vh; overflow-y:auto;">
       <!-- Conteúdo da ficha do jogador -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE SELETOR E GERENCIAMENTO DE CONDIÇÕES & POSTURAS -->
+<div id="modal-seletor-condicoes" class="modal-membro-overlay" aria-hidden="true" style="display:none;" onclick="fecharModalSeletorCondicoesPorOverlay(event)">
+  <div class="modal-membro-janela" style="max-width:560px;" role="dialog" aria-labelledby="modal-condicoes-titulo" aria-modal="true">
+    <div class="modal-membro-cabecalho">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:22px;">🛡️</span>
+        <div>
+          <h3 id="modal-condicoes-titulo" style="font-family:'MirageFinal', serif; font-size:18px; margin:0; color:var(--ink);">Condições & Posturas de Combate</h3>
+          <span id="modal-condicoes-sub" style="font-size:12px; color:var(--ink-dim);">Selecione aflições, posturas ou bônus táticos</span>
+        </div>
+      </div>
+      <button type="button" class="btn-fechar-modal" onclick="fecharModalSeletorCondicoes()" title="Fechar janela">✕</button>
+    </div>
+    <div class="modal-membro-corpo" style="gap:12px; padding:16px;">
+      <!-- Barra de Busca e Filtros -->
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <input type="text" id="input_busca_condicoes" class="campanha-input" placeholder="Buscar condição (ex: Cobertura, Sangrando)..." oninput="filtrarCondicoesModal()" style="flex:1; min-width:180px; height:34px; font-size:12px;">
+        <div style="display:flex; gap:4px; flex-wrap:wrap;">
+          <button type="button" class="tatico-cond-chip ativo" id="filtro_cond_tab_todas" onclick="alternarFiltroTabCondicoes('todas')">Todas</button>
+          <button type="button" class="tatico-cond-chip" id="filtro_cond_tab_buff" onclick="alternarFiltroTabCondicoes('buff')">🛡️ Posturas</button>
+          <button type="button" class="tatico-cond-chip alerta" id="filtro_cond_tab_debuff" onclick="alternarFiltroTabCondicoes('debuff')">⚠️ Aflições</button>
+          <button type="button" class="tatico-cond-chip dano" id="filtro_cond_tab_dano" onclick="alternarFiltroTabCondicoes('debuff-dano')">🩸 Dano Contínuo</button>
+        </div>
+      </div>
+
+      <!-- Grid de Condições Interativas -->
+      <div class="modal-condicoes-grid" id="modal-condicoes-grid-container">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+
+      <!-- Seção de Condição Personalizada -->
+      <div style="background:var(--bg-inset); border:1px solid var(--line); border-radius:6px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:11px; font-weight:bold; color:var(--ink-dim); text-transform:uppercase;">+ Adicionar Condição Personalizada</span>
+        <div style="display:flex; gap:6px;">
+          <input type="text" id="input_nova_condicao_custom" class="campanha-input" placeholder="Nome do efeito ou condição..." style="flex:1; height:32px; font-size:12px;">
+          <select id="select_nova_condicao_tipo" class="campanha-input" style="width:110px; height:32px; font-size:11.5px;">
+            <option value="buff">🛡️ Postura</option>
+            <option value="debuff">⚠️ Aflição</option>
+            <option value="debuff-dano">🩸 Dano</option>
+          </select>
+          <button type="button" class="btn-primario" onclick="adicionarCondicaoPersonalizadaModal()" style="height:32px; font-size:11.5px; padding:0 12px; margin:0;">
+            <span>+ Inserir</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -17538,6 +18668,37 @@ try {
     }
 } catch (e) {}
 
+let taquicardiaBusNode = null;
+
+function obterTaquicardiaBus(ctx) {
+    if (taquicardiaBusNode && taquicardiaBusNode.context === ctx) {
+        return taquicardiaBusNode;
+    }
+    try {
+        const compressor = ctx.createDynamicsCompressor();
+        compressor.threshold.setValueAtTime(-14, ctx.currentTime);
+        compressor.knee.setValueAtTime(6, ctx.currentTime);
+        compressor.ratio.setValueAtTime(4.5, ctx.currentTime);
+        compressor.attack.setValueAtTime(0.003, ctx.currentTime);
+        compressor.release.setValueAtTime(0.12, ctx.currentTime);
+        compressor.connect(ctx.destination);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(260, ctx.currentTime);
+        filter.connect(compressor);
+
+        const busGain = ctx.createGain();
+        busGain.gain.setValueAtTime(1.0, ctx.currentTime);
+        busGain.connect(filter);
+
+        taquicardiaBusNode = busGain;
+        return taquicardiaBusNode;
+    } catch (e) {
+        return ctx.destination;
+    }
+}
+
 function tocarTransicaoSonoraEstamina(tipo, nivel = "moderada") {
     if (!somAtivado) return;
     const ctx = obterAudioContext();
@@ -17547,89 +18708,86 @@ function tocarTransicaoSonoraEstamina(tipo, nivel = "moderada") {
     }
 
     const agora = ctx.currentTime;
+    const destino = obterTaquicardiaBus(ctx);
 
     if (tipo === "aparecer") {
         // Transição sutil sombria: queda de ar expirado e sub-grave de esgotamento
-        const destino = criarCadeiaSaida(ctx, 0.32);
-
         // 1. Sopro/ar abafado que envolve os sentidos (névoa sonora)
         try {
-            const len = Math.floor(ctx.sampleRate * 0.75);
+            const len = Math.floor(ctx.sampleRate * 0.60);
             const buf = ctx.createBuffer(1, len, ctx.sampleRate);
             const data = buf.getChannelData(0);
             for (let i = 0; i < len; i++) {
-                data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.36));
+                data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.28));
             }
             const noise = ctx.createBufferSource();
             noise.buffer = buf;
             const filter = ctx.createBiquadFilter();
             filter.type = "bandpass";
             filter.frequency.setValueAtTime(340, agora);
-            filter.frequency.exponentialRampToValueAtTime(105, agora + 0.7);
+            filter.frequency.exponentialRampToValueAtTime(105, agora + 0.55);
             filter.Q.setValueAtTime(2.4, agora);
 
             const gain = ctx.createGain();
-            gain.gain.setValueAtTime(0.001, agora);
-            gain.gain.linearRampToValueAtTime(nivel === "critica" ? 0.24 : 0.16, agora + 0.14);
-            gain.gain.exponentialRampToValueAtTime(0.0001, agora + 0.72);
+            gain.gain.setValueAtTime(0.0001, agora);
+            gain.gain.linearRampToValueAtTime(nivel === "critica" ? 0.22 : 0.14, agora + 0.10);
+            gain.gain.exponentialRampToValueAtTime(0.0001, agora + 0.58);
 
             noise.connect(filter);
             filter.connect(gain);
             gain.connect(destino);
             noise.start(agora);
-            noise.stop(agora + 0.75);
+            noise.stop(agora + 0.60);
         } catch (e) {}
 
         // 2. Sub-drop suave descendente (peso corporal cedendo à fadiga)
         try {
             const osc = ctx.createOscillator();
             const gainOsc = ctx.createGain();
-            const fIni = (nivel === "critica") ? 92 : 74;
-            const fFim = (nivel === "critica") ? 32 : 38;
+            const fIni = (nivel === "critica") ? 88 : 72;
+            const fFim = (nivel === "critica") ? 30 : 36;
 
             osc.type = "sine";
             osc.frequency.setValueAtTime(fIni, agora);
-            osc.frequency.exponentialRampToValueAtTime(fFim, agora + 0.78);
+            osc.frequency.exponentialRampToValueAtTime(fFim, agora + 0.65);
 
-            gainOsc.gain.setValueAtTime(0.001, agora);
-            gainOsc.gain.linearRampToValueAtTime(nivel === "critica" ? 0.25 : 0.16, agora + 0.12);
-            gainOsc.gain.exponentialRampToValueAtTime(0.0001, agora + 0.78);
+            gainOsc.gain.setValueAtTime(0.0001, agora);
+            gainOsc.gain.linearRampToValueAtTime(nivel === "critica" ? 0.24 : 0.15, agora + 0.08);
+            gainOsc.gain.exponentialRampToValueAtTime(0.0001, agora + 0.65);
 
             osc.connect(gainOsc);
             gainOsc.connect(destino);
             osc.start(agora);
-            osc.stop(agora + 0.80);
+            osc.stop(agora + 0.66);
         } catch (e) {}
     } else if (tipo === "sumir") {
         // Transição sutil de alívio e clareza: fôlego recuperado e harmônico de lucidez
-        const destino = criarCadeiaSaida(ctx, 0.26);
-
         // 1. Sopro suave de alívio dissipando a opressão
         try {
-            const len = Math.floor(ctx.sampleRate * 0.65);
+            const len = Math.floor(ctx.sampleRate * 0.50);
             const buf = ctx.createBuffer(1, len, ctx.sampleRate);
             const data = buf.getChannelData(0);
             for (let i = 0; i < len; i++) {
-                data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.30));
+                data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.25));
             }
             const noise = ctx.createBufferSource();
             noise.buffer = buf;
             const filter = ctx.createBiquadFilter();
             filter.type = "bandpass";
             filter.frequency.setValueAtTime(170, agora);
-            filter.frequency.exponentialRampToValueAtTime(560, agora + 0.58);
+            filter.frequency.exponentialRampToValueAtTime(520, agora + 0.45);
             filter.Q.setValueAtTime(1.8, agora);
 
             const gain = ctx.createGain();
-            gain.gain.setValueAtTime(0.001, agora);
-            gain.gain.linearRampToValueAtTime(0.14, agora + 0.10);
-            gain.gain.exponentialRampToValueAtTime(0.0001, agora + 0.62);
+            gain.gain.setValueAtTime(0.0001, agora);
+            gain.gain.linearRampToValueAtTime(0.12, agora + 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.0001, agora + 0.48);
 
             noise.connect(filter);
             filter.connect(gain);
             gain.connect(destino);
             noise.start(agora);
-            noise.stop(agora + 0.65);
+            noise.stop(agora + 0.50);
         } catch (e) {}
 
         // 2. Acorde suave de restauração e equilíbrio (tons puros e calorosos)
@@ -17639,17 +18797,17 @@ function tocarTransicaoSonoraEstamina(tipo, nivel = "moderada") {
                 const gainChord = ctx.createGain();
 
                 osc.type = "sine";
-                osc.frequency.setValueAtTime(freq, agora + 0.04);
+                osc.frequency.setValueAtTime(freq, agora + 0.03);
 
-                const vol = (idx === 0) ? 0.09 : 0.06;
-                gainChord.gain.setValueAtTime(0.001, agora + 0.04);
-                gainChord.gain.linearRampToValueAtTime(vol, agora + 0.14);
-                gainChord.gain.exponentialRampToValueAtTime(0.0001, agora + 0.72);
+                const vol = (idx === 0) ? 0.08 : 0.05;
+                gainChord.gain.setValueAtTime(0.0001, agora + 0.03);
+                gainChord.gain.linearRampToValueAtTime(vol, agora + 0.10);
+                gainChord.gain.exponentialRampToValueAtTime(0.0001, agora + 0.55);
 
                 osc.connect(gainChord);
                 gainChord.connect(destino);
-                osc.start(agora + 0.04);
-                osc.stop(agora + 0.75);
+                osc.start(agora + 0.03);
+                osc.stop(agora + 0.58);
             });
         } catch (e) {}
     }
@@ -17815,21 +18973,145 @@ function avaliarEstaminaCritica() {
     atualizarBotaoEfeitosEstaminaUI();
 }
 
+let taquicardiaProximaBatida = 0;
+
+function tocarBatidaEstaminaSintetizada(ctx, destino, t, ehCritica) {
+    const intensidade = ehCritica ? 0.90 : 0.65;
+
+    // 1. Pulso S1 (Sístole - fechamento das valvas mitral e tricúspide)
+    try {
+        const oscS1 = ctx.createOscillator();
+        const oscS1Tri = ctx.createOscillator();
+        const gS1 = ctx.createGain();
+        const fS1 = ctx.createBiquadFilter();
+        const durS1 = 0.082;
+
+        oscS1.type = "sine";
+        oscS1.frequency.setValueAtTime(ehCritica ? 58 : 52, t);
+        oscS1.frequency.exponentialRampToValueAtTime(32, t + durS1);
+
+        oscS1Tri.type = "triangle";
+        oscS1Tri.frequency.setValueAtTime(ehCritica ? 86 : 76, t);
+        oscS1Tri.frequency.exponentialRampToValueAtTime(38, t + durS1);
+
+        fS1.type = "lowpass";
+        fS1.frequency.setValueAtTime(115, t);
+        fS1.frequency.exponentialRampToValueAtTime(42, t + durS1);
+
+        gS1.gain.setValueAtTime(0.0001, t);
+        gS1.gain.linearRampToValueAtTime(intensidade, t + 0.011);
+        gS1.gain.exponentialRampToValueAtTime(0.0001, t + durS1 + 0.015);
+
+        oscS1.connect(fS1);
+        oscS1Tri.connect(fS1);
+        fS1.connect(gS1);
+        gS1.connect(destino);
+
+        oscS1.start(t);
+        oscS1Tri.start(t);
+        oscS1.stop(t + durS1 + 0.025);
+        oscS1Tri.stop(t + durS1 + 0.025);
+    } catch (e) {}
+
+    // 2. Pulso S2 (Diástole - fechamento das valvas aórtica e pulmonar)
+    try {
+        const atrasoS2 = ehCritica ? 0.11 : 0.13;
+        const t2 = t + atrasoS2;
+        const durS2 = 0.072;
+
+        const oscS2 = ctx.createOscillator();
+        const oscS2Tri = ctx.createOscillator();
+        const gS2 = ctx.createGain();
+        const fS2 = ctx.createBiquadFilter();
+
+        oscS2.type = "sine";
+        oscS2.frequency.setValueAtTime(ehCritica ? 70 : 62, t2);
+        oscS2.frequency.exponentialRampToValueAtTime(36, t2 + durS2);
+
+        oscS2Tri.type = "triangle";
+        oscS2Tri.frequency.setValueAtTime(ehCritica ? 104 : 92, t2);
+        oscS2Tri.frequency.exponentialRampToValueAtTime(42, t2 + durS2);
+
+        fS2.type = "lowpass";
+        fS2.frequency.setValueAtTime(130, t2);
+        fS2.frequency.exponentialRampToValueAtTime(48, t2 + durS2);
+
+        gS2.gain.setValueAtTime(0.0001, t2);
+        gS2.gain.linearRampToValueAtTime(intensidade * 0.72, t2 + 0.009);
+        gS2.gain.exponentialRampToValueAtTime(0.0001, t2 + durS2 + 0.015);
+
+        oscS2.connect(fS2);
+        oscS2Tri.connect(fS2);
+        fS2.connect(gS2);
+        gS2.connect(destino);
+
+        oscS2.start(t2);
+        oscS2Tri.start(t2);
+        oscS2.stop(t2 + durS2 + 0.02);
+        oscS2Tri.stop(t2 + durS2 + 0.02);
+    } catch (e) {}
+
+    // 3. Sub-Impacto de Pressão no Peito (curto para não encavalar com o próximo batimento)
+    try {
+        const oscSub = ctx.createOscillator();
+        const gSub = ctx.createGain();
+        const durSub = ehCritica ? 0.20 : 0.16;
+
+        oscSub.type = "sine";
+        oscSub.frequency.setValueAtTime(ehCritica ? 74 : 60, t);
+        oscSub.frequency.exponentialRampToValueAtTime(26, t + durSub);
+
+        gSub.gain.setValueAtTime(0.0001, t);
+        gSub.gain.linearRampToValueAtTime(intensidade * (ehCritica ? 0.38 : 0.22), t + 0.014);
+        gSub.gain.exponentialRampToValueAtTime(0.0001, t + durSub);
+
+        oscSub.connect(gSub);
+        gSub.connect(destino);
+
+        oscSub.start(t);
+        oscSub.stop(t + durSub + 0.01);
+    } catch (e) {}
+}
+
 function iniciarSomTaquicardia(nivel) {
     pararSomTaquicardia();
-    executarBatidaTaquicardia(nivel);
+    if (!somAtivado) return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+    if (ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+    }
 
-    // Crítica: 410ms (~146 BPM, taquicardia intensa)
-    // Moderada: 640ms (~94 BPM, batimento acelerado mais compassado)
-    const intervaloMs = (nivel === "critica") ? 410 : 640;
+    const destino = obterTaquicardiaBus(ctx);
+    const ehCritica = (nivel === "critica");
+    const intervalo = ehCritica ? 0.44 : 0.66; // ~136 BPM em crítica, ~90 BPM em moderada
 
-    estaminaAudioInterval = setInterval(() => {
-        if (estaminaEstadoAtual === nivel) {
-            executarBatidaTaquicardia(nivel);
-        } else {
+    taquicardiaProximaBatida = ctx.currentTime + 0.02;
+
+    function agendarProximasBatidas() {
+        if (!somAtivado || (estaminaEstadoAtual !== "critica" && estaminaEstadoAtual !== "moderada")) {
             pararSomTaquicardia();
+            return;
         }
-    }, intervaloMs);
+        const agora = ctx.currentTime;
+        const nivelAtual = estaminaEstadoAtual;
+        const criticaAtual = (nivelAtual === "critica");
+        const intervAtual = criticaAtual ? 0.44 : 0.66;
+
+        if (taquicardiaProximaBatida < agora) {
+            taquicardiaProximaBatida = agora + 0.01;
+        }
+
+        // Lookahead scheduler de 220ms para garantia de reprodução perfeita no relógio de áudio
+        const janela = 0.22;
+        while (taquicardiaProximaBatida < agora + janela) {
+            tocarBatidaEstaminaSintetizada(ctx, destino, taquicardiaProximaBatida, criticaAtual);
+            taquicardiaProximaBatida += intervAtual;
+        }
+    }
+
+    agendarProximasBatidas();
+    estaminaAudioInterval = setInterval(agendarProximasBatidas, 75);
 }
 
 function pararSomTaquicardia() {
@@ -17837,30 +19119,18 @@ function pararSomTaquicardia() {
         clearInterval(estaminaAudioInterval);
         estaminaAudioInterval = null;
     }
+    taquicardiaProximaBatida = 0;
 }
 
 function executarBatidaTaquicardia(nivel = estaminaEstadoAtual) {
     if (!somAtivado) return;
     const ctx = obterAudioContext();
     if (!ctx) return;
-
     if (ctx.state === "suspended") {
         ctx.resume().catch(() => {});
     }
-
-    const agora = ctx.currentTime;
-    const ehCritica = (nivel === "critica");
-    const destino = criarCadeiaSaida(ctx, ehCritica ? 0.35 : 0.22);
-
-    if (ehCritica) {
-        // Taquicardia Crítica: impacto profundo e alto volume
-        tocarBatimentoCardiaco(ctx, destino, agora, 1.4, false);
-        tocarSubImpacto(ctx, destino, agora, 78, 24, 0.42, 0.65);
-    } else {
-        // Taquicardia Moderada: volume moderado e sub-impacto suave
-        tocarBatimentoCardiaco(ctx, destino, agora, 0.9, false);
-        tocarSubImpacto(ctx, destino, agora, 62, 20, 0.22, 0.40);
-    }
+    const destino = obterTaquicardiaBus(ctx);
+    tocarBatidaEstaminaSintetizada(ctx, destino, ctx.currentTime + 0.01, nivel === "critica");
 }
 
 // Tabela de Dificuldades. Qualquer resultado abaixo de 2 conta como DESASTRE!
@@ -18449,9 +19719,14 @@ function atualizarBarraRecurso(chave){
 
 function zerarRecursoTemporario(chave){
     const tempEl = document.getElementById("recurso_" + chave + "_temp");
-    if(tempEl && parseInt(tempEl.value, 10) !== 0){
-        tempEl.value = 0;
+    const taticoTempEl = document.getElementById("tatico_" + chave + "_temp");
+    const valReal = tempEl ? parseInt(tempEl.value, 10) || 0 : 0;
+    const valTatico = taticoTempEl ? parseInt(taticoTempEl.value, 10) || 0 : 0;
+    if(valReal !== 0 || valTatico !== 0){
+        if(tempEl) tempEl.value = 0;
+        if(taticoTempEl) taticoTempEl.value = 0;
         atualizarBarraRecurso(chave);
+        if(typeof sincronizarModoTatico === 'function') sincronizarModoTatico();
         marcarAlteracaoFeita();
         const cfg = RECURSOS_CONFIG.find(c => c.chave === chave);
         const nomeRecurso = cfg ? cfg.nome : chave;
@@ -18463,13 +19738,18 @@ function zerarTodosRecursosTemporarios(){
     let alterou = false;
     RECURSOS_CONFIG.forEach(cfg => {
         const tempEl = document.getElementById("recurso_" + cfg.chave + "_temp");
-        if(tempEl && parseInt(tempEl.value, 10) > 0){
-            tempEl.value = 0;
+        const taticoTempEl = document.getElementById("tatico_" + cfg.chave + "_temp");
+        const valReal = tempEl ? parseInt(tempEl.value, 10) || 0 : 0;
+        const valTatico = taticoTempEl ? parseInt(taticoTempEl.value, 10) || 0 : 0;
+        if(valReal > 0 || valTatico > 0){
+            if(tempEl) tempEl.value = 0;
+            if(taticoTempEl) taticoTempEl.value = 0;
             atualizarBarraRecurso(cfg.chave);
             alterou = true;
         }
     });
     if(alterou){
+        if(typeof sincronizarModoTatico === 'function') sincronizarModoTatico();
         marcarAlteracaoFeita();
         mostrarStatus("✓ Todos os pontos temporários foram zerados.", "ok");
     }else{
@@ -27885,6 +29165,11 @@ function sincronizarModoTatico() {
         const pctTotal = Math.round(((vAtual + vTemp) / vMax) * 100);
         taticoVidaPctEl.textContent = vTemp > 0 ? `${pctTotal}% (+${vTemp})` : `${Math.round(propVida)}%`;
     }
+    const wrapTaticoVida = document.getElementById("wrap_tatico_vida_temp");
+    if (wrapTaticoVida) {
+        if (vTemp > 0) wrapTaticoVida.classList.add("tem-valor");
+        else wrapTaticoVida.classList.remove("tem-valor");
+    }
 
     // 3. Estamina
     const estAtualEl = document.getElementById("recurso_estamina_atual");
@@ -27924,6 +29209,11 @@ function sincronizarModoTatico() {
     if (taticoEstPctEl) {
         const pctTotal = Math.round(((eAtual + eTemp) / eMax) * 100);
         taticoEstPctEl.textContent = eTemp > 0 ? `${pctTotal}% (+${eTemp})` : `${Math.round(propEst)}%`;
+    }
+    const wrapTaticoEst = document.getElementById("wrap_tatico_estamina_temp");
+    if (wrapTaticoEst) {
+        if (eTemp > 0) wrapTaticoEst.classList.add("tem-valor");
+        else wrapTaticoEst.classList.remove("tem-valor");
     }
 
     // 4. Mental
@@ -27965,6 +29255,11 @@ function sincronizarModoTatico() {
         const pctTotal = Math.round(((mAtual + mTemp) / mMax) * 100);
         taticoMentalPctEl.textContent = mTemp > 0 ? `${pctTotal}% (+${mTemp})` : `${Math.round(propMental)}%`;
     }
+    const wrapTaticoMen = document.getElementById("wrap_tatico_mental_temp");
+    if (wrapTaticoMen) {
+        if (mTemp > 0) wrapTaticoMen.classList.add("tem-valor");
+        else wrapTaticoMen.classList.remove("tem-valor");
+    }
 
     // 5. Aura
     const auraAtualEl = document.getElementById("recurso_aura_atual");
@@ -28004,6 +29299,11 @@ function sincronizarModoTatico() {
     if (taticoAuraPctEl) {
         const pctTotal = Math.round(((aAtual + aTemp) / aMax) * 100);
         taticoAuraPctEl.textContent = aTemp > 0 ? `${pctTotal}% (+${aTemp})` : `${Math.round(propAura)}%`;
+    }
+    const wrapTaticoAur = document.getElementById("wrap_tatico_aura_temp");
+    if (wrapTaticoAur) {
+        if (aTemp > 0) wrapTaticoAur.classList.add("tem-valor");
+        else wrapTaticoAur.classList.remove("tem-valor");
     }
 
     // 6. Badge de Status
@@ -28100,6 +29400,43 @@ function ajustarInputTempRecursoTatico(chave) {
         inputReal.value = inputTatico.value;
         atualizarBarraRecurso(chave);
         sincronizarModoTatico();
+        marcarAlteracaoFeita();
+    }
+}
+
+function ajustarInputRecursoMeuCard(chave, valor) {
+    const valNum = parseInt(valor, 10);
+    const inputReal = document.getElementById(`recurso_${chave}_atual`);
+    const inputTatico = document.getElementById(`tatico_${chave}_atual`);
+    if (!isNaN(valNum)) {
+        if (inputReal) inputReal.value = Math.max(0, valNum);
+        if (inputTatico) inputTatico.value = Math.max(0, valNum);
+        atualizarBarraRecurso(chave);
+        marcarAlteracaoFeita();
+    }
+}
+
+function ajustarInputMaxRecursoMeuCard(chave, valor) {
+    const valNum = parseInt(valor, 10);
+    const inputReal = document.getElementById(`recurso_${chave}_max`);
+    const inputTatico = document.getElementById(`tatico_${chave}_max`);
+    if (!isNaN(valNum)) {
+        if (inputReal) inputReal.value = Math.max(1, valNum);
+        if (inputTatico) inputTatico.value = Math.max(1, valNum);
+        atualizarBarraRecurso(chave);
+        marcarAlteracaoFeita();
+    }
+}
+
+function ajustarInputTempRecursoMeuCard(chave, valor) {
+    const valNum = parseInt(valor, 10);
+    const inputReal = document.getElementById(`recurso_${chave}_temp`);
+    const inputTatico = document.getElementById(`tatico_${chave}_temp`);
+    if (!isNaN(valNum)) {
+        const limpo = Math.max(0, valNum);
+        if (inputReal) inputReal.value = limpo;
+        if (inputTatico) inputTatico.value = limpo;
+        atualizarBarraRecurso(chave);
         marcarAlteracaoFeita();
     }
 }
@@ -28294,28 +29631,296 @@ function executarRolagemTatica(nomePericia) {
     mostrarStatus(`⚔️ Modo Tático: Rolou ${nomePericia}! [Total: ${rollInfo.resultadoFinal}]`, "ok");
 }
 
-function toggleCondicaoTatica(btn, id) {
-    if (!btn) return;
-    btn.classList.toggle("ativo");
-    const ativo = btn.classList.contains("ativo");
-    const ehNegativo = btn.classList.contains("alerta") || btn.classList.contains("dano") || ["caido", "sangrando", "exausto"].includes(id);
+const LISTA_CONDICOES_TATICAS = [
+    { id: 'cobertura', nome: 'Em Cobertura', icone: '🛡️', tipo: 'buff', desc: '+Defesa / Cobertura contra ataques à distância' },
+    { id: 'mirando', nome: 'Mirando', icone: '🎯', tipo: 'buff', desc: '+Precisão e foco para o próximo ataque' },
+    { id: 'esquiva', nome: 'Foco Evasivo', icone: '💨', tipo: 'buff', desc: '+Reflexo e mobilidade de esquiva' },
+    { id: 'ofensiva', nome: 'Postura Ofensiva', icone: '⚔️', tipo: 'buff', desc: '+Dano e agressividade em combate corporal' },
+    { id: 'furtivo', nome: 'Furtivo / Oculto', icone: '👁️', tipo: 'buff', desc: 'Invisível ou nas sombras (Vantagem de surpresa)' },
+    { id: 'guarda', nome: 'Guarda Alta', icone: '🥋', tipo: 'buff', desc: 'Postura defensiva focada em bloqueio (+2 Redução)' },
+    { id: 'sangrando', nome: 'Sangrando', icone: '🩸', tipo: 'debuff-dano', desc: 'Perde vida progressivamente a cada rodada (-1 PV)' },
+    { id: 'caido', nome: 'Caído', icone: '⚠️', tipo: 'debuff', desc: 'Desvantagem em testes, vulnerável a ataques' },
+    { id: 'exausto', nome: 'Exausto', icone: '⚡', tipo: 'debuff', desc: 'Custo de Estamina dobrado / Ações lentas' },
+    { id: 'atordoado', nome: 'Atordoado', icone: '🌀', tipo: 'debuff', desc: 'Incapaz de realizar ações no turno atual' },
+    { id: 'envenenado', nome: 'Envenenado', icone: '🧪', tipo: 'debuff-dano', desc: 'Toxina no organismo reduzindo atributos e vigor' },
+    { id: 'queimando', nome: 'Em Chamas', icone: '🔥', tipo: 'debuff-dano', desc: 'Dano ígneo contínuo por rodada' },
+    { id: 'congelado', nome: 'Congelando', icone: '❄️', tipo: 'debuff', desc: 'Movimento e reflexos drasticamente reduzidos' },
+    { id: 'imobilizado', nome: 'Imobilizado', icone: '⛓️', tipo: 'debuff', desc: 'Preso ou agarrado (Deslocamento 0)' }
+];
 
-    if (typeof tocarSomStatus === "function") {
-        if (ehNegativo) {
-            tocarSomStatus("debuff", ativo ? "ganhar" : "curar", id);
-        } else {
-            tocarSomStatus("buff", ativo ? "ganhar" : "perder", id);
+// ============================================================
+// GERENCIADOR DE CONDIÇÕES & POSTURAS DE COMBATE TÁTICO
+// ============================================================
+function obterMeuIdCampanha() {
+    try {
+        let id = localStorage.getItem('we_are_strangers_player_uuid');
+        if (!id) {
+            id = 'ply_' + Math.random().toString(36).substring(2, 11);
+            localStorage.setItem('we_are_strangers_player_uuid', id);
         }
-    } else if (typeof reproduzirSomCliqueSuave === "function") {
-        reproduzirSomCliqueSuave();
+        return id;
+    } catch(e) {
+        return 'ply_local';
+    }
+}
+
+let condicoesTaticasAtivas = new Set();
+let membroAlvoCondicoesModal = null;
+let filtroCategoriaCondicoesAtiva = 'todas';
+
+function obterMetadadosCondicao(idOuNome) {
+    if (!idOuNome) return { id: 'custom', nome: 'Condição', icone: '⚡', tipo: 'buff', desc: 'Efeito ativo' };
+    const limpo = String(idOuNome).toLowerCase().trim();
+    const encontrada = LISTA_CONDICOES_TATICAS.find(c => c.id === limpo || c.nome.toLowerCase() === limpo);
+    if (encontrada) return encontrada;
+    return {
+        id: limpo,
+        nome: idOuNome,
+        icone: '⚡',
+        tipo: 'buff',
+        desc: 'Condição personalizada ativa'
+    };
+}
+
+function alternarCondicaoRapida(condId) {
+    if (condicoesTaticasAtivas.has(condId)) {
+        condicoesTaticasAtivas.delete(condId);
+        if (typeof tocarSomStatus === "function") {
+            const ehNegativo = ["caido", "sangrando", "exausto", "atordoado", "envenenado", "queimando", "congelado", "imobilizado"].includes(condId);
+            tocarSomStatus(ehNegativo ? "debuff" : "buff", "curar", condId);
+        }
+    } else {
+        condicoesTaticasAtivas.add(condId);
+        if (typeof tocarSomStatus === "function") {
+            const ehNegativo = ["caido", "sangrando", "exausto", "atordoado", "envenenado", "queimando", "congelado", "imobilizado"].includes(condId);
+            tocarSomStatus(ehNegativo ? "debuff" : "buff", "ganhar", condId);
+        }
+    }
+    
+    // Sincronizar botões legados se existirem
+    const btns = document.querySelectorAll(".tatico-cond-chip");
+    btns.forEach(b => {
+        const onclickAttr = b.getAttribute("onclick") || "";
+        if (onclickAttr.includes(`'${condId}'`)) {
+            b.classList.toggle("ativo", condicoesTaticasAtivas.has(condId));
+        }
+    });
+
+    salvarCondicoesStorage();
+    if (typeof agendarSincronizacaoCampanha === "function") {
+        agendarSincronizacaoCampanha();
+    }
+    if (typeof renderizarMembrosModoTatico === "function") {
+        renderizarMembrosModoTatico();
+    }
+}
+
+function toggleCondicaoTatica(btn, id) {
+    if (!id) return;
+    alternarCondicaoRapida(id);
+    const ativo = condicoesTaticasAtivas.has(id);
+    const meta = obterMetadadosCondicao(id);
+    mostrarStatus(`${ativo ? 'Postura ativada' : 'Postura desativada'}: ${meta.nome}`, ativo ? "ok" : "");
+}
+
+function salvarCondicoesStorage() {
+    try {
+        localStorage.setItem('we_are_strangers_condicoes_taticas', JSON.stringify(Array.from(condicoesTaticasAtivas)));
+    } catch(e) {}
+}
+
+function carregarCondicoesStorage() {
+    try {
+        const raw = localStorage.getItem('we_are_strangers_condicoes_taticas');
+        if (raw) {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) {
+                condicoesTaticasAtivas = new Set(arr);
+            }
+        }
+    } catch(e) {}
+}
+carregarCondicoesStorage();
+
+function removerCondicaoMembro(membroId, condId) {
+    const meuId = obterMeuIdCampanha();
+    const ehMeu = (!membroId || membroId === meuId || !salaCampanhaAtiva || !Array.isArray(salaCampanhaAtiva.membros) || !salaCampanhaAtiva.membros.some(x => x.id === membroId));
+    if (ehMeu) {
+        alternarCondicaoRapida(condId);
+    } else if (isMestreCampanha && salaCampanhaAtiva && Array.isArray(salaCampanhaAtiva.membros)) {
+        const m = salaCampanhaAtiva.membros.find(x => x.id === membroId);
+        if (m && Array.isArray(m.condicoes)) {
+            m.condicoes = m.condicoes.filter(c => c !== condId);
+            if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+                socketCampanha.send(JSON.stringify({
+                    tipo: 'comando_mestre_atualizar_membro',
+                    alvoId: membroId,
+                    dados: { condicoes: m.condicoes }
+                }));
+            }
+            if (typeof renderizarMembrosModoTatico === "function") {
+                renderizarMembrosModoTatico();
+            }
+        }
+    } else {
+        alternarCondicaoRapida(condId);
+    }
+}
+
+function abrirModalSeletorCondicoes(membroId) {
+    const meuId = obterMeuIdCampanha();
+    membroAlvoCondicoesModal = membroId || meuId;
+    const modal = document.getElementById("modal-seletor-condicoes");
+    if (!modal) return;
+    
+    modal.style.display = "flex";
+    modal.classList.add("aberto");
+    modal.setAttribute("aria-hidden", "false");
+    
+    filtroCategoriaCondicoesAtiva = 'todas';
+    const inpBusca = document.getElementById("input_busca_condicoes");
+    if (inpBusca) inpBusca.value = "";
+    
+    atualizarTabsFiltroCondicoes();
+    renderizarGridModalCondicoes();
+}
+
+function fecharModalSeletorCondicoes() {
+    const modal = document.getElementById("modal-seletor-condicoes");
+    if (!modal) return;
+    modal.style.display = "none";
+    modal.classList.remove("aberto");
+    modal.setAttribute("aria-hidden", "true");
+    membroAlvoCondicoesModal = null;
+}
+
+function fecharModalSeletorCondicoesPorOverlay(event) {
+    if (event.target && event.target.id === "modal-seletor-condicoes") {
+        fecharModalSeletorCondicoes();
+    }
+}
+
+function alternarFiltroTabCondicoes(cat) {
+    filtroCategoriaCondicoesAtiva = cat;
+    atualizarTabsFiltroCondicoes();
+    renderizarGridModalCondicoes();
+}
+
+function atualizarTabsFiltroCondicoes() {
+    const tabs = [
+        { id: 'filtro_cond_tab_todas', cat: 'todas' },
+        { id: 'filtro_cond_tab_buff', cat: 'buff' },
+        { id: 'filtro_cond_tab_debuff', cat: 'debuff' },
+        { id: 'filtro_cond_tab_dano', cat: 'debuff-dano' }
+    ];
+    tabs.forEach(t => {
+        const el = document.getElementById(t.id);
+        if (el) el.classList.toggle("ativo", filtroCategoriaCondicoesAtiva === t.cat);
+    });
+}
+
+function filtrarCondicoesModal() {
+    renderizarGridModalCondicoes();
+}
+
+function renderizarGridModalCondicoes() {
+    const container = document.getElementById("modal-condicoes-grid-container");
+    if (!container) return;
+
+    const meuId = obterMeuIdCampanha();
+    const ehMeu = (!membroAlvoCondicoesModal || membroAlvoCondicoesModal === meuId || !salaCampanhaAtiva || !Array.isArray(salaCampanhaAtiva.membros) || !salaCampanhaAtiva.membros.some(x => x.id === membroAlvoCondicoesModal));
+    let condicoesAtuais = [];
+
+    if (ehMeu) {
+        condicoesAtuais = Array.from(condicoesTaticasAtivas);
+    } else if (salaCampanhaAtiva && Array.isArray(salaCampanhaAtiva.membros)) {
+        const m = salaCampanhaAtiva.membros.find(x => x.id === membroAlvoCondicoesModal);
+        condicoesAtuais = (m && Array.isArray(m.condicoes)) ? m.condicoes : [];
     }
 
-    const texto = btn.textContent.trim();
-    if (ativo) {
-        mostrarStatus(`Postura ativada: ${texto}`, "ok");
+    const busca = (document.getElementById("input_busca_condicoes")?.value || "").toLowerCase().trim();
+
+    let lista = LISTA_CONDICOES_TATICAS.filter(c => {
+        if (filtroCategoriaCondicoesAtiva !== 'todas' && c.tipo !== filtroCategoriaCondicoesAtiva) {
+            return false;
+        }
+        if (busca) {
+            return c.nome.toLowerCase().includes(busca) || c.desc.toLowerCase().includes(busca);
+        }
+        return true;
+    });
+
+    container.innerHTML = lista.map(c => {
+        const ativa = condicoesAtuais.includes(c.id);
+        return `
+            <div class="modal-condicao-card ${c.tipo} ${ativa ? 'ativa' : ''}" onclick="toggleCondicaoPeloModal('${c.id}')">
+                <div class="modal-condicao-card-info">
+                    <div class="modal-condicao-card-titulo">
+                        <span>${c.icone}</span>
+                        <span>${escapeHTML(c.nome)}</span>
+                    </div>
+                    <div class="modal-condicao-card-desc">${escapeHTML(c.desc)}</div>
+                </div>
+                <span class="modal-condicao-card-status">${ativa ? '✓ ATIVO' : '+ ATIVAR'}</span>
+            </div>
+        `;
+    }).join('');
+}
+
+function toggleCondicaoPeloModal(condId) {
+    const meuId = obterMeuIdCampanha();
+    const ehMeu = (!membroAlvoCondicoesModal || membroAlvoCondicoesModal === meuId || !salaCampanhaAtiva || !Array.isArray(salaCampanhaAtiva.membros) || !salaCampanhaAtiva.membros.some(x => x.id === membroAlvoCondicoesModal));
+
+    if (ehMeu) {
+        alternarCondicaoRapida(condId);
+    } else if (isMestreCampanha && salaCampanhaAtiva && Array.isArray(salaCampanhaAtiva.membros)) {
+        const m = salaCampanhaAtiva.membros.find(x => x.id === membroAlvoCondicoesModal);
+        if (m) {
+            if (!Array.isArray(m.condicoes)) m.condicoes = [];
+            if (m.condicoes.includes(condId)) {
+                m.condicoes = m.condicoes.filter(c => c !== condId);
+            } else {
+                m.condicoes.push(condId);
+            }
+            if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+                socketCampanha.send(JSON.stringify({
+                    tipo: 'comando_mestre_atualizar_membro',
+                    alvoId: membroAlvoCondicoesModal,
+                    dados: { condicoes: m.condicoes }
+                }));
+            }
+            if (typeof renderizarMembrosModoTatico === "function") {
+                renderizarMembrosModoTatico();
+            }
+        }
     } else {
-        mostrarStatus(`Postura desativada: ${texto}`, "");
+        alternarCondicaoRapida(condId);
     }
+    renderizarGridModalCondicoes();
+}
+
+function adicionarCondicaoPersonalizadaModal() {
+    const inp = document.getElementById("input_nova_condicao_custom");
+    const sel = document.getElementById("select_nova_condicao_tipo");
+    if (!inp || !inp.value.trim()) return;
+
+    const nome = inp.value.trim();
+    const tipo = sel ? sel.value : 'buff';
+    const id = 'custom_' + nome.toLowerCase().replace(/[^a-z0-9]/g, '_');
+
+    if (!LISTA_CONDICOES_TATICAS.some(c => c.id === id)) {
+        LISTA_CONDICOES_TATICAS.push({
+            id: id,
+            nome: nome,
+            icone: tipo === 'buff' ? '🛡️' : (tipo === 'debuff-dano' ? '🩸' : '⚠️'),
+            tipo: tipo,
+            desc: 'Condição personalizada criada'
+        });
+    }
+
+    inp.value = "";
+    toggleCondicaoPeloModal(id);
+    renderizarGridModalCondicoes();
 }
 
 function atualizarModoTatico() {
@@ -28495,6 +30100,7 @@ function obterDadosJogadorLocal() {
         trocarPorCodinome: infoNomes ? infoNomes.trocarPorCodinome : false,
         identidadeReal: infoNomes ? infoNomes.identidade : (document.getElementById("ficha_identidade")?.value || "").trim(),
         codinomeOriginal: infoNomes ? infoNomes.codinome : (document.getElementById("ficha_codinome")?.value || "").trim(),
+        condicoes: Array.from(condicoesTaticasAtivas),
         reveladoPara: Array.from(identidadesReveladasLocais)
     };
 }
@@ -28753,6 +30359,15 @@ function renderizarMembrosModoTatico() {
     const meuId = localStorage.getItem('we_are_strangers_player_uuid');
     const conectado = !!(salaCampanhaAtiva && salaCampanhaAtiva.codigo && socketCampanha && socketCampanha.readyState === WebSocket.OPEN);
 
+    const secaoTatico = document.getElementById("secao-tatico");
+    if (secaoTatico) {
+        if (conectado) {
+            secaoTatico.classList.add("em-sala-ativa");
+        } else {
+            secaoTatico.classList.remove("em-sala-ativa");
+        }
+    }
+
     if (meta) {
         if (conectado) {
             const totalOnline = salaCampanhaAtiva.membrosOnline || (salaCampanhaAtiva.membros || []).filter(m => m.online).length || 1;
@@ -28770,6 +30385,25 @@ function renderizarMembrosModoTatico() {
             `;
         }
     }
+
+    // Preservar foco e estado dos inputs durante atualizações
+    const activeEl = document.activeElement;
+    const activeId = (activeEl && grid.contains(activeEl)) ? activeEl.id : null;
+    let selStart = 0;
+    let selEnd = 0;
+    const deltaValuesPreserved = {};
+    if (activeEl && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA")) {
+        try {
+            selStart = activeEl.selectionStart;
+            selEnd = activeEl.selectionEnd;
+        } catch (e) {}
+    }
+    ['vida', 'estamina', 'mental', 'aura'].forEach(k => {
+        const dEl = document.getElementById(`tatico_card_delta_${k}`);
+        if (dEl && dEl.value) {
+            deltaValuesPreserved[k] = dEl.value;
+        }
+    });
 
     let membrosParaRenderizar = [];
     if (conectado && Array.isArray(salaCampanhaAtiva.membros) && salaCampanhaAtiva.membros.length > 0) {
@@ -28805,22 +30439,30 @@ function renderizarMembrosModoTatico() {
         const pvAtual = m.vidaAtual ?? 100;
         const pvMax = m.vidaMax || 100;
         const pvTemp = m.vidaTemp || 0;
-        const pctPv = Math.max(0, Math.min(100, Math.round((pvAtual / pvMax) * 100)));
+        const escalaPv = Math.max(pvMax, pvAtual + pvTemp);
+        const pctPv = Math.max(0, Math.min(100, Math.round((pvAtual / escalaPv) * 100)));
+        const pctPvTemp = pvTemp > 0 ? Math.max(0, Math.min(100 - pctPv, Math.round((pvTemp / escalaPv) * 100))) : 0;
 
         const estAtual = m.estaminaAtual ?? 80;
         const estMax = m.estaminaMax || 80;
         const estTemp = m.estaminaTemp || 0;
-        const pctEst = Math.max(0, Math.min(100, Math.round((estAtual / estMax) * 100)));
+        const escalaEst = Math.max(estMax, estAtual + estTemp);
+        const pctEst = Math.max(0, Math.min(100, Math.round((estAtual / escalaEst) * 100)));
+        const pctEstTemp = estTemp > 0 ? Math.max(0, Math.min(100 - pctEst, Math.round((estTemp / escalaEst) * 100))) : 0;
 
         const menAtual = m.mentalAtual ?? 50;
         const menMax = m.mentalMax || 50;
         const menTemp = m.mentalTemp || 0;
-        const pctMen = Math.max(0, Math.min(100, Math.round((menAtual / menMax) * 100)));
+        const escalaMen = Math.max(menMax, menAtual + menTemp);
+        const pctMen = Math.max(0, Math.min(100, Math.round((menAtual / escalaMen) * 100)));
+        const pctMenTemp = menTemp > 0 ? Math.max(0, Math.min(100 - pctMen, Math.round((menTemp / escalaMen) * 100))) : 0;
 
         const aurAtual = m.auraAtual ?? 30;
         const aurMax = m.auraMax || 30;
         const aurTemp = m.auraTemp || 0;
-        const pctAur = Math.max(0, Math.min(100, Math.round((aurAtual / aurMax) * 100)));
+        const escalaAur = Math.max(aurMax, aurAtual + aurTemp);
+        const pctAur = Math.max(0, Math.min(100, Math.round((aurAtual / escalaAur) * 100)));
+        const pctAurTemp = aurTemp > 0 ? Math.max(0, Math.min(100 - pctAur, Math.round((aurTemp / escalaAur) * 100))) : 0;
 
         // Determinar status vital e destaque em vermelho (card pulsante + barra em alerta)
         let statusBadgeHtml = "";
@@ -28834,6 +30476,7 @@ function renderizarMembrosModoTatico() {
             ehVidaBaixa = true;
             statusBadgeHtml = `<span class="tatico-membro-status-tag" style="color:#e74c3c;">⚠️ Ferido Crítico</span>`;
         } else if (pvAtual <= Math.ceil(pvMax * 0.5)) {
+            ehVidaBaixa = true;
             statusBadgeHtml = `<span class="tatico-membro-status-tag" style="color:#e67e22;">🩸 Ferido Grave</span>`;
         } else if (menAtual <= 0) {
             statusBadgeHtml = `<span class="tatico-membro-status-tag" style="color:#9b59b6;">🌀 Colapso Mental</span>`;
@@ -28852,9 +30495,11 @@ function renderizarMembrosModoTatico() {
 
         let avatarHtml = "👤";
         if (m.avatar && m.avatar.startsWith("data:image")) {
-            avatarHtml = `<img src="${m.avatar}" alt="${escapeHTML(m.nomePersonagem || 'Avatar')}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
+            avatarHtml = `<img src="${m.avatar}" alt="${escapeHTML(m.nomePersonagem || 'Avatar')}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
         } else if (m.corTema) {
-            avatarHtml = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:${m.corTema}25; color:${m.corTema}; font-weight:bold; font-size:18px; border-radius:50%;">${(m.nomePersonagem || "P").charAt(0).toUpperCase()}</div>`;
+            avatarHtml = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:${m.corTema}20; color:${m.corTema}; font-weight:bold; font-size:26px; border-radius:8px; font-family:'MirageFinal',serif;">${(m.nomePersonagem || "P").charAt(0).toUpperCase()}</div>`;
+        } else {
+            avatarHtml = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:rgba(201,177,131,0.15); color:var(--accent); font-weight:bold; font-size:26px; border-radius:8px; font-family:'MirageFinal',serif;">${(m.nomePersonagem || "P").charAt(0).toUpperCase()}</div>`;
         }
 
         const classesTexto = [m.classe1, m.classe2].filter(Boolean).join(" / ") || "Sem Classe Definida";
@@ -28893,8 +30538,8 @@ function renderizarMembrosModoTatico() {
 
         const jaReveladoParaMembro = identidadesReveladasLocais.has(m.id);
         const btnRevelarIdentidadeHtml = (!ehMeu && infoLocal.trocarPorCodinome && infoLocal.codinome) ? `
-            <button type="button" class="btn-secundario" style="height:22px; font-size:10px; padding:0 6px; margin:0; ${jaReveladoParaMembro ? 'border-color:#8e44ad; background:rgba(142,68,173,0.15); color:#e0aaff;' : ''}" onclick="alternarRevelarIdentidadeParaMembro('${m.id}', '${escapeHTML(m.nomePersonagem || 'Aliado')}')" title="${jaReveladoParaMembro ? 'Esconder sua verdadeira identidade deste jogador' : 'Revelar sua verdadeira identidade em segredo para este jogador'}">
-                <span>${jaReveladoParaMembro ? '🔒 Ocultar Minha Identidade' : '🎭 Revelar Minha Identidade'}</span>
+            <button type="button" class="btn-tatico-acao-rapida" style="${jaReveladoParaMembro ? 'border-color:#8e44ad; background:rgba(142,68,173,0.15); color:#e0aaff;' : ''}" onclick="alternarRevelarIdentidadeParaMembro('${m.id}', '${escapeHTML(m.nomePersonagem || 'Aliado')}')" title="${jaReveladoParaMembro ? 'Esconder sua verdadeira identidade deste jogador' : 'Revelar sua verdadeira identidade em segredo para este jogador'}">
+                <span>${jaReveladoParaMembro ? '🔒 Ocultar' : '🎭 Revelar'}</span>
             </button>
         ` : '';
 
@@ -28902,8 +30547,8 @@ function renderizarMembrosModoTatico() {
         if (ehMeu) {
             const estaDisfarcadoMeuCard = !!identidadeSecretaAtiva;
             btnTrocarCodinomeMeuCardHtml = `
-                <button type="button" class="btn-secundario" style="height:22px; font-size:10px; padding:0 6px; margin:0; ${estaDisfarcadoMeuCard ? 'border-color:#8e44ad; background:rgba(142,68,173,0.25); color:#e0aaff;' : ''}" onclick="alternarIdentidadeSecretaComSenha()" title="${estaDisfarcadoMeuCard ? 'Clique para desativar o disfarce e restaurar a Identidade Verdadeira (Exige Senha)' : 'Clique para alternar para a Identidade Falsa / Disfarce (Exige Senha)'}">
-                    <span>${estaDisfarcadoMeuCard ? '🎭 Alternar p/ Verdadeira' : '🎭 Alternar p/ Falsa'}</span>
+                <button type="button" class="btn-tatico-acao-rapida ${estaDisfarcadoMeuCard ? 'disfarcado' : ''}" onclick="alternarIdentidadeSecretaComSenha()" title="${estaDisfarcadoMeuCard ? 'Clique para desativar o disfarce e restaurar a Identidade Verdadeira (Exige Senha)' : 'Clique para alternar para a Identidade Falsa / Disfarce (Exige Senha)'}">
+                    <span>${estaDisfarcadoMeuCard ? '🎭 Disfarce ON' : '🎭 Alternar Falsa'}</span>
                 </button>
             `;
         }
@@ -28933,74 +30578,296 @@ function renderizarMembrosModoTatico() {
             periciasTopHtml = `<div style="grid-column: 1 / -1; font-size:11.5px; color:var(--ink-dim); font-style:italic; padding:4px 0;">Nenhum Ponto Puro investido nesta ficha ainda.</div>`;
         }
 
-        card.innerHTML = `
-            <div class="tatico-membro-topo">
-                <div class="tatico-membro-avatar" style="${m.corTema ? `border-color: ${m.corTema};` : ''}">${avatarHtml}</div>
-                <div class="tatico-membro-dados">
-                    <div class="tatico-membro-nome-linha">
-                        <span class="tatico-membro-nome" title="${escapeHTML(m.nomePersonagem || 'Personagem')}">
-                            ${nomeExibicaoHtml}
-                        </span>
-                        <div class="tatico-membro-tags">
-                            ${badgeDisfarceHtml}
-                            ${m.isMestre ? `<span class="tatico-tag-pilula mestre">MESTRE</span>` : ""}
-                            ${ehMeu ? `<span class="tatico-tag-pilula voce">VOCÊ</span>` : ""}
+        let vitaisHtml = "";
+        if (ehMeu) {
+            const pctPvTot = Math.round(((pvAtual + pvTemp) / pvMax) * 100);
+            const pctEstTot = Math.round(((estAtual + estTemp) / estMax) * 100);
+            const pctMenTot = Math.round(((menAtual + menTemp) / menMax) * 100);
+            const pctAurTot = Math.round(((aurAtual + aurTemp) / aurMax) * 100);
+
+            vitaisHtml = `
+                <div class="tatico-membro-vitais meu-card-vitais">
+                    <!-- Vida (PV) -->
+                    <div class="tatico-membro-vital-linha-editavel vida-principal">
+                        <div class="tatico-membro-vital-edit-topo">
+                            <span class="tatico-membro-vital-lbl">❤ PV (Vida)</span>
+                            <div class="tatico-membro-valores-controles">
+                                <div class="tatico-card-inputs-wrap">
+                                    <input type="number" id="tatico_card_inp_vida_atual" value="${pvAtual}" min="0" onchange="ajustarInputRecursoMeuCard('vida', this.value)" title="Vida Atual">
+                                    <span style="color:var(--ink-faint); font-weight:bold; font-size:11px;">/</span>
+                                    <input type="number" id="tatico_card_inp_vida_max" value="${pvMax}" min="1" onchange="ajustarInputMaxRecursoMeuCard('vida', this.value)" title="Vida Máxima">
+                                </div>
+                                <div class="tatico-card-temp-wrap ${pvTemp > 0 ? 'tem-valor' : ''}" id="wrap_tatico_card_vida_temp" title="Pontos de Vida Temporários">
+                                    <span class="tatico-temp-sinal">+</span>
+                                    <input type="number" id="tatico_card_inp_vida_temp" value="${pvTemp}" min="0" onchange="ajustarInputTempRecursoMeuCard('vida', this.value)" placeholder="0">
+                                    <button type="button" class="tatico-temp-zerar" onclick="zerarRecursoTemporario('vida')" title="Zerar Vida Temporária (0)">✕</button>
+                                </div>
+                                <span class="tatico-card-pct-badge" id="tatico_card_vida_pct">${pvTemp > 0 ? `${pctPvTot}% (+${pvTemp})` : `${Math.round(pctPv)}%`}</span>
+                            </div>
+                        </div>
+                        <div class="tatico-membro-vital-track" style="height:8px; border-radius:4px;">
+                            <div class="tatico-membro-vital-fill pv ${ehVidaBaixa || ehInconsciente ? 'tatico-barra-vida-critica' : ''}" style="width: ${pctPv}%;"></div>
+                            ${pctPvTemp > 0 ? `<div class="tatico-membro-vital-fill-temp vida" style="left: ${pctPv}%; width: ${pctPvTemp}%;"></div>` : ''}
+                        </div>
+                        <div class="tatico-membro-delta-row">
+                            <div class="recurso-delta-box tatico-card-delta-box">
+                                <span class="recurso-delta-sinal">±</span>
+                                <input type="text" id="tatico_card_delta_vida" class="recurso-delta-input" placeholder="Ex: -10 ou +5 (Enter)" onkeydown="if(event.key==='Enter') aplicarAjusteDigitado('vida', this)">
+                                <button type="button" class="btn-recurso-delta-enter" onclick="aplicarAjusteDigitado('vida', document.getElementById('tatico_card_delta_vida'))" title="Aplicar dano ou cura">↵</button>
+                            </div>
+                            <button type="button" class="tatico-card-btn-max" onclick="maximizarRecurso('vida')" title="Restaurar Vida ao Máximo">MAX</button>
                         </div>
                     </div>
-                    <div class="tatico-membro-classes" style="display:flex; align-items:center; justify-content:space-between; gap:4px; flex-wrap:wrap;">
-                        <span>${escapeHTML(classesTexto)} ${nivelTexto} <span style="font-size:10.5px; opacity:0.85;">${escapeHTML(jogadorTexto)}</span></span>
-                        ${btnRevelarIdentidadeHtml}
-                        ${btnTrocarCodinomeMeuCardHtml}
+
+                    <!-- Estamina -->
+                    <div class="tatico-membro-vital-linha-editavel estamina-linha">
+                        <div class="tatico-membro-vital-edit-topo">
+                            <span class="tatico-membro-vital-lbl">⚡ EST (Estamina)</span>
+                            <div class="tatico-membro-valores-controles">
+                                <div class="tatico-card-inputs-wrap">
+                                    <input type="number" id="tatico_card_inp_estamina_atual" value="${estAtual}" min="0" onchange="ajustarInputRecursoMeuCard('estamina', this.value)" title="Estamina Atual">
+                                    <span style="color:var(--ink-faint); font-weight:bold; font-size:11px;">/</span>
+                                    <input type="number" id="tatico_card_inp_estamina_max" value="${estMax}" min="1" onchange="ajustarInputMaxRecursoMeuCard('estamina', this.value)" title="Estamina Máxima">
+                                </div>
+                                <div class="tatico-card-temp-wrap ${estTemp > 0 ? 'tem-valor' : ''}" id="wrap_tatico_card_estamina_temp" title="Estamina Temporária">
+                                    <span class="tatico-temp-sinal">+</span>
+                                    <input type="number" id="tatico_card_inp_estamina_temp" value="${estTemp}" min="0" onchange="ajustarInputTempRecursoMeuCard('estamina', this.value)" placeholder="0">
+                                    <button type="button" class="tatico-temp-zerar" onclick="zerarRecursoTemporario('estamina')" title="Zerar Estamina Temporária (0)">✕</button>
+                                </div>
+                                <span class="tatico-card-pct-badge" id="tatico_card_estamina_pct">${estTemp > 0 ? `${pctEstTot}% (+${estTemp})` : `${Math.round(pctEst)}%`}</span>
+                            </div>
+                        </div>
+                        <div class="tatico-membro-vital-track" style="height:6px; border-radius:3px;">
+                            <div class="tatico-membro-vital-fill est" style="width: ${pctEst}%;"></div>
+                            ${pctEstTemp > 0 ? `<div class="tatico-membro-vital-fill-temp estamina" style="left: ${pctEst}%; width: ${pctEstTemp}%;"></div>` : ''}
+                        </div>
+                        <div class="tatico-membro-delta-row">
+                            <div class="recurso-delta-box tatico-card-delta-box">
+                                <span class="recurso-delta-sinal">±</span>
+                                <input type="text" id="tatico_card_delta_estamina" class="recurso-delta-input" placeholder="Ex: -5 ou +10 (Enter)" onkeydown="if(event.key==='Enter') aplicarAjusteDigitado('estamina', this)">
+                                <button type="button" class="btn-recurso-delta-enter" onclick="aplicarAjusteDigitado('estamina', document.getElementById('tatico_card_delta_estamina'))" title="Gastar ou recuperar estamina">↵</button>
+                            </div>
+                            <button type="button" class="tatico-card-btn-max" onclick="maximizarRecurso('estamina')" title="Restaurar Estamina ao Máximo">MAX</button>
+                        </div>
                     </div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:2px;">
-                        ${statusBadgeHtml}
-                        <span style="font-size:10.5px; color:${m.online !== false ? '#2ecc71' : 'var(--ink-dim)'}; font-weight:600;">
-                            ${m.online !== false ? '● Conectado' : '○ Ausente'}
-                        </span>
+
+                    <!-- Mental -->
+                    <div class="tatico-membro-vital-linha-editavel mental-linha">
+                        <div class="tatico-membro-vital-edit-topo">
+                            <span class="tatico-membro-vital-lbl">Ψ MEN (Mental)</span>
+                            <div class="tatico-membro-valores-controles">
+                                <div class="tatico-card-inputs-wrap">
+                                    <input type="number" id="tatico_card_inp_mental_atual" value="${menAtual}" min="0" onchange="ajustarInputRecursoMeuCard('mental', this.value)" title="Mental Atual">
+                                    <span style="color:var(--ink-faint); font-weight:bold; font-size:11px;">/</span>
+                                    <input type="number" id="tatico_card_inp_mental_max" value="${menMax}" min="1" onchange="ajustarInputMaxRecursoMeuCard('mental', this.value)" title="Mental Máximo">
+                                </div>
+                                <div class="tatico-card-temp-wrap ${menTemp > 0 ? 'tem-valor' : ''}" id="wrap_tatico_card_mental_temp" title="Sanidade/Mental Temporário">
+                                    <span class="tatico-temp-sinal">+</span>
+                                    <input type="number" id="tatico_card_inp_mental_temp" value="${menTemp}" min="0" onchange="ajustarInputTempRecursoMeuCard('mental', this.value)" placeholder="0">
+                                    <button type="button" class="tatico-temp-zerar" onclick="zerarRecursoTemporario('mental')" title="Zerar Mental Temporário (0)">✕</button>
+                                </div>
+                                <span class="tatico-card-pct-badge" id="tatico_card_mental_pct">${menTemp > 0 ? `${pctMenTot}% (+${menTemp})` : `${Math.round(pctMen)}%`}</span>
+                            </div>
+                        </div>
+                        <div class="tatico-membro-vital-track" style="height:6px; border-radius:3px;">
+                            <div class="tatico-membro-vital-fill men" style="width: ${pctMen}%;"></div>
+                            ${pctMenTemp > 0 ? `<div class="tatico-membro-vital-fill-temp mental" style="left: ${pctMen}%; width: ${pctMenTemp}%;"></div>` : ''}
+                        </div>
+                        <div class="tatico-membro-delta-row">
+                            <div class="recurso-delta-box tatico-card-delta-box">
+                                <span class="recurso-delta-sinal">±</span>
+                                <input type="text" id="tatico_card_delta_mental" class="recurso-delta-input" placeholder="Ex: -5 ou +5 (Enter)" onkeydown="if(event.key==='Enter') aplicarAjusteDigitado('mental', this)">
+                                <button type="button" class="btn-recurso-delta-enter" onclick="aplicarAjusteDigitado('mental', document.getElementById('tatico_card_delta_mental'))" title="Ajustar mental">↵</button>
+                            </div>
+                            <button type="button" class="tatico-card-btn-max" onclick="maximizarRecurso('mental')" title="Restaurar Sanidade/Mental ao Máximo">MAX</button>
+                        </div>
                     </div>
+
+                    <!-- Aura -->
+                    <div class="tatico-membro-vital-linha-editavel aura-linha">
+                        <div class="tatico-membro-vital-edit-topo">
+                            <span class="tatico-membro-vital-lbl">✧ AUR (Aura)</span>
+                            <div class="tatico-membro-valores-controles">
+                                <div class="tatico-card-inputs-wrap">
+                                    <input type="number" id="tatico_card_inp_aura_atual" value="${aurAtual}" min="0" onchange="ajustarInputRecursoMeuCard('aura', this.value)" title="Aura Atual">
+                                    <span style="color:var(--ink-faint); font-weight:bold; font-size:11px;">/</span>
+                                    <input type="number" id="tatico_card_inp_aura_max" value="${aurMax}" min="1" onchange="ajustarInputMaxRecursoMeuCard('aura', this.value)" title="Aura Máxima">
+                                </div>
+                                <div class="tatico-card-temp-wrap ${aurTemp > 0 ? 'tem-valor' : ''}" id="wrap_tatico_card_aura_temp" title="Aura Temporária / Escudo">
+                                    <span class="tatico-temp-sinal">+</span>
+                                    <input type="number" id="tatico_card_inp_aura_temp" value="${aurTemp}" min="0" onchange="ajustarInputTempRecursoMeuCard('aura', this.value)" placeholder="0">
+                                    <button type="button" class="tatico-temp-zerar" onclick="zerarRecursoTemporario('aura')" title="Zerar Aura Temporária (0)">✕</button>
+                                </div>
+                                <span class="tatico-card-pct-badge" id="tatico_card_aura_pct">${aurTemp > 0 ? `${pctAurTot}% (+${aurTemp})` : `${Math.round(pctAur)}%`}</span>
+                            </div>
+                        </div>
+                        <div class="tatico-membro-vital-track" style="height:6px; border-radius:3px;">
+                            <div class="tatico-membro-vital-fill aur" style="width: ${pctAur}%; ${m.corTema ? `background: linear-gradient(90deg, ${m.corTema}, ${m.corTema}dd);` : ''}"></div>
+                            ${pctAurTemp > 0 ? `<div class="tatico-membro-vital-fill-temp aura" style="left: ${pctAur}%; width: ${pctAurTemp}%;"></div>` : ''}
+                        </div>
+                        <div class="tatico-membro-delta-row">
+                            <div class="recurso-delta-box tatico-card-delta-box">
+                                <span class="recurso-delta-sinal">±</span>
+                                <input type="text" id="tatico_card_delta_aura" class="recurso-delta-input" placeholder="Ex: -5 ou +10 (Enter)" onkeydown="if(event.key==='Enter') aplicarAjusteDigitado('aura', this)">
+                                <button type="button" class="btn-recurso-delta-enter" onclick="aplicarAjusteDigitado('aura', document.getElementById('tatico_card_delta_aura'))" title="Ajustar aura">↵</button>
+                            </div>
+                            <button type="button" class="tatico-card-btn-max" onclick="maximizarRecurso('aura')" title="Restaurar Aura ao Máximo">MAX</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            vitaisHtml = `
+                <div class="tatico-membro-vitais">
+                    <!-- Vida (Barra em destaque) -->
+                    <div class="tatico-membro-vital-linha vida-principal" title="Vida / PV: ${pvAtual}/${pvMax}${pvTemp > 0 ? ` (+${pvTemp} Temp)` : ''}">
+                        <span class="tatico-membro-vital-lbl">❤ PV</span>
+                        <div class="tatico-membro-vital-track">
+                            <div class="tatico-membro-vital-fill pv ${ehVidaBaixa || ehInconsciente ? 'tatico-barra-vida-critica' : ''}" style="width: ${pctPv}%;"></div>
+                            ${pctPvTemp > 0 ? `<div class="tatico-membro-vital-fill-temp vida" style="left: ${pctPv}%; width: ${pctPvTemp}%;"></div>` : ''}
+                        </div>
+                        <div class="tatico-membro-vital-val-box">
+                            <span class="tatico-membro-vital-val" style="${ehVidaBaixa || ehInconsciente ? 'color:#ff4d4d; font-weight:bold;' : ''}">${pvAtual}/${pvMax}</span>
+                            ${pvTemp > 0 ? `<span class="tatico-membro-temp-tag vida" title="Pontos Temporários: +${pvTemp}">+${pvTemp}</span>` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Recursos Secundários -->
+                    <div class="tatico-membro-sec-vitais">
+                        <!-- Estamina -->
+                        <div class="tatico-membro-vital-linha estamina-linha" title="Estamina: ${estAtual}/${estMax}${estTemp > 0 ? ` (+${estTemp} Temp)` : ''}">
+                            <span class="tatico-membro-vital-lbl">⚡ EST</span>
+                            <div class="tatico-membro-vital-track">
+                                <div class="tatico-membro-vital-fill est" style="width: ${pctEst}%;"></div>
+                                ${pctEstTemp > 0 ? `<div class="tatico-membro-vital-fill-temp estamina" style="left: ${pctEst}%; width: ${pctEstTemp}%;"></div>` : ''}
+                            </div>
+                            <div class="tatico-membro-vital-val-box">
+                                <span class="tatico-membro-vital-val">${estAtual}/${estMax}</span>
+                                ${estTemp > 0 ? `<span class="tatico-membro-temp-tag estamina" title="Pontos Temporários: +${estTemp}">+${estTemp}</span>` : ''}
+                            </div>
+                        </div>
+                        <!-- Mental -->
+                        <div class="tatico-membro-vital-linha mental-linha" title="Mental / Sanidade: ${menAtual}/${menMax}${menTemp > 0 ? ` (+${menTemp} Temp)` : ''}">
+                            <span class="tatico-membro-vital-lbl">Ψ MEN</span>
+                            <div class="tatico-membro-vital-track">
+                                <div class="tatico-membro-vital-fill men" style="width: ${pctMen}%;"></div>
+                                ${pctMenTemp > 0 ? `<div class="tatico-membro-vital-fill-temp mental" style="left: ${pctMen}%; width: ${pctMenTemp}%;"></div>` : ''}
+                            </div>
+                            <div class="tatico-membro-vital-val-box">
+                                <span class="tatico-membro-vital-val">${menAtual}/${menMax}</span>
+                                ${menTemp > 0 ? `<span class="tatico-membro-temp-tag mental" title="Pontos Temporários: +${menTemp}">+${menTemp}</span>` : ''}
+                            </div>
+                        </div>
+                        <!-- Aura -->
+                        <div class="tatico-membro-vital-linha aura-linha" title="Aura: ${aurAtual}/${aurMax}${aurTemp > 0 ? ` (+${aurTemp} Temp)` : ''}">
+                            <span class="tatico-membro-vital-lbl">✧ AUR</span>
+                            <div class="tatico-membro-vital-track">
+                                <div class="tatico-membro-vital-fill aur" style="width: ${pctAur}%; ${m.corTema ? `background: linear-gradient(90deg, ${m.corTema}, ${m.corTema}dd);` : ''}"></div>
+                                ${pctAurTemp > 0 ? `<div class="tatico-membro-vital-fill-temp aura" style="left: ${pctAur}%; width: ${pctAurTemp}%;"></div>` : ''}
+                            </div>
+                            <div class="tatico-membro-vital-val-box">
+                                <span class="tatico-membro-vital-val">${aurAtual}/${aurMax}</span>
+                                ${aurTemp > 0 ? `<span class="tatico-membro-temp-tag aura" title="Pontos Temporários: +${aurTemp}">+${aurTemp}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        const condicoesMembro = ehMeu 
+            ? Array.from(condicoesTaticasAtivas) 
+            : (Array.isArray(m.condicoes) ? m.condicoes : []);
+
+        const condicoesHtml = `
+            <div class="tatico-membro-condicoes-bloco" id="tatico_cond_bloco_${m.id}">
+                <div class="tatico-membro-condicoes-topo">
+                    <div class="tatico-membro-condicoes-titulo">
+                        <span class="tatico-membro-condicoes-label">Condições</span>
+                    </div>
+                </div>
+                
+                <div class="tatico-membro-condicoes-lista ${condicoesMembro.length === 0 ? 'vazio' : ''}">
+                    ${condicoesMembro.length > 0 ? `
+                        ${condicoesMembro.map(cId => {
+                            const meta = obterMetadadosCondicao(cId);
+                            const tooltipTxt = `【${meta.nome}】\n${meta.desc}${(ehMeu || isMestreCampanha) ? '\n(Clique para remover)' : ''}`;
+                            return `
+                                <div class="tatico-cond-ico-badge ${meta.tipo}" 
+                                     title="${escapeHTML(tooltipTxt)}" 
+                                     onclick="${(ehMeu || isMestreCampanha) ? `removerCondicaoMembro('${m.id}', '${meta.id}')` : `abrirModalSeletorCondicoes('${m.id}')`}"
+                                     role="button"
+                                     tabindex="0">
+                                    <span>${meta.icone}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                        ${(ehMeu || isMestreCampanha) ? `
+                            <div class="tatico-cond-add-tile" 
+                                 onclick="abrirModalSeletorCondicoes('${m.id}')" 
+                                 title="Adicionar condição ou postura" 
+                                 role="button" 
+                                 tabindex="0">
+                                <span>+</span>
+                            </div>
+                        ` : ''}
+                    ` : `
+                        <div class="tatico-condicoes-vazio-msg">
+                            <span>Nenhuma aflição ativa</span>
+                            ${(ehMeu || isMestreCampanha) ? `<button type="button" class="btn-tatico-vazio-add" onclick="abrirModalSeletorCondicoes('${m.id}')">+ Condição</button>` : ''}
+                        </div>
+                    `}
                 </div>
             </div>
+        `;
 
-            <!-- Monitoramento dos 4 Recursos Vitais -->
-            <div class="tatico-membro-vitais">
-                <!-- Vida -->
-                <div class="tatico-membro-vital-linha" title="Vida / PV">
-                    <span class="tatico-membro-vital-lbl">❤ PV</span>
-                    <div class="tatico-membro-vital-track">
-                        <div class="tatico-membro-vital-fill pv ${ehVidaBaixa || ehInconsciente ? 'tatico-barra-vida-critica' : ''}" style="width: ${pctPv}%;"></div>
+        card.innerHTML = `
+            <div class="tatico-membro-hero-body">
+                <!-- Coluna Esquerda: Retrato Heroico Destacado + Organizador de Condições -->
+                <div class="tatico-membro-portrait-col">
+                    <div class="tatico-membro-avatar-wrap">
+                        <div class="tatico-membro-avatar" style="${m.corTema ? `border-color: ${m.corTema};` : ''}">${avatarHtml}</div>
+                        <span class="tatico-avatar-online-dot ${m.online !== false ? 'online' : 'offline'}" title="${m.online !== false ? 'Conectado' : 'Ausente'}"></span>
                     </div>
-                    <span class="tatico-membro-vital-val" style="${ehVidaBaixa || ehInconsciente ? 'color:#ff4d4d; font-weight:bold;' : ''}">${pvAtual}/${pvMax}${pvTemp > 0 ? ` (+${pvTemp})` : ''}</span>
+                    <div class="tatico-membro-status-box">
+                        ${statusBadgeHtml}
+                    </div>
+                    ${condicoesHtml}
                 </div>
-                <!-- Estamina -->
-                <div class="tatico-membro-vital-linha" title="Estamina">
-                    <span class="tatico-membro-vital-lbl">⚡ EST</span>
-                    <div class="tatico-membro-vital-track">
-                        <div class="tatico-membro-vital-fill est" style="width: ${pctEst}%;"></div>
+
+                <!-- Coluna Direita: Informações, Badges e Medidores Vitais -->
+                <div class="tatico-membro-main-col">
+                    <div class="tatico-membro-header-row">
+                        <div class="tatico-membro-nome-group">
+                            <span class="tatico-membro-nome" title="${escapeHTML(m.nomePersonagem || 'Personagem')}">
+                                ${nomeExibicaoHtml}
+                            </span>
+                            <div class="tatico-membro-tags">
+                                ${m.isMestre ? `<span class="tatico-tag-pilula mestre">MESTRE</span>` : ""}
+                                ${ehMeu ? `<span class="tatico-tag-pilula voce">VOCÊ</span>` : ""}
+                                ${badgeDisfarceHtml}
+                            </div>
+                        </div>
+                        <div class="tatico-membro-acoes-topo">
+                            ${btnTrocarCodinomeMeuCardHtml}
+                            ${btnRevelarIdentidadeHtml}
+                        </div>
                     </div>
-                    <span class="tatico-membro-vital-val">${estAtual}/${estMax}${estTemp > 0 ? ` (+${estTemp})` : ''}</span>
-                </div>
-                <!-- Mental -->
-                <div class="tatico-membro-vital-linha" title="Mental / Sanidade">
-                    <span class="tatico-membro-vital-lbl">Ψ MEN</span>
-                    <div class="tatico-membro-vital-track">
-                        <div class="tatico-membro-vital-fill men" style="width: ${pctMen}%;"></div>
+
+                    <div class="tatico-membro-meta-row">
+                        <span class="tatico-membro-classes">${escapeHTML(classesTexto)} ${nivelTexto}</span>
+                        ${jogadorTexto ? `<span class="tatico-membro-jogador-tag">${escapeHTML(jogadorTexto)}</span>` : ''}
                     </div>
-                    <span class="tatico-membro-vital-val">${menAtual}/${menMax}${menTemp > 0 ? ` (+${menTemp})` : ''}</span>
-                </div>
-                <!-- Aura -->
-                <div class="tatico-membro-vital-linha" title="Aura">
-                    <span class="tatico-membro-vital-lbl">✧ AUR</span>
-                    <div class="tatico-membro-vital-track">
-                        <div class="tatico-membro-vital-fill aur" style="width: ${pctAur}%; ${m.corTema ? `background: linear-gradient(90deg, ${m.corTema}, ${m.corTema}dd);` : ''}"></div>
-                    </div>
-                    <span class="tatico-membro-vital-val">${aurAtual}/${aurMax}${aurTemp > 0 ? ` (+${aurTemp})` : ''}</span>
+
+                    <!-- Monitoramento dos 4 Recursos Vitais -->
+                    ${vitaisHtml}
                 </div>
             </div>
 
             <!-- Botão de Expansão de Atributos & Perícias -->
             <button type="button" class="btn-expandir-tatico-membro" onclick="alternarExpandirTaticoMembro('${m.id}')" aria-expanded="${aberto}">
-                <span>${aberto ? '▴ Ocultar Atributos & Perícias' : '▾ Ver Atributos & Melhores Perícias'}</span>
-                <span style="font-size:11px; opacity:0.8;">${aberto ? '▲' : '▼'}</span>
+                <span>📊 ${aberto ? 'Ocultar Atributos & Melhores Perícias' : 'Ver Atributos & Melhores Perícias'}</span>
+                <span style="font-size:12px; font-weight:bold; transition:transform 0.2s ease; ${aberto ? 'transform:rotate(180deg);' : ''}">⌄</span>
             </button>
 
             <!-- Seção Expansível -->
@@ -29044,6 +30911,25 @@ function renderizarMembrosModoTatico() {
 
         grid.appendChild(card);
     });
+
+    // Restaurar valores nos inputs delta se estavam sendo digitados
+    ['vida', 'estamina', 'mental', 'aura'].forEach(k => {
+        if (deltaValuesPreserved[k]) {
+            const dEl = document.getElementById(`tatico_card_delta_${k}`);
+            if (dEl) dEl.value = deltaValuesPreserved[k];
+        }
+    });
+
+    // Restaurar foco e seleção do elemento ativo
+    if (activeId) {
+        const restoredEl = document.getElementById(activeId);
+        if (restoredEl) {
+            restoredEl.focus();
+            try {
+                restoredEl.setSelectionRange(selStart, selEnd);
+            } catch (e) {}
+        }
+    }
 }
 
 function alternarPapelMestreCampanha() {
