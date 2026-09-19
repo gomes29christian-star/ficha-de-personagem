@@ -30236,7 +30236,7 @@ function atualizarModoTatico() {
 }
 
 // ============================================================
-// MÓDULO DE CAMPANHAS & MULTIPLAYER EM TEMPO REAL (WEBSOCKETS)
+// MÓDULO DE CAMPANHAS & MULTIPLAYER EM TEMPO REAL (WEBSOCKETS + REST FALLBACK)
 // ============================================================
 let socketCampanha = null;
 let salaCampanhaAtiva = null;
@@ -30251,6 +30251,10 @@ let timeoutDebounceDiario = null;
 let alertaMestreTimer = null;
 let membrosTaticoExpandidos = new Set();
 let timeoutSyncCampanha = null;
+let timerHeartbeatCampanha = null;
+let ultimoHeartbeatCampanha = Date.now();
+let timerPollingFallbackCampanha = null;
+let isConectandoCampanha = false;
 
 function agendarSincronizacaoCampanha() {
     if (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN || !salaCampanhaAtiva) return;
@@ -31361,6 +31365,39 @@ function atualizarBadgeStatusCampanha(status, codigo = "") {
     }
 }
 
+function iniciarPollingFallbackCampanha(codigo) {
+    if (!codigo) return;
+    const cod = String(codigo).trim().toUpperCase();
+    if (timerPollingFallbackCampanha) clearInterval(timerPollingFallbackCampanha);
+
+    const executarSyncHTTP = () => {
+        if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+            clearInterval(timerPollingFallbackCampanha);
+            timerPollingFallbackCampanha = null;
+            return;
+        }
+        const dadosJogador = obterDadosJogadorLocal();
+        fetch(`/api/campanhas/${encodeURIComponent(cod)}/sync`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ jogador: dadosJogador })
+        })
+        .then(res => res.ok ? res.json() : null)
+        .then(data => {
+            if (data && data.sala) {
+                salaCampanhaAtiva = data.sala;
+                atualizarBadgeStatusCampanha('conectado', salaCampanhaAtiva.codigo);
+                renderizarPainelCampanha();
+                atualizarSeletoresMembros();
+            }
+        })
+        .catch(() => {});
+    };
+
+    executarSyncHTTP();
+    timerPollingFallbackCampanha = setInterval(executarSyncHTTP, 3500);
+}
+
 function conectarWebSocketCampanha(codigo, nomeCampanha = "") {
     if (!codigo) return;
     const cod = String(codigo).trim().toUpperCase();
@@ -31369,19 +31406,35 @@ function conectarWebSocketCampanha(codigo, nomeCampanha = "") {
         if (salaCampanhaAtiva && salaCampanhaAtiva.codigo === cod) {
             return;
         }
-        socketCampanha.close();
+        try { socketCampanha.close(); } catch(e) {}
+    }
+
+    if (timerHeartbeatCampanha) {
+        clearInterval(timerHeartbeatCampanha);
+        timerHeartbeatCampanha = null;
     }
 
     atualizarBadgeStatusCampanha('conectando');
 
+    let host = window.location.host;
+    if (!host || host === "") {
+        host = window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+    }
+    if (!host) host = 'localhost:3000';
+
     const protocol = (window.location.protocol === 'https:') ? 'wss://' : 'ws://';
-    const wsUrl = protocol + window.location.host;
+    const wsUrl = protocol + host;
 
     try {
         socketCampanha = new WebSocket(wsUrl);
 
         socketCampanha.onopen = () => {
             tentativaReconexaoCampanha = 0;
+            if (timerPollingFallbackCampanha) {
+                clearInterval(timerPollingFallbackCampanha);
+                timerPollingFallbackCampanha = null;
+            }
+
             const dadosJogador = obterDadosJogadorLocal();
             socketCampanha.send(JSON.stringify({
                 type: 'criar_ou_entrar_sala',
@@ -31389,11 +31442,21 @@ function conectarWebSocketCampanha(codigo, nomeCampanha = "") {
                 nomeCampanha: nomeCampanha || `Campanha ${cod}`,
                 jogador: dadosJogador
             }));
+
+            // Inicia heartbeat ping/pong constante para impedir timeout em qualquer proxy, 4G ou dispositivo remoto
+            timerHeartbeatCampanha = setInterval(() => {
+                if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+                    try {
+                        socketCampanha.send(JSON.stringify({ type: 'ping', timestamp: Date.now() }));
+                    } catch(e) {}
+                }
+            }, 15000);
         };
 
         socketCampanha.onmessage = (event) => {
             try {
                 const msg = JSON.parse(event.data);
+                ultimoHeartbeatCampanha = Date.now();
                 processarMensagemCampanha(msg);
             } catch(e) {
                 console.error("Erro ao processar mensagem do WebSocket:", e);
@@ -31401,36 +31464,60 @@ function conectarWebSocketCampanha(codigo, nomeCampanha = "") {
         };
 
         socketCampanha.onclose = () => {
-            if (salaCampanhaAtiva) {
-                if (tentativaReconexaoCampanha < 5) {
-                    tentativaReconexaoCampanha++;
-                    clearTimeout(reconectarCampanhaTimeout);
-                    reconectarCampanhaTimeout = setTimeout(() => {
-                        if (salaCampanhaAtiva) {
-                            conectarWebSocketCampanha(salaCampanhaAtiva.codigo, salaCampanhaAtiva.nome);
-                        }
-                    }, 2500);
-                } else {
-                    atualizarBadgeStatusCampanha('offline');
-                }
+            if (timerHeartbeatCampanha) {
+                clearInterval(timerHeartbeatCampanha);
+                timerHeartbeatCampanha = null;
+            }
+
+            const codCampanha = (salaCampanhaAtiva && salaCampanhaAtiva.codigo) ? salaCampanhaAtiva.codigo : cod;
+            if (codCampanha) {
+                // Ativa fallback HTTP imediato para manter a sala online
+                iniciarPollingFallbackCampanha(codCampanha);
+                
+                tentativaReconexaoCampanha++;
+                const delay = Math.min(1000 * Math.pow(1.3, Math.min(tentativaReconexaoCampanha, 8)), 5000);
+                
+                clearTimeout(reconectarCampanhaTimeout);
+                reconectarCampanhaTimeout = setTimeout(() => {
+                    const codAtual = (salaCampanhaAtiva && salaCampanhaAtiva.codigo) || codCampanha;
+                    if (codAtual) {
+                        conectarWebSocketCampanha(codAtual, salaCampanhaAtiva ? salaCampanhaAtiva.nome : "");
+                    }
+                }, delay);
             } else {
                 atualizarBadgeStatusCampanha('offline');
             }
         };
 
         socketCampanha.onerror = (err) => {
-            console.error("Erro no WebSocket da Campanha:", err);
-            atualizarBadgeStatusCampanha('offline');
+            console.warn("WebSocket status / reconnecting...", err);
+            const codCampanha = (salaCampanhaAtiva && salaCampanhaAtiva.codigo) ? salaCampanhaAtiva.codigo : cod;
+            if (codCampanha) {
+                iniciarPollingFallbackCampanha(codCampanha);
+            }
         };
 
     } catch(err) {
-        console.error("Erro ao iniciar WebSocket da Campanha:", err);
-        atualizarBadgeStatusCampanha('offline');
+        console.warn("Erro ao iniciar WebSocket da Campanha, ativando fallback HTTP:", err);
+        iniciarPollingFallbackCampanha(cod);
     }
 }
 
 function processarMensagemCampanha(msg) {
     const { type } = msg;
+
+    if (type === 'pong') {
+        return;
+    }
+
+    if (type === 'server_ping') {
+        if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+            try {
+                socketCampanha.send(JSON.stringify({ type: 'client_pong', timestamp: Date.now() }));
+            } catch(e) {}
+        }
+        return;
+    }
 
     if (type === 'sala_conectada') {
         salaCampanhaAtiva = msg.sala;
@@ -31631,8 +31718,20 @@ function entrarSalaCampanhaPeloInput() {
 }
 
 function sairSalaCampanha() {
+    if (timerPollingFallbackCampanha) {
+        clearInterval(timerPollingFallbackCampanha);
+        timerPollingFallbackCampanha = null;
+    }
+    if (timerHeartbeatCampanha) {
+        clearInterval(timerHeartbeatCampanha);
+        timerHeartbeatCampanha = null;
+    }
+    clearTimeout(reconectarCampanhaTimeout);
+
     if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
-        socketCampanha.send(JSON.stringify({ type: 'sair_sala' }));
+        try {
+            socketCampanha.send(JSON.stringify({ type: 'sair_sala' }));
+        } catch(e) {}
     }
     salaCampanhaAtiva = null;
     try { localStorage.removeItem('we_are_strangers_campanha_codigo'); } catch(e) {}
@@ -31658,11 +31757,35 @@ function copiarCodigoCampanha() {
 }
 
 function sincronizarEstadoComCampanha() {
-    if (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN || !salaCampanhaAtiva) return;
-    socketCampanha.send(JSON.stringify({
-        type: 'atualizar_meu_estado',
-        jogador: obterDadosJogadorLocal()
-    }));
+    if (!salaCampanhaAtiva) return;
+    const dadosJogador = obterDadosJogadorLocal();
+
+    if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+        try {
+            socketCampanha.send(JSON.stringify({
+                type: 'atualizar_meu_estado',
+                jogador: dadosJogador
+            }));
+            return;
+        } catch(e) {}
+    }
+
+    // Se o WebSocket estiver temporariamente reconectando, sincroniza via HTTP REST fallback
+    if (salaCampanhaAtiva.codigo) {
+        fetch(`/api/campanhas/${encodeURIComponent(salaCampanhaAtiva.codigo)}/sync`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ jogador: dadosJogador })
+        })
+        .then(res => res.ok ? res.json() : null)
+        .then(data => {
+            if (data && data.sala) {
+                salaCampanhaAtiva = data.sala;
+                renderizarPainelCampanha();
+            }
+        })
+        .catch(() => {});
+    }
 }
 
 function transmitirRolagemParaCampanha(itemHistorico) {
@@ -33024,6 +33147,30 @@ function inicializarCampanhasMultiplayer() {
             }, 1500);
         });
     }
+
+    // Ouvintes de ciclo de vida do dispositivo / navegador para reconectar instantaneamente ao acordar tela ou voltar rede
+    window.addEventListener('online', () => {
+        const cod = (salaCampanhaAtiva && salaCampanhaAtiva.codigo) || localStorage.getItem('we_are_strangers_campanha_codigo');
+        if (cod && (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN)) {
+            conectarWebSocketCampanha(cod);
+        }
+    });
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            const cod = (salaCampanhaAtiva && salaCampanhaAtiva.codigo) || localStorage.getItem('we_are_strangers_campanha_codigo');
+            if (cod && (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN)) {
+                conectarWebSocketCampanha(cod);
+            }
+        }
+    });
+
+    window.addEventListener('focus', () => {
+        const cod = (salaCampanhaAtiva && salaCampanhaAtiva.codigo) || localStorage.getItem('we_are_strangers_campanha_codigo');
+        if (cod && (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN)) {
+            conectarWebSocketCampanha(cod);
+        }
+    });
 }
 
 criarPainel();

@@ -10,7 +10,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
+// CORS e Headers flexíveis para conexões de múltiplos dispositivos e redes
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
+app.use(express.json({ limit: '10mb' }));
 app.use(express.static(__dirname));
 
 // Gerenciador de Salas de Campanhas em Memória
@@ -27,8 +38,9 @@ function obterOuCriarSala(codigo, nomeCampanha = null, criadorId = null, criador
       criadorId: criadorId || 'anon',
       criadorNome: criadorNome || 'Mestre',
       criadoEm: Date.now(),
-      membros: new Map(), // socketId -> dados do membro
+      membros: new Map(), // jogadorId -> dados do membro
       conquistasEquipe: new Set(), // Set de ids de conquistas de equipe desbloqueadas
+      diarioSessao: '',
       historico: [] // histórico de eventos e feitos
     });
   }
@@ -68,16 +80,16 @@ function serializarSala(sala) {
       recursoNome: membro.recursoNome || 'Estamina',
       atributos: membro.atributos || { HPR: 1, PRX: 1, PSI: 1, QI: 1 },
       periciasTop: Array.isArray(membro.periciasTop) ? membro.periciasTop : [],
-      condicoes: membro.condicoes || [],
-      conquistasIndividuais: membro.conquistasIndividuais || [],
-      conquistasSecretas: membro.conquistasSecretas || [],
-      conquistasEquipe: membro.conquistasEquipe || [],
+      condicoes: Array.isArray(membro.condicoes) ? membro.condicoes : [],
+      conquistasIndividuais: Array.isArray(membro.conquistasIndividuais) ? membro.conquistasIndividuais : [],
+      conquistasSecretas: Array.isArray(membro.conquistasSecretas) ? membro.conquistasSecretas : [],
+      conquistasEquipe: Array.isArray(membro.conquistasEquipe) ? membro.conquistasEquipe : [],
       trocarPorCodinome: !!membro.trocarPorCodinome,
       identidadeReal: membro.identidadeReal || '',
       codinomeOriginal: membro.codinomeOriginal || '',
       reveladoPara: Array.isArray(membro.reveladoPara) ? membro.reveladoPara : [],
-      online: membro.online,
-      ultimoVisto: membro.ultimoVisto
+      online: !!membro.online,
+      ultimoVisto: membro.ultimoVisto || Date.now()
     });
   });
 
@@ -96,13 +108,103 @@ function serializarSala(sala) {
   };
 }
 
-// REST endpoints para consulta rápida
+// REST endpoints para consulta e fallback de sincronização
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: Date.now(), totalSalas: salasCampanhas.size });
+});
+
 app.get('/api/campanhas/:codigo', (req, res) => {
   const sala = salasCampanhas.get(String(req.params.codigo).toUpperCase());
   if (!sala) {
     return res.status(404).json({ erro: 'Campanha não encontrada.' });
   }
   res.json(serializarSala(sala));
+});
+
+app.post('/api/campanhas/:codigo/entrar', (req, res) => {
+  const cod = String(req.params.codigo || '').trim().toUpperCase();
+  const { jogador, nomeCampanha } = req.body || {};
+  if (!cod) return res.status(400).json({ erro: 'Código inválido' });
+
+  const sala = obterOuCriarSala(cod, nomeCampanha, jogador?.id, jogador?.nomeJogador || jogador?.nomePersonagem);
+  if (!sala) return res.status(500).json({ erro: 'Falha ao obter sala' });
+
+  const jogadorId = jogador?.id || ('ply_' + Math.random().toString(36).substr(2, 9));
+  const ehCriadorOriginal = (sala.criadorId === jogadorId);
+  let mestrePermitido = ehCriadorOriginal;
+  if (!mestrePermitido && sala.membros.has(jogadorId)) {
+    mestrePermitido = !!sala.membros.get(jogadorId)?.isMestre;
+  }
+
+  const jogadorInfo = {
+    id: jogadorId,
+    nomePersonagem: jogador?.nomePersonagem || 'Personagem',
+    nomeJogador: jogador?.nomeJogador || 'Jogador',
+    avatar: jogador?.avatar || '',
+    isMestre: mestrePermitido,
+    classe1: jogador?.classe1 || '',
+    classe2: jogador?.classe2 || '',
+    nivel: jogador?.nivel || '',
+    corTema: jogador?.corTema || '#c9b183',
+    vidaAtual: jogador?.vidaAtual ?? 100,
+    vidaMax: jogador?.vidaMax ?? 100,
+    vidaTemp: jogador?.vidaTemp ?? 0,
+    estaminaAtual: jogador?.estaminaAtual ?? 80,
+    estaminaMax: jogador?.estaminaMax ?? 80,
+    estaminaTemp: jogador?.estaminaTemp ?? 0,
+    mentalAtual: jogador?.mentalAtual ?? 50,
+    mentalMax: jogador?.mentalMax ?? 50,
+    mentalTemp: jogador?.mentalTemp ?? 0,
+    auraAtual: jogador?.auraAtual ?? 30,
+    auraMax: jogador?.auraMax ?? 30,
+    auraTemp: jogador?.auraTemp ?? 0,
+    sanidadeAtual: jogador?.sanidadeAtual ?? (jogador?.mentalAtual ?? 50),
+    sanidadeMax: jogador?.sanidadeMax ?? (jogador?.mentalMax ?? 50),
+    recursoAtual: jogador?.recursoAtual ?? (jogador?.estaminaAtual ?? 80),
+    recursoMax: jogador?.recursoMax ?? (jogador?.estaminaMax ?? 80),
+    recursoNome: jogador?.recursoNome || 'Estamina',
+    atributos: jogador?.atributos || { HPR: 1, PRX: 1, PSI: 1, QI: 1 },
+    periciasTop: Array.isArray(jogador?.periciasTop) ? jogador.periciasTop : [],
+    condicoes: Array.isArray(jogador?.condicoes) ? jogador.condicoes : [],
+    conquistasIndividuais: Array.isArray(jogador?.conquistasIndividuais) ? jogador.conquistasIndividuais : [],
+    conquistasSecretas: Array.isArray(jogador?.conquistasSecretas) ? jogador.conquistasSecretas : [],
+    conquistasEquipe: Array.isArray(jogador?.conquistasEquipe) ? jogador.conquistasEquipe : [],
+    trocarPorCodinome: !!jogador?.trocarPorCodinome,
+    identidadeReal: jogador?.identidadeReal || '',
+    codinomeOriginal: jogador?.codinomeOriginal || '',
+    reveladoPara: Array.isArray(jogador?.reveladoPara) ? jogador.reveladoPara : [],
+    online: true,
+    ultimoVisto: Date.now()
+  };
+
+  sala.membros.set(jogadorId, jogadorInfo);
+
+  if (Array.isArray(jogador?.conquistasEquipe)) {
+    jogador.conquistasEquipe.forEach(cqId => sala.conquistasEquipe.add(cqId));
+  }
+
+  res.json({
+    type: 'sala_conectada',
+    sala: serializarSala(sala),
+    conquistasEquipeParaSincronizar: Array.from(sala.conquistasEquipe)
+  });
+});
+
+app.post('/api/campanhas/:codigo/sync', (req, res) => {
+  const cod = String(req.params.codigo || '').trim().toUpperCase();
+  const { jogador } = req.body || {};
+  const sala = salasCampanhas.get(cod);
+  if (!sala) return res.status(404).json({ erro: 'Campanha não encontrada.' });
+
+  if (jogador && jogador.id && sala.membros.has(jogador.id)) {
+    const membro = sala.membros.get(jogador.id);
+    Object.assign(membro, jogador, { online: true, ultimoVisto: Date.now() });
+  }
+
+  res.json({
+    sala: serializarSala(sala),
+    conquistasEquipe: Array.from(sala.conquistasEquipe)
+  });
 });
 
 app.get(['/planta', '/planta.html'], (req, res) => {
@@ -116,28 +218,61 @@ app.get('*', (req, res) => {
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
+function broadcastParaSala(codigo, payload, excetoWsId = null) {
+  const sala = salasCampanhas.get(codigo);
+  if (!sala) return;
+  const msg = JSON.stringify(payload);
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN && client.salaCodigo === codigo) {
+      if (!excetoWsId || client.id !== excetoWsId) {
+        client.send(msg);
+      }
+    }
+  });
+}
+
+// Heartbeat periódico a cada 20 segundos para manter conexões ativas e vivas em qualquer dispositivo/proxy
+const heartbeatInterval = setInterval(() => {
+  wss.clients.forEach(ws => {
+    if (ws.isAlive === false) {
+      return ws.terminate();
+    }
+    ws.isAlive = false;
+    try {
+      ws.ping();
+      ws.send(JSON.stringify({ type: 'server_ping', timestamp: Date.now() }));
+    } catch(e) {}
+  });
+}, 20000);
+
+wss.on('close', () => {
+  clearInterval(heartbeatInterval);
+});
+
 wss.on('connection', (ws) => {
   ws.id = 'ws_' + Math.random().toString(36).substr(2, 9);
   ws.salaCodigo = null;
+  ws.jogadorId = null;
   ws.jogadorInfo = null;
+  ws.isAlive = true;
 
-  function broadcastParaSala(codigo, payload, excetoWsId = null) {
-    const sala = salasCampanhas.get(codigo);
-    if (!sala) return;
-    const msg = JSON.stringify(payload);
-    wss.clients.forEach(client => {
-      if (client.readyState === WebSocket.OPEN && client.salaCodigo === codigo) {
-        if (!excetoWsId || client.id !== excetoWsId) {
-          client.send(msg);
-        }
-      }
-    });
-  }
+  ws.on('pong', () => {
+    ws.isAlive = true;
+  });
 
   ws.on('message', (data) => {
     try {
       const msg = JSON.parse(data.toString());
       const { type } = msg;
+      ws.isAlive = true;
+
+      if (type === 'ping') {
+        return ws.send(JSON.stringify({ type: 'pong', timestamp: Date.now() }));
+      }
+
+      if (type === 'client_pong') {
+        return;
+      }
 
       if (type === 'criar_ou_entrar_sala') {
         const { codigo, nomeCampanha, jogador } = msg;
@@ -148,8 +283,10 @@ wss.on('connection', (ws) => {
 
         if (ws.salaCodigo && ws.salaCodigo !== cod) {
           const salaAntiga = salasCampanhas.get(ws.salaCodigo);
-          if (salaAntiga) {
-            salaAntiga.membros.delete(ws.id);
+          if (salaAntiga && ws.jogadorId && salaAntiga.membros.has(ws.jogadorId)) {
+            const membro = salaAntiga.membros.get(ws.jogadorId);
+            membro.online = false;
+            membro.ultimoVisto = Date.now();
             broadcastParaSala(ws.salaCodigo, {
               type: 'sala_atualizada',
               sala: serializarSala(salaAntiga)
@@ -157,23 +294,19 @@ wss.on('connection', (ws) => {
           }
         }
 
-        const salaExiste = salasCampanhas.has(cod);
         const sala = obterOuCriarSala(cod, nomeCampanha, jogador?.id, jogador?.nomeJogador || jogador?.nomePersonagem);
         ws.salaCodigo = cod;
+        const jogadorId = jogador?.id || ('ply_' + Math.random().toString(36).substr(2, 9));
+        ws.jogadorId = jogadorId;
         
-        const ehCriadorOriginal = (sala.criadorId === (jogador?.id || ws.id));
+        const ehCriadorOriginal = (sala.criadorId === jogadorId);
         let mestrePermitido = ehCriadorOriginal;
-        if (!mestrePermitido && jogador?.id) {
-            // Verifica se o jogador já havia recebido status de Mestre previamente nesta sala
-            sala.membros.forEach(m => {
-                if (m.id === jogador.id && m.isMestre) {
-                    mestrePermitido = true;
-                }
-            });
+        if (!mestrePermitido && sala.membros.has(jogadorId)) {
+          mestrePermitido = !!sala.membros.get(jogadorId)?.isMestre;
         }
 
         ws.jogadorInfo = {
-          id: jogador?.id || ws.id,
+          id: jogadorId,
           nomePersonagem: jogador?.nomePersonagem || 'Personagem',
           nomeJogador: jogador?.nomeJogador || 'Jogador',
           avatar: jogador?.avatar || '',
@@ -213,7 +346,7 @@ wss.on('connection', (ws) => {
           ultimoVisto: Date.now()
         };
 
-        sala.membros.set(ws.id, ws.jogadorInfo);
+        sala.membros.set(jogadorId, ws.jogadorInfo);
 
         if (Array.isArray(jogador?.conquistasEquipe)) {
           jogador.conquistasEquipe.forEach(cqId => sala.conquistasEquipe.add(cqId));
@@ -242,7 +375,7 @@ wss.on('connection', (ws) => {
         }, ws.id);
 
       } else if (type === 'atualizar_meu_estado') {
-        if (!ws.salaCodigo) return;
+        if (!ws.salaCodigo || !ws.jogadorId) return;
         const sala = salasCampanhas.get(ws.salaCodigo);
         if (!sala) return;
 
@@ -284,9 +417,10 @@ wss.on('connection', (ws) => {
             identidadeReal: jogador.identidadeReal !== undefined ? jogador.identidadeReal : ws.jogadorInfo.identidadeReal,
             codinomeOriginal: jogador.codinomeOriginal !== undefined ? jogador.codinomeOriginal : ws.jogadorInfo.codinomeOriginal,
             reveladoPara: Array.isArray(jogador.reveladoPara) ? jogador.reveladoPara : ws.jogadorInfo.reveladoPara,
+            online: true,
             ultimoVisto: Date.now()
           });
-          sala.membros.set(ws.id, ws.jogadorInfo);
+          sala.membros.set(ws.jogadorId, ws.jogadorInfo);
 
           broadcastParaSala(ws.salaCodigo, {
             type: 'sala_atualizada',
@@ -418,7 +552,6 @@ wss.on('connection', (ws) => {
         const { item, destinatarioId } = msg;
         if (!item || !destinatarioId) return;
 
-        // Encontra o socket do destinatário
         let socketDestinatario = null;
         let nomeDestinatario = 'Outro jogador';
 
@@ -460,26 +593,24 @@ wss.on('connection', (ws) => {
         const sala = salasCampanhas.get(ws.salaCodigo);
         if (!sala) return;
 
-        const { titulo, mensagem, nivel } = msg;
+        const { alerta } = msg;
+        if (!alerta || !alerta.trim()) return;
+
         const logAlerta = {
           id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
           tipo: 'alerta_mestre',
-          titulo: titulo || '⚠️ ALERTA DO MESTRE',
-          mensagem: mensagem || '',
-          mestre: ws.jogadorInfo?.nomePersonagem || 'Mestre',
-          texto: `⚠️ [MESTRE ${ws.jogadorInfo?.nomePersonagem}]: ${titulo} - ${mensagem}`,
+          texto: alerta.trim(),
+          autor: ws.jogadorInfo?.nomePersonagem || 'Mestre',
           data: Date.now()
         };
         sala.historico.push(logAlerta);
 
         broadcastParaSala(ws.salaCodigo, {
           type: 'alerta_mestre_recebido',
-          titulo: titulo || '⚠️ ALERTA DO MESTRE',
-          mensagem: mensagem || '',
-          mestre: ws.jogadorInfo?.nomePersonagem || 'Mestre',
-          nivel: nivel || 'aviso',
-          sala: serializarSala(sala),
-          evento: logAlerta
+          alerta: alerta.trim(),
+          autor: ws.jogadorInfo?.nomePersonagem || 'Mestre',
+          evento: logAlerta,
+          sala: serializarSala(sala)
         });
 
       } else if (type === 'atualizar_diario_sessao') {
@@ -487,11 +618,13 @@ wss.on('connection', (ws) => {
         const sala = salasCampanhas.get(ws.salaCodigo);
         if (!sala) return;
 
-        sala.diarioSessao = String(msg.texto || '');
+        const { texto } = msg;
+        sala.diarioSessao = texto || '';
+
         broadcastParaSala(ws.salaCodigo, {
           type: 'diario_atualizado',
           diarioSessao: sala.diarioSessao,
-          atualizadoPor: ws.jogadorInfo?.nomePersonagem || 'Membro'
+          autor: ws.jogadorInfo?.nomePersonagem || 'Membro'
         }, ws.id);
 
       } else if (type === 'enviar_sussurro') {
@@ -533,13 +666,11 @@ wss.on('connection', (ws) => {
           data: Date.now()
         };
 
-        // Envia para o remetente
         ws.send(JSON.stringify({
           type: 'sussurro_recebido',
           evento: eventoSussurro
         }));
 
-        // Envia para o destinatário se for diferente
         if (socketDest && socketDest !== ws && socketDest.readyState === WebSocket.OPEN) {
           socketDest.send(JSON.stringify({
             type: 'sussurro_recebido',
@@ -567,7 +698,6 @@ wss.on('connection', (ws) => {
         };
         sala.historico.push(logEquipe);
 
-        // Dispara para TODOS na sala, para que todos desbloqueiem
         broadcastParaSala(ws.salaCodigo, {
           type: 'conquista_equipe_recebida',
           conquista: conquista,
@@ -650,16 +780,16 @@ wss.on('connection', (ws) => {
         });
 
       } else if (type === 'sair_sala') {
-        if (ws.salaCodigo) {
+        if (ws.salaCodigo && ws.jogadorId) {
           const cod = ws.salaCodigo;
           const sala = salasCampanhas.get(cod);
           if (sala) {
             const nomeSaiu = ws.jogadorInfo?.nomePersonagem || 'Um jogador';
-            sala.membros.delete(ws.id);
+            sala.membros.delete(ws.jogadorId);
             const logSaida = {
               id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
               tipo: 'membro_saiu',
-              texto: `${nomeSaiu} desconectou-se da campanha.`,
+              texto: `${nomeSaiu} saiu da campanha.`,
               data: Date.now()
             };
             sala.historico.push(logSaida);
@@ -670,6 +800,7 @@ wss.on('connection', (ws) => {
             });
           }
           ws.salaCodigo = null;
+          ws.jogadorId = null;
           ws.jogadorInfo = null;
           ws.send(JSON.stringify({ type: 'saiu_sala' }));
         }
@@ -680,22 +811,15 @@ wss.on('connection', (ws) => {
   });
 
   ws.on('close', () => {
-    if (ws.salaCodigo) {
+    if (ws.salaCodigo && ws.jogadorId) {
       const sala = salasCampanhas.get(ws.salaCodigo);
-      if (sala) {
-        const nomeSaiu = ws.jogadorInfo?.nomePersonagem || 'Um jogador';
-        sala.membros.delete(ws.id);
-        const logSaida = {
-          id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-          tipo: 'membro_saiu',
-          texto: `${nomeSaiu} saiu da sala da campanha.`,
-          data: Date.now()
-        };
-        sala.historico.push(logSaida);
+      if (sala && sala.membros.has(ws.jogadorId)) {
+        const membro = sala.membros.get(ws.jogadorId);
+        membro.online = false;
+        membro.ultimoVisto = Date.now();
         broadcastParaSala(ws.salaCodigo, {
           type: 'sala_atualizada',
-          sala: serializarSala(sala),
-          evento: logSaida
+          sala: serializarSala(sala)
         });
       }
     }
