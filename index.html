@@ -4482,10 +4482,40 @@ html.tem-contorno-letras .tatico-membro-nome,
 html.tem-contorno-letras .tatico-skill-pure-badge,
 html.tem-contorno-letras .tatico-skill-tot-badge,
 html.tem-contorno-letras .campanha-stat-val,
-html.tem-contorno-letras .campanha-feed-tag {
+html.tem-contorno-letras .campanha-feed-tag,
+html.tem-contorno-letras .btn-tatico-acao,
+html.tem-contorno-letras .btn-tatico-acao.destaque,
+html.tem-contorno-letras #btn-abrir-modo-planta,
+html.tem-contorno-letras .conq-card.desbloqueada .conq-card-titulo,
+html.tem-contorno-letras [style*="color:var(--accent)"],
+html.tem-contorno-letras [style*="color: var(--accent)"],
+html.tem-contorno-letras [style*="color:var(--accent-light)"],
+html.tem-contorno-letras [style*="color: var(--accent-light)"],
+html.tem-contorno-letras [style*="color:var(--accent-dim)"],
+html.tem-contorno-letras [style*="color: var(--accent-dim)"],
+html.tem-contorno-letras [style*="color:var(--accent-active)"],
+html.tem-contorno-letras [style*="color: var(--accent-active)"] {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
   paint-order: stroke fill;
   text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
+}
+
+/* Aplicação de stroke/contorno com drop-shadow nos ícones modificados pela cor tema */
+html.tem-contorno-letras .categoria-icone,
+html.tem-contorno-letras .secao-icone,
+html.tem-contorno-letras .categoria-chevron,
+html.tem-contorno-letras .ornamento-simbolo,
+html.tem-contorno-letras .avatar-icone-add,
+html.tem-contorno-letras .recurso-aura .recurso-icone,
+html.tem-contorno-letras .btn-rolar svg,
+html.tem-contorno-letras .btn-rolar span,
+html.tem-contorno-letras .btn-tatico-acao span,
+html.tem-contorno-letras #btn-abrir-modo-planta span,
+html.tem-contorno-letras .nav-item.ativo .nav-icone {
+  filter: drop-shadow(1px 0 0 var(--tema-contorno-cor, #ffffff)) 
+          drop-shadow(-1px 0 0 var(--tema-contorno-cor, #ffffff)) 
+          drop-shadow(0 1px 0 var(--tema-contorno-cor, #ffffff)) 
+          drop-shadow(0 -1px 0 var(--tema-contorno-cor, #ffffff));
 }
 
 /* Garante a aplicação do contorno no hover do botão Rolar Dados */
