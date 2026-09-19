@@ -7,6 +7,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cinzel:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    try {
+      const cor = localStorage.getItem("we_are_strangers_tema_cor");
+      if (cor && /^#[0-9A-Fa-f]{6}$/.test(cor)) {
+        document.documentElement.style.setProperty('--accent', cor);
+        document.documentElement.style.setProperty('--accent-light', `color-mix(in srgb, ${cor} 70%, #ffffff 30%)`);
+        document.documentElement.style.setProperty('--accent-dim', `color-mix(in srgb, ${cor} 55%, #000000 45%)`);
+        document.documentElement.style.setProperty('--accent-glow', `color-mix(in srgb, ${cor} 25%, transparent)`);
+        document.documentElement.style.setProperty('--accent-active', `color-mix(in srgb, ${cor} 85%, #ffffff 15%)`);
+      }
+      const contornoAtivo = localStorage.getItem("we_are_strangers_tema_contorno_ativo");
+      if (contornoAtivo === "true") {
+        document.documentElement.classList.add("tem-contorno-letras");
+      }
+      const contornoCor = localStorage.getItem("we_are_strangers_tema_contorno_cor");
+      if (contornoCor) {
+        document.documentElement.style.setProperty('--tema-contorno-cor', contornoCor);
+      }
+    } catch(e) {}
+  })();
+</script>
 <style>
 /* ============================================================
    MODO PLANTA — WE'RE STRANGERS (V1: FUNDAÇÃO GRADE 2D)
@@ -32,6 +54,8 @@
   --accent-dim: #8f6511;
   --accent-glow: rgba(212, 154, 36, 0.25);
   --accent-active: #ffb834;
+  --tema-contorno-cor: #ffffff;
+  --tema-contorno-stroke: 1px;
   
   --font-display: 'Cinzel', 'EB Garamond', serif;
   --font-body: 'EB Garamond', Georgia, serif;
@@ -342,6 +366,10 @@ header.top-bar {
 
 #grid-canvas.rectangle {
   cursor: crosshair;
+}
+
+#grid-canvas.selecting {
+  cursor: default;
 }
 
 /* Painel Flutuante Lateral: Informações da Célula (V2: Camadas & Propriedades RPG) */
@@ -1251,6 +1279,29 @@ footer.status-bar {
   justify-content: space-between;
 }
 
+.ctx-menu-subheader {
+  padding: 6px 12px 3px;
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ctx-menu-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 1px 5px;
+  background: rgba(220, 53, 69, 0.18);
+  border: 1px solid rgba(220, 53, 69, 0.35);
+  border-radius: 4px;
+  color: #ff9da3;
+}
+
 .ctx-menu-item {
   display: flex;
   align-items: center;
@@ -1339,21 +1390,99 @@ footer.status-bar {
   font-weight: 700;
 }
 
+/* Seletor de Cor do Tema no Modo Planta */
+.theme-color-picker-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.theme-color-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.theme-color-label:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.theme-color-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background-color: var(--accent);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 6px var(--accent-glow);
+  flex-shrink: 0;
+}
+
+.theme-color-text {
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+}
+
+.theme-color-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
 /* Efeito de Contorno de Texto / Stroke por Cor Tema (Garante cumprimento das instruções) */
 html.tem-contorno-letras .brand-title,
+html.tem-contorno-letras .brand-icon,
 html.tem-contorno-letras .brand-subtitle,
 html.tem-contorno-letras .modal-title,
 html.tem-contorno-letras .cell-info-title,
+html.tem-contorno-letras .object-info-title,
+html.tem-contorno-letras .info-section-tag,
 html.tem-contorno-letras .biblio-categoria-titulo,
 html.tem-contorno-letras .ctx-menu-header,
 html.tem-contorno-letras .status-highlight,
+html.tem-contorno-letras .tool-btn.active,
+html.tem-contorno-letras .tool-btn.active .tool-icon,
+html.tem-contorno-letras .tool-btn.active span,
+html.tem-contorno-letras .action-btn.primary,
+html.tem-contorno-letras .action-btn.primary span,
+html.tem-contorno-letras #active-element-badge,
+html.tem-contorno-letras .theme-color-text,
 html.tem-contorno-letras [style*="color:var(--accent)"],
 html.tem-contorno-letras [style*="color: var(--accent)"],
 html.tem-contorno-letras [style*="color:var(--accent-light)"],
-html.tem-contorno-letras [style*="color: var(--accent-light)"] {
+html.tem-contorno-letras [style*="color: var(--accent-light)"],
+html.tem-contorno-letras [style*="color:var(--accent-active)"],
+html.tem-contorno-letras [style*="color: var(--accent-active)"] {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
   text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
   paint-order: stroke fill;
+}
+
+html.tem-contorno-letras .brand-icon,
+html.tem-contorno-letras .tool-btn.active .tool-icon,
+html.tem-contorno-letras .action-btn.primary span:first-child {
+  filter: drop-shadow(1px 0 0 var(--tema-contorno-cor, #ffffff)) 
+          drop-shadow(-1px 0 0 var(--tema-contorno-cor, #ffffff)) 
+          drop-shadow(0 1px 0 var(--tema-contorno-cor, #ffffff)) 
+          drop-shadow(0 -1px 0 var(--tema-contorno-cor, #ffffff));
 }
 </style>
 </head>
@@ -1396,10 +1525,16 @@ html.tem-contorno-letras [style*="color: var(--accent-light)"] {
         <span class="tool-badge">4</span>
       </button>
 
-      <button type="button" class="tool-btn" id="tool-select" onclick="setTool('select')" title="Selecionar Célula ou Objeto Espacial [5]">
+      <button type="button" class="tool-btn" id="tool-select" onclick="setTool('select')" title="Selecionar Célula ou Objeto Espacial (Atalho: V)">
         <span class="tool-icon">🎯</span>
         <span>Selecionar</span>
-        <span class="tool-badge">5</span>
+        <span class="tool-badge">V</span>
+      </button>
+
+      <button type="button" class="tool-btn" id="tool-wand" onclick="setTool('wand')" title="Varinha Mágica / Selecionar Conectados (Atalho: W ou Duplo-Clique)">
+        <span class="tool-icon">🪄</span>
+        <span>Varinha</span>
+        <span class="tool-badge">W</span>
       </button>
 
       <div class="tool-divider"></div>
@@ -1430,6 +1565,15 @@ html.tem-contorno-letras [style*="color: var(--accent-light)"] {
       <button type="button" class="action-btn danger" onclick="confirmarLimparPlanta()" title="Limpar Mapa e Começar Novo">
         <span>🗑️</span> Novo
       </button>
+      <div class="tool-divider"></div>
+      <!-- Seletor e Sincronizador de Cor do Tema com a Ficha -->
+      <div class="theme-color-picker-wrap" title="Cor do Tema (Sincronizada em tempo real com a Ficha)">
+        <label for="planta_cor_tema" class="theme-color-label">
+          <span class="theme-color-swatch" id="planta_theme_swatch"></span>
+          <span class="theme-color-text">Tema</span>
+        </label>
+        <input type="color" id="planta_cor_tema" class="theme-color-input" value="#d49a24" oninput="aplicarCorTemaPlanta(this.value, true)" onchange="aplicarCorTemaPlanta(this.value, true)">
+      </div>
       <div class="tool-divider"></div>
       <button type="button" class="action-btn" onclick="window.close()" title="Fechar Aba do Modo Planta">
         <span>✕</span>
@@ -1513,6 +1657,14 @@ html.tem-contorno-letras [style*="color: var(--accent-light)"] {
         </div>
         <div id="cell-action-extra-row" style="display:none; margin-top:4px;">
           <button type="button" class="action-btn" onclick="removerEstruturaCelulaSelecionada()" style="font-size:11px; width:100%;">Remover Estrutura</button>
+        </div>
+        <div id="multi-action-tools-row" style="display:none; margin-top:6px; flex-direction:column; gap:6px;">
+          <div style="font-size:10px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.5px; font-weight:700;">Ferramentas de Seleção</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+            <button type="button" class="action-btn" onclick="copiarSelecao()" style="font-size:11px; justify-content:center;" title="Copiar células e objetos selecionados (Ctrl+C)">📋 Copiar</button>
+            <button type="button" class="action-btn" onclick="abrirModalXadrez()" style="font-size:11px; justify-content:center;" title="Preenchimento com padrão xadrez alternado">🏁 Xadrez</button>
+          </div>
+          <button type="button" class="action-btn" id="btn-multi-colar" onclick="iniciarColagem()" style="font-size:11px; width:100%; justify-content:center; display:none;" title="Colar seleção copiada no mapa (Ctrl+V)">📋 Colar no Mapa</button>
         </div>
       </div>
     </div>
@@ -1683,6 +1835,71 @@ html.tem-contorno-letras [style*="color: var(--accent-light)"] {
     </div>
     <div class="modal-footer">
       <button type="button" class="action-btn" onclick="fecharModalExportar()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Preenchimento em Padrão Xadrez (V3.1) -->
+<div class="modal-overlay" id="modal-xadrez">
+  <div class="modal-window" style="max-width: 440px;">
+    <div class="modal-header">
+      <h3 class="modal-title">🏁 PREENCHIMENTO EM PADRÃO XADREZ</h3>
+      <button type="button" class="modal-close-btn" onclick="fecharModalXadrez()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size: 12px; color: var(--ink-dim); margin-bottom: 8px;">
+        Alterne dois pisos na área selecionada (<span id="xadrez-total-celulas" style="color:#f5ca65; font-weight:700;">0</span> células).
+      </p>
+
+      <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+        <div style="flex: 1;">
+          <label style="font-size: 11px; color: var(--ink-dim); display: block; margin-bottom: 6px; font-weight:600;">
+            Piso A (Casa 1)
+          </label>
+          <select id="xadrez-piso-a" class="cell-label-input" style="width: 100%; padding: 6px;" onchange="atualizarPreviewXadrez()">
+            <option value="stone" selected>🧱 Pedra Tática</option>
+            <option value="wood">🪵 Madeira Nobre</option>
+            <option value="dungeon">⛓️ Calabouço</option>
+            <option value="water">💧 Água Rasa</option>
+          </select>
+        </div>
+        <div style="flex: 1;">
+          <label style="font-size: 11px; color: var(--ink-dim); display: block; margin-bottom: 6px; font-weight:600;">
+            Piso B (Casa 2)
+          </label>
+          <select id="xadrez-piso-b" class="cell-label-input" style="width: 100%; padding: 6px;" onchange="atualizarPreviewXadrez()">
+            <option value="stone">🧱 Pedra Tática</option>
+            <option value="wood" selected>🪵 Madeira Nobre</option>
+            <option value="dungeon">⛓️ Calabouço</option>
+            <option value="water">💧 Água Rasa</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="font-size: 11px; color: var(--ink-dim); display: block; margin-bottom: 6px; font-weight:600;">
+          Estilo do Padrão
+        </label>
+        <select id="xadrez-modo" class="cell-label-input" style="width: 100%; padding: 6px;" onchange="atualizarPreviewXadrez()">
+          <option value="checkerboard" selected>🏁 Xadrez Diagonal Clássico ((X + Y) % 2)</option>
+          <option value="stripes-v">║ Listras Verticais (X % 2)</option>
+          <option value="stripes-h">═ Listras Horizontais (Y % 2)</option>
+        </select>
+      </div>
+
+      <!-- Mini Preview visual do padrão -->
+      <div style="background: #090a0f; border: 1px solid var(--accent-dim); border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 14px;">
+        <div id="xadrez-preview-grid" style="display: grid; grid-template-columns: repeat(4, 20px); grid-template-rows: repeat(4, 20px); gap: 2px; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 2px; background:#000;">
+        </div>
+        <div style="font-size: 11px; color: var(--ink-dim); line-height: 1.4;">
+          <span style="color:#f5ca65; font-weight:600;">Visualização</span><br>
+          Quadrículas 4×4 demonstrando o efeito final.
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
+      <button type="button" class="action-btn" onclick="fecharModalXadrez()">Cancelar</button>
+      <button type="button" class="action-btn primary" onclick="aplicarPadraoXadrez()">🏁 Aplicar Padrão</button>
     </div>
   </div>
 </div>
@@ -1972,10 +2189,9 @@ const uiState = {
   activeElementId: 'floor_stone', // ID do elemento selecionado na Biblioteca
   activeCategory: 'floor',      // 'floor' | 'structure' | 'special' | 'object'
   activeItemKey: 'stone',       // Chave interna para pintura/colocação
-  selectedCell: null,           // { x, y } ou null
-  selectedCells: new Set(),     // Conjunto de "x,y" para seleção múltipla com Ctrl+Select
-  isMultiSelecting: false,      // Seleção por arrasto com Ctrl pressionado
-  selectedObject: null,         // objId ou null
+  selectedCell: null,           // { x, y } ou null (mantido sincronizado)
+  selectedCells: new Set(),     // Set legado sincronizado com SelectionManager
+  selectedObject: null,         // objId ou null (mantido sincronizado)
   isDraggingObject: false,      // Arraste de objeto espacial pelo mapa
   draggedObjectId: null,        // ID do objeto em movimento
   dragObjectStartPos: { x: 0, y: 0 }, // Posição inicial para undo
@@ -1984,6 +2200,7 @@ const uiState = {
   
   // Controle de interação exclusivo do Canvas
   canvasInteractionActive: false,
+  capturedPointerId: null,
   isDragging: false,
   isPainting: false,
   dragStartScreen: { x: 0, y: 0 },
@@ -1992,7 +2209,315 @@ const uiState = {
   spacePressed: false,
   rectStartCell: null,
   rectEndCell: null,
+  isPasting: false,
+  pasteTargetPos: null,
   needsRedraw: true
+};
+
+// -------------------------------------------------------------
+// SISTEMA CENTRAL DE SELEÇÃO MULTICELULAR V3 (SELECTION MANAGER)
+// -------------------------------------------------------------
+const SelectionManager = {
+  state: {
+    cells: new Set(),           // Set de "x,y" das células atualmente selecionadas
+    objects: new Set(),         // Set de objId dos objetos atualmente selecionados
+    isDraggingSelection: false, // Flag de arraste de seleção ativa
+    startCell: null,            // { x, y } de início do retângulo de seleção
+    currentCell: null,          // { x, y } atual sob o cursor durante arraste
+    mode: 'replace',            // 'replace' | 'add' (Shift) | 'remove' (Ctrl)
+    capturedPointerId: null
+  },
+
+  hasSelection() {
+    return this.state.cells.size > 0 || this.state.objects.size > 0;
+  },
+
+  clearSelection() {
+    this.state.cells.clear();
+    this.state.objects.clear();
+    this.state.isDraggingSelection = false;
+    this.state.startCell = null;
+    this.state.currentCell = null;
+    this.onSelectionChanged();
+  },
+
+  selectCell(x, y, mode = 'replace') {
+    if (mode === 'replace') {
+      this.state.cells.clear();
+      this.state.objects.clear();
+    }
+
+    // Verificar se a célula clicada pertence a um objeto espacial multicélula
+    const obj = (typeof obterObjetoEmCoordenada === 'function') ? obterObjetoEmCoordenada(x, y) : null;
+    if (obj) {
+      this.selectObject(obj.id, mode);
+      return;
+    }
+
+    const key = `${x},${y}`;
+    if (mode === 'remove') {
+      this.state.cells.delete(key);
+    } else {
+      this.state.cells.add(key);
+    }
+
+    this.onSelectionChanged();
+  },
+
+  selectObject(objId, mode = 'replace') {
+    if (mode === 'replace') {
+      this.state.cells.clear();
+      this.state.objects.clear();
+    }
+
+    const obj = plantaState.objects[objId];
+    if (!obj) {
+      this.onSelectionChanged();
+      return;
+    }
+
+    const w = obj.orientation === 'vertical' ? obj.height : obj.width;
+    const h = obj.orientation === 'vertical' ? obj.width : obj.height;
+
+    if (mode === 'remove') {
+      this.state.objects.delete(objId);
+      for (let dy = 0; dy < h; dy++) {
+        for (let dx = 0; dx < w; dx++) {
+          this.state.cells.delete(`${obj.x + dx},${obj.y + dy}`);
+        }
+      }
+    } else {
+      this.state.objects.add(objId);
+      for (let dy = 0; dy < h; dy++) {
+        for (let dx = 0; dx < w; dx++) {
+          this.state.cells.add(`${obj.x + dx},${obj.y + dy}`);
+        }
+      }
+    }
+
+    this.onSelectionChanged();
+  },
+
+  selectRange(startCell, endCell, mode = 'replace') {
+    if (!startCell || !endCell) return;
+
+    if (mode === 'replace') {
+      this.state.cells.clear();
+      this.state.objects.clear();
+    }
+
+    const minX = Math.min(startCell.x, endCell.x);
+    const maxX = Math.max(startCell.x, endCell.x);
+    const minY = Math.min(startCell.y, endCell.y);
+    const maxY = Math.max(startCell.y, endCell.y);
+
+    // 1. Processar objetos espaciais que intersectam o retângulo (O(N_objetos) sem loops aninhados pesados)
+    const objList = (typeof plantaState !== 'undefined' && plantaState.objects) ? Object.values(plantaState.objects) : [];
+    for (let i = 0; i < objList.length; i++) {
+      const obj = objList[i];
+      if (!obj) continue;
+      const w = obj.orientation === 'vertical' ? obj.height : obj.width;
+      const h = obj.orientation === 'vertical' ? obj.width : obj.height;
+      if (maxX >= obj.x && minX < obj.x + w && maxY >= obj.y && minY < obj.y + h) {
+        if (mode === 'remove') {
+          this.state.objects.delete(obj.id);
+          for (let dy = 0; dy < h; dy++) {
+            for (let dx = 0; dx < w; dx++) {
+              this.state.cells.delete(`${obj.x + dx},${obj.y + dy}`);
+            }
+          }
+        } else {
+          this.state.objects.add(obj.id);
+          for (let dy = 0; dy < h; dy++) {
+            for (let dx = 0; dx < w; dx++) {
+              this.state.cells.add(`${obj.x + dx},${obj.y + dy}`);
+            }
+          }
+        }
+      }
+    }
+
+    // 2. Processar células da grade com estratégia eficiente para grandes seleções
+    if (mode === 'remove') {
+      const currentCount = this.state.cells.size;
+      const rectArea = (maxX - minX + 1) * (maxY - minY + 1);
+      if (currentCount < rectArea) {
+        const toDelete = [];
+        this.state.cells.forEach(k => {
+          const comma = k.indexOf(',');
+          const cx = parseInt(k.substring(0, comma), 10);
+          const cy = parseInt(k.substring(comma + 1), 10);
+          if (cx >= minX && cx <= maxX && cy >= minY && cy <= maxY) {
+            toDelete.push(k);
+          }
+        });
+        for (let i = 0; i < toDelete.length; i++) {
+          this.state.cells.delete(toDelete[i]);
+        }
+      } else {
+        for (let cy = minY; cy <= maxY; cy++) {
+          for (let cx = minX; cx <= maxX; cx++) {
+            this.state.cells.delete(`${cx},${cy}`);
+          }
+        }
+      }
+    } else {
+      for (let cy = minY; cy <= maxY; cy++) {
+        for (let cx = minX; cx <= maxX; cx++) {
+          this.state.cells.add(`${cx},${cy}`);
+        }
+      }
+    }
+
+    this.onSelectionChanged();
+  },
+
+  selectAll() {
+    this.state.cells.clear();
+    this.state.objects.clear();
+
+    // Selecionar apenas células e objetos realmente existentes no mapa
+    Object.keys(plantaState.cells).forEach(key => {
+      this.state.cells.add(key);
+    });
+
+    Object.keys(plantaState.objects).forEach(objId => {
+      this.state.objects.add(objId);
+      const obj = plantaState.objects[objId];
+      if (obj) {
+        const w = obj.orientation === 'vertical' ? obj.height : obj.width;
+        const h = obj.orientation === 'vertical' ? obj.width : obj.height;
+        for (let dy = 0; dy < h; dy++) {
+          for (let dx = 0; dx < w; dx++) {
+            this.state.cells.add(`${obj.x + dx},${obj.y + dy}`);
+          }
+        }
+      }
+    });
+
+    this.onSelectionChanged();
+    const count = this.state.cells.size;
+    mostrarToast(`🎯 ${count} elemento(s) existente(s) selecionado(s) (Ctrl+A)`);
+  },
+
+  selectConnected(startX, startY, mode = 'replace') {
+    const startKey = `${startX},${startY}`;
+    const startCellRaw = plantaState.cells[startKey];
+    const startObj = (typeof obterObjetoEmCoordenada === 'function') ? obterObjetoEmCoordenada(startX, startY) : null;
+
+    if (startObj) {
+      this.selectObject(startObj.id, mode);
+      return;
+    }
+
+    if (!startCellRaw) {
+      mostrarToast("⚠️ Nenhum piso ou estrutura nesta célula para conectar.");
+      return;
+    }
+
+    const startCell = normalizarCelula(startCellRaw);
+    const hasStructure = (startCell.structure && startCell.structure !== 'none');
+    const targetStructure = hasStructure ? startCell.structure : null;
+    const targetFloor = (!hasStructure && startCell.floor && startCell.floor !== 'none') ? startCell.floor : null;
+
+    if (!targetStructure && !targetFloor) {
+      mostrarToast("⚠️ Célula vazia; nenhum piso ou parede para conectar.");
+      return;
+    }
+
+    const visited = new Set();
+    const matched = [];
+    const queue = [{ x: startX, y: startY }];
+    visited.add(startKey);
+
+    const MAX_FLOOD = 2500;
+
+    while (queue.length > 0 && matched.length < MAX_FLOOD) {
+      const curr = queue.shift();
+      matched.push(curr);
+
+      const neighbors = [
+        { x: curr.x + 1, y: curr.y },
+        { x: curr.x - 1, y: curr.y },
+        { x: curr.x, y: curr.y + 1 },
+        { x: curr.x, y: curr.y - 1 }
+      ];
+
+      for (let i = 0; i < neighbors.length; i++) {
+        const n = neighbors[i];
+        const nKey = `${n.x},${n.y}`;
+        if (visited.has(nKey)) continue;
+        visited.add(nKey);
+
+        const nRaw = plantaState.cells[nKey];
+        if (!nRaw) continue;
+        const nCell = normalizarCelula(nRaw);
+
+        let isMatch = false;
+        if (targetStructure) {
+          if (nCell.structure === targetStructure) {
+            isMatch = true;
+          }
+        } else if (targetFloor) {
+          if (nCell.floor === targetFloor && (!nCell.structure || nCell.structure === 'none')) {
+            isMatch = true;
+          }
+        }
+
+        if (isMatch) {
+          queue.push(n);
+        }
+      }
+    }
+
+    if (mode === 'replace') {
+      this.state.cells.clear();
+      this.state.objects.clear();
+    }
+
+    matched.forEach(pt => {
+      const k = `${pt.x},${pt.y}`;
+      if (mode === 'remove') {
+        this.state.cells.delete(k);
+      } else {
+        this.state.cells.add(k);
+      }
+    });
+
+    // Selecionar objetos espaciais contidos nas células conectadas
+    Object.values(plantaState.objects).forEach(obj => {
+      if (!obj) return;
+      const w = obj.orientation === 'vertical' ? obj.height : obj.width;
+      const h = obj.orientation === 'vertical' ? obj.width : obj.height;
+      let anyIn = false;
+      for (let dy = 0; dy < h; dy++) {
+        for (let dx = 0; dx < w; dx++) {
+          if (this.state.cells.has(`${obj.x + dx},${obj.y + dy}`)) {
+            anyIn = true;
+            break;
+          }
+        }
+        if (anyIn) break;
+      }
+      if (anyIn) {
+        if (mode === 'remove') this.state.objects.delete(obj.id);
+        else this.state.objects.add(obj.id);
+      }
+    });
+
+    this.onSelectionChanged();
+    const nomeElem = targetStructure 
+      ? ((CATALOGO_ESTRUTURA[targetStructure] && CATALOGO_ESTRUTURA[targetStructure].nome) || targetStructure) 
+      : ((CATALOGO_CHAO[targetFloor] && CATALOGO_CHAO[targetFloor].nome) || targetFloor);
+    mostrarToast(`🪄 ${matched.length} células conectadas de "${nomeElem}" selecionadas!`);
+  },
+
+  onSelectionChanged() {
+    if (typeof atualizarUISelecao === 'function') {
+      atualizarUISelecao(false);
+    }
+    uiState.needsRedraw = true;
+  }
 };
 
 // -------------------------------------------------------------
@@ -2074,6 +2599,172 @@ function executarRedo() {
   mostrarToast("↪ Refeito (Ctrl+Y)");
 }
 
+// -------------------------------------------------------------
+// SINCRONIZAÇÃO E CONTROLE DA COR DO TEMA & CONTORNO (STROKE)
+// -------------------------------------------------------------
+const themeCanvasColors = {
+  accent: "#d49a24",
+  accentLight: "#f5ca65",
+  gridSecundarias: "rgba(212, 154, 36, 0.08)",
+  gridPrincipais: "rgba(212, 154, 36, 0.26)",
+  gridNumeros: "rgba(212, 154, 36, 0.55)",
+  eixos: "rgba(212, 154, 36, 0.75)",
+  origemPonto: "rgba(212, 154, 36, 0.9)",
+  hoverBg: "rgba(212, 154, 36, 0.14)",
+  hoverBorda: "rgba(212, 154, 36, 0.45)",
+  selecaoBg: "rgba(212, 154, 36, 0.09)",
+  selecaoBorda: "rgba(212, 154, 36, 0.42)",
+  marqueeBg: "rgba(212, 154, 36, 0.12)",
+  marqueeBorda: "rgba(212, 154, 36, 0.70)",
+  rectPreviewBg: "rgba(212, 154, 36, 0.22)",
+  rectPreviewBorda: "#f5ca65"
+};
+
+function hexParaRgb(hex) {
+  if (!hex || !/^#[0-9A-Fa-f]{6}$/.test(hex)) return { r: 212, g: 154, b: 36 };
+  const num = parseInt(hex.slice(1), 16);
+  return {
+    r: (num >> 16) & 255,
+    g: (num >> 8) & 255,
+    b: num & 255
+  };
+}
+
+function aplicarCorTemaPlanta(corHex, propagar = true) {
+  if (!corHex || !/^#[0-9A-Fa-f]{6}$/.test(corHex)) return;
+
+  const { r, g, b } = hexParaRgb(corHex);
+  themeCanvasColors.accent = corHex;
+  themeCanvasColors.accentLight = `rgb(${Math.min(255, Math.round(r * 0.7 + 255 * 0.3))}, ${Math.min(255, Math.round(g * 0.7 + 255 * 0.3))}, ${Math.min(255, Math.round(b * 0.7 + 255 * 0.3))})`;
+  themeCanvasColors.gridSecundarias = `rgba(${r}, ${g}, ${b}, 0.09)`;
+  themeCanvasColors.gridPrincipais = `rgba(${r}, ${g}, ${b}, 0.26)`;
+  themeCanvasColors.gridNumeros = `rgba(${r}, ${g}, ${b}, 0.55)`;
+  themeCanvasColors.eixos = `rgba(${r}, ${g}, ${b}, 0.75)`;
+  themeCanvasColors.origemPonto = `rgba(${r}, ${g}, ${b}, 0.92)`;
+  themeCanvasColors.hoverBg = `rgba(${r}, ${g}, ${b}, 0.14)`;
+  themeCanvasColors.hoverBorda = `rgba(${r}, ${g}, ${b}, 0.45)`;
+  themeCanvasColors.selecaoBg = `rgba(${r}, ${g}, ${b}, 0.09)`;
+  themeCanvasColors.selecaoBorda = `rgba(${r}, ${g}, ${b}, 0.42)`;
+  themeCanvasColors.marqueeBg = `rgba(${r}, ${g}, ${b}, 0.12)`;
+  themeCanvasColors.marqueeBorda = `rgba(${r}, ${g}, ${b}, 0.70)`;
+  themeCanvasColors.rectPreviewBg = `rgba(${r}, ${g}, ${b}, 0.22)`;
+  themeCanvasColors.rectPreviewBorda = themeCanvasColors.accentLight;
+
+  document.documentElement.style.setProperty('--accent', corHex);
+  document.documentElement.style.setProperty('--accent-light', `color-mix(in srgb, ${corHex} 70%, #ffffff 30%)`);
+  document.documentElement.style.setProperty('--accent-dim', `color-mix(in srgb, ${corHex} 55%, #000000 45%)`);
+  document.documentElement.style.setProperty('--accent-glow', `color-mix(in srgb, ${corHex} 25%, transparent)`);
+  document.documentElement.style.setProperty('--accent-active', `color-mix(in srgb, ${corHex} 85%, #ffffff 15%)`);
+
+  const inputEl = document.getElementById("planta_cor_tema");
+  if (inputEl && inputEl.value.toLowerCase() !== corHex.toLowerCase()) {
+    inputEl.value = corHex;
+  }
+  const swatchEl = document.getElementById("planta_theme_swatch");
+  if (swatchEl) {
+    swatchEl.style.backgroundColor = corHex;
+  }
+
+  if (propagar) {
+    try {
+      localStorage.setItem("we_are_strangers_tema_cor", corHex);
+      if (window.BroadcastChannel) {
+        const bc = new BroadcastChannel("we_are_strangers_theme_sync");
+        bc.postMessage({ tipo: 'cor', valor: corHex });
+        bc.close();
+      }
+    } catch(e) {}
+  }
+
+  if (typeof uiState !== 'undefined') {
+    uiState.needsRedraw = true;
+  }
+}
+
+function aplicarContornoTemaPlanta(ativo, corContorno = null, propagar = true) {
+  if (ativo) {
+    document.documentElement.classList.add("tem-contorno-letras");
+  } else {
+    document.documentElement.classList.remove("tem-contorno-letras");
+  }
+  if (corContorno) {
+    document.documentElement.style.setProperty('--tema-contorno-cor', corContorno);
+  }
+  if (propagar) {
+    try {
+      localStorage.setItem("we_are_strangers_tema_contorno_ativo", String(!!ativo));
+      if (corContorno) localStorage.setItem("we_are_strangers_tema_contorno_cor", corContorno);
+      if (window.BroadcastChannel) {
+        const bc = new BroadcastChannel("we_are_strangers_theme_sync");
+        bc.postMessage({ tipo: 'contorno_ativo', valor: !!ativo });
+        if (corContorno) bc.postMessage({ tipo: 'contorno_cor', valor: corContorno });
+        bc.close();
+      }
+    } catch(e) {}
+  }
+  if (typeof uiState !== 'undefined') {
+    uiState.needsRedraw = true;
+  }
+}
+
+function inicializarSincronizacaoTemaPlanta() {
+  try {
+    const cor = localStorage.getItem("we_are_strangers_tema_cor");
+    if (cor && /^#[0-9A-Fa-f]{6}$/.test(cor)) {
+      aplicarCorTemaPlanta(cor, false);
+    } else {
+      // Tentar ler da ficha salva no localStorage se disponível
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && (k.startsWith("we_are_strangers_ficha") || k === "we_are_strangers_estado_atual")) {
+          try {
+            const raw = localStorage.getItem(k);
+            if (raw && raw.includes('"cor"')) {
+              const parsed = JSON.parse(raw);
+              if (parsed && parsed.cor && /^#[0-9A-Fa-f]{6}$/.test(parsed.cor)) {
+                aplicarCorTemaPlanta(parsed.cor, false);
+                break;
+              }
+            }
+          } catch(err) {}
+        }
+      }
+    }
+
+    const contornoAtivo = localStorage.getItem("we_are_strangers_tema_contorno_ativo");
+    const contornoCor = localStorage.getItem("we_are_strangers_tema_contorno_cor");
+    if (contornoAtivo !== null) {
+      aplicarContornoTemaPlanta(contornoAtivo === "true", contornoCor, false);
+    }
+
+    // Ouvinte para alterações feitas na aba da ficha (StorageEvent)
+    window.addEventListener("storage", (e) => {
+      if (e.key === "we_are_strangers_tema_cor" && e.newValue) {
+        aplicarCorTemaPlanta(e.newValue, false);
+      } else if (e.key === "we_are_strangers_tema_contorno_ativo") {
+        aplicarContornoTemaPlanta(e.newValue === "true", null, false);
+      } else if (e.key === "we_are_strangers_tema_contorno_cor" && e.newValue) {
+        aplicarContornoTemaPlanta(null, e.newValue, false);
+      }
+    });
+
+    // Ouvinte em tempo real via BroadcastChannel
+    if (window.BroadcastChannel) {
+      const bc = new BroadcastChannel("we_are_strangers_theme_sync");
+      bc.onmessage = (e) => {
+        if (!e.data) return;
+        if (e.data.tipo === 'cor' && e.data.valor) {
+          aplicarCorTemaPlanta(e.data.valor, false);
+        } else if (e.data.tipo === 'contorno_ativo') {
+          aplicarContornoTemaPlanta(!!e.data.valor, null, false);
+        } else if (e.data.tipo === 'contorno_cor' && e.data.valor) {
+          aplicarContornoTemaPlanta(null, e.data.valor, false);
+        }
+      };
+    }
+  } catch(e) {}
+}
+
 const viewport = document.getElementById("viewport-container");
 const canvas = document.getElementById("grid-canvas");
 const ctx = canvas.getContext("2d", { alpha: false });
@@ -2082,6 +2773,7 @@ const ctx = canvas.getContext("2d", { alpha: false });
 // 4. INICIALIZAÇÃO & PROJEÇÕES
 // -------------------------------------------------------------
 function initApp() {
+  inicializarSincronizacaoTemaPlanta();
   carregarPlantaLocal();
   setupEventListeners();
   setupUIEventShield();
@@ -2201,14 +2893,12 @@ function drawScene() {
     drawHoverCell(uiState.hoverCell.x, uiState.hoverCell.y);
   }
 
-  // 7. Célula(s) Selecionada(s) (Individual ou Múltipla via Ctrl+Select)
-  if (uiState.selectedCells && uiState.selectedCells.size > 0) {
-    uiState.selectedCells.forEach(key => {
-      const [cx, cy] = key.split(",").map(Number);
-      drawSelectedCell(cx, cy);
-    });
-  } else if (uiState.selectedCell) {
-    drawSelectedCell(uiState.selectedCell.x, uiState.selectedCell.y);
+  // 7. Camada de Seleção Multicelular V3 (SelectionManager)
+  drawSelectionLayer(minCellX, maxCellX, minCellY, maxCellY);
+
+  // 8. Pré-visualização de Colagem (Clipboard Paste Ghost)
+  if (uiState.isPasting && clipboardSelection && uiState.pasteTargetPos) {
+    drawPastePreview();
   }
 }
 
@@ -2451,9 +3141,9 @@ function drawLabelLayer(label, rect) {
 function drawGridLines(minX, maxX, minY, maxY, viewWidth, viewHeight) {
   const zoom = camera.zoom;
 
-  // Linhas de 1 Metro (secundárias)
+  // Linhas de 1 Metro (secundárias) - agora suavemente tingidas pela cor do tema
   if (zoom > 0.35) {
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+    ctx.strokeStyle = themeCanvasColors.gridSecundarias;
     ctx.lineWidth = 1;
     ctx.beginPath();
 
@@ -2473,8 +3163,8 @@ function drawGridLines(minX, maxX, minY, maxY, viewWidth, viewHeight) {
     ctx.stroke();
   }
 
-  // Linhas de 5 Metros (principais com numeração)
-  ctx.strokeStyle = "rgba(212, 154, 36, 0.22)";
+  // Linhas de 5 Metros (principais com numeração) - acompanham a cor do tema
+  ctx.strokeStyle = themeCanvasColors.gridPrincipais;
   ctx.lineWidth = 1.2;
   ctx.beginPath();
 
@@ -2495,7 +3185,7 @@ function drawGridLines(minX, maxX, minY, maxY, viewWidth, viewHeight) {
 
   if (zoom >= 0.5) {
     ctx.font = `500 10px "JetBrains Mono", monospace`;
-    ctx.fillStyle = "rgba(212, 154, 36, 0.45)";
+    ctx.fillStyle = themeCanvasColors.gridNumeros;
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
 
@@ -2520,7 +3210,7 @@ function drawGridLines(minX, maxX, minY, maxY, viewWidth, viewHeight) {
 function drawAxes(viewWidth, viewHeight) {
   const origin = worldToScreen(0, 0);
 
-  ctx.strokeStyle = "rgba(212, 154, 36, 0.7)";
+  ctx.strokeStyle = themeCanvasColors.eixos;
   ctx.lineWidth = 2;
   ctx.beginPath();
 
@@ -2532,13 +3222,13 @@ function drawAxes(viewWidth, viewHeight) {
   ctx.stroke();
 
   ctx.save();
-  ctx.fillStyle = "rgba(212, 154, 36, 0.9)";
+  ctx.fillStyle = themeCanvasColors.origemPonto;
   ctx.beginPath();
   ctx.arc(origin.screenX, origin.screenY, 4.5, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.font = `700 11px "JetBrains Mono", monospace`;
-  ctx.fillStyle = "#f5ca65";
+  ctx.fillStyle = themeCanvasColors.accentLight;
   ctx.textAlign = "left";
   ctx.textBaseline = "bottom";
   ctx.fillText("(0, 0)", origin.screenX + 8, origin.screenY - 6);
@@ -2548,50 +3238,179 @@ function drawAxes(viewWidth, viewHeight) {
 function drawHoverCell(cx, cy) {
   const cellRect = getCellScreenRect(cx, cy);
 
-  ctx.fillStyle = "rgba(212, 154, 36, 0.14)";
+  ctx.fillStyle = themeCanvasColors.hoverBg;
   ctx.fillRect(cellRect.x, cellRect.y, cellRect.size, cellRect.size);
 
-  ctx.strokeStyle = "rgba(212, 154, 36, 0.4)";
+  ctx.strokeStyle = themeCanvasColors.hoverBorda;
   ctx.lineWidth = 1.5;
   ctx.strokeRect(cellRect.x + 0.5, cellRect.y + 0.5, cellRect.size - 1, cellRect.size - 1);
 }
 
-function drawSelectedCell(cx, cy) {
-  const cellRect = getCellScreenRect(cx, cy);
+function drawSelectionLayer(minCellX, maxCellX, minCellY, maxCellY) {
+  const selectedCells = SelectionManager.state.cells;
+  const selectedObjects = SelectionManager.state.objects;
+  const isDragging = SelectionManager.state.isDraggingSelection;
 
-  ctx.save();
-  ctx.shadowColor = "rgba(212, 154, 36, 0.6)";
-  ctx.shadowBlur = 10;
-  
-  ctx.strokeStyle = "#ffb834";
-  ctx.lineWidth = 2.5;
-  ctx.strokeRect(cellRect.x + 1, cellRect.y + 1, cellRect.size - 2, cellRect.size - 2);
+  if (selectedCells.size === 0 && selectedObjects.size === 0 && !isDragging) {
+    return;
+  }
 
-  const cornerLen = Math.min(10, cellRect.size * 0.25);
-  ctx.strokeStyle = "#ffffff";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  
-  // Cantos superiores
-  ctx.moveTo(cellRect.x, cellRect.y + cornerLen);
-  ctx.lineTo(cellRect.x, cellRect.y);
-  ctx.lineTo(cellRect.x + cornerLen, cellRect.y);
+  // Se os limites do viewport não forem fornecidos, calcular dinamicamente
+  if (minCellX === undefined) {
+    const rect = canvas.getBoundingClientRect();
+    const tl = screenToWorld(0, 0);
+    const br = screenToWorld(rect.width, rect.height);
+    minCellX = Math.floor(tl.worldX) - 1;
+    maxCellX = Math.ceil(br.worldX) + 1;
+    minCellY = Math.floor(br.worldY) - 1;
+    maxCellY = Math.ceil(tl.worldY) + 1;
+  }
 
-  ctx.moveTo(cellRect.x + cellRect.size - cornerLen, cellRect.y);
-  ctx.lineTo(cellRect.x + cellRect.size, cellRect.y);
-  ctx.lineTo(cellRect.x + cellRect.size, cellRect.y + cornerLen);
+  // 1. Frustum Culling com complexidade O(min(selectedCells, viewport))
+  const visibleCells = [];
+  const viewportCellsCount = (maxCellX - minCellX + 1) * (maxCellY - minCellY + 1);
 
-  // Cantos inferiores
-  ctx.moveTo(cellRect.x, cellRect.y + cellRect.size - cornerLen);
-  ctx.lineTo(cellRect.x, cellRect.y + cellRect.size);
-  ctx.lineTo(cellRect.x + cornerLen, cellRect.y + cellRect.size);
+  if (selectedCells.size <= viewportCellsCount) {
+    selectedCells.forEach(key => {
+      const comma = key.indexOf(",");
+      const cx = parseInt(key.substring(0, comma), 10);
+      const cy = parseInt(key.substring(comma + 1), 10);
+      if (cx >= minCellX && cx <= maxCellX && cy >= minCellY && cy <= maxCellY) {
+        visibleCells.push({ cx, cy });
+      }
+    });
+  } else {
+    for (let cy = minCellY; cy <= maxCellY; cy++) {
+      for (let cx = minCellX; cx <= maxCellX; cx++) {
+        if (selectedCells.has(`${cx},${cy}`)) {
+          visibleCells.push({ cx, cy });
+        }
+      }
+    }
+  }
 
-  ctx.moveTo(cellRect.x + cellRect.size - cornerLen, cellRect.y + cellRect.size);
-  ctx.lineTo(cellRect.x + cellRect.size, cellRect.y + cellRect.size);
-  ctx.lineTo(cellRect.x + cellRect.size, cellRect.y + cellRect.size - cornerLen);
-  
-  ctx.stroke();
-  ctx.restore();
+  // 2. Renderização em Lote (Batch Drawing) com visual tático SUAVE (Sem brilho pesado/neon e sem shadowBlur)
+  if (visibleCells.length > 0) {
+    ctx.save();
+
+    // Preenchimento suave e translúcido (não encobre as texturas nem ofusca a visão)
+    ctx.fillStyle = themeCanvasColors.selecaoBg;
+    ctx.beginPath();
+    for (let i = 0; i < visibleCells.length; i++) {
+      const { cx, cy } = visibleCells[i];
+      const cellRect = getCellScreenRect(cx, cy);
+      ctx.rect(cellRect.x, cellRect.y, cellRect.size, cellRect.size);
+    }
+    ctx.fill();
+
+    // Contorno sutil e nítido de 1px em batch único
+    ctx.strokeStyle = themeCanvasColors.selecaoBorda;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let i = 0; i < visibleCells.length; i++) {
+      const { cx, cy } = visibleCells[i];
+      const cellRect = getCellScreenRect(cx, cy);
+      ctx.rect(cellRect.x + 0.5, cellRect.y + 0.5, cellRect.size - 1, cellRect.size - 1);
+    }
+    ctx.stroke();
+
+    // Cantos discretos apenas para seleções pontuais (<= 4 células) para evitar ruído visual
+    if (selectedCells.size <= 4) {
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      for (let i = 0; i < visibleCells.length; i++) {
+        const { cx, cy } = visibleCells[i];
+        const cellRect = getCellScreenRect(cx, cy);
+        const cornerLen = Math.min(5, cellRect.size * 0.18);
+
+        // Superior esquerdo
+        ctx.moveTo(cellRect.x, cellRect.y + cornerLen);
+        ctx.lineTo(cellRect.x, cellRect.y);
+        ctx.lineTo(cellRect.x + cornerLen, cellRect.y);
+
+        // Superior direito
+        ctx.moveTo(cellRect.x + cellRect.size - cornerLen, cellRect.y);
+        ctx.lineTo(cellRect.x + cellRect.size, cellRect.y);
+        ctx.lineTo(cellRect.x + cellRect.size, cellRect.y + cornerLen);
+
+        // Inferior esquerdo
+        ctx.moveTo(cellRect.x, cellRect.y + cellRect.size - cornerLen);
+        ctx.lineTo(cellRect.x, cellRect.y + cellRect.size);
+        ctx.lineTo(cellRect.x + cornerLen, cellRect.y + cellRect.size);
+
+        // Inferior direito
+        ctx.moveTo(cellRect.x + cellRect.size - cornerLen, cellRect.y + cellRect.size);
+        ctx.lineTo(cellRect.x + cellRect.size, cellRect.y + cellRect.size);
+        ctx.lineTo(cellRect.x + cellRect.size, cellRect.y + cellRect.size - cornerLen);
+      }
+      ctx.stroke();
+    }
+
+    ctx.restore();
+  }
+
+  // 3. Destacar objetos espaciais selecionados (borda pontilhada elegante e suave)
+  if (selectedObjects.size > 0) {
+    ctx.save();
+    ctx.strokeStyle = "rgba(220, 165, 40, 0.7)";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 3]);
+    selectedObjects.forEach(objId => {
+      const obj = plantaState.objects[objId];
+      if (!obj) return;
+      const w = obj.orientation === 'vertical' ? obj.height : obj.width;
+      const h = obj.orientation === 'vertical' ? obj.width : obj.height;
+      if (obj.x + w < minCellX || obj.x > maxCellX || obj.y + h < minCellY || obj.y > maxCellY) return;
+
+      const topLeft = worldToScreen(obj.x, obj.y + h);
+      const cellSize = BASE_CELL_SIZE * camera.zoom;
+      const screenW = w * cellSize;
+      const screenH = h * cellSize;
+      ctx.strokeRect(topLeft.screenX - 1.5, topLeft.screenY - 1.5, screenW + 3, screenH + 3);
+    });
+    ctx.restore();
+  }
+
+  // 4. Caixa de seleção em tempo real durante arraste (Marquee) com cores suaves
+  if (isDragging && SelectionManager.state.startCell && SelectionManager.state.currentCell) {
+    const x1 = Math.min(SelectionManager.state.startCell.x, SelectionManager.state.currentCell.x);
+    const x2 = Math.max(SelectionManager.state.startCell.x, SelectionManager.state.currentCell.x);
+    const y1 = Math.min(SelectionManager.state.startCell.y, SelectionManager.state.currentCell.y);
+    const y2 = Math.max(SelectionManager.state.startCell.y, SelectionManager.state.currentCell.y);
+
+    const topLeft = worldToScreen(x1, y2 + 1);
+    const bottomRight = worldToScreen(x2 + 1, y1);
+
+    const w = bottomRight.screenX - topLeft.screenX;
+    const h = bottomRight.screenY - topLeft.screenY;
+
+    ctx.save();
+    const mode = SelectionManager.state.mode;
+    if (mode === 'remove') {
+      ctx.fillStyle = "rgba(235, 87, 87, 0.10)";
+      ctx.fillRect(topLeft.screenX, topLeft.screenY, w, h);
+      ctx.strokeStyle = "rgba(235, 87, 87, 0.65)";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 3]);
+      ctx.strokeRect(topLeft.screenX, topLeft.screenY, w, h);
+    } else if (mode === 'add') {
+      ctx.fillStyle = "rgba(90, 180, 255, 0.10)";
+      ctx.fillRect(topLeft.screenX, topLeft.screenY, w, h);
+      ctx.strokeStyle = "rgba(90, 180, 255, 0.65)";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 3]);
+      ctx.strokeRect(topLeft.screenX, topLeft.screenY, w, h);
+    } else {
+      ctx.fillStyle = themeCanvasColors.marqueeBg;
+      ctx.fillRect(topLeft.screenX, topLeft.screenY, w, h);
+      ctx.strokeStyle = themeCanvasColors.marqueeBorda;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 3]);
+      ctx.strokeRect(topLeft.screenX, topLeft.screenY, w, h);
+    }
+    ctx.restore();
+  }
 }
 
 function drawRectPreview() {
@@ -2607,10 +3426,10 @@ function drawRectPreview() {
   const h = bottomRight.screenY - topLeft.screenY;
 
   ctx.save();
-  ctx.fillStyle = "rgba(212, 154, 36, 0.22)";
+  ctx.fillStyle = themeCanvasColors.rectPreviewBg;
   ctx.fillRect(topLeft.screenX, topLeft.screenY, w, h);
 
-  ctx.strokeStyle = "#f5ca65";
+  ctx.strokeStyle = themeCanvasColors.rectPreviewBorda;
   ctx.lineWidth = 2;
   ctx.setLineDash([6, 4]);
   ctx.strokeRect(topLeft.screenX, topLeft.screenY, w, h);
@@ -2618,10 +3437,384 @@ function drawRectPreview() {
 }
 
 // -------------------------------------------------------------
+// SISTEMA DE CLIPBOARD (COPIAR / COLAR ÁREAS) E XADREZ (V3.1)
+// -------------------------------------------------------------
+let clipboardSelection = null;
+
+function copiarSelecao() {
+  if (!SelectionManager.hasSelection()) {
+    mostrarToast("⚠️ Nenhuma célula ou objeto selecionado para copiar.");
+    return false;
+  }
+
+  const cellsList = Array.from(SelectionManager.state.cells);
+  const objectsList = Array.from(SelectionManager.state.objects);
+
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+
+  cellsList.forEach(k => {
+    const comma = k.indexOf(',');
+    const x = parseInt(k.substring(0, comma), 10);
+    const y = parseInt(k.substring(comma + 1), 10);
+    if (x < minX) minX = x;
+    if (x > maxX) maxX = x;
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
+  });
+
+  objectsList.forEach(objId => {
+    const obj = plantaState.objects[objId];
+    if (obj) {
+      const w = obj.orientation === 'vertical' ? obj.height : obj.width;
+      const h = obj.orientation === 'vertical' ? obj.width : obj.height;
+      if (obj.x < minX) minX = obj.x;
+      if (obj.x + w - 1 > maxX) maxX = obj.x + w - 1;
+      if (obj.y < minY) minY = obj.y;
+      if (obj.y + h - 1 > maxY) maxY = obj.y + h - 1;
+    }
+  });
+
+  if (minX === Infinity) {
+    mostrarToast("⚠️ Seleção vazia.");
+    return false;
+  }
+
+  const cellsData = [];
+  cellsList.forEach(k => {
+    const comma = k.indexOf(',');
+    const x = parseInt(k.substring(0, comma), 10);
+    const y = parseInt(k.substring(comma + 1), 10);
+    const raw = plantaState.cells[k];
+    cellsData.push({
+      relX: x - minX,
+      relY: y - minY,
+      data: raw ? JSON.parse(JSON.stringify(raw)) : { floor: 'stone', structure: 'none', special: 'none' }
+    });
+  });
+
+  const objectsData = [];
+  objectsList.forEach(objId => {
+    const obj = plantaState.objects[objId];
+    if (obj) {
+      objectsData.push({
+        relX: obj.x - minX,
+        relY: obj.y - minY,
+        type: obj.type,
+        width: obj.width,
+        height: obj.height,
+        orientation: obj.orientation,
+        openAmount: obj.openAmount || 0,
+        swingDirection: obj.swingDirection || 'down'
+      });
+    }
+  });
+
+  clipboardSelection = {
+    width: maxX - minX + 1,
+    height: maxY - minY + 1,
+    cells: cellsData,
+    objects: objectsData
+  };
+
+  const btnColar = document.getElementById("btn-multi-colar");
+  if (btnColar) btnColar.style.display = "inline-flex";
+
+  mostrarToast(`📋 Área copiada! (${cellsData.length} células${objectsData.length > 0 ? `, ${objectsData.length} obj` : ''}). Pressione Ctrl+V para colar.`);
+  return true;
+}
+
+function iniciarColagem() {
+  if (!clipboardSelection || (!clipboardSelection.cells.length && !clipboardSelection.objects.length)) {
+    mostrarToast("⚠️ A área de transferência está vazia. Selecione uma área e use Ctrl+C primeiro.");
+    return;
+  }
+
+  uiState.isPasting = true;
+  if (uiState.hoverCell) {
+    uiState.pasteTargetPos = { x: uiState.hoverCell.x, y: uiState.hoverCell.y };
+  } else {
+    uiState.pasteTargetPos = { x: Math.round(camera.x), y: Math.round(camera.y) };
+  }
+  uiState.needsRedraw = true;
+  mostrarToast("📋 Modo de Colagem: Posicione com o mouse e clique para fixar (ou ESC para cancelar).");
+}
+
+function cancelarColagem() {
+  if (!uiState.isPasting) return;
+  uiState.isPasting = false;
+  uiState.needsRedraw = true;
+  mostrarToast("Colagem cancelada.");
+}
+
+function criarObjetoEspacialSilencioso(type, x, y, width = 1, height = 1, orientation = 'horizontal', openAmount = 0, swingDirection = 'down') {
+  if (typeof verificarSobreposicaoObjetoEspacial === 'function') {
+    const conflito = verificarSobreposicaoObjetoEspacial(x, y, width, height);
+    if (conflito) return null;
+  }
+
+  const id = `obj_${type}_${Date.now()}_${Math.floor(Math.random()*1000)}`;
+  const obj = {
+    id,
+    type,
+    x,
+    y,
+    width,
+    height,
+    orientation: orientation || ((width < height) ? 'vertical' : 'horizontal'),
+    openAmount: openAmount || 0,
+    swingDirection: swingDirection || 'down',
+    peekingThroughKeyhole: false,
+    updatedAt: Date.now()
+  };
+
+  plantaState.objects[id] = obj;
+  return obj;
+}
+
+function confirmarColagem() {
+  if (!uiState.isPasting || !clipboardSelection) return;
+
+  pushUndoState();
+  const baseX = uiState.pasteTargetPos.x;
+  const baseY = uiState.pasteTargetPos.y;
+
+  SelectionManager.state.cells.clear();
+  SelectionManager.state.objects.clear();
+
+  let cellCount = 0;
+  let objCount = 0;
+
+  clipboardSelection.cells.forEach(item => {
+    const tx = baseX + item.relX;
+    const ty = baseY + item.relY;
+    const key = `${tx},${ty}`;
+
+    const cellCopy = JSON.parse(JSON.stringify(item.data));
+    cellCopy.updatedAt = Date.now();
+    plantaState.cells[key] = cellCopy;
+    SelectionManager.state.cells.add(key);
+    cellCount++;
+  });
+
+  clipboardSelection.objects.forEach(obj => {
+    const tx = baseX + obj.relX;
+    const ty = baseY + obj.relY;
+    const newObj = criarObjetoEspacialSilencioso(obj.type, tx, ty, obj.width, obj.height, obj.orientation, obj.openAmount, obj.swingDirection);
+    if (newObj) {
+      SelectionManager.state.objects.add(newObj.id);
+      objCount++;
+    }
+  });
+
+  uiState.isPasting = false;
+  plantaState.updatedAt = Date.now();
+  salvarPlantaLocal(false);
+  atualizarIndicadoresStatus();
+  SelectionManager.onSelectionChanged();
+  uiState.needsRedraw = true;
+  mostrarToast(`📋 Área colada com sucesso! (${cellCount} células${objCount > 0 ? `, ${objCount} objetos` : ''})`);
+}
+
+function drawPastePreview() {
+  if (!uiState.isPasting || !clipboardSelection || !uiState.pasteTargetPos) return;
+
+  const baseX = uiState.pasteTargetPos.x;
+  const baseY = uiState.pasteTargetPos.y;
+  const cellSize = BASE_CELL_SIZE * camera.zoom;
+
+  ctx.save();
+  ctx.globalAlpha = 0.7;
+
+  // 1. Células copiadas em modo fantasma
+  clipboardSelection.cells.forEach(item => {
+    const tx = baseX + item.relX;
+    const ty = baseY + item.relY;
+    const cellRect = getCellScreenRect(tx, ty);
+
+    if (item.data.floor && item.data.floor !== 'none') {
+      drawFloorLayer(item.data.floor, cellRect);
+    }
+    if (item.data.special && item.data.special !== 'none') {
+      drawSpecialLayer(item.data.special, cellRect);
+    }
+    if (item.data.structure && item.data.structure !== 'none') {
+      drawStructureLayer(item.data.structure, item.data.doorState, cellRect);
+    }
+  });
+
+  // 2. Objetos espaciais em modo fantasma
+  clipboardSelection.objects.forEach(obj => {
+    const tx = baseX + obj.relX;
+    const ty = baseY + obj.relY;
+    const w = obj.orientation === 'vertical' ? obj.height : obj.width;
+    const h = obj.orientation === 'vertical' ? obj.width : obj.height;
+    const ghostObj = {
+      ...obj,
+      id: 'ghost_preview',
+      x: tx,
+      y: ty
+    };
+    if (typeof drawSingleSpatialObject === 'function') {
+      drawSingleSpatialObject(ghostObj, w, h);
+    }
+  });
+
+  // 3. Moldura tracejada azul ciano tática
+  const topLeft = worldToScreen(baseX, baseY + clipboardSelection.height);
+  const screenW = clipboardSelection.width * cellSize;
+  const screenH = clipboardSelection.height * cellSize;
+
+  ctx.globalAlpha = 1.0;
+  ctx.strokeStyle = "#5ab4ff";
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 3]);
+  ctx.strokeRect(topLeft.screenX - 1, topLeft.screenY - 1, screenW + 2, screenH + 2);
+  ctx.setLineDash([]);
+
+  // 4. Etiqueta informativa flutuante com enquadro dinâmico perfeito
+  const labelText = "📋 Clique para Colar | ESC / Botão Dir. para Cancelar";
+  ctx.font = `600 11px "JetBrains Mono", monospace`;
+  const textMetrics = ctx.measureText(labelText);
+  const padX = 12;
+  const badgeW = Math.ceil(textMetrics.width + (padX * 2));
+  const badgeH = 26;
+
+  let badgeX = topLeft.screenX;
+  let badgeY = topLeft.screenY - badgeH - 6;
+
+  // Ajuste inteligente se passar do limite superior do canvas
+  if (badgeY < 8) {
+    badgeY = topLeft.screenY + screenH + 6;
+  }
+  // Ajuste inteligente se passar do limite direito do canvas
+  if (badgeX + badgeW > canvas.width - 8) {
+    badgeX = Math.max(8, canvas.width - badgeW - 8);
+  }
+  if (badgeX < 8) badgeX = 8;
+
+  // Fundo da etiqueta com borda e sombra sutil
+  ctx.save();
+  ctx.shadowColor = "rgba(0, 0, 0, 0.75)";
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 2;
+
+  ctx.fillStyle = "rgba(8, 16, 28, 0.94)";
+  ctx.strokeStyle = "#5ab4ff";
+  ctx.lineWidth = 1.5;
+
+  if (typeof ctx.roundRect === 'function') {
+    ctx.beginPath();
+    ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 5);
+    ctx.fill();
+    ctx.stroke();
+  } else {
+    ctx.fillRect(badgeX, badgeY, badgeW, badgeH);
+    ctx.strokeRect(badgeX, badgeY, badgeW, badgeH);
+  }
+  ctx.restore();
+
+  // Texto perfeitamente centralizado verticalmente e com padding horizontal impecável
+  ctx.font = `600 11px "JetBrains Mono", monospace`;
+  ctx.fillStyle = "#ffffff";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillText(labelText, badgeX + padX, badgeY + badgeH / 2);
+
+  ctx.restore();
+}
+
+function abrirModalXadrez() {
+  if (SelectionManager.state.cells.size === 0) {
+    mostrarToast("⚠️ Selecione ao menos uma área com o Seletor (V) para aplicar o padrão xadrez.");
+    return;
+  }
+  const modal = document.getElementById("modal-xadrez");
+  const countEl = document.getElementById("xadrez-total-celulas");
+  if (countEl) countEl.textContent = SelectionManager.state.cells.size;
+  if (modal) modal.style.display = "flex";
+  atualizarPreviewXadrez();
+}
+
+function fecharModalXadrez() {
+  const modal = document.getElementById("modal-xadrez");
+  if (modal) modal.style.display = "none";
+}
+
+function atualizarPreviewXadrez() {
+  const grid = document.getElementById("xadrez-preview-grid");
+  if (!grid) return;
+  const pisoA = document.getElementById("xadrez-piso-a")?.value || "stone";
+  const pisoB = document.getElementById("xadrez-piso-b")?.value || "wood";
+  const modo = document.getElementById("xadrez-modo")?.value || "checkerboard";
+
+  const corA = (CATALOGO_CHAO[pisoA] && CATALOGO_CHAO[pisoA].corFundo) || "#252733";
+  const corB = (CATALOGO_CHAO[pisoB] && CATALOGO_CHAO[pisoB].corFundo) || "#382816";
+
+  grid.innerHTML = "";
+  for (let y = 0; y < 4; y++) {
+    for (let x = 0; x < 4; x++) {
+      let isA = true;
+      if (modo === 'checkerboard') isA = ((x + y) % 2 === 0);
+      else if (modo === 'stripes-v') isA = (x % 2 === 0);
+      else if (modo === 'stripes-h') isA = (y % 2 === 0);
+
+      const cell = document.createElement("div");
+      cell.style.width = "20px";
+      cell.style.height = "20px";
+      cell.style.borderRadius = "2px";
+      cell.style.backgroundColor = isA ? corA : corB;
+      cell.style.border = `1px solid ${isA ? ((CATALOGO_CHAO[pisoA] && CATALOGO_CHAO[pisoA].corBorda) || '#555') : ((CATALOGO_CHAO[pisoB] && CATALOGO_CHAO[pisoB].corBorda) || '#555')}`;
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function aplicarPadraoXadrez() {
+  if (SelectionManager.state.cells.size === 0) {
+    fecharModalXadrez();
+    return;
+  }
+
+  pushUndoState();
+  const pisoA = document.getElementById("xadrez-piso-a")?.value || "stone";
+  const pisoB = document.getElementById("xadrez-piso-b")?.value || "wood";
+  const modo = document.getElementById("xadrez-modo")?.value || "checkerboard";
+
+  let count = 0;
+  SelectionManager.state.cells.forEach(key => {
+    const comma = key.indexOf(',');
+    const x = parseInt(key.substring(0, comma), 10);
+    const y = parseInt(key.substring(comma + 1), 10);
+
+    let isA = true;
+    if (modo === 'checkerboard') isA = ((x + y) % 2 === 0);
+    else if (modo === 'stripes-v') isA = (x % 2 === 0);
+    else if (modo === 'stripes-h') isA = (y % 2 === 0);
+
+    const chosenFloor = isA ? pisoA : pisoB;
+    const cell = normalizarCelula(plantaState.cells[key]);
+    cell.floor = chosenFloor;
+    cell.updatedAt = Date.now();
+    plantaState.cells[key] = cell;
+    count++;
+  });
+
+  plantaState.updatedAt = Date.now();
+  salvarPlantaLocal(false);
+  fecharModalXadrez();
+  uiState.needsRedraw = true;
+  mostrarToast(`🏁 Padrão xadrez aplicado a ${count} células da seleção!`);
+}
+
+// -------------------------------------------------------------
 // 6. ISOLAMENTO DE EVENTOS (UI vs CANVAS)
 // -------------------------------------------------------------
 function setupUIEventShield() {
-  const uiElements = document.querySelectorAll('#header-bar, #camera-controls-overlay, #cell-info-card, #status-bar, #modal-json, #toast-notification, #canvas-context-menu');
+  const uiElements = document.querySelectorAll('#header-bar, #camera-controls-overlay, #cell-info-card, #status-bar, #modal-json, #modal-xadrez, #toast-notification, #canvas-context-menu');
   
   uiElements.forEach(el => {
     el.addEventListener("mousedown", (e) => e.stopPropagation());
@@ -2634,12 +3827,18 @@ function setupUIEventShield() {
 }
 
 function setupEventListeners() {
-  canvas.addEventListener("mousedown", onCanvasMouseDown);
-  canvas.addEventListener("mousemove", onCanvasMouseMove);
-  canvas.addEventListener("mouseleave", onCanvasMouseLeave);
+  canvas.addEventListener("pointerdown", onCanvasPointerDown);
+  canvas.addEventListener("pointermove", onCanvasPointerMove);
+  canvas.addEventListener("pointerleave", onCanvasPointerLeave);
+  canvas.addEventListener("pointercancel", onCanvasPointerCancel);
   canvas.addEventListener("wheel", onCanvasWheel, { passive: false });
+  canvas.addEventListener("dblclick", onCanvasDoubleClick);
   canvas.addEventListener("contextmenu", (e) => {
     e.preventDefault();
+    if (uiState.isPasting) {
+      cancelarColagem();
+      return;
+    }
     const rect = canvas.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
@@ -2655,14 +3854,23 @@ function setupEventListeners() {
   });
   window.addEventListener("wheel", fecharMenuContextual, { passive: true });
 
-  window.addEventListener("mousemove", onWindowMouseMove);
-  window.addEventListener("mouseup", onWindowMouseUp);
+  window.addEventListener("pointermove", onWindowPointerMove);
+  window.addEventListener("pointerup", onWindowPointerUp);
+  window.addEventListener("pointercancel", onWindowPointerCancel);
 
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
 }
 
-function onCanvasMouseDown(e) {
+function onCanvasDoubleClick(e) {
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+  const { cellX, cellY } = screenToCell(mouseX, mouseY);
+  SelectionManager.selectConnected(cellX, cellY, e.shiftKey ? 'add' : 'replace');
+}
+
+function onCanvasPointerDown(e) {
   if (e.target !== canvas) return;
 
   const rect = canvas.getBoundingClientRect();
@@ -2670,41 +3878,59 @@ function onCanvasMouseDown(e) {
   const mouseY = e.clientY - rect.top;
   const { cellX, cellY } = screenToCell(mouseX, mouseY);
 
+  // Modo de Colagem Interativo Ativo (Ctrl+V)
+  if (uiState.isPasting) {
+    if (e.button === 0) {
+      confirmarColagem();
+    } else if (e.button === 2) {
+      cancelarColagem();
+    }
+    return;
+  }
+
   uiState.canvasInteractionActive = true;
   uiState.dragDistance = 0;
   uiState.dragStartScreen = { x: e.clientX, y: e.clientY };
 
-  // Pan
+  // Pan com botão do meio (1), botão direito (2), tecla espaço ou ferramenta Pan
   if (e.button === 1 || e.button === 2 || uiState.spacePressed || uiState.currentTool === 'pan') {
     uiState.isDragging = true;
     uiState.cameraStart = { x: camera.x, y: camera.y };
     canvas.classList.add("panning");
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
     return;
   }
 
-  // Ferramentas de edição com botão esquerdo
+  // Interações com o botão principal (0)
   if (e.button === 0) {
-    // 1. SELEÇÃO MÚLTIPLA COM CONTROL / CMD (Control+Select)
-    if (e.ctrlKey || e.metaKey) {
-      uiState.isMultiSelecting = true;
-      uiState.selectedCell = null;
-      uiState.selectedObject = null;
-      document.getElementById("object-info-card").style.display = "none";
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
 
-      const key = `${cellX},${cellY}`;
-      if (uiState.selectedCells.has(key)) {
-        uiState.selectedCells.delete(key);
-      } else {
-        uiState.selectedCells.add(key);
-      }
-      atualizarMultiSelecaoInfo();
-      uiState.needsRedraw = true;
+    // 0. FERRAMENTA VARINHA MÁGICA (WAND)
+    if (uiState.currentTool === 'wand') {
+      const mode = e.shiftKey ? 'add' : ((e.ctrlKey || e.metaKey) ? 'remove' : 'replace');
+      SelectionManager.selectConnected(cellX, cellY, mode);
       return;
     }
 
-    // Se clicar sem Ctrl/Cmd, reseta seleção múltipla anterior
-    if (uiState.selectedCells.size > 0 && !uiState.selectedCells.has(`${cellX},${cellY}`)) {
-      uiState.selectedCells.clear();
+    // 1. FERRAMENTA DE SELEÇÃO V3 (SelectionManager)
+    if (uiState.currentTool === 'select' || e.shiftKey || ((e.ctrlKey || e.metaKey) && uiState.currentTool !== 'erase')) {
+      let mode = 'replace';
+      if (e.shiftKey) {
+        mode = 'add';
+      } else if (e.ctrlKey || e.metaKey) {
+        mode = 'remove';
+      }
+
+      SelectionManager.state.isDraggingSelection = true;
+      SelectionManager.state.startCell = { x: cellX, y: cellY };
+      SelectionManager.state.currentCell = { x: cellX, y: cellY };
+      SelectionManager.state.mode = mode;
+      SelectionManager.state.capturedPointerId = e.pointerId;
+
+      SelectionManager.selectCell(cellX, cellY, mode);
+      atualizarUISelecao(true);
+      uiState.needsRedraw = true;
+      return;
     }
 
     // 2. ARRASTAR OBJETO ESPACIAL
@@ -2720,7 +3946,7 @@ function onCanvasMouseDown(e) {
       return;
     }
 
-    // 3. FERRAMENTAS PADRÃO
+    // 3. OUTRAS FERRAMENTAS
     if (uiState.currentTool === 'paint') {
       pushUndoState();
       uiState.isPainting = true;
@@ -2738,33 +3964,48 @@ function onCanvasMouseDown(e) {
       document.getElementById("status-rect-dimensions-wrap").style.display = "flex";
       atualizarDimensoesRetangulo();
       uiState.needsRedraw = true;
-    } else if (uiState.currentTool === 'select') {
-      selecionarCelula(cellX, cellY);
     }
   }
 }
 
-function onCanvasMouseMove(e) {
+function onCanvasPointerMove(e) {
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
   const mouseY = e.clientY - rect.top;
 
   const { cellX, cellY } = screenToCell(mouseX, mouseY);
+  let changed = false;
+
   if (!uiState.hoverCell || uiState.hoverCell.x !== cellX || uiState.hoverCell.y !== cellY) {
     uiState.hoverCell = { x: cellX, y: cellY };
     document.getElementById("status-cursor-grid").textContent = `X: ${cellX} | Y: ${cellY}`;
+    changed = true;
+  }
+
+  if (uiState.isPasting) {
+    if (!uiState.pasteTargetPos || uiState.pasteTargetPos.x !== cellX || uiState.pasteTargetPos.y !== cellY) {
+      uiState.pasteTargetPos = { x: cellX, y: cellY };
+      changed = true;
+    }
+  }
+
+  if (changed) {
     uiState.needsRedraw = true;
   }
 }
 
-function onCanvasMouseLeave() {
+function onCanvasPointerLeave() {
   if (!uiState.canvasInteractionActive) {
     uiState.hoverCell = null;
     uiState.needsRedraw = true;
   }
 }
 
-function onWindowMouseMove(e) {
+function onCanvasPointerCancel(e) {
+  onWindowPointerUp(e);
+}
+
+function onWindowPointerMove(e) {
   if (!uiState.canvasInteractionActive) return;
 
   const dx = e.clientX - uiState.dragStartScreen.x;
@@ -2785,7 +4026,17 @@ function onWindowMouseMove(e) {
   const mouseY = e.clientY - rect.top;
   const { cellX, cellY } = screenToCell(mouseX, mouseY);
 
-  // 2. ARRASTE DE OBJETO ESPACIAL PELO MAPA
+  // 2. SELEÇÃO MULTICELULAR COM ARRASTE (SelectionManager)
+  if (SelectionManager.state.isDraggingSelection) {
+    if (!SelectionManager.state.currentCell || SelectionManager.state.currentCell.x !== cellX || SelectionManager.state.currentCell.y !== cellY) {
+      SelectionManager.state.currentCell = { x: cellX, y: cellY };
+      atualizarUISelecao(true);
+      uiState.needsRedraw = true;
+    }
+    return;
+  }
+
+  // 3. ARRASTE DE OBJETO ESPACIAL PELO MAPA
   if (uiState.isDraggingObject && uiState.draggedObjectId) {
     const obj = plantaState.objects[uiState.draggedObjectId];
     if (obj) {
@@ -2800,17 +4051,6 @@ function onWindowMouseMove(e) {
         if (coordsBadge) coordsBadge.textContent = `X: ${newX} | Y: ${newY}`;
         uiState.needsRedraw = true;
       }
-    }
-    return;
-  }
-
-  // 3. MULTI-SELEÇÃO COM CTRL+ARRASTO
-  if (uiState.isMultiSelecting || (e.ctrlKey || e.metaKey)) {
-    const key = `${cellX},${cellY}`;
-    if (!uiState.selectedCells.has(key)) {
-      uiState.selectedCells.add(key);
-      atualizarMultiSelecaoInfo();
-      uiState.needsRedraw = true;
     }
     return;
   }
@@ -2832,25 +4072,60 @@ function onWindowMouseMove(e) {
   }
 }
 
-function onWindowMouseUp(e) {
+function onWindowPointerUp(e) {
   if (!uiState.canvasInteractionActive) return;
 
   const wasDragging = uiState.isDragging;
   const wasPainting = uiState.isPainting;
   const wasDraggingObject = uiState.isDraggingObject;
   const hadRect = (uiState.currentTool === 'rect' && uiState.rectStartCell && uiState.rectEndCell);
+  const wasSelecting = SelectionManager.state.isDraggingSelection;
   const dragDist = uiState.dragDistance;
 
   uiState.canvasInteractionActive = false;
   uiState.isDragging = false;
-  uiState.isMultiSelecting = false;
   canvas.classList.remove("panning");
 
+  // Finalizar Seleção Multicelular
+  if (wasSelecting) {
+    const startCell = SelectionManager.state.startCell;
+    const currentCell = SelectionManager.state.currentCell;
+    const mode = SelectionManager.state.mode;
+
+    SelectionManager.state.isDraggingSelection = false;
+    SelectionManager.state.startCell = null;
+    SelectionManager.state.currentCell = null;
+
+    if (startCell && currentCell) {
+      SelectionManager.selectRange(startCell, currentCell, mode);
+    }
+    SelectionManager.onSelectionChanged();
+    uiState.needsRedraw = true;
+    return;
+  }
+
+  // Finalizar Arraste de Objeto Espacial
   if (wasDraggingObject && uiState.draggedObjectId) {
     uiState.isDraggingObject = false;
     const obj = plantaState.objects[uiState.draggedObjectId];
     if (obj) {
-      if (obj.x !== uiState.dragObjectStartPos.x || obj.y !== uiState.dragObjectStartPos.y) {
+      const ow = obj.orientation === 'vertical' ? obj.height : obj.width;
+      const oh = obj.orientation === 'vertical' ? obj.width : obj.height;
+      const conflito = verificarSobreposicaoObjetoEspacial(obj.x, obj.y, ow, oh, obj.id);
+
+      if (conflito) {
+        // Reverte para a posição original
+        obj.x = uiState.dragObjectStartPos.x;
+        obj.y = uiState.dragObjectStartPos.y;
+        obj.updatedAt = Date.now();
+        plantaState.updatedAt = Date.now();
+        if (undoStack.length > 0) {
+          undoStack.pop();
+          atualizarBotoesUndoRedo();
+        }
+        uiState.needsRedraw = true;
+        mostrarToast("⚠️ Não é permitido colocar mais de um objeto da mesma categoria no mesmo quadrado!", true);
+      } else if (obj.x !== uiState.dragObjectStartPos.x || obj.y !== uiState.dragObjectStartPos.y) {
         salvarPlantaLocal(false);
         selecionarObjetoEspacial(obj.id);
         mostrarToast(`Objeto reposicionado para X:${obj.x}, Y:${obj.y}`);
@@ -2880,6 +4155,10 @@ function onWindowMouseUp(e) {
   } else if (wasDragging && dragDist < 5 && e.button === 0 && uiState.currentTool === 'pan' && uiState.hoverCell) {
     selecionarCelula(uiState.hoverCell.x, uiState.hoverCell.y);
   }
+}
+
+function onWindowPointerCancel(e) {
+  onWindowPointerUp(e);
 }
 
 function onCanvasWheel(e) {
@@ -2964,12 +4243,24 @@ function enquadrarTudo() {
 // 7. ATALHOS DE TECLADO E MENU CONTEXTUAL (V2.2)
 // -------------------------------------------------------------
 function onKeyDown(e) {
-  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
 
-  // Atalhos Ctrl+Z e Ctrl+Y / Ctrl+Shift+Z para Undo / Redo
+  // Atalhos com Control / Meta (Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+Z, Ctrl+Y, Ctrl+S)
   if (e.ctrlKey || e.metaKey) {
     const keyLower = e.key.toLowerCase();
-    if (keyLower === 'z') {
+    if (keyLower === 'a') {
+      e.preventDefault();
+      SelectionManager.selectAll();
+      return;
+    } else if (keyLower === 'c') {
+      e.preventDefault();
+      copiarSelecao();
+      return;
+    } else if (keyLower === 'v') {
+      e.preventDefault();
+      iniciarColagem();
+      return;
+    } else if (keyLower === 'z') {
       e.preventDefault();
       if (e.shiftKey) {
         executarRedo();
@@ -2992,13 +4283,38 @@ function onKeyDown(e) {
     fecharMenuContextual();
     fecharBibliotecaModal();
     fecharModalExportar();
-    uiState.selectedObject = null;
-    uiState.selectedCell = null;
-    uiState.selectedCells.clear();
-    document.getElementById("object-info-card").style.display = "none";
-    document.getElementById("cell-info-card").style.display = "none";
-    document.getElementById("status-selection-info").textContent = "Nenhuma";
+    fecharModalXadrez();
+    if (uiState.isPasting) {
+      cancelarColagem();
+      return;
+    }
+    if (SelectionManager.hasSelection()) {
+      SelectionManager.clearSelection();
+      mostrarToast("Seleção desmarcada");
+    }
     uiState.needsRedraw = true;
+    return;
+  }
+
+  if (e.key === 'Enter') {
+    if (uiState.isPasting) {
+      e.preventDefault();
+      confirmarColagem();
+      return;
+    }
+  }
+
+  if (e.key === 'w' || e.key === 'W') {
+    e.preventDefault();
+    setTool('wand');
+    mostrarToast("Varinha Mágica (W) - Clique ou dê duplo-clique para selecionar conectados");
+    return;
+  }
+
+  if (e.key === 'v' || e.key === 'V') {
+    e.preventDefault();
+    setTool('select');
+    mostrarToast("Ferramenta Seleção (V)");
     return;
   }
 
@@ -3014,21 +4330,9 @@ function onKeyDown(e) {
   }
 
   if (e.key === 'Delete' || e.key === 'Backspace') {
-    if (uiState.selectedCells.size > 0) {
+    if (SelectionManager.hasSelection()) {
       e.preventDefault();
       apagarMultiSelecao();
-      return;
-    }
-    if (uiState.selectedObject) {
-      e.preventDefault();
-      removerObjetoSelecionado();
-      return;
-    }
-    if (uiState.selectedCell) {
-      e.preventDefault();
-      pushUndoState();
-      apagarCelulaOuObjeto(uiState.selectedCell.x, uiState.selectedCell.y);
-      salvarPlantaLocal(false);
       return;
     }
     return;
@@ -3070,20 +4374,395 @@ function onKeyUp(e) {
 // -------------------------------------------------------------
 // MENU CONTEXTUAL & ARQUITETURA DE AÇÕES EXTENSÍVEL (V2.2)
 // -------------------------------------------------------------
+function analisarTiposNaSelecao() {
+  const cells = SelectionManager.state.cells;
+  const objects = SelectionManager.state.objects;
+
+  let totalFloor = 0;
+  let totalFire = 0;
+  let totalDifficult = 0;
+  let totalSpecialOther = 0;
+  let totalWall = 0;
+  let totalObstacle = 0;
+  let totalStructureOther = 0;
+
+  cells.forEach(key => {
+    const raw = plantaState.cells[key];
+    if (!raw) return;
+    const cell = normalizarCelula(raw);
+
+    if (cell.floor && cell.floor !== 'none') {
+      totalFloor++;
+    }
+    if (cell.special && cell.special !== 'none') {
+      if (cell.special === 'fire') totalFire++;
+      else if (cell.special === 'difficult') totalDifficult++;
+      else totalSpecialOther++;
+    }
+    if (cell.structure && cell.structure !== 'none') {
+      if (cell.structure === 'wall') totalWall++;
+      else if (cell.structure === 'obstacle') totalObstacle++;
+      else totalStructureOther++;
+    }
+  });
+
+  const objectsSet = new Set(objects);
+  cells.forEach(key => {
+    const comma = key.indexOf(',');
+    if (comma !== -1) {
+      const cx = parseInt(key.substring(0, comma), 10);
+      const cy = parseInt(key.substring(comma + 1), 10);
+      const obj = obterObjetoEmCoordenada(cx, cy);
+      if (obj) objectsSet.add(obj.id);
+    }
+  });
+
+  const totalStructures = totalWall + totalObstacle + totalStructureOther;
+
+  return {
+    totalCells: cells.size,
+    totalFloor,
+    totalFire,
+    totalDifficult,
+    totalSpecialOther,
+    totalWall,
+    totalObstacle,
+    totalStructures,
+    totalObjects: objectsSet.size,
+    objectsList: Array.from(objectsSet)
+  };
+}
+
+function deletarTipoMultiSelecao(tipo) {
+  if (!SelectionManager.hasSelection()) return;
+  pushUndoState();
+
+  let count = 0;
+  const cells = SelectionManager.state.cells;
+
+  if (tipo === 'fire') {
+    cells.forEach(key => {
+      const raw = plantaState.cells[key];
+      if (raw) {
+        const cell = normalizarCelula(raw);
+        if (cell.special === 'fire') {
+          cell.special = 'none';
+          cell.updatedAt = Date.now();
+          count++;
+          if (cell.floor === 'none' && cell.structure === 'none' && !cell.label) {
+            delete plantaState.cells[key];
+          } else {
+            plantaState.cells[key] = cell;
+          }
+        }
+      }
+    });
+    mostrarToast(`🔥 Fogo removido de ${count} célula(s)!`);
+  } else if (tipo === 'difficult') {
+    cells.forEach(key => {
+      const raw = plantaState.cells[key];
+      if (raw) {
+        const cell = normalizarCelula(raw);
+        if (cell.special === 'difficult') {
+          cell.special = 'none';
+          cell.updatedAt = Date.now();
+          count++;
+          if (cell.floor === 'none' && cell.structure === 'none' && !cell.label) {
+            delete plantaState.cells[key];
+          } else {
+            plantaState.cells[key] = cell;
+          }
+        }
+      }
+    });
+    mostrarToast(`⚠️ Terreno difícil removido de ${count} célula(s)!`);
+  } else if (tipo === 'special') {
+    cells.forEach(key => {
+      const raw = plantaState.cells[key];
+      if (raw) {
+        const cell = normalizarCelula(raw);
+        if (cell.special && cell.special !== 'none') {
+          cell.special = 'none';
+          cell.updatedAt = Date.now();
+          count++;
+          if (cell.floor === 'none' && cell.structure === 'none' && !cell.label) {
+            delete plantaState.cells[key];
+          } else {
+            plantaState.cells[key] = cell;
+          }
+        }
+      }
+    });
+    mostrarToast(`✨ Efeitos especiais removidos de ${count} célula(s)!`);
+  } else if (tipo === 'floor') {
+    cells.forEach(key => {
+      const raw = plantaState.cells[key];
+      if (raw) {
+        const cell = normalizarCelula(raw);
+        if (cell.floor && cell.floor !== 'none') {
+          count++;
+          if (cell.structure !== 'none' || cell.special !== 'none' || cell.label) {
+            cell.floor = 'none';
+            cell.updatedAt = Date.now();
+            plantaState.cells[key] = cell;
+          } else {
+            delete plantaState.cells[key];
+          }
+        }
+      }
+    });
+    mostrarToast(`🪵 Chão removido de ${count} célula(s)!`);
+  } else if (tipo === 'structure') {
+    cells.forEach(key => {
+      const raw = plantaState.cells[key];
+      if (raw) {
+        const cell = normalizarCelula(raw);
+        if (cell.structure && cell.structure !== 'none') {
+          cell.structure = 'none';
+          cell.doorState = 'closed';
+          cell.updatedAt = Date.now();
+          count++;
+          if (cell.floor === 'none' && cell.special === 'none' && !cell.label) {
+            delete plantaState.cells[key];
+          } else {
+            plantaState.cells[key] = cell;
+          }
+        }
+      }
+    });
+    mostrarToast(`🧱 Estruturas removidas de ${count} célula(s)!`);
+  } else if (tipo === 'objects') {
+    const info = analisarTiposNaSelecao();
+    info.objectsList.forEach(objId => {
+      if (plantaState.objects[objId]) {
+        delete plantaState.objects[objId];
+        count++;
+      }
+      SelectionManager.state.objects.delete(objId);
+    });
+    mostrarToast(`🚪 ${count} objeto(s) removido(s)!`);
+  }
+
+  plantaState.updatedAt = Date.now();
+  salvarPlantaLocal(false);
+  atualizarIndicadoresStatus();
+  atualizarUISelecao(false);
+  uiState.needsRedraw = true;
+}
+
+function deletarTipoEspecifico(cellX, cellY, tipo) {
+  const key = `${cellX},${cellY}`;
+  const raw = plantaState.cells[key];
+  if (!raw) return;
+  pushUndoState();
+
+  const cell = normalizarCelula(raw);
+  if (tipo === 'fire') {
+    cell.special = 'none';
+    cell.updatedAt = Date.now();
+    if (cell.floor === 'none' && cell.structure === 'none' && !cell.label) {
+      delete plantaState.cells[key];
+    } else {
+      plantaState.cells[key] = cell;
+    }
+    mostrarToast("🔥 Fogo removido da célula!");
+  } else if (tipo === 'difficult') {
+    cell.special = 'none';
+    cell.updatedAt = Date.now();
+    if (cell.floor === 'none' && cell.structure === 'none' && !cell.label) {
+      delete plantaState.cells[key];
+    } else {
+      plantaState.cells[key] = cell;
+    }
+    mostrarToast("⚠️ Terreno difícil removido!");
+  } else if (tipo === 'special') {
+    cell.special = 'none';
+    cell.updatedAt = Date.now();
+    if (cell.floor === 'none' && cell.structure === 'none' && !cell.label) {
+      delete plantaState.cells[key];
+    } else {
+      plantaState.cells[key] = cell;
+    }
+    mostrarToast("✨ Efeito especial removido!");
+  } else if (tipo === 'floor') {
+    if (cell.structure !== 'none' || cell.special !== 'none' || cell.label) {
+      cell.floor = 'none';
+      cell.updatedAt = Date.now();
+      plantaState.cells[key] = cell;
+    } else {
+      delete plantaState.cells[key];
+    }
+    mostrarToast("🪵 Chão removido da célula!");
+  } else if (tipo === 'structure') {
+    cell.structure = 'none';
+    cell.doorState = 'closed';
+    cell.updatedAt = Date.now();
+    if (cell.floor === 'none' && cell.special === 'none' && !cell.label) {
+      delete plantaState.cells[key];
+    } else {
+      plantaState.cells[key] = cell;
+    }
+    mostrarToast("🧱 Estrutura removida da célula!");
+  }
+
+  plantaState.updatedAt = Date.now();
+  salvarPlantaLocal(false);
+  atualizarIndicadoresStatus();
+  atualizarUISelecao(false);
+  if (uiState.selectedCell && uiState.selectedCell.x === cellX && uiState.selectedCell.y === cellY) {
+    atualizarPainelCelula(cellX, cellY);
+  }
+  uiState.needsRedraw = true;
+}
+
+function obterAcoesMultiSelecao() {
+  const info = analisarTiposNaSelecao();
+  const actions = [];
+
+  const totalItems = info.totalCells + (info.totalObjects > 0 && info.totalCells === 0 ? info.totalObjects : 0);
+  actions.push({
+    header: `SELEÇÃO (${info.totalCells} CÉLULAS${info.totalObjects > 0 ? ` + ${info.totalObjects} OBJ.` : ''})`,
+    type: 'header'
+  });
+
+  actions.push({
+    label: 'Pintar Elemento Ativo na Seleção',
+    icon: '🖌️',
+    action: () => aplicarPinturaMultiSelecao()
+  });
+
+  actions.push({
+    label: 'Copiar Seleção',
+    shortcut: 'Ctrl+C',
+    icon: '📋',
+    action: () => copiarSelecao()
+  });
+
+  if (clipboardSelection && (clipboardSelection.cells.length > 0 || clipboardSelection.objects.length > 0)) {
+    actions.push({
+      label: 'Colar Área Copiada',
+      shortcut: 'Ctrl+V',
+      icon: '📥',
+      action: () => iniciarColagem()
+    });
+  }
+
+  actions.push({
+    label: 'Padrão Xadrez (Alternado)...',
+    icon: '🏁',
+    action: () => abrirModalXadrez()
+  });
+
+  actions.push({ type: 'divider' });
+  actions.push({
+    header: 'OPÇÕES DE EXCLUSÃO',
+    type: 'subheader'
+  });
+
+  // Opções separadas por tipo de elemento presente na seleção
+  if (info.totalFire > 0) {
+    actions.push({
+      label: info.totalFire === 1 ? 'Deletar Fogo' : `Deletar Fogo`,
+      icon: '🔥',
+      danger: true,
+      count: `${info.totalFire} un.`,
+      action: () => deletarTipoMultiSelecao('fire')
+    });
+  }
+
+  if (info.totalDifficult > 0) {
+    actions.push({
+      label: info.totalDifficult === 1 ? 'Deletar Terreno Difícil' : `Deletar Terreno Difícil`,
+      icon: '⚠️',
+      danger: true,
+      count: `${info.totalDifficult} un.`,
+      action: () => deletarTipoMultiSelecao('difficult')
+    });
+  }
+
+  if (info.totalSpecialOther > 0) {
+    actions.push({
+      label: 'Deletar Efeitos Especiais',
+      icon: '✨',
+      danger: true,
+      count: `${info.totalSpecialOther} un.`,
+      action: () => deletarTipoMultiSelecao('special')
+    });
+  }
+
+  if (info.totalFloor > 0) {
+    actions.push({
+      label: info.totalFloor === 1 ? 'Deletar Chão' : `Deletar Chão`,
+      icon: '🪵',
+      danger: true,
+      count: `${info.totalFloor} un.`,
+      action: () => deletarTipoMultiSelecao('floor')
+    });
+  }
+
+  if (info.totalStructures > 0) {
+    actions.push({
+      label: info.totalStructures === 1 ? 'Deletar Parede / Estrutura' : `Deletar Paredes / Estruturas`,
+      icon: '🧱',
+      danger: true,
+      count: `${info.totalStructures} un.`,
+      action: () => deletarTipoMultiSelecao('structure')
+    });
+  }
+
+  if (info.totalObjects > 0) {
+    actions.push({
+      label: info.totalObjects === 1 ? 'Deletar Objeto Espacial' : `Deletar Objetos Espaciais`,
+      icon: '🚪',
+      danger: true,
+      count: `${info.totalObjects} un.`,
+      action: () => deletarTipoMultiSelecao('objects')
+    });
+  }
+
+  actions.push({
+    label: `Deletar Tudo (Limpar Seleção)`,
+    shortcut: 'Del',
+    icon: '🗑️',
+    danger: true,
+    count: `${totalItems} un.`,
+    action: () => apagarMultiSelecao()
+  });
+
+  actions.push({ type: 'divider' });
+  actions.push({
+    label: 'Desmarcar Seleção',
+    shortcut: 'Esc',
+    icon: '✕',
+    action: () => {
+      SelectionManager.clearSelection();
+      atualizarUISelecao(false);
+      uiState.needsRedraw = true;
+    }
+  });
+
+  return actions;
+}
+
 function abrirMenuContextual(screenX, screenY, worldX, worldY) {
   const menu = document.getElementById("canvas-context-menu");
   if (!menu) return;
 
   const { cellX, cellY } = screenToCell(screenX, screenY);
   const obj = obterObjetoEmCoordenada(cellX, cellY);
+  const key = `${cellX},${cellY}`;
+
+  const isClickedInSelection = SelectionManager.state.cells.has(key) || (obj && SelectionManager.state.objects.has(obj.id));
+  const hasMultiSelection = SelectionManager.state.cells.size > 1 || SelectionManager.state.objects.size > 1;
 
   let actions = [];
 
-  if (obj) {
+  if (hasMultiSelection || (SelectionManager.hasSelection() && isClickedInSelection && SelectionManager.state.cells.size > 1)) {
+    actions = obterAcoesMultiSelecao();
+  } else if (obj) {
     selecionarObjetoEspacial(obj.id);
-    actions = obterAcoesObjetoEspacial(obj);
+    actions = obterAcoesObjetoEspacial(obj, cellX, cellY);
   } else {
-    const key = `${cellX},${cellY}`;
     const cellRaw = plantaState.cells[key];
     if (cellRaw) {
       selecionarCelula(cellX, cellY);
@@ -3092,10 +4771,19 @@ function abrirMenuContextual(screenX, screenY, worldX, worldY) {
       actions = [
         { header: `CÉLULA (${cellX}, ${cellY})`, type: 'header' },
         { label: 'Pintar Elemento Ativo', icon: '🖌️', action: () => { aplicarPinturaOuObjeto(cellX, cellY); salvarPlantaLocal(false); } },
+        (clipboardSelection && (clipboardSelection.cells.length || clipboardSelection.objects.length)) ? {
+          label: 'Colar Área Aqui',
+          shortcut: 'Ctrl+V',
+          icon: '📋',
+          action: () => {
+            uiState.pasteTargetPos = { x: cellX, y: cellY };
+            iniciarColagem();
+          }
+        } : null,
         { label: 'Abrir Biblioteca', icon: '🧰', shortcut: 'B', action: () => abrirBibliotecaModal() },
         { type: 'divider' },
         { label: 'Centralizar Câmera Aqui', icon: '🎯', action: () => { camera.x = cellX; camera.y = cellY; uiState.needsRedraw = true; } }
-      ];
+      ].filter(Boolean);
     }
   }
 
@@ -3123,10 +4811,18 @@ function fecharMenuContextual() {
   if (menu) menu.style.display = "none";
 }
 
-function obterAcoesObjetoEspacial(obj) {
+function obterAcoesObjetoEspacial(obj, cellX, cellY) {
+  let cellUnderneath = null;
+  if (cellX !== undefined && cellY !== undefined) {
+    const raw = plantaState.cells[`${cellX},${cellY}`];
+    if (raw) cellUnderneath = normalizarCelula(raw);
+  }
+
+  const actions = [];
+
   if (obj.type === 'door') {
     const isClosed = (obj.openAmount === 0);
-    return [
+    actions.push(
       { header: `🚪 PORTA INTERATIVA (${obj.width}×${obj.height}m)`, type: 'header' },
       { label: 'Rotacionar 90°', shortcut: 'R', icon: '↻', action: () => rotacionarObjetoSelecionado(1) },
       { label: 'Rotacionar -90°', shortcut: 'Shift+R', icon: '↺', action: () => rotacionarObjetoSelecionado(-1) },
@@ -3152,31 +4848,110 @@ function obterAcoesObjetoEspacial(obj) {
         action: () => alternarEspiarFechaduraSelecionada()
       } : null,
       { type: 'divider' },
-      { label: 'Propriedades & Ajustes', icon: '⚙️', action: () => focarPainelPropriedadesObjeto(obj.id) },
-      { label: 'Remover Objeto', shortcut: 'Del', icon: '🗑️', danger: true, action: () => removerObjetoEspacial(obj.id) }
-    ].filter(Boolean);
+      { label: 'Propriedades & Ajustes', icon: '⚙️', action: () => focarPainelPropriedadesObjeto(obj.id) }
+    );
+  } else {
+    actions.push(
+      { header: `📦 OBJETO ESPACIAL (${obj.width}×${obj.height}m)`, type: 'header' },
+      { label: 'Rotacionar 90°', shortcut: 'R', icon: '↻', action: () => rotacionarObjetoSelecionado(1) },
+      { label: 'Rotacionar -90°', shortcut: 'Shift+R', icon: '↺', action: () => rotacionarObjetoSelecionado(-1) },
+      { type: 'divider' },
+      { label: 'Propriedades', icon: '⚙️', action: () => focarPainelPropriedadesObjeto(obj.id) }
+    );
   }
 
-  return [
-    { header: `📦 OBJETO ESPACIAL (${obj.width}×${obj.height}m)`, type: 'header' },
-    { label: 'Rotacionar 90°', shortcut: 'R', icon: '↻', action: () => rotacionarObjetoSelecionado(1) },
-    { label: 'Rotacionar -90°', shortcut: 'Shift+R', icon: '↺', action: () => rotacionarObjetoSelecionado(-1) },
-    { type: 'divider' },
-    { label: 'Propriedades', icon: '⚙️', action: () => focarPainelPropriedadesObjeto(obj.id) },
-    { label: 'Remover Objeto', shortcut: 'Del', icon: '🗑️', danger: true, action: () => removerObjetoEspacial(obj.id) }
-  ];
+  actions.push({ type: 'divider' });
+
+  // Se houver chão ou fogo por baixo do objeto espacial, oferecer exclusão separada
+  if (cellUnderneath && (cellUnderneath.floor !== 'none' || cellUnderneath.special !== 'none')) {
+    actions.push({ header: 'OPÇÕES DE EXCLUSÃO', type: 'subheader' });
+    actions.push({ label: 'Deletar Objeto', icon: '🚪', danger: true, action: () => removerObjetoEspacial(obj.id) });
+    if (cellUnderneath.special === 'fire') {
+      actions.push({ label: 'Deletar Fogo (Chão)', icon: '🔥', danger: true, action: () => deletarTipoEspecifico(cellX, cellY, 'fire') });
+    }
+    if (cellUnderneath.floor && cellUnderneath.floor !== 'none') {
+      const nomeChao = CATALOGO_CHAO[cellUnderneath.floor]?.nome || 'Chão';
+      actions.push({ label: `Deletar Chão (${nomeChao})`, icon: '🪵', danger: true, action: () => deletarTipoEspecifico(cellX, cellY, 'floor') });
+    }
+    actions.push({
+      label: 'Deletar Tudo (Objeto + Célula)',
+      shortcut: 'Del',
+      icon: '🗑️',
+      danger: true,
+      action: () => {
+        removerObjetoEspacial(obj.id);
+        delete plantaState.cells[`${cellX},${cellY}`];
+        salvarPlantaLocal(false);
+        atualizarIndicadoresStatus();
+        uiState.needsRedraw = true;
+        mostrarToast("🗑️ Objeto e célula removidos!");
+      }
+    });
+  } else {
+    actions.push({ label: 'Remover Objeto', shortcut: 'Del', icon: '🗑️', danger: true, action: () => removerObjetoEspacial(obj.id) });
+  }
+
+  return actions.filter(Boolean);
 }
 
 function obterAcoesCelula(cellX, cellY, cellRaw) {
   const props = obterPropriedadesCelula(cellRaw);
-  return [
+  const actions = [
     { header: `🧱 CÉLULA (${cellX}, ${cellY})`, type: 'header' },
     { label: 'Pintar Elemento Ativo', icon: '🖌️', action: () => { aplicarPinturaOuObjeto(cellX, cellY); salvarPlantaLocal(false); } },
-    props.cell.structure !== 'none' ? { label: 'Remover Estrutura', icon: '🧹', danger: true, action: () => removerEstruturaCelulaSelecionada() } : null,
-    { label: 'Limpar Célula', shortcut: 'Del', icon: '🗑️', danger: true, action: () => apagarCelulaOuObjeto(cellX, cellY) },
-    { type: 'divider' },
-    { label: 'Propriedades da Célula', icon: '⚙️', action: () => focarPainelPropriedadesCelula(cellX, cellY) }
+    { label: 'Selecionar Conectados (Varinha)', icon: '🪄', action: () => SelectionManager.selectConnected(cellX, cellY, 'replace') },
+    (clipboardSelection && (clipboardSelection.cells.length || clipboardSelection.objects.length)) ? {
+      label: 'Colar Área Aqui',
+      shortcut: 'Ctrl+V',
+      icon: '📋',
+      action: () => {
+        uiState.pasteTargetPos = { x: cellX, y: cellY };
+        iniciarColagem();
+      }
+    } : null
   ].filter(Boolean);
+
+  actions.push({ type: 'divider' });
+
+  const hasSpecial = (props.cell.special && props.cell.special !== 'none');
+  const hasFloor = (props.cell.floor && props.cell.floor !== 'none');
+  const hasStructure = (props.cell.structure && props.cell.structure !== 'none');
+  const countTypes = (hasSpecial ? 1 : 0) + (hasFloor ? 1 : 0) + (hasStructure ? 1 : 0);
+
+  if (countTypes > 1) {
+    actions.push({ header: 'OPÇÕES DE EXCLUSÃO', type: 'subheader' });
+  }
+
+  if (hasSpecial) {
+    if (props.cell.special === 'fire') {
+      actions.push({ label: 'Deletar Fogo', icon: '🔥', danger: true, action: () => deletarTipoEspecifico(cellX, cellY, 'fire') });
+    } else if (props.cell.special === 'difficult') {
+      actions.push({ label: 'Deletar Terreno Difícil', icon: '⚠️', danger: true, action: () => deletarTipoEspecifico(cellX, cellY, 'difficult') });
+    } else {
+      actions.push({ label: 'Deletar Efeito Especial', icon: '✨', danger: true, action: () => deletarTipoEspecifico(cellX, cellY, 'special') });
+    }
+  }
+
+  if (hasStructure) {
+    actions.push({ label: `Deletar ${props.estrutura.nome || 'Estrutura'}`, icon: props.estrutura.icone || '🧱', danger: true, action: () => deletarTipoEspecifico(cellX, cellY, 'structure') });
+  }
+
+  if (hasFloor) {
+    actions.push({ label: `Deletar Chão (${props.chao.nome || 'Piso'})`, icon: props.chao.icone || '🪵', danger: true, action: () => deletarTipoEspecifico(cellX, cellY, 'floor') });
+  }
+
+  actions.push({
+    label: countTypes > 1 ? 'Deletar Tudo (Limpar Célula)' : 'Limpar Célula',
+    shortcut: 'Del',
+    icon: '🗑️',
+    danger: true,
+    action: () => apagarCelulaOuObjeto(cellX, cellY)
+  });
+
+  actions.push({ type: 'divider' });
+  actions.push({ label: 'Propriedades da Célula', icon: '⚙️', action: () => focarPainelPropriedadesCelula(cellX, cellY) });
+
+  return actions.filter(Boolean);
 }
 
 function renderizarMenuContextual(menuEl, actions) {
@@ -3187,6 +4962,11 @@ function renderizarMenuContextual(menuEl, actions) {
       h.className = "ctx-menu-header";
       h.innerHTML = `<span>${item.header}</span>`;
       menuEl.appendChild(h);
+    } else if (item.type === 'subheader') {
+      const sh = document.createElement("div");
+      sh.className = "ctx-menu-subheader";
+      sh.innerHTML = `<span>${item.header}</span>`;
+      menuEl.appendChild(sh);
     } else if (item.type === 'divider') {
       const d = document.createElement("div");
       d.className = "ctx-menu-divider";
@@ -3213,8 +4993,14 @@ function renderizarMenuContextual(menuEl, actions) {
       btn.type = "button";
       btn.className = `ctx-menu-item ${item.danger ? 'danger' : ''} ${item.disabled ? 'disabled' : ''}`;
       btn.innerHTML = `
-        <span>${item.icon ? item.icon + ' ' : ''}${item.label}</span>
-        ${item.shortcut ? `<span class="ctx-menu-shortcut">${item.shortcut}</span>` : ''}
+        <span style="display:flex; align-items:center; gap:6px;">
+          ${item.icon ? `<span>${item.icon}</span>` : ''}
+          <span>${item.label}</span>
+        </span>
+        <span style="display:flex; align-items:center; gap:4px; margin-left:auto;">
+          ${item.count ? `<span class="ctx-menu-badge">${item.count}</span>` : ''}
+          ${item.shortcut ? `<span class="ctx-menu-shortcut">${item.shortcut}</span>` : ''}
+        </span>
       `;
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -3233,8 +5019,17 @@ function rotacionarObjetoSelecionado(dir = 1) {
 
   const oldW = obj.width;
   const oldH = obj.height;
-  obj.width = oldH;
-  obj.height = oldW;
+  const targetW = oldH;
+  const targetH = oldW;
+
+  const conflito = verificarSobreposicaoObjetoEspacial(obj.x, obj.y, targetW, targetH, obj.id);
+  if (conflito) {
+    mostrarToast("⚠️ Não é possível rotacionar: sobrepõe outro objeto da mesma categoria!", true);
+    return;
+  }
+
+  obj.width = targetW;
+  obj.height = targetH;
   obj.orientation = (obj.width < obj.height) ? 'vertical' : 'horizontal';
 
   const swingOrder = ['down', 'right', 'up', 'left'];
@@ -3722,10 +5517,11 @@ function setTool(tool) {
   document.querySelectorAll(".tool-btn").forEach(btn => btn.classList.remove("active"));
   document.getElementById(`tool-${tool}`)?.classList.add("active");
 
-  canvas.classList.remove("panning", "painting", "erasing", "rectangle");
+  canvas.classList.remove("panning", "painting", "erasing", "rectangle", "selecting", "wand");
   if (tool === 'paint') canvas.classList.add("painting");
   if (tool === 'erase') canvas.classList.add("erasing");
   if (tool === 'rect') canvas.classList.add("rectangle");
+  if (tool === 'select' || tool === 'wand') canvas.classList.add("selecting");
 }
 
 // -------------------------------------------------------------
@@ -3746,7 +5542,33 @@ function obterObjetoEmCoordenada(cx, cy) {
   return null;
 }
 
+// Verifica se uma área retangular [x, x+w) x [y, y+h) já possui algum objeto da categoria 'object'
+function verificarSobreposicaoObjetoEspacial(x, y, width, height, ignoreObjId = null) {
+  const ids = Object.keys(plantaState.objects);
+  for (let i = 0; i < ids.length; i++) {
+    const objId = ids[i];
+    if (objId === ignoreObjId) continue;
+    const obj = plantaState.objects[objId];
+    if (!obj) continue;
+    const ow = obj.orientation === 'vertical' ? obj.height : obj.width;
+    const oh = obj.orientation === 'vertical' ? obj.width : obj.height;
+
+    // Colisão AABB de grids
+    if (x < obj.x + ow && x + width > obj.x && y < obj.y + oh && y + height > obj.y) {
+      return obj;
+    }
+  }
+  return null;
+}
+
 function criarObjetoEspacial(type, x, y, width = 1, height = 1) {
+  // Impede colocar mais de um objeto da mesma categoria no mesmo quadrado
+  const conflito = verificarSobreposicaoObjetoEspacial(x, y, width, height);
+  if (conflito) {
+    mostrarToast(`⚠️ Não é possível colocar: o quadrado (X:${conflito.x}, Y:${conflito.y}) já contém um objeto!`, true);
+    return null;
+  }
+
   const id = `obj_${type}_${Date.now()}_${Math.floor(Math.random()*1000)}`;
   const obj = {
     id,
@@ -3768,6 +5590,7 @@ function criarObjetoEspacial(type, x, y, width = 1, height = 1) {
   salvarPlantaLocal(false);
   uiState.needsRedraw = true;
   mostrarToast(`Objeto ${type.toUpperCase()} criado em X:${x}, Y:${y}`);
+  return obj;
 }
 
 function removerObjetoEspacial(objId) {
@@ -4083,8 +5906,12 @@ function drawSingleSpatialObject(obj, w, h) {
 
   // Se o objeto estiver em movimento de arraste ou selecionado, desenha caixa pontilhada de destaque
   if (uiState.isDraggingObject && uiState.draggedObjectId === obj.id) {
-    ctx.strokeStyle = "#5ab4ff";
-    ctx.lineWidth = 2.5;
+    const ow = obj.orientation === 'vertical' ? obj.height : obj.width;
+    const oh = obj.orientation === 'vertical' ? obj.width : obj.height;
+    const colide = verificarSobreposicaoObjetoEspacial(obj.x, obj.y, ow, oh, obj.id);
+
+    ctx.strokeStyle = colide ? "#ff4d4d" : "#5ab4ff";
+    ctx.lineWidth = colide ? 3 : 2.5;
     ctx.setLineDash([4, 2]);
     ctx.strokeRect(x - 3, y - 3, screenW + 6, screenH + 6);
     ctx.setLineDash([]);
@@ -4107,9 +5934,9 @@ function aplicarPinturaOuObjeto(cellX, cellY) {
     const item = ELEMENTOS_BIBLIOTECA.find(e => e.id === uiState.activeElementId);
     const w = item ? (item.width || 1) : 1;
     const h = item ? (item.height || 1) : 1;
-    criarObjetoEspacial(uiState.activeItemKey || 'door', cellX, cellY, w, h);
+    return criarObjetoEspacial(uiState.activeItemKey || 'door', cellX, cellY, w, h);
   } else {
-    aplicarPinturaCelula(cellX, cellY, uiState.activeCategory, uiState.activeItemKey);
+    return aplicarPinturaCelula(cellX, cellY, uiState.activeCategory, uiState.activeItemKey);
   }
 }
 
@@ -4117,14 +5944,27 @@ function aplicarPinturaCelula(x, y, category, id) {
   const key = `${x},${y}`;
   const cell = normalizarCelula(plantaState.cells[key]);
 
-  if (category === 'floor') {
-    cell.floor = id;
-  } else if (category === 'structure') {
+  if (category === 'structure') {
+    if (cell.structure !== 'none' && cell.structure !== id) {
+      const nomeAtual = (CATALOGO_ESTRUTURA[cell.structure] && CATALOGO_ESTRUTURA[cell.structure].nome) || cell.structure;
+      mostrarToast(`⚠️ Este quadrado já contém uma estrutura (${nomeAtual}). Remova-a antes de colocar outra da mesma categoria!`, true);
+      return false;
+    }
+    if (cell.structure === id) return true;
     cell.structure = id;
     if (cell.floor === 'none') cell.floor = 'stone';
   } else if (category === 'special') {
+    if (cell.special !== 'none' && cell.special !== id) {
+      const nomeAtual = (CATALOGO_ESPECIAL[cell.special] && CATALOGO_ESPECIAL[cell.special].nome) || cell.special;
+      mostrarToast(`⚠️ Este quadrado já contém uma condição (${nomeAtual}). Remova-a antes de colocar outra da mesma categoria!`, true);
+      return false;
+    }
+    if (cell.special === id) return true;
     cell.special = id;
     if (cell.floor === 'none') cell.floor = 'stone';
+  } else if (category === 'floor') {
+    if (cell.floor === id) return true;
+    cell.floor = id;
   }
 
   cell.updatedAt = Date.now();
@@ -4136,6 +5976,7 @@ function aplicarPinturaCelula(x, y, category, id) {
     atualizarPainelCelula(x, y);
   }
   uiState.needsRedraw = true;
+  return true;
 }
 
 function apagarCelulaOuObjeto(x, y) {
@@ -4163,17 +6004,26 @@ function preencherRetangulo(c1, c2, category, id) {
   const y1 = Math.min(c1.y, c2.y);
   const y2 = Math.max(c1.y, c2.y);
 
+  let aplicados = 0;
+  let ignorados = 0;
+
   for (let y = y1; y <= y2; y++) {
     for (let x = x1; x <= x2; x++) {
       if (category !== 'object') {
-        aplicarPinturaCelula(x, y, category, id);
+        const res = aplicarPinturaCelula(x, y, category, id);
+        if (res) aplicados++;
+        else ignorados++;
       }
     }
   }
 
   plantaState.updatedAt = Date.now();
   atualizarIndicadoresStatus();
-  mostrarToast(`Área retangular aplicada (${(x2-x1+1)} × ${(y2-y1+1)}m)`);
+  if (aplicados > 0) {
+    mostrarToast(`Área retangular aplicada (${aplicados} células)${ignorados > 0 ? ` (${ignorados} ignoradas por conflito de categoria)` : ''}`);
+  } else if (ignorados > 0) {
+    mostrarToast(`⚠️ Nenhuma célula modificada: células já possuem elementos da mesma categoria!`, true);
+  }
   uiState.needsRedraw = true;
 }
 
@@ -4186,19 +6036,7 @@ function atualizarDimensoesRetangulo() {
 }
 
 function selecionarCelula(x, y) {
-  const obj = obterObjetoEmCoordenada(x, y);
-  if (obj) {
-    selecionarObjetoEspacial(obj.id);
-    return;
-  }
-
-  uiState.selectedObject = null;
-  document.getElementById("object-info-card").style.display = "none";
-
-  uiState.selectedCell = { x, y };
-  atualizarPainelCelula(x, y);
-  document.getElementById("status-selection-info").textContent = `X: ${x} | Y: ${y}`;
-  uiState.needsRedraw = true;
+  SelectionManager.selectCell(x, y, 'replace');
 }
 
 function atualizarPainelCelula(x, y) {
@@ -4287,33 +6125,154 @@ function atualizarRotuloCelulaSelecionada(rotulo) {
   uiState.needsRedraw = true;
 }
 
-function atualizarMultiSelecaoInfo() {
-  const size = uiState.selectedCells.size;
+function calcularContagemPreviaSelecao() {
+  if (!SelectionManager.state.isDraggingSelection || !SelectionManager.state.startCell || !SelectionManager.state.currentCell) {
+    return SelectionManager.state.cells.size;
+  }
+  const minX = Math.min(SelectionManager.state.startCell.x, SelectionManager.state.currentCell.x);
+  const maxX = Math.max(SelectionManager.state.startCell.x, SelectionManager.state.currentCell.x);
+  const minY = Math.min(SelectionManager.state.startCell.y, SelectionManager.state.currentCell.y);
+  const maxY = Math.max(SelectionManager.state.startCell.y, SelectionManager.state.currentCell.y);
+
+  const rectArea = (maxX - minX + 1) * (maxY - minY + 1);
+  const mode = SelectionManager.state.mode;
+
+  if (mode === 'replace') {
+    return rectArea;
+  }
+
+  // Contagem exata de sobreposição sem alocar strings ou conjuntos
+  let overlappingSelected = 0;
+  SelectionManager.state.cells.forEach(k => {
+    const comma = k.indexOf(',');
+    const cx = parseInt(k.substring(0, comma), 10);
+    const cy = parseInt(k.substring(comma + 1), 10);
+    if (cx >= minX && cx <= maxX && cy >= minY && cy <= maxY) {
+      overlappingSelected++;
+    }
+  });
+
+  if (mode === 'add') {
+    return SelectionManager.state.cells.size + rectArea - overlappingSelected;
+  } else if (mode === 'remove') {
+    return Math.max(0, SelectionManager.state.cells.size - overlappingSelected);
+  }
+  return SelectionManager.state.cells.size;
+}
+
+function atualizarUISelecao(isLiveDrag = false) {
   const statusInfo = document.getElementById("status-selection-info");
-  const card = document.getElementById("cell-info-card");
+  const cellCard = document.getElementById("cell-info-card");
+  const objCard = document.getElementById("object-info-card");
 
-  if (size === 0) {
-    if (statusInfo) statusInfo.textContent = "Nenhuma";
-    return;
-  }
+  const totalCells = isLiveDrag ? calcularContagemPreviaSelecao() : SelectionManager.state.cells.size;
+  const objectsCount = SelectionManager.state.objects.size;
 
+  // Atualizar contador na barra de status em tempo real
   if (statusInfo) {
-    statusInfo.textContent = `${size} células selecionadas (${size} m²) [Ctrl+Select]`;
+    if (totalCells === 0 && objectsCount === 0) {
+      statusInfo.textContent = "Nenhuma";
+    } else if (totalCells === 1) {
+      if (objectsCount === 1) {
+        const objId = Array.from(SelectionManager.state.objects)[0];
+        const obj = plantaState.objects[objId];
+        statusInfo.textContent = `1 objeto selecionado (${obj ? obj.type.toUpperCase() : 'Objeto'})`;
+      } else if (!isLiveDrag && SelectionManager.state.cells.size === 1) {
+        const key = Array.from(SelectionManager.state.cells)[0];
+        const comma = key.indexOf(',');
+        statusInfo.textContent = `1 célula selecionada (X: ${key.substring(0, comma)} | Y: ${key.substring(comma + 1)})`;
+      } else {
+        statusInfo.textContent = "1 célula selecionada";
+      }
+    } else {
+      statusInfo.textContent = `${totalCells} células selecionadas`;
+    }
   }
 
-  if (size === 1) {
-    const firstKey = Array.from(uiState.selectedCells)[0];
-    const [x, y] = firstKey.split(",").map(Number);
-    uiState.selectedCell = { x, y };
-    atualizarPainelCelula(x, y);
+  // Durante o arraste de seleção, evitamos clonar Sets e reconstruir os cards do DOM para garantir 60 FPS
+  if (isLiveDrag) {
     return;
   }
 
-  // Multi-Seleção de 2 ou mais células
-  if (card) {
-    card.style.display = "flex";
-    document.getElementById("info-cell-coords").textContent = `${size} Células`;
-    document.getElementById("info-cell-meters").textContent = `${size}.0 m² total`;
+  if (totalCells === 0 && objectsCount === 0) {
+    if (cellCard) cellCard.style.display = "none";
+    if (objCard) objCard.style.display = "none";
+    const multiRow = document.getElementById("multi-action-tools-row");
+    if (multiRow) multiRow.style.display = "none";
+    uiState.selectedCell = null;
+    uiState.selectedCells.clear();
+    uiState.selectedObject = null;
+    return;
+  }
+
+  // Sincronizar uiState legado com SelectionManager ao concluir a seleção
+  uiState.selectedCells = new Set(SelectionManager.state.cells);
+  if (SelectionManager.state.objects.size === 1) {
+    const objId = Array.from(SelectionManager.state.objects)[0];
+    uiState.selectedObject = objId;
+  } else {
+    uiState.selectedObject = null;
+  }
+
+  if (SelectionManager.state.cells.size === 1) {
+    const key = Array.from(SelectionManager.state.cells)[0];
+    const comma = key.indexOf(',');
+    const x = parseInt(key.substring(0, comma), 10);
+    const y = parseInt(key.substring(comma + 1), 10);
+    uiState.selectedCell = { x, y };
+  } else {
+    uiState.selectedCell = null;
+  }
+
+  // Atualizar Cards laterais de informação
+  if (objectsCount === 1 && !isLiveDrag) {
+    const objId = Array.from(SelectionManager.state.objects)[0];
+    const obj = plantaState.objects[objId];
+    if (obj && objCard) {
+      objCard.style.display = "flex";
+      if (cellCard) cellCard.style.display = "none";
+      document.getElementById("info-obj-coords").textContent = `X: ${obj.x} | Y: ${obj.y}`;
+      document.getElementById("info-obj-title").textContent = "Objeto Espacial";
+      document.getElementById("info-obj-name").textContent = `Porta Interativa (${obj.width}×${obj.height}m)`;
+      document.getElementById("info-obj-dim").textContent = `${obj.width} × ${obj.height} m (${obj.width * obj.height} m²)`;
+      document.getElementById("info-obj-orientation-btn").textContent = `${obj.orientation === 'vertical' ? 'Vertical' : 'Horizontal'} (Mudar)`;
+      
+      const doorSection = document.getElementById("info-obj-door-section");
+      if (obj.type === 'door' && doorSection) {
+        doorSection.style.display = "flex";
+        const pct = Math.round((obj.openAmount || 0) * 100);
+        document.getElementById("info-door-pct-text").textContent = `${pct}%`;
+        let stageName = "Fechada (0%)";
+        if (pct === 25) stageName = "Entreaberta (25%)";
+        else if (pct === 50) stageName = "Parcialmente Aberta (50%)";
+        else if (pct === 75) stageName = "Quase Totalmente Aberta (75%)";
+        else if (pct === 100) stageName = "Totalmente Aberta (100%)";
+        document.getElementById("info-door-stage-name").textContent = stageName;
+        document.getElementById("info-door-swing-select").value = obj.swingDirection || "down";
+        const btnKeyhole = document.getElementById("btn-espiar-fechadura");
+        if (pct === 0 && btnKeyhole) {
+          btnKeyhole.style.display = "inline-flex";
+          btnKeyhole.textContent = obj.peekingThroughKeyhole ? "👁️ Parar de Espiar Fechadura" : "👁️ Espiar pela Fechadura";
+        } else if (btnKeyhole) {
+          btnKeyhole.style.display = "none";
+        }
+      }
+      return;
+    }
+  }
+
+  if (objCard) objCard.style.display = "none";
+
+  if (totalCells === 1 && !isLiveDrag) {
+    const key = Array.from(SelectionManager.state.cells)[0];
+    const [x, y] = key.split(",").map(Number);
+    atualizarPainelCelula(x, y);
+    const multiRow = document.getElementById("multi-action-tools-row");
+    if (multiRow) multiRow.style.display = "none";
+  } else if (totalCells > 1 && cellCard) {
+    cellCard.style.display = "flex";
+    document.getElementById("info-cell-coords").textContent = `${totalCells} Células`;
+    document.getElementById("info-cell-meters").textContent = `${totalCells}.0 m² total`;
     
     document.getElementById("info-cell-floor").textContent = "Múltipla Seleção";
     document.getElementById("info-cell-structure").textContent = "Múltipla Seleção";
@@ -4321,9 +6280,9 @@ function atualizarMultiSelecaoInfo() {
     document.getElementById("info-cell-label").value = "";
 
     const passEl = document.getElementById("info-prop-passable");
-    if (passEl) { passEl.textContent = `${size} Células`; passEl.className = "prop-val"; }
+    if (passEl) { passEl.textContent = `${totalCells} Células`; passEl.className = "prop-val"; }
     const costEl = document.getElementById("info-prop-cost");
-    if (costEl) { costEl.textContent = `${size} m²`; costEl.className = "prop-val"; }
+    if (costEl) { costEl.textContent = `${totalCells} m²`; costEl.className = "prop-val"; }
     const visEl = document.getElementById("info-prop-vision");
     if (visEl) { visEl.textContent = "Multi"; visEl.className = "prop-val"; }
     const hazEl = document.getElementById("info-prop-hazard");
@@ -4331,58 +6290,81 @@ function atualizarMultiSelecaoInfo() {
 
     const extraRow = document.getElementById("cell-action-extra-row");
     if (extraRow) extraRow.style.display = "none";
+
+    const multiRow = document.getElementById("multi-action-tools-row");
+    if (multiRow) {
+      multiRow.style.display = "flex";
+      const btnColar = document.getElementById("btn-multi-colar");
+      if (btnColar) {
+        btnColar.style.display = (clipboardSelection && (clipboardSelection.cells.length || clipboardSelection.objects.length)) ? "inline-flex" : "none";
+      }
+    }
   }
 }
 
+function atualizarMultiSelecaoInfo() {
+  atualizarUISelecao(false);
+}
+
 function aplicarPinturaMultiSelecao() {
-  if (uiState.selectedCells.size === 0) return;
+  if (SelectionManager.state.cells.size === 0) return;
   pushUndoState();
   const cat = uiState.activeCategory;
   const keyItem = uiState.activeItemKey;
   let count = 0;
+  let ignorados = 0;
 
-  uiState.selectedCells.forEach(key => {
+  SelectionManager.state.cells.forEach(key => {
     const [x, y] = key.split(",").map(Number);
     if (cat === 'object') {
       const item = ELEMENTOS_BIBLIOTECA.find(e => e.id === uiState.activeElementId);
       const w = item ? (item.width || 1) : 1;
       const h = item ? (item.height || 1) : 1;
-      criarObjetoEspacial(uiState.activeItemKey || 'door', x, y, w, h);
+      const res = criarObjetoEspacial(uiState.activeItemKey || 'door', x, y, w, h);
+      if (res) count++;
+      else ignorados++;
     } else {
-      aplicarPinturaCelula(x, y, cat, keyItem);
-      count++;
+      const res = aplicarPinturaCelula(x, y, cat, keyItem);
+      if (res) count++;
+      else ignorados++;
     }
   });
 
   salvarPlantaLocal(false);
   uiState.needsRedraw = true;
-  mostrarToast(`🖌️ Elemento aplicado a ${count} células da multi-seleção!`);
+  if (count > 0) {
+    mostrarToast(`🖌️ Elemento aplicado a ${count} células da seleção!${ignorados > 0 ? ` (${ignorados} ignorada(s) por conflito de categoria)` : ''}`);
+  } else if (ignorados > 0) {
+    mostrarToast(`⚠️ Nenhuma célula modificada: células já possuem elementos da mesma categoria!`, true);
+  }
 }
 
 function apagarMultiSelecao() {
-  if (uiState.selectedCells.size === 0) return;
+  if (!SelectionManager.hasSelection()) return;
   pushUndoState();
-  let count = 0;
+  let cellCount = 0;
+  let objCount = 0;
 
-  uiState.selectedCells.forEach(key => {
-    const [x, y] = key.split(",").map(Number);
+  SelectionManager.state.cells.forEach(key => {
     if (plantaState.cells[key]) {
       delete plantaState.cells[key];
-      count++;
+      cellCount++;
     }
-    const obj = obterObjetoEmCoordenada(x, y);
-    if (obj) {
-      removerObjetoEspacial(obj.id);
+  });
+
+  SelectionManager.state.objects.forEach(objId => {
+    if (plantaState.objects[objId]) {
+      delete plantaState.objects[objId];
+      objCount++;
     }
   });
 
   plantaState.updatedAt = Date.now();
-  uiState.selectedCells.clear();
-  document.getElementById("cell-info-card").style.display = "none";
+  SelectionManager.clearSelection();
   salvarPlantaLocal(false);
   atualizarIndicadoresStatus();
   uiState.needsRedraw = true;
-  mostrarToast(`🧹 ${count} células limpas!`);
+  mostrarToast(`🧹 ${cellCount} células${objCount > 0 ? ` e ${objCount} objetos` : ''} limpos!`);
 }
 
 function pintarCelulaSelecionada() {

@@ -3549,6 +3549,66 @@ body.modo-claro .btn-modo-salvamento.manual-ativo{
   .modal-historico-rodape{flex-direction:column;gap:8px;align-items:stretch;text-align:center;}
 }
 
+/* ---------- Modal de Visualização da Planta 2D (In-App / Iframe Fallback) ---------- */
+.modal-planta-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 10050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+.modal-planta-overlay.aberto {
+  opacity: 1;
+  visibility: visible;
+}
+.modal-planta-janela {
+  background: #0d0e12;
+  border: 1px solid var(--accent);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95), 0 0 30px var(--accent-glow);
+  border-radius: 6px;
+  width: 96vw;
+  max-width: 1400px;
+  height: 92vh;
+  max-height: 900px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.modal-planta-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #14151c;
+  border-bottom: 1px solid var(--line);
+}
+.modal-planta-acoes-topo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modal-planta-corpo {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background: #08090c;
+  position: relative;
+}
+.modal-planta-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
 /* ---------- Modal de Confirmação Seguro (In-Iframe Dialog) ---------- */
 .modal-confirmacao-overlay {
   position: fixed;
@@ -8585,6 +8645,24 @@ body.modo-claro .popup-atalho-rodape {
   background: color-mix(in srgb, var(--accent) 28%, var(--bg-panel));
   border-color: var(--accent);
   box-shadow: 0 0 10px var(--accent-glow);
+}
+
+button#btn-abrir-modo-planta,
+div#aba-painel-tatico > div#secao-tatico > div > div > div > button#btn-abrir-modo-planta {
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-panel));
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+button#btn-abrir-modo-planta:hover,
+div#aba-painel-tatico > div#secao-tatico > div > div > div > button#btn-abrir-modo-planta:hover {
+  background: color-mix(in srgb, var(--accent) 25%, var(--bg-panel));
+  border-color: var(--accent);
+  color: var(--accent-light, #ffffff);
+  box-shadow: 0 0 12px var(--accent-glow), 0 4px 12px rgba(0, 0, 0, 0.6);
+  transform: translateY(-1px);
 }
 
 /* Grade de Recursos de Combate (Vida, Mental, Estamina e Aura em 2x2) */
@@ -13876,7 +13954,7 @@ if(window.innerWidth <= 768){
         </div>
       </div>
       <div class="tatico-controles-topo">
-        <button type="button" class="btn-tatico-acao" id="btn-abrir-modo-planta" onclick="window.open('planta.html', '_blank')" title="Abrir Modo Planta 2D em nova aba">
+        <button type="button" class="btn-tatico-acao" id="btn-abrir-modo-planta" onclick="abrirModoPlanta()" title="Abrir Modo Planta 2D em nova aba (sincroniza o tema da ficha)">
           <span class="btn-icone">🗺️</span> Modo Planta 2D
         </button>
         <button type="button" class="btn-tatico-acao" onclick="recuperarFolegoCombate()" title="Fôlego Rápido: Recupera +15 de Estamina e +5 de Vida com 1 clique">
@@ -15094,6 +15172,29 @@ if(window.innerWidth <= 768){
     <div class="modal-historico-rodape">
       <span class="modal-historico-dica">Mostrando as últimas 10 rolagens em ordem cronológica reversa.</span>
       <button type="button" class="btn-fechar-historico" onclick="fecharModalHistorico()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Visualizador do Modo Planta 2D (Garante exibição mesmo com bloqueador de popups no iframe) -->
+<div id="modal-planta-app" class="modal-planta-overlay" aria-hidden="true" style="display:none;" onclick="fecharModalPlantaPorOverlay(event)">
+  <div class="modal-planta-janela" role="dialog" aria-labelledby="modal-planta-titulo" aria-modal="true">
+    <div class="modal-planta-cabecalho">
+      <div class="modal-historico-titulo-bloco">
+        <span class="modal-historico-sub">WE'RE STRANGERS • MODO PLANTA 2D TÁTICA</span>
+        <h3 id="modal-planta-titulo" class="modal-historico-titulo" style="font-size:15px; margin:0;">
+          <span>🗺️</span> Planta Baixa Tática 2D
+        </h3>
+      </div>
+      <div class="modal-planta-acoes-topo">
+        <button type="button" class="btn-secundario" onclick="abrirModoPlantaNovaAba()" style="height:32px; padding:0 12px; margin:0; font-size:11px;" title="Abrir em nova aba do navegador">
+          <span>↗</span> Nova Aba
+        </button>
+        <button type="button" class="modal-historico-fechar" onclick="fecharModalPlanta()" title="Fechar janela da planta">&times;</button>
+      </div>
+    </div>
+    <div class="modal-planta-corpo">
+      <iframe id="iframe-modo-planta" class="modal-planta-iframe" src="about:blank" title="Planta Baixa Tática 2D"></iframe>
     </div>
   </div>
 </div>
@@ -16703,10 +16804,34 @@ let corPrincipalAtual = "#c9b183";
 let contornoLetrasAtivo = false;
 let contornoLetrasCor = "#ffffff";
 
-function definirCorPrincipal(valor, registrarAlteracao = true){
+function propagarSincronizacaoTema(tipo, valor) {
+    try {
+        if (tipo === 'cor') {
+            localStorage.setItem("we_are_strangers_tema_cor", valor);
+        } else if (tipo === 'contorno_ativo') {
+            localStorage.setItem("we_are_strangers_tema_contorno_ativo", String(!!valor));
+        } else if (tipo === 'contorno_cor') {
+            localStorage.setItem("we_are_strangers_tema_contorno_cor", valor);
+        }
+        if (window.BroadcastChannel) {
+            const bc = new BroadcastChannel("we_are_strangers_theme_sync");
+            bc.postMessage({ tipo, valor });
+            bc.close();
+        }
+    } catch(e) {}
+}
+
+function definirCorPrincipal(valor, registrarAlteracao = true, sincronizar = true){
     if (valor) {
         corPrincipalAtual = valor;
         document.documentElement.style.setProperty('--accent', valor);
+        const inputCor = document.getElementById("ficha_cor");
+        if (inputCor && inputCor.value.toLowerCase() !== valor.toLowerCase()) {
+            inputCor.value = valor;
+        }
+        if (sincronizar) {
+            propagarSincronizacaoTema('cor', valor);
+        }
     }
     if (registrarAlteracao) {
         marcarAlteracaoFeita();
@@ -16716,7 +16841,7 @@ function definirCorPrincipal(valor, registrarAlteracao = true){
     }
 }
 
-function alternarContornoLetras(ativo, registrarAlteracao = true){
+function alternarContornoLetras(ativo, registrarAlteracao = true, sincronizar = true){
     contornoLetrasAtivo = !!ativo;
     const chk = document.getElementById("ficha_contorno_ativo");
     if(chk) chk.checked = contornoLetrasAtivo;
@@ -16736,6 +16861,10 @@ function alternarContornoLetras(ativo, registrarAlteracao = true){
         document.documentElement.classList.remove("tem-contorno-letras");
     }
 
+    if (sincronizar) {
+        propagarSincronizacaoTema('contorno_ativo', contornoLetrasAtivo);
+    }
+
     if(registrarAlteracao){
         marcarAlteracaoFeita();
     }
@@ -16744,15 +16873,18 @@ function alternarContornoLetras(ativo, registrarAlteracao = true){
     }
 }
 
-function definirCorContorno(valor, registrarAlteracao = true){
+function definirCorContorno(valor, registrarAlteracao = true, sincronizar = true){
     if(valor){
         contornoLetrasCor = valor;
         document.documentElement.style.setProperty('--tema-contorno-cor', valor);
         const inputCor = document.getElementById("ficha_contorno_cor");
-        if(inputCor) inputCor.value = valor;
+        if(inputCor && inputCor.value.toLowerCase() !== valor.toLowerCase()) inputCor.value = valor;
+        if (sincronizar) {
+            propagarSincronizacaoTema('contorno_cor', valor);
+        }
     }
     if(!contornoLetrasAtivo){
-        alternarContornoLetras(true, registrarAlteracao);
+        alternarContornoLetras(true, registrarAlteracao, sincronizar);
     } else if(registrarAlteracao){
         marcarAlteracaoFeita();
     }
@@ -16765,6 +16897,33 @@ function clicarCaixaContornoCor(){
     const inputCor = document.getElementById("ficha_contorno_cor");
     if(inputCor) inputCor.click();
 }
+
+// Ouvintes de sincronização bidirecional em tempo real com Modo Planta
+try {
+    window.addEventListener("storage", (e) => {
+        if (e.key === "we_are_strangers_tema_cor" && e.newValue) {
+            definirCorPrincipal(e.newValue, false, false);
+        } else if (e.key === "we_are_strangers_tema_contorno_ativo") {
+            alternarContornoLetras(e.newValue === "true", false, false);
+        } else if (e.key === "we_are_strangers_tema_contorno_cor" && e.newValue) {
+            definirCorContorno(e.newValue, false, false);
+        }
+    });
+
+    if (window.BroadcastChannel) {
+        const canalTemaFicha = new BroadcastChannel("we_are_strangers_theme_sync");
+        canalTemaFicha.onmessage = (e) => {
+            if (!e.data) return;
+            if (e.data.tipo === 'cor' && e.data.valor) {
+                definirCorPrincipal(e.data.valor, false, false);
+            } else if (e.data.tipo === 'contorno_ativo') {
+                alternarContornoLetras(!!e.data.valor, false, false);
+            } else if (e.data.tipo === 'contorno_cor' && e.data.valor) {
+                definirCorContorno(e.data.valor, false, false);
+            }
+        };
+    }
+} catch(e) {}
 
 // ============================================================================
 // Sistema de Efeitos Sonoros Procedurais Viscerais (Web Audio API Nativa)
@@ -29473,6 +29632,89 @@ function ajustarInputTempRecursoMeuCard(chave, valor) {
     }
 }
 
+function sincronizarTemaModoPlanta() {
+    try {
+        const cor = (typeof corPrincipalAtual !== "undefined" && corPrincipalAtual) ? corPrincipalAtual : (document.getElementById("ficha_cor")?.value || "#c9b183");
+        localStorage.setItem("we_are_strangers_tema_cor", cor);
+        localStorage.setItem("we_are_strangers_tema_contorno_ativo", String(typeof contornoLetrasAtivo !== "undefined" ? contornoLetrasAtivo : false));
+        localStorage.setItem("we_are_strangers_tema_contorno_cor", typeof contornoLetrasCor !== "undefined" ? contornoLetrasCor : "#ffffff");
+        if (window.BroadcastChannel) {
+            const bc = new BroadcastChannel("we_are_strangers_theme_sync");
+            bc.postMessage({ tipo: 'cor', valor: cor });
+            bc.postMessage({ tipo: 'contorno_ativo', valor: typeof contornoLetrasAtivo !== "undefined" ? contornoLetrasAtivo : false });
+            bc.postMessage({ tipo: 'contorno_cor', valor: typeof contornoLetrasCor !== "undefined" ? contornoLetrasCor : "#ffffff" });
+            bc.close();
+        }
+    } catch(e) {}
+}
+
+function abrirModoPlanta() {
+    sincronizarTemaModoPlanta();
+
+    let novaJanela = null;
+    let popupBloqueado = false;
+    try {
+        novaJanela = window.open('planta.html', '_blank');
+        if (!novaJanela || novaJanela.closed || typeof novaJanela.closed === 'undefined') {
+            popupBloqueado = true;
+        }
+    } catch(e) {
+        popupBloqueado = true;
+    }
+
+    if (popupBloqueado) {
+        abrirModalPlantaInApp();
+    }
+}
+
+function abrirModoPlantaNovaAba() {
+    sincronizarTemaModoPlanta();
+    try {
+        const a = document.createElement('a');
+        a.href = 'planta.html';
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    } catch(e) {
+        window.open('planta.html', '_blank');
+    }
+}
+
+function abrirModalPlantaInApp() {
+    const modal = document.getElementById("modal-planta-app");
+    const iframe = document.getElementById("iframe-modo-planta");
+    if (!modal) return;
+
+    if (iframe && (!iframe.src || iframe.src === 'about:blank' || !iframe.src.includes('planta.html'))) {
+        iframe.src = 'planta.html';
+    }
+    modal.style.display = "flex";
+    requestAnimationFrame(() => {
+        modal.classList.add("aberto");
+        modal.setAttribute("aria-hidden", "false");
+    });
+}
+
+function fecharModalPlanta() {
+    const modal = document.getElementById("modal-planta-app");
+    if (!modal) return;
+    modal.classList.remove("aberto");
+    modal.setAttribute("aria-hidden", "true");
+    setTimeout(() => {
+        if (!modal.classList.contains("aberto")) {
+            modal.style.display = "none";
+        }
+    }, 200);
+}
+
+function fecharModalPlantaPorOverlay(event) {
+    if (event.target && event.target.id === "modal-planta-app") {
+        fecharModalPlanta();
+    }
+}
+
 function recuperarFolegoCombate() {
     const estAtualEl = document.getElementById("recurso_estamina_atual");
     const estMaxEl = document.getElementById("recurso_estamina_max");
@@ -32785,10 +33027,25 @@ if (inputFichaNome) {
 }
 inicializarHashRouterAbas();
 
-const corInicialEl = document.getElementById("ficha_cor");
-if (corInicialEl) {
-    definirCorPrincipal(corInicialEl.value, false);
-}
+try {
+    const corTemaSalva = localStorage.getItem("we_are_strangers_tema_cor");
+    if (corTemaSalva) {
+        definirCorPrincipal(corTemaSalva, false, false);
+    } else {
+        const corInicialEl = document.getElementById("ficha_cor");
+        if (corInicialEl) {
+            definirCorPrincipal(corInicialEl.value, false, true);
+        }
+    }
+    const contornoSalvo = localStorage.getItem("we_are_strangers_tema_contorno_ativo");
+    if (contornoSalvo !== null) {
+        alternarContornoLetras(contornoSalvo === "true", false, false);
+    }
+    const contornoCorSalva = localStorage.getItem("we_are_strangers_tema_contorno_cor");
+    if (contornoCorSalva) {
+        definirCorContorno(contornoCorSalva, false, false);
+    }
+} catch(e) {}
 
 // Desbloqueia AudioContext e trilha sonora na primeira interação do usuário (conformidade com políticas de autoplay)
 document.addEventListener("click", function desbloquearAudio() {
