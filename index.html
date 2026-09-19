@@ -6167,6 +6167,7 @@ html.tem-contorno-letras [style*="color:var(--accent-dim)"],
 html.tem-contorno-letras [style*="color: var(--accent-dim)"],
 html.tem-contorno-letras [style*="color:var(--accent-claro)"],
 html.tem-contorno-letras [style*="color: var(--accent-claro)"],
+html.tem-contorno-letras [style*="--accent"],
 html.tem-contorno-letras .icone-tema-cor,
 html.tem-contorno-letras .texto-tema-cor,
 html.tem-contorno-letras .accent-color,
@@ -6188,11 +6189,23 @@ html.tem-contorno-letras .campanha-membro-nome,
 html.tem-contorno-letras .dado-resultado-numero,
 html.tem-contorno-letras .dado-resultado-detalhe,
 html.tem-contorno-letras .modal-confirm-icone,
+html.tem-contorno-letras .secao-titulo,
+html.tem-contorno-letras .pericia-nome.destaque,
+html.tem-contorno-letras .atributo-sigla,
+html.tem-contorno-letras .atalho-tecla,
 html.tem-contorno-letras svg[stroke="var(--accent)"],
 html.tem-contorno-letras svg[fill="var(--accent)"] {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
   paint-order: stroke fill;
   text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
+}
+
+html.tem-contorno-letras .icone-tema-cor,
+html.tem-contorno-letras .conq-card.desbloqueada .conq-card-icone,
+html.tem-contorno-letras .modal-confirm-icone,
+html.tem-contorno-letras svg[stroke="var(--accent)"],
+html.tem-contorno-letras svg[fill="var(--accent)"] {
+  filter: drop-shadow(1px 0 0 var(--tema-contorno-cor, #ffffff)) drop-shadow(-1px 0 0 var(--tema-contorno-cor, #ffffff)) drop-shadow(0 1px 0 var(--tema-contorno-cor, #ffffff)) drop-shadow(0 -1px 0 var(--tema-contorno-cor, #ffffff));
 }
 
 #btn-abrir-modal-identidade-secreta-hamb,
@@ -13863,6 +13876,9 @@ if(window.innerWidth <= 768){
         </div>
       </div>
       <div class="tatico-controles-topo">
+        <button type="button" class="btn-tatico-acao" id="btn-abrir-modo-planta" onclick="window.open('planta.html', '_blank')" title="Abrir Modo Planta 2D em nova aba">
+          <span class="btn-icone">🗺️</span> Modo Planta 2D
+        </button>
         <button type="button" class="btn-tatico-acao" onclick="recuperarFolegoCombate()" title="Fôlego Rápido: Recupera +15 de Estamina e +5 de Vida com 1 clique">
           <span class="btn-icone">💨</span> Fôlego Rápido
         </button>
@@ -21989,6 +22005,12 @@ function aplicarModoTema(modo, salvarStorage = true) {
 let _historicoAlternanciaTema = [];
 function verificarGatilhoEpileptico() {
     if (window._bloqueioEpilepticoEmAndamento) return;
+    const eSPECtadorDesbloqueado = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+    if (!eSPECtadorDesbloqueado) {
+        _historicoAlternanciaTema = [];
+        return;
+    }
     const agora = Date.now();
     _historicoAlternanciaTema.push(agora);
     // Mantém apenas alternâncias feitas nos últimos 5.5 segundos
@@ -24567,6 +24589,16 @@ function verificarConquistasSecretasArmazenadas() {
                 });
             }
         }
+
+        // Se a primeira conquista "sec_easteregg_rodape" não foi desbloqueada, limpa qualquer outra conquista secreta
+        if (!conquistasDesbloqueadas.has("sec_easteregg_rodape")) {
+            CONQUISTAS_SECRETAS.forEach(c => {
+                if (c.id !== "sec_easteregg_rodape") {
+                    conquistasDesbloqueadas.delete(c.id);
+                }
+            });
+        }
+
         // Garante armazenamento ofuscado
         salvarSegredosDesbloqueadosStorage();
 

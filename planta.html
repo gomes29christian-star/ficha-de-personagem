@@ -1,0 +1,4797 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modo Planta 2D • We're Strangers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cinzel:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MODO PLANTA — WE'RE STRANGERS (V1: FUNDAÇÃO GRADE 2D)
+   Direção de Arte: Fantasia Sombria / Tático Cartográfico
+   ============================================================ */
+:root {
+  --bg-void: #09090c;
+  --bg-canvas: #0c0d12;
+  --bg-panel: rgba(18, 18, 24, 0.94);
+  --bg-panel-solid: #13131a;
+  --bg-card: rgba(28, 28, 38, 0.85);
+  --bg-card-hover: rgba(38, 38, 52, 0.95);
+  --bg-inset: #08080a;
+  
+  --ink: #e8e4dc;
+  --ink-dim: #a69f92;
+  --ink-faint: #6c665a;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-bright: rgba(255, 255, 255, 0.16);
+  
+  --accent: #d49a24;
+  --accent-light: #f5ca65;
+  --accent-dim: #8f6511;
+  --accent-glow: rgba(212, 154, 36, 0.25);
+  --accent-active: #ffb834;
+  
+  --font-display: 'Cinzel', 'EB Garamond', serif;
+  --font-body: 'EB Garamond', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace, sans-serif;
+  --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-void);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+/* Layout Principal */
+#app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: var(--bg-void);
+}
+
+/* Topo / Barra de Ferramentas Superior */
+header.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 16px;
+  background: var(--bg-panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  z-index: 50;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(212,154,36,0.2) 0%, rgba(212,154,36,0.05) 100%);
+  border: 1px solid var(--accent-dim);
+  border-radius: 6px;
+  font-size: 15px;
+  color: var(--accent-light);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.brand-title-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-light);
+  text-transform: uppercase;
+  text-shadow: 0 0 12px var(--accent-glow);
+  line-height: 1.1;
+}
+
+.brand-subtitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-dim);
+  letter-spacing: 0.06em;
+}
+
+/* Grupo Central de Ferramentas & Paleta de Terrenos (V2) */
+.tools-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-inset);
+  padding: 3px 6px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--ink-dim);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.tool-btn:hover {
+  background: var(--bg-card);
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.tool-btn.active {
+  background: linear-gradient(135deg, rgba(212, 154, 36, 0.25) 0%, rgba(212, 154, 36, 0.1) 100%);
+  border-color: var(--accent-dim);
+  color: var(--accent-light);
+  font-weight: 600;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.tool-icon {
+  font-size: 13px;
+}
+
+.tool-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 1px 4px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--ink-faint);
+}
+
+.tool-btn.active .tool-badge {
+  border-color: var(--accent-dim);
+  color: var(--accent);
+}
+
+.tool-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--line);
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+/* Paleta de Categorias de RPG: Chão, Estrutura, Especial (V2) */
+.palette-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.palette-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 2px 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.palette-group-label {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  margin-right: 2px;
+  padding-left: 2px;
+  text-transform: uppercase;
+}
+
+.palette-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 7px;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  background: var(--bg-card);
+  color: var(--ink-dim);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.palette-btn:hover {
+  border-color: var(--line-bright);
+  color: var(--ink);
+  background: var(--bg-card-hover);
+}
+
+.palette-btn.active {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, rgba(212, 154, 36, 0.28) 0%, rgba(212, 154, 36, 0.1) 100%);
+  color: var(--accent-light);
+  font-weight: 600;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.palette-btn .pal-icon {
+  font-size: 12px;
+}
+
+/* Controles de Câmera e Ações no Topo */
+.actions-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink-dim);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.action-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--ink);
+  border-color: var(--line-bright);
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, rgba(212, 154, 36, 0.3) 0%, rgba(212, 154, 36, 0.12) 100%);
+  border-color: var(--accent-dim);
+  color: var(--accent-light);
+}
+
+.action-btn.primary:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.action-btn.danger:hover {
+  background: rgba(220, 53, 69, 0.2);
+  border-color: rgba(220, 53, 69, 0.5);
+  color: #ff7b88;
+}
+
+/* Palco / Viewport */
+#viewport-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #121219 0%, #08080c 100%);
+  cursor: default;
+}
+
+/* Canvas ocupa 100% da área útil do viewport */
+#grid-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  cursor: grab;
+}
+
+#grid-canvas.panning {
+  cursor: grabbing;
+}
+
+#grid-canvas.painting {
+  cursor: crosshair;
+}
+
+#grid-canvas.erasing {
+  cursor: not-allowed;
+}
+
+#grid-canvas.rectangle {
+  cursor: crosshair;
+}
+
+/* Painel Flutuante Lateral: Informações da Célula (V2: Camadas & Propriedades RPG) */
+.cell-info-card {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 270px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  background: var(--bg-panel);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  z-index: 30;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.cell-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+
+.cell-info-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-light);
+  text-transform: uppercase;
+}
+
+.cell-coord-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  background: var(--bg-inset);
+  border: 1px solid var(--accent-dim);
+  border-radius: 4px;
+  color: var(--accent-light);
+}
+
+.cell-info-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.info-section-tag {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-dim);
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 2px;
+  margin-top: 2px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--ink-dim);
+  font-size: 12px;
+}
+
+.info-row .val {
+  font-family: var(--font-mono);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Grade de Propriedades Táticas */
+.info-props-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  background: var(--bg-inset);
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+}
+
+.prop-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 3px 5px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+
+.prop-label {
+  font-size: 9px;
+  font-family: var(--font-display);
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.prop-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.prop-val.status-yes {
+  color: #52c41a;
+}
+
+.prop-val.status-no {
+  color: #ff4d4f;
+}
+
+.prop-val.status-warn {
+  color: #faad14;
+}
+
+.btn-micro {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--accent-light);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-micro:hover {
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+}
+
+.cell-label-input {
+  width: 100%;
+  padding: 6px 8px;
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.cell-label-input:focus {
+  border-color: var(--accent);
+}
+
+.cell-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+/* Controles de Câmera Flutuantes (Zoom Overlay) */
+.camera-controls-overlay {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--bg-panel);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px;
+  z-index: 30;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+}
+
+.cam-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--ink-dim);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.cam-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.cam-zoom-val {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-dim);
+  text-align: center;
+  padding: 2px 0;
+}
+
+/* Barra de Status Inferior */
+footer.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+  padding: 0 16px;
+  background: var(--bg-panel-solid);
+  border-top: 1px solid var(--line);
+  z-index: 50;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-dim);
+  pointer-events: auto;
+}
+
+.status-left, .status-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-label {
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+
+.status-value {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.status-highlight {
+  color: var(--accent-light);
+  font-weight: 600;
+}
+
+/* Toast de Notificação */
+#toast-notification {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: var(--bg-panel);
+  border: 1px solid var(--accent);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.7), 0 0 15px var(--accent-glow);
+  border-radius: 8px;
+  padding: 8px 18px;
+  color: var(--accent-light);
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+}
+
+#toast-notification.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Modal de Confirmação / Exportação */
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(4, 4, 7, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  pointer-events: auto;
+}
+
+.modal-window {
+  background: var(--bg-panel-solid);
+  border: 1px solid var(--accent-dim);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 20px var(--accent-glow);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 520px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--accent-light);
+  letter-spacing: 0.08em;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--ink-dim);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modal-close-btn:hover {
+  color: var(--ink);
+}
+
+/* Custom Scrollbar Escura Tática para Modais e Contêineres */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-inset);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 154, 36, 0.35);
+  border: 1px solid var(--accent-dim);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+::-webkit-scrollbar-corner {
+  background: var(--bg-inset);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 154, 36, 0.35) var(--bg-inset);
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--ink-dim);
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+}
+
+.modal-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.modal-section-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-light);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.modal-textarea {
+  width: 100%;
+  height: 120px;
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  outline: none;
+  resize: vertical;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.modal-audit-box {
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-dim);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+/* ============================================================
+   ESTILOS DA BIBLIOTECA V2.3 (INVENTÁRIO VISUAL RECONFIGURÁVEL)
+   ============================================================ */
+#modal-biblioteca {
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.library-window {
+  pointer-events: auto;
+  width: 680px;
+  height: 520px;
+  min-width: 320px;
+  min-height: 260px;
+  max-width: 96vw;
+  max-height: 94vh;
+  resize: both;
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.85), 0 0 25px var(--accent-glow);
+}
+
+.library-window .modal-header {
+  cursor: grab;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.library-window .modal-header:active {
+  cursor: grabbing;
+}
+
+.library-window .modal-body {
+  flex: 1 1 auto;
+  max-height: none !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+}
+
+.library-window .modal-footer {
+  flex-shrink: 0;
+}
+
+.biblio-search-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-panel-solid);
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.biblio-search-input {
+  flex: 1;
+  background: var(--bg-inset);
+  border: 1px solid var(--accent-dim);
+  border-radius: 8px;
+  padding: 7px 12px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s ease;
+  min-width: 0;
+}
+
+.biblio-search-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.biblio-density-toggle {
+  display: flex;
+  align-items: center;
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px;
+  flex-shrink: 0;
+  gap: 2px;
+}
+
+.biblio-density-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--ink-dim);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  padding: 4px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.biblio-density-btn:hover {
+  color: var(--ink);
+}
+
+.biblio-density-btn.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent-light);
+  font-weight: 600;
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+
+.biblio-lista-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 4px;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.biblio-categoria-secao {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.biblio-categoria-titulo {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+}
+
+/* GRADE DE SLOTS DO INVENTÁRIO */
+.biblio-grid {
+  display: grid;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* TAMANHOS DOS SLOTS: MICRO (APENAS ÍCONES), PEQUENO, MÉDIO, GRANDE */
+.biblio-lista-container.modo-micro .biblio-grid {
+  grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+  gap: 5px;
+}
+
+.biblio-lista-container.modo-pequeno .biblio-grid {
+  grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+  gap: 6px;
+}
+
+.biblio-lista-container.modo-medio .biblio-grid {
+  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  gap: 8px;
+}
+
+.biblio-lista-container.modo-grande .biblio-grid {
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: 10px;
+}
+
+/* CARD SLOT DO ITEM DO INVENTÁRIO */
+.biblio-slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(145deg, rgba(20, 22, 32, 0.9), rgba(12, 14, 22, 0.95));
+  border: 1px solid rgba(212, 154, 36, 0.22);
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.biblio-lista-container.modo-micro .biblio-slot {
+  height: 46px;
+  padding: 3px;
+  justify-content: center;
+}
+
+.biblio-lista-container.modo-pequeno .biblio-slot {
+  height: 68px;
+  padding: 4px 3px 2px 3px;
+}
+
+.biblio-lista-container.modo-medio .biblio-slot {
+  height: 88px;
+  padding: 6px 4px 3px 4px;
+}
+
+.biblio-lista-container.modo-grande .biblio-slot {
+  height: 112px;
+  padding: 8px 6px 4px 6px;
+}
+
+.biblio-slot:hover {
+  border-color: var(--accent);
+  background: linear-gradient(145deg, rgba(35, 38, 55, 0.95), rgba(20, 22, 35, 0.98));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 10px rgba(212, 154, 36, 0.3);
+}
+
+.biblio-slot.active {
+  border-color: var(--accent-light);
+  background: linear-gradient(145deg, rgba(60, 45, 15, 0.95), rgba(30, 22, 8, 0.98));
+  box-shadow: 0 0 12px var(--accent-glow), inset 0 0 12px rgba(212, 154, 36, 0.35);
+}
+
+/* ÍCONE CENTRAL */
+.biblio-slot-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
+  transition: transform 0.15s ease;
+}
+
+.biblio-slot:hover .biblio-slot-icon {
+  transform: scale(1.1);
+}
+
+.biblio-lista-container.modo-micro .biblio-slot-icon { font-size: 24px; }
+.biblio-lista-container.modo-pequeno .biblio-slot-icon { font-size: 22px; }
+.biblio-lista-container.modo-medio .biblio-slot-icon { font-size: 32px; }
+.biblio-lista-container.modo-grande .biblio-slot-icon { font-size: 44px; }
+
+/* NOME TRUNCADO DO ITEM */
+.biblio-slot-name {
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-display);
+  color: var(--ink-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px 2px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  line-height: 1.1;
+  box-sizing: border-box;
+}
+
+.biblio-lista-container.modo-micro .biblio-slot-name {
+  display: none !important;
+}
+
+.biblio-slot:hover .biblio-slot-name {
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.biblio-slot.active .biblio-slot-name {
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+.biblio-lista-container.modo-pequeno .biblio-slot-name { font-size: 9px; }
+.biblio-lista-container.modo-medio .biblio-slot-name { font-size: 10px; }
+.biblio-lista-container.modo-grande .biblio-slot-name { font-size: 11px; }
+
+/* ESTRELA FAVORITO */
+.biblio-slot-fav {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 4px;
+  color: var(--ink-faint);
+  cursor: pointer;
+  padding: 1px 3px;
+  line-height: 1;
+  transition: all 0.15s ease;
+  z-index: 2;
+}
+
+.biblio-lista-container.modo-micro .biblio-slot-fav {
+  font-size: 9px;
+  padding: 0 2px;
+  top: 1px;
+  right: 1px;
+}
+  color: var(--ink-faint);
+  cursor: pointer;
+  padding: 1px 3px;
+  line-height: 1;
+  transition: all 0.15s ease;
+  z-index: 2;
+}
+
+.biblio-slot-fav:hover {
+  color: #ffd700;
+  transform: scale(1.25);
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.biblio-slot-fav.is-fav {
+  color: #ffd700;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.biblio-lista-container.modo-pequeno .biblio-slot-fav { font-size: 10px; }
+.biblio-lista-container.modo-medio .biblio-slot-fav { font-size: 12px; }
+.biblio-lista-container.modo-grande .biblio-slot-fav { font-size: 14px; }
+
+/* TOOLTIP FLUTUANTE DE INFORMAÇÕES DO ITEM */
+.biblio-tooltip-floating {
+  position: fixed;
+  z-index: 1000;
+  background: var(--bg-panel-solid);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 12px 14px;
+  width: 250px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.9), 0 0 15px var(--accent-glow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  pointer-events: none;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  box-sizing: border-box;
+}
+
+.biblio-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+}
+
+.biblio-tooltip-icon {
+  font-size: 26px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.biblio-tooltip-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-light);
+  line-height: 1.2;
+}
+
+.biblio-tooltip-category {
+  font-size: 10px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+.biblio-tooltip-desc {
+  font-size: 11px;
+  color: var(--ink-dim);
+  line-height: 1.4;
+}
+
+.biblio-tooltip-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 6px;
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.biblio-tooltip-spec-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.biblio-tooltip-spec-label { color: var(--ink-faint); }
+.biblio-tooltip-spec-val { color: var(--accent-light); font-weight: 600; }
+
+.biblio-tooltip-footer {
+  font-size: 10px;
+  color: var(--accent);
+  font-style: italic;
+  text-align: center;
+  border-top: 1px dashed var(--line);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+
+/* MENU CONTEXTUAL FLUTUANTE DO CANVAS (V2.2) */
+.context-menu-floating {
+  position: fixed;
+  z-index: 300;
+  background: var(--bg-panel-solid);
+  border: 1px solid var(--accent-dim);
+  border-radius: 8px;
+  padding: 4px 0;
+  min-width: 200px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 15px var(--accent-glow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  pointer-events: auto;
+}
+
+.ctx-menu-header {
+  padding: 6px 12px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+  background: rgba(212, 154, 36, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ctx-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+  width: 100%;
+}
+
+.ctx-menu-item:hover {
+  background: rgba(212, 154, 36, 0.18);
+  color: var(--accent-light);
+}
+
+.ctx-menu-item.danger {
+  color: #ff6b72;
+}
+
+.ctx-menu-item.danger:hover {
+  background: rgba(220, 53, 69, 0.25);
+  color: #ff9da3;
+}
+
+.ctx-menu-item.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ctx-menu-shortcut {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 1px 4px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--ink-faint);
+  margin-left: 8px;
+}
+
+.ctx-menu-divider {
+  height: 1px;
+  background: var(--line);
+  margin: 3px 0;
+}
+
+.ctx-menu-stages {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.ctx-stage-btn {
+  flex: 1;
+  padding: 3px 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink-dim);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.12s ease;
+}
+
+.ctx-stage-btn:hover {
+  border-color: var(--accent-dim);
+  color: var(--ink);
+}
+
+.ctx-stage-btn.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+/* Efeito de Contorno de Texto / Stroke por Cor Tema (Garante cumprimento das instruções) */
+html.tem-contorno-letras .brand-title,
+html.tem-contorno-letras .brand-subtitle,
+html.tem-contorno-letras .modal-title,
+html.tem-contorno-letras .cell-info-title,
+html.tem-contorno-letras .biblio-categoria-titulo,
+html.tem-contorno-letras .ctx-menu-header,
+html.tem-contorno-letras .status-highlight,
+html.tem-contorno-letras [style*="color:var(--accent)"],
+html.tem-contorno-letras [style*="color: var(--accent)"],
+html.tem-contorno-letras [style*="color:var(--accent-light)"],
+html.tem-contorno-letras [style*="color: var(--accent-light)"] {
+  -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
+  text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
+  paint-order: stroke fill;
+}
+</style>
+</head>
+<body>
+
+<div id="app-container">
+  <!-- Topo / Barra de Ferramentas Superior -->
+  <header class="top-bar" id="header-bar">
+    <div class="brand-section">
+      <div class="brand-icon" title="Modo Planta 2D V2.1">🗺️</div>
+      <div class="brand-title-wrap">
+        <span class="brand-title">Modo Planta 2D</span>
+        <span class="brand-subtitle" id="map-name-display">Grade Tática Espacial (1m = 1 cél.)</span>
+      </div>
+    </div>
+
+    <!-- Ferramentas de Interação & Botão da Biblioteca (V2.1) -->
+    <div class="tools-group">
+      <button type="button" class="tool-btn active" id="tool-pan" onclick="setTool('pan')" title="Navegar pelo Mapa [1 ou Segurar Espaço]">
+        <span class="tool-icon">🖐️</span>
+        <span>Navegar</span>
+        <span class="tool-badge">1</span>
+      </button>
+
+      <button type="button" class="tool-btn" id="tool-paint" onclick="setTool('paint')" title="Pintar Célula ou Colocar Objeto Selecionado [2]">
+        <span class="tool-icon">🖌️</span>
+        <span>Pintar</span>
+        <span class="tool-badge">2</span>
+      </button>
+
+      <button type="button" class="tool-btn" id="tool-rect" onclick="setTool('rect')" title="Preencher Área Retangular [3]">
+        <span class="tool-icon">📐</span>
+        <span>Retângulo</span>
+        <span class="tool-badge">3</span>
+      </button>
+
+      <button type="button" class="tool-btn" id="tool-erase" onclick="setTool('erase')" title="Borracha / Limpar Célula ou Objeto [4]">
+        <span class="tool-icon">🧹</span>
+        <span>Borracha</span>
+        <span class="tool-badge">4</span>
+      </button>
+
+      <button type="button" class="tool-btn" id="tool-select" onclick="setTool('select')" title="Selecionar Célula ou Objeto Espacial [5]">
+        <span class="tool-icon">🎯</span>
+        <span>Selecionar</span>
+        <span class="tool-badge">5</span>
+      </button>
+
+      <div class="tool-divider"></div>
+
+      <!-- Botão Único para a Biblioteca de Elementos e Objetos (V2.1) -->
+      <button type="button" class="action-btn primary" id="btn-abrir-biblioteca" onclick="abrirBibliotecaModal()" title="Abrir Biblioteca de Elementos, Pisos e Objetos Espaciais (Teclado: B)">
+        <span>🧰</span>
+        <span>Biblioteca</span>
+        <span class="tool-badge" id="active-element-badge">🧱 Pedra</span>
+      </button>
+    </div>
+
+    <!-- Ações e Arquivo -->
+    <div class="actions-group">
+      <button type="button" class="action-btn" id="btn-undo" onclick="executarUndo()" title="Desfazer Última Ação (Ctrl+Z)" disabled style="opacity:0.4; cursor:not-allowed;">
+        <span>↩</span> Desfazer
+      </button>
+      <button type="button" class="action-btn" id="btn-redo" onclick="executarRedo()" title="Refazer Ação (Ctrl+Y)" disabled style="opacity:0.4; cursor:not-allowed;">
+        <span>↪</span> Refazer
+      </button>
+      <div class="tool-divider"></div>
+      <button type="button" class="action-btn primary" onclick="salvarPlantaLocal(true)" title="Salvar Planta Localmente (Ctrl+S)">
+        <span>💾</span> Salvar
+      </button>
+      <button type="button" class="action-btn" onclick="abrirModalExportar()" title="Exportar / Importar Dados em JSON">
+        <span>📂</span> JSON
+      </button>
+      <button type="button" class="action-btn danger" onclick="confirmarLimparPlanta()" title="Limpar Mapa e Começar Novo">
+        <span>🗑️</span> Novo
+      </button>
+      <div class="tool-divider"></div>
+      <button type="button" class="action-btn" onclick="window.close()" title="Fechar Aba do Modo Planta">
+        <span>✕</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 2. Viewport / Palco Canvas -->
+  <main id="viewport-container">
+    <canvas id="grid-canvas"></canvas>
+
+    <!-- Painel de Informação da Célula Selecionada (V2: Camadas & Propriedades) -->
+    <div class="cell-info-card" id="cell-info-card" style="display: none;">
+      <div class="cell-info-header">
+        <span class="cell-info-title">Célula Tática</span>
+        <span class="cell-coord-badge" id="info-cell-coords">X: 0 | Y: 0</span>
+      </div>
+      
+      <div class="cell-info-body">
+        <!-- 1. Métricas Cartesiana -->
+        <div class="info-section-tag">Espaço Cartesiano</div>
+        <div class="info-row">
+          <span>Posição Real:</span>
+          <span class="val" id="info-cell-meters">0.0m, 0.0m</span>
+        </div>
+        <div class="info-row">
+          <span>Dimensões:</span>
+          <span class="val">1.0 × 1.0 m (1.0 m²)</span>
+        </div>
+
+        <!-- 2. Camadas Físicas -->
+        <div class="info-section-tag">Camadas da Célula</div>
+        <div class="info-row">
+          <span>Piso (Chão):</span>
+          <span class="val" id="info-cell-floor">Pedra</span>
+        </div>
+        <div class="info-row">
+          <span>Estrutura:</span>
+          <span class="val" id="info-cell-structure">Nenhuma</span>
+        </div>
+        <div class="info-row" id="info-row-door-state" style="display: none;">
+          <span>Estado da Porta:</span>
+          <button type="button" class="btn-micro" id="info-door-toggle-btn" onclick="alternarPortaCelulaSelecionada()" title="Clique para alternar entre Aberta e Fechada">🚪 Fechada (Alternar)</button>
+        </div>
+        <div class="info-row">
+          <span>Especial:</span>
+          <span class="val" id="info-cell-special">Nenhum</span>
+        </div>
+
+        <!-- 3. Propriedades Espaciais de RPG -->
+        <div class="info-section-tag">Propriedades Táticas</div>
+        <div class="info-props-grid">
+          <div class="prop-chip">
+            <span class="prop-label">Passável</span>
+            <span class="prop-val status-yes" id="info-prop-passable">Sim</span>
+          </div>
+          <div class="prop-chip">
+            <span class="prop-label">Custo Mov.</span>
+            <span class="prop-val" id="info-prop-cost">1</span>
+          </div>
+          <div class="prop-chip">
+            <span class="prop-label">Bloq. Visão</span>
+            <span class="prop-val status-no" id="info-prop-vision">Não</span>
+          </div>
+          <div class="prop-chip">
+            <span class="prop-label">Perigo</span>
+            <span class="prop-val" id="info-prop-hazard">Nenhum</span>
+          </div>
+        </div>
+
+        <!-- 4. Rótulo Textual -->
+        <div>
+          <label style="font-size:11px; color:var(--ink-dim); display:block; margin-bottom:4px;">Rótulo / Anotação:</label>
+          <input type="text" class="cell-label-input" id="info-cell-label" placeholder="Ex: Entrada, Baú, Altar..." onchange="atualizarRotuloCelulaSelecionada(this.value)">
+        </div>
+
+        <!-- 5. Ações -->
+        <div class="cell-actions-grid">
+          <button type="button" class="action-btn primary" onclick="pintarCelulaSelecionada()" style="font-size:11px;" title="Aplica a ferramenta/paleta atual à célula">🖌️ Aplicar</button>
+          <button type="button" class="action-btn danger" onclick="apagarCelulaSelecionada()" style="font-size:11px;" title="Limpa todo o conteúdo desta célula">🧹 Limpar</button>
+        </div>
+        <div id="cell-action-extra-row" style="display:none; margin-top:4px;">
+          <button type="button" class="action-btn" onclick="removerEstruturaCelulaSelecionada()" style="font-size:11px; width:100%;">Remover Estrutura</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Painel de Informações do Objeto Espacial Selecionado (V2.1: Portas Interativas & Objetos) -->
+    <div class="cell-info-card" id="object-info-card" style="display: none;">
+      <div class="cell-info-header">
+        <span class="cell-info-title" id="info-obj-title">Objeto Espacial</span>
+        <span class="cell-coord-badge" id="info-obj-coords">X: 0 | Y: 0</span>
+      </div>
+
+      <div class="cell-info-body">
+        <div class="info-section-tag">Propriedades Físicas</div>
+        <div class="info-row">
+          <span>Tipo / Nome:</span>
+          <span class="val" id="info-obj-name">Porta Interativa</span>
+        </div>
+        <div class="info-row">
+          <span>Dimensão Tática:</span>
+          <span class="val" id="info-obj-dim">1.0 × 1.0 m</span>
+        </div>
+        <div class="info-row">
+          <span>Orientação:</span>
+          <button type="button" class="btn-micro" id="info-obj-orientation-btn" onclick="alternarOrientacaoObjetoSelecionado()" title="Alternar entre Horizontal e Vertical">Horizontal (Mudar)</button>
+        </div>
+
+        <!-- Seção Específica para Portas -->
+        <div id="info-obj-door-section" style="display: none; flex-direction: column; gap: 8px;">
+          <div class="info-section-tag">Controle Interativo da Porta</div>
+          
+          <div class="info-row">
+            <span>Estado Atual:</span>
+            <span class="val" id="info-door-stage-name" style="color:var(--accent-light); font-weight:700;">Fechada (0%)</span>
+          </div>
+
+          <!-- Seletor de Abertura Discreta: 0%, 25%, 50%, 75%, 100% -->
+          <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-inset); padding:6px; border-radius:6px; border:1px solid var(--line);">
+            <button type="button" class="action-btn" onclick="alterarAberturaPortaSelecionada(-0.25)" title="Reduzir Abertura" style="padding:2px 8px;">− 25%</button>
+            <span style="font-family:var(--font-mono); font-weight:bold; color:var(--accent-light);" id="info-door-pct-text">0%</span>
+            <button type="button" class="action-btn primary" onclick="alterarAberturaPortaSelecionada(+0.25)" title="Aumentar Abertura" style="padding:2px 8px;">+ 25%</button>
+          </div>
+
+          <!-- Direção do Balanço / Abertura (Swing Direction) -->
+          <div class="info-row">
+            <span>Balanço / Giro:</span>
+            <select id="info-door-swing-select" class="cell-label-input" style="padding:3px; font-size:11px;" onchange="alterarDirecaoBalancoPorta(this.value)">
+              <option value="down">Para Baixo (+Y)</option>
+              <option value="up">Para Cima (-Y)</option>
+              <option value="right">Para Direita (+X)</option>
+              <option value="left">Para Esquerda (-X)</option>
+            </select>
+          </div>
+
+          <!-- Ação Interativa Especial: Espiar pela Fechadura -->
+          <button type="button" class="action-btn" id="btn-espiar-fechadura" onclick="alternarEspiarFechaduraSelecionada()" style="font-size:11px; margin-top:4px;">
+            👁️ Espiar pela Fechadura
+          </button>
+        </div>
+
+        <div style="margin-top:8px;">
+          <button type="button" class="action-btn danger" onclick="removerObjetoSelecionado()" style="font-size:11px; width:100%;">
+            🗑️ Remover Objeto
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controles de Câmera Flutuantes -->
+    <div class="camera-controls-overlay" id="camera-controls-overlay">
+      <button type="button" class="cam-btn" onclick="zoomRelativo(1.2)" title="Aproximar Visão (Zoom In)">+</button>
+      <div class="cam-zoom-val" id="cam-zoom-pct">100%</div>
+      <button type="button" class="cam-btn" onclick="zoomRelativo(1/1.2)" title="Afastar Visão (Zoom Out)">−</button>
+      <button type="button" class="cam-btn" onclick="centralizarOrigem()" title="Centralizar na Origem (0, 0)">🎯</button>
+      <button type="button" class="cam-btn" onclick="enquadrarTudo()" title="Enquadrar Todas as Células">⛶</button>
+    </div>
+  </main>
+
+  <!-- 3. Barra de Status Inferior -->
+  <footer class="status-bar" id="status-bar">
+    <div class="status-left">
+      <div class="status-item">
+        <span class="status-label">Cursor:</span>
+        <span class="status-value" id="status-cursor-grid">X: 0 | Y: 0</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Seleção:</span>
+        <span class="status-highlight" id="status-selection-info">Nenhuma</span>
+      </div>
+      <div class="status-item" id="status-rect-dimensions-wrap" style="display: none;">
+        <span class="status-label">Área Selecionada:</span>
+        <span class="status-highlight" id="status-rect-dimensions">0 × 0 m</span>
+      </div>
+    </div>
+
+    <div class="status-right">
+      <div class="status-item">
+        <span class="status-label">Células Ativas:</span>
+        <span class="status-value" id="status-total-cells">0</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Área Total:</span>
+        <span class="status-value" id="status-total-area">0 m²</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Escala:</span>
+        <span class="status-value">1 célula = 1m</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- Toast de Notificação -->
+<div id="toast-notification">Planta Salva com Sucesso!</div>
+
+<!-- Modal de Exportação / Importação JSON & Auditoria -->
+<div class="modal-overlay" id="modal-json">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3 class="modal-title">Exportar / Importar Planta (JSON)</h3>
+      <button type="button" class="modal-close-btn" onclick="fecharModalExportar()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- 1. Estatísticas & Auditoria -->
+      <div class="modal-audit-box" id="modal-audit-stats">
+        <div><strong>Total de Células:</strong> <span id="audit-total-cells">0</span></div>
+        <div><strong>Extensão do Mapa:</strong> <span id="audit-bounds-text">X: [0 a 0], Y: [0 a 0]</span></div>
+        <div id="audit-distant-warning" style="display:none; color:#f5ca65; margin-top:4px;">
+          ⚠️ Foram detectadas células distantes da origem (ex: criadas por testes anteriores).
+          <button type="button" class="action-btn danger" onclick="limparCelulasDistantes()" style="font-size:10px; padding:2px 6px; margin-top:4px; display:inline-flex;">Limpar Células Distantes (&gt;100m)</button>
+        </div>
+      </div>
+
+      <!-- 2. Seção de Arquivo .JSON -->
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <span>📦</span>
+          <span>Arquivos de Planta (.JSON)</span>
+        </div>
+        <p style="font-size: 12px; color: var(--ink-dim);">Baixe um arquivo .json completo ou carregue um arquivo existente do seu computador.</p>
+        <div class="modal-btn-row">
+          <button type="button" class="action-btn primary" onclick="baixarArquivoJson()" title="Baixar estado da planta como arquivo .json">
+            <span>💾</span> Baixar .JSON
+          </button>
+          <button type="button" class="action-btn" onclick="abrirSeletorArquivoJson()" title="Selecionar e carregar arquivo .json do computador">
+            <span>📁</span> Importar .JSON
+          </button>
+          <input type="file" id="input-arquivo-json" accept=".json,application/json" style="display:none;" onchange="aoSelecionarArquivoJson(event)">
+        </div>
+      </div>
+
+      <!-- 3. Seção de Texto JSON Manual -->
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <span>📝</span>
+          <span>Código JSON em Texto</span>
+        </div>
+        <p style="font-size: 12px; color: var(--ink-dim);">Copie o código abaixo para backup rápido ou cole uma estrutura JSON para carregar.</p>
+        <textarea id="modal-json-text" class="modal-textarea" placeholder="Cole o JSON da planta aqui..."></textarea>
+        <div class="modal-btn-row">
+          <button type="button" class="action-btn" onclick="copiarJsonExportado()">
+            <span>📋</span> Copiar JSON
+          </button>
+          <button type="button" class="action-btn" onclick="importarJsonDigitado()">
+            <span>📥</span> Carregar do Texto
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="action-btn" onclick="fecharModalExportar()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal / Painel Sobreposto da Biblioteca (V2.3 - Inventário Visual em Grade) -->
+<div class="modal-overlay" id="modal-biblioteca">
+  <div class="modal-window library-window">
+    <div class="modal-header">
+      <h3 class="modal-title">BIBLIOTECA DE ELEMENTOS</h3>
+      <button type="button" class="modal-close-btn" onclick="fecharBibliotecaModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Campo de Pesquisa Instantânea e Seletor de Tamanho -->
+      <div class="biblio-search-wrap">
+        <input type="text" id="biblio-busca" class="biblio-search-input" placeholder="🔎 Pesquisar elementos (ex: porta, madeira, parede, fogo)..." oninput="filtrarBiblioteca(this.value)">
+        <div class="biblio-density-toggle">
+          <button type="button" id="btn-density-micro" class="biblio-density-btn" onclick="definirDensidadeBiblioteca('micro')" title="Modo Ícones Micro (Apenas ícones sem rótulo)">
+            · Ícones
+          </button>
+          <button type="button" id="btn-density-pequeno" class="biblio-density-btn" onclick="definirDensidadeBiblioteca('pequeno')" title="Tamanho Pequeno (▪)">
+            ▪ Pequeno
+          </button>
+          <button type="button" id="btn-density-medio" class="biblio-density-btn active" onclick="definirDensidadeBiblioteca('medio')" title="Tamanho Médio (■)">
+            ■ Médio
+          </button>
+          <button type="button" id="btn-density-grande" class="biblio-density-btn" onclick="definirDensidadeBiblioteca('grande')" title="Tamanho Grande (■■)">
+            ■■ Grande
+          </button>
+        </div>
+      </div>
+
+      <!-- Grade Dinâmica de Categorias e Favoritos -->
+      <div id="biblio-lista-container" class="biblio-lista-container">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <span style="font-size:11px; color:var(--ink-faint); margin-right:auto;">Passe o mouse para detalhes. Clique em ★ para favoritar. Selecione para aplicar no mapa.</span>
+      <button type="button" class="action-btn" onclick="fecharBibliotecaModal()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Menu Contextual Flutuante do Canvas (V2.2) -->
+<div class="context-menu-floating" id="canvas-context-menu"></div>
+
+<!-- Tooltip Flutuante de Detalhes da Biblioteca (V2.3) -->
+<div id="biblio-tooltip" class="biblio-tooltip-floating"></div>
+
+<script>
+/* ============================================================
+   MOTOR DO MODO PLANTA 2D (V2.1)
+   Arquitetura Espacial de RPG: Células, Objetos e Biblioteca
+   ============================================================ */
+
+const STORAGE_KEY = "we_are_strangers_planta_v3_dados";
+const STORAGE_KEY_V2_LEGACY = "we_are_strangers_planta_v2_dados";
+const STORAGE_KEY_V1_LEGACY = "we_are_strangers_planta_v1_dados";
+const STORAGE_KEY_FAVORITOS = "we_are_strangers_planta_favoritos";
+const BASE_CELL_SIZE = 40; // 40px por metro no zoom 1.0x
+
+// -------------------------------------------------------------
+// 1. CATÁLOGOS UNIFICADOS E BIBLIOTECA DE ELEMENTOS V2.1
+// -------------------------------------------------------------
+const CATALOGO_CHAO = {
+  none: { id: 'none', nome: 'Vazio', icone: '⬛', corFundo: 'transparent', corBorda: 'transparent', movimentoCusto: 1, passavel: true, bloqueiaVisao: false },
+  stone: { id: 'stone', nome: 'Pedra Tática', icone: '🧱', corFundo: '#181924', corBorda: '#2b2d3d', corDetalhe: '#232536', movimentoCusto: 1, passavel: true, bloqueiaVisao: false },
+  wood: { id: 'wood', nome: 'Madeira Nobre', icone: '🪵', corFundo: '#251b14', corBorda: '#443022', corDetalhe: '#332318', movimentoCusto: 1, passavel: true, bloqueiaVisao: false },
+  dungeon: { id: 'dungeon', nome: 'Calabouço', icone: '⛓️', corFundo: '#13171a', corBorda: '#273138', corDetalhe: '#1d242a', movimentoCusto: 1, passavel: true, bloqueiaVisao: false },
+  water: { id: 'water', nome: 'Água Rasa', icone: '💧', corFundo: '#0c2238', corBorda: '#174775', corDetalhe: '#12375b', movimentoCusto: 2, passavel: true, bloqueiaVisao: false }
+};
+
+const CATALOGO_ESTRUTURA = {
+  none: { id: 'none', nome: 'Nenhuma', icone: '—' },
+  wall: { id: 'wall', nome: 'Parede Sólida', icone: '🧱', corFundo: '#07070a', corBorda: '#d49a24', passavel: false, bloqueiaVisao: true, movimentoCusto: Infinity },
+  obstacle: { id: 'obstacle', nome: 'Obstáculo / Caixa', icone: '📦', corFundo: '#2a1f14', corBorda: '#855c1e', passavel: false, bloqueiaVisao: false, movimentoCusto: Infinity }
+};
+
+const CATALOGO_ESPECIAL = {
+  none: { id: 'none', nome: 'Nenhum', icone: '—' },
+  fire: { id: 'fire', nome: 'Fogo Ativo', icone: '🔥', perigo: 'Fogo', movimentoCusto: 1, passavel: true, bloqueiaVisao: false },
+  difficult: { id: 'difficult', nome: 'Terreno Difícil', icone: '⚠️', perigo: 'Difícil (2×)', movimentoCusto: 2, passavel: true, bloqueiaVisao: false }
+};
+
+// Catálogo de Elementos e Objetos da Biblioteca
+const ELEMENTOS_BIBLIOTECA = [
+  // Pisos
+  { id: 'floor_stone', categoria: 'floor', itemKey: 'stone', nome: 'Pedra Tática', icone: '🧱', desc: 'Piso de pedra padrão. Passável, Custo 1.' },
+  { id: 'floor_wood', categoria: 'floor', itemKey: 'wood', nome: 'Madeira Nobre', icone: '🪵', desc: 'Piso de tábuas de madeira. Passável, Custo 1.' },
+  { id: 'floor_dungeon', categoria: 'floor', itemKey: 'dungeon', nome: 'Calabouço', icone: '⛓️', desc: 'Grades e pedras de masmorra. Custo 1.' },
+  { id: 'floor_water', categoria: 'floor', itemKey: 'water', nome: 'Água Rasa', icone: '💧', desc: 'Piso alagado. Terreno úmido, Custo 2.' },
+
+  // Estruturas de Célula
+  { id: 'struct_wall', categoria: 'structure', itemKey: 'wall', nome: 'Parede Sólida', icone: '🧱', desc: 'Alvenaria espessa. Bloqueia movimento e visão.' },
+  { id: 'struct_obstacle', categoria: 'structure', itemKey: 'obstacle', nome: 'Obstáculo / Caixa', icone: '📦', desc: 'Objeto físico. Impassável, visão livre.' },
+
+  // Condições de Terreno
+  { id: 'spec_fire', categoria: 'special', itemKey: 'fire', nome: 'Fogo / Chamas', icone: '🔥', desc: 'Perigo ativo de chamas na célula.' },
+  { id: 'spec_difficult', categoria: 'special', itemKey: 'difficult', nome: 'Terreno Difícil', icone: '⚠️', desc: 'Lama / entulho. Movimento custa 2×.' },
+
+  // Objetos Espaciais V2.1 (Independentes de célula)
+  { id: 'obj_door_1x1', categoria: 'object', type: 'door', width: 1, height: 1, nome: 'Porta Simples (1×1m)', icone: '🚪', desc: 'Porta interativa com estados 0-100% e trava de colisão.' },
+  { id: 'obj_door_1x2', categoria: 'object', type: 'door', width: 1, height: 2, nome: 'Porta Dupla Vertical (1×2m)', icone: '🚪', desc: 'Porta dupla de 2 metros na vertical.' },
+  { id: 'obj_door_2x1', categoria: 'object', type: 'door', width: 2, height: 1, nome: 'Porta Dupla Horizontal (2×1m)', icone: '🚪', desc: 'Porta dupla de 2 metros na horizontal.' },
+  { id: 'obj_door_2x2', categoria: 'object', type: 'door', width: 2, height: 2, nome: 'Porta Grande Dupla (2×2m)', icone: '🚪', desc: 'Portão duplo reforçado de 2x2 metros.' }
+];
+
+// -------------------------------------------------------------
+// 2. NORMALIZAÇÃO DE DADOS & CÁLCULO DE PROPRIEDADES (V2)
+// -------------------------------------------------------------
+function normalizarCelula(raw) {
+  if (!raw || typeof raw !== 'object') {
+    return {
+      floor: 'stone',
+      structure: 'none',
+      special: 'none',
+      doorState: 'closed',
+      label: '',
+      updatedAt: Date.now()
+    };
+  }
+
+  // Se já estiver no formato V2
+  if ('floor' in raw || 'structure' in raw || 'special' in raw) {
+    return {
+      floor: raw.floor || 'stone',
+      structure: raw.structure || 'none',
+      special: raw.special || 'none',
+      doorState: raw.doorState || 'closed',
+      label: raw.label || '',
+      updatedAt: raw.updatedAt || Date.now()
+    };
+  }
+
+  // Compatibilidade com V1 legado (type: 'stone' | 'wood' | 'dungeon' | 'water' | 'wall' ...)
+  const legacyType = raw.type || 'stone';
+  if (legacyType === 'wall') {
+    return {
+      floor: 'stone',
+      structure: 'wall',
+      special: 'none',
+      doorState: 'closed',
+      label: raw.label || '',
+      updatedAt: raw.updatedAt || Date.now()
+    };
+  }
+  if (legacyType === 'obstacle') {
+    return {
+      floor: 'stone',
+      structure: 'obstacle',
+      special: 'none',
+      doorState: 'closed',
+      label: raw.label || '',
+      updatedAt: raw.updatedAt || Date.now()
+    };
+  }
+  if (legacyType === 'door') {
+    return {
+      floor: 'stone',
+      structure: 'door',
+      doorState: 'closed',
+      special: 'none',
+      label: raw.label || '',
+      updatedAt: raw.updatedAt || Date.now()
+    };
+  }
+  if (legacyType === 'fire') {
+    return {
+      floor: 'stone',
+      structure: 'none',
+      special: 'fire',
+      doorState: 'closed',
+      label: raw.label || '',
+      updatedAt: raw.updatedAt || Date.now()
+    };
+  }
+  if (legacyType === 'difficult') {
+    return {
+      floor: 'stone',
+      structure: 'none',
+      special: 'difficult',
+      doorState: 'closed',
+      label: raw.label || '',
+      updatedAt: raw.updatedAt || Date.now()
+    };
+  }
+
+  // Chão padrão V1
+  return {
+    floor: CATALOGO_CHAO[legacyType] ? legacyType : 'stone',
+    structure: 'none',
+    special: 'none',
+    doorState: 'closed',
+    label: raw.label || '',
+    updatedAt: raw.updatedAt || Date.now()
+  };
+}
+
+function obterPropriedadesCelula(cellRaw) {
+  const cell = normalizarCelula(cellRaw);
+  const chao = CATALOGO_CHAO[cell.floor] || CATALOGO_CHAO.stone;
+  const estrutura = CATALOGO_ESTRUTURA[cell.structure] || CATALOGO_ESTRUTURA.none;
+  const especial = CATALOGO_ESPECIAL[cell.special] || CATALOGO_ESPECIAL.none;
+
+  let passavel = true;
+  let bloqueiaVisao = false;
+  let custoMovimento = 1;
+  let perigo = 'Nenhum';
+
+  // 1. Efeitos da Estrutura Física
+  if (cell.structure === 'wall') {
+    passavel = false;
+    bloqueiaVisao = true;
+    custoMovimento = Infinity;
+  } else if (cell.structure === 'obstacle') {
+    passavel = false;
+    bloqueiaVisao = false;
+    custoMovimento = Infinity;
+  } else if (cell.structure === 'door') {
+    if (cell.doorState === 'open') {
+      passavel = true;
+      bloqueiaVisao = false;
+      custoMovimento = 1;
+    } else {
+      passavel = false;
+      bloqueiaVisao = true;
+      custoMovimento = Infinity;
+    }
+  }
+
+  // 2. Modificadores de Piso e Especial (se passável)
+  if (passavel) {
+    if (cell.special === 'difficult') {
+      custoMovimento = 2;
+    } else if (cell.floor === 'water') {
+      custoMovimento = 2;
+    } else {
+      custoMovimento = 1;
+    }
+  }
+
+  // 3. Perigo / Efeitos
+  if (cell.special === 'fire') {
+    perigo = '🔥 Fogo';
+  } else if (cell.special === 'difficult') {
+    perigo = '⚠️ Terreno Difícil';
+  } else if (cell.floor === 'water') {
+    perigo = '💧 Água Rasa';
+  }
+
+  return {
+    cell,
+    chao,
+    estrutura,
+    especial,
+    passavel,
+    bloqueiaVisao,
+    custoMovimento,
+    perigo
+  };
+}
+
+// -------------------------------------------------------------
+// 3. ESTADOS GLOBAIS DA PLANTA, OBJETOS E VIEWPORT (V2.1 / V3)
+// -------------------------------------------------------------
+const plantaState = {
+  version: 3,
+  nome: "Planta Tática",
+  unidade: "m",
+  cellSizeMeters: 1.0,
+  cells: {},   // Mapa "x,y" => { floor, structure, special, label, updatedAt }
+  objects: {}, // Mapa "objId" => { id, type, x, y, width, height, orientation, openAmount, swingDirection, peekingThroughKeyhole, updatedAt }
+  createdAt: Date.now(),
+  updatedAt: Date.now()
+};
+
+const camera = {
+  x: 0,       // Centro do mundo X (em metros)
+  y: 0,       // Centro do mundo Y (em metros)
+  zoom: 1.0,  // Escala de zoom (0.25x a 4.0x)
+  minZoom: 0.25,
+  maxZoom: 4.0
+};
+
+const uiState = {
+  currentTool: 'pan',           // 'pan', 'paint', 'rect', 'erase', 'select'
+  activeElementId: 'floor_stone', // ID do elemento selecionado na Biblioteca
+  activeCategory: 'floor',      // 'floor' | 'structure' | 'special' | 'object'
+  activeItemKey: 'stone',       // Chave interna para pintura/colocação
+  selectedCell: null,           // { x, y } ou null
+  selectedCells: new Set(),     // Conjunto de "x,y" para seleção múltipla com Ctrl+Select
+  isMultiSelecting: false,      // Seleção por arrasto com Ctrl pressionado
+  selectedObject: null,         // objId ou null
+  isDraggingObject: false,      // Arraste de objeto espacial pelo mapa
+  draggedObjectId: null,        // ID do objeto em movimento
+  dragObjectStartPos: { x: 0, y: 0 }, // Posição inicial para undo
+  dragObjectOffset: { x: 0, y: 0 },   // Célula relativa ao topo-esquerdo do objeto
+  hoverCell: null,              // { x, y } ou null
+  
+  // Controle de interação exclusivo do Canvas
+  canvasInteractionActive: false,
+  isDragging: false,
+  isPainting: false,
+  dragStartScreen: { x: 0, y: 0 },
+  dragDistance: 0,
+  cameraStart: { x: 0, y: 0 },
+  spacePressed: false,
+  rectStartCell: null,
+  rectEndCell: null,
+  needsRedraw: true
+};
+
+// -------------------------------------------------------------
+// HISTÓRICO DE DESFAZER E REFAZER (CTRL+Z / CTRL+Y)
+// -------------------------------------------------------------
+const undoStack = [];
+const redoStack = [];
+const MAX_UNDO_STACK = 50;
+
+function pushUndoState() {
+  const snapshot = {
+    cells: JSON.parse(JSON.stringify(plantaState.cells)),
+    objects: JSON.parse(JSON.stringify(plantaState.objects))
+  };
+  undoStack.push(snapshot);
+  if (undoStack.length > MAX_UNDO_STACK) undoStack.shift();
+  redoStack.length = 0;
+  atualizarBotoesUndoRedo();
+}
+
+function atualizarBotoesUndoRedo() {
+  const btnUndo = document.getElementById("btn-undo");
+  const btnRedo = document.getElementById("btn-redo");
+  if (btnUndo) {
+    btnUndo.disabled = (undoStack.length === 0);
+    btnUndo.style.opacity = (undoStack.length === 0) ? "0.4" : "1";
+    btnUndo.style.cursor = (undoStack.length === 0) ? "not-allowed" : "pointer";
+  }
+  if (btnRedo) {
+    btnRedo.disabled = (redoStack.length === 0);
+    btnRedo.style.opacity = (redoStack.length === 0) ? "0.4" : "1";
+    btnRedo.style.cursor = (redoStack.length === 0) ? "not-allowed" : "pointer";
+  }
+}
+
+function executarUndo() {
+  if (undoStack.length === 0) {
+    mostrarToast("Nenhuma ação para desfazer (Ctrl+Z)");
+    return;
+  }
+  const currentSnapshot = {
+    cells: JSON.parse(JSON.stringify(plantaState.cells)),
+    objects: JSON.parse(JSON.stringify(plantaState.objects))
+  };
+  redoStack.push(currentSnapshot);
+
+  const prev = undoStack.pop();
+  plantaState.cells = prev.cells;
+  plantaState.objects = prev.objects;
+  plantaState.updatedAt = Date.now();
+
+  salvarPlantaLocal(false);
+  atualizarIndicadoresStatus();
+  atualizarBotoesUndoRedo();
+  uiState.needsRedraw = true;
+  mostrarToast("↩ Desfeito (Ctrl+Z)");
+}
+
+function executarRedo() {
+  if (redoStack.length === 0) {
+    mostrarToast("Nenhuma ação para refazer (Ctrl+Y)");
+    return;
+  }
+  const currentSnapshot = {
+    cells: JSON.parse(JSON.stringify(plantaState.cells)),
+    objects: JSON.parse(JSON.stringify(plantaState.objects))
+  };
+  undoStack.push(currentSnapshot);
+
+  const next = redoStack.pop();
+  plantaState.cells = next.cells;
+  plantaState.objects = next.objects;
+  plantaState.updatedAt = Date.now();
+
+  salvarPlantaLocal(false);
+  atualizarIndicadoresStatus();
+  atualizarBotoesUndoRedo();
+  uiState.needsRedraw = true;
+  mostrarToast("↪ Refeito (Ctrl+Y)");
+}
+
+const viewport = document.getElementById("viewport-container");
+const canvas = document.getElementById("grid-canvas");
+const ctx = canvas.getContext("2d", { alpha: false });
+
+// -------------------------------------------------------------
+// 4. INICIALIZAÇÃO & PROJEÇÕES
+// -------------------------------------------------------------
+function initApp() {
+  carregarPlantaLocal();
+  setupEventListeners();
+  setupUIEventShield();
+  resizeCanvas();
+  atualizarIndicadoresStatus();
+  requestAnimationFrame(renderLoop);
+}
+
+function resizeCanvas() {
+  const rect = viewport.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  
+  canvas.width = Math.round(rect.width * dpr);
+  canvas.height = Math.round(rect.height * dpr);
+  
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  uiState.needsRedraw = true;
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+function screenToWorld(screenX, screenY) {
+  const rect = canvas.getBoundingClientRect();
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+  const pixelsPerMeter = BASE_CELL_SIZE * camera.zoom;
+
+  const worldX = (screenX - centerX) / pixelsPerMeter + camera.x;
+  const worldY = -(screenY - centerY) / pixelsPerMeter + camera.y;
+  return { worldX, worldY };
+}
+
+function worldToScreen(worldX, worldY) {
+  const rect = canvas.getBoundingClientRect();
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+  const pixelsPerMeter = BASE_CELL_SIZE * camera.zoom;
+
+  const screenX = centerX + (worldX - camera.x) * pixelsPerMeter;
+  const screenY = centerY - (worldY - camera.y) * pixelsPerMeter;
+  return { screenX, screenY };
+}
+
+function screenToCell(screenX, screenY) {
+  const { worldX, worldY } = screenToWorld(screenX, screenY);
+  return {
+    cellX: Math.floor(worldX),
+    cellY: Math.floor(worldY)
+  };
+}
+
+function getCellScreenRect(cellX, cellY) {
+  const topLeft = worldToScreen(cellX, cellY + 1);
+  const cellSize = BASE_CELL_SIZE * camera.zoom;
+  return {
+    x: topLeft.screenX,
+    y: topLeft.screenY,
+    size: cellSize
+  };
+}
+
+// -------------------------------------------------------------
+// 5. RENDERIZAÇÃO PROCEDURAL & TÁTICA (V2)
+// -------------------------------------------------------------
+function renderLoop() {
+  if (uiState.needsRedraw) {
+    drawScene();
+    uiState.needsRedraw = false;
+  }
+  requestAnimationFrame(renderLoop);
+}
+
+function drawScene() {
+  const rect = canvas.getBoundingClientRect();
+  const width = rect.width;
+  const height = rect.height;
+
+  // 1. Fundo do Espaço Tático
+  ctx.fillStyle = "#0c0d12";
+  ctx.fillRect(0, 0, width, height);
+
+  const topLeftWorld = screenToWorld(0, 0);
+  const bottomRightWorld = screenToWorld(width, height);
+
+  const minCellX = Math.floor(topLeftWorld.worldX) - 1;
+  const maxCellX = Math.ceil(bottomRightWorld.worldX) + 1;
+  const minCellY = Math.floor(bottomRightWorld.worldY) - 1;
+  const maxCellY = Math.ceil(topLeftWorld.worldY) + 1;
+
+  // 2. Células Ativas (Piso, Especial e Estrutura)
+  for (let cy = minCellY; cy <= maxCellY; cy++) {
+    for (let cx = minCellX; cx <= maxCellX; cx++) {
+      const key = `${cx},${cy}`;
+      const rawCell = plantaState.cells[key];
+      if (rawCell) {
+        drawActiveCell(cx, cy, rawCell);
+      }
+    }
+  }
+
+  // 2.5. Objetos Espaciais (Portas, Móveis, Estruturas Independentes)
+  drawSpatialObjects(minCellX, maxCellX, minCellY, maxCellY);
+
+  // 3. Pré-visualização de Retângulo
+  if (uiState.currentTool === 'rect' && uiState.rectStartCell && uiState.rectEndCell) {
+    drawRectPreview();
+  }
+
+  // 4. Linhas da Grade Virtual
+  drawGridLines(minCellX, maxCellX, minCellY, maxCellY, width, height);
+
+  // 5. Eixos Cartesianos X e Y
+  drawAxes(width, height);
+
+  // 6. Célula sob o Mouse (Hover)
+  if (uiState.hoverCell) {
+    drawHoverCell(uiState.hoverCell.x, uiState.hoverCell.y);
+  }
+
+  // 7. Célula(s) Selecionada(s) (Individual ou Múltipla via Ctrl+Select)
+  if (uiState.selectedCells && uiState.selectedCells.size > 0) {
+    uiState.selectedCells.forEach(key => {
+      const [cx, cy] = key.split(",").map(Number);
+      drawSelectedCell(cx, cy);
+    });
+  } else if (uiState.selectedCell) {
+    drawSelectedCell(uiState.selectedCell.x, uiState.selectedCell.y);
+  }
+}
+
+function drawActiveCell(cx, cy, rawCell) {
+  const cell = normalizarCelula(rawCell);
+  const cellRect = getCellScreenRect(cx, cy);
+
+  // Camada 1: Piso (Chão)
+  drawFloorLayer(cell.floor, cellRect);
+
+  // Camada 2: Especial (Fogo, Terreno Difícil)
+  if (cell.special && cell.special !== 'none') {
+    drawSpecialLayer(cell.special, cellRect);
+  }
+
+  // Camada 3: Estrutura (Parede, Obstáculo, Porta)
+  if (cell.structure && cell.structure !== 'none') {
+    drawStructureLayer(cell.structure, cell.doorState, cellRect);
+  }
+
+  // Camada 4: Rótulo / Anotação
+  if (camera.zoom >= 0.70 && cell.label) {
+    drawLabelLayer(cell.label, cellRect);
+  }
+}
+
+function drawFloorLayer(floorId, rect) {
+  const info = CATALOGO_CHAO[floorId] || CATALOGO_CHAO.stone;
+  const { x, y, size } = rect;
+
+  ctx.fillStyle = info.corFundo;
+  ctx.fillRect(x, y, size, size);
+
+  ctx.strokeStyle = info.corBorda;
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x + 0.5, y + 0.5, size - 1, size - 1);
+
+  // Texturas procedurais táteis de alta fidelidade
+  if (camera.zoom >= 0.6) {
+    ctx.save();
+    if (floorId === 'stone') {
+      // Padrão de lajotas de pedra 2x2
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x + size / 2, y + 1);
+      ctx.lineTo(x + size / 2, y + size - 1);
+      ctx.moveTo(x + 1, y + size / 2);
+      ctx.lineTo(x + size - 1, y + size / 2);
+      ctx.stroke();
+    } else if (floorId === 'wood') {
+      // Padrão de tábuas corridas de madeira
+      ctx.strokeStyle = "rgba(212, 154, 36, 0.09)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      const h3 = size / 3;
+      ctx.moveTo(x + 1, y + h3);
+      ctx.lineTo(x + size - 1, y + h3);
+      ctx.moveTo(x + 1, y + h3 * 2);
+      ctx.lineTo(x + size - 1, y + h3 * 2);
+      ctx.stroke();
+    } else if (floorId === 'dungeon') {
+      // Padrão de pedras irregulares de masmorra
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.045)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x + size * 0.35, y + 1);
+      ctx.lineTo(x + size * 0.35, y + size - 1);
+      ctx.moveTo(x + 1, y + size * 0.65);
+      ctx.lineTo(x + size - 1, y + size * 0.65);
+      ctx.stroke();
+    } else if (floorId === 'water') {
+      // Ondulações aquáticas
+      ctx.strokeStyle = "rgba(90, 180, 255, 0.22)";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.arc(x + size * 0.5, y + size * 0.45, size * 0.22, 0.2, Math.PI * 0.8);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+
+function drawSpecialLayer(specialId, rect) {
+  const { x, y, size } = rect;
+  ctx.save();
+
+  if (specialId === 'fire') {
+    // Brilho quente de chamas
+    const grad = ctx.createRadialGradient(x + size / 2, y + size / 2, 2, x + size / 2, y + size / 2, size * 0.55);
+    grad.addColorStop(0, "rgba(255, 120, 20, 0.45)");
+    grad.addColorStop(0.7, "rgba(220, 50, 10, 0.22)");
+    grad.addColorStop(1, "rgba(200, 30, 0, 0.0)");
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, y, size, size);
+
+    // Símbolo de chama geométrica
+    ctx.fillStyle = "#ff7a18";
+    ctx.beginPath();
+    const cx = x + size / 2;
+    const cy = y + size / 2;
+    const s = size * 0.26;
+    ctx.moveTo(cx, cy - s);
+    ctx.quadraticCurveTo(cx + s * 0.8, cy, cx + s * 0.6, cy + s);
+    ctx.quadraticCurveTo(cx, cy + s * 0.7, cx - s * 0.6, cy + s);
+    ctx.quadraticCurveTo(cx - s * 0.8, cy, cx, cy - s);
+    ctx.fill();
+
+    ctx.fillStyle = "#ffe07d";
+    ctx.beginPath();
+    ctx.arc(cx, cy + s * 0.35, s * 0.35, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (specialId === 'difficult') {
+    // Listras de advertência tática para terreno difícil
+    ctx.strokeStyle = "rgba(212, 154, 36, 0.35)";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(x + 2, y + size - 2);
+    ctx.lineTo(x + size - 2, y + 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    if (camera.zoom >= 0.75) {
+      ctx.font = `700 9px "JetBrains Mono", monospace`;
+      ctx.fillStyle = "rgba(245, 202, 101, 0.85)";
+      ctx.textAlign = "right";
+      ctx.textBaseline = "bottom";
+      ctx.fillText("2×", x + size - 3, y + size - 2);
+    }
+  }
+
+  ctx.restore();
+}
+
+function drawStructureLayer(structureId, doorState, rect) {
+  const { x, y, size } = rect;
+  ctx.save();
+
+  if (structureId === 'wall') {
+    // Parede Sólida: Bloco escuro espesso com hachura arquitetônica diagonal 45°
+    ctx.fillStyle = "#07070a";
+    ctx.fillRect(x + 0.5, y + 0.5, size - 1, size - 1);
+
+    // Hachura clássica de alvenaria em planta baixa
+    ctx.strokeStyle = "rgba(212, 154, 36, 0.25)";
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    const step = Math.max(6, size / 5);
+    for (let offset = -size; offset <= size * 2; offset += step) {
+      ctx.moveTo(x + offset, y);
+      ctx.lineTo(x + offset + size, y + size);
+    }
+    ctx.stroke();
+
+    // Contorno estrutural reforçado
+    ctx.strokeStyle = "#d49a24";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x + 1, y + 1, size - 2, size - 2);
+
+  } else if (structureId === 'obstacle') {
+    // Obstáculo / Caixa / Pilar centralizado
+    const pad = size * 0.16;
+    const boxSize = size - pad * 2;
+
+    ctx.fillStyle = "#2a1f14";
+    ctx.fillRect(x + pad, y + pad, boxSize, boxSize);
+
+    ctx.strokeStyle = "#a87425";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x + pad + 0.5, y + pad + 0.5, boxSize - 1, boxSize - 1);
+
+    // Cruz de reforço interno de caixa/engradado
+    ctx.strokeStyle = "rgba(212, 154, 36, 0.4)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x + pad, y + pad);
+    ctx.lineTo(x + pad + boxSize, y + pad + boxSize);
+    ctx.moveTo(x + pad + boxSize, y + pad);
+    ctx.lineTo(x + pad, y + pad + boxSize);
+    ctx.stroke();
+
+  } else if (structureId === 'door') {
+    // Porta Arquitetônica (Fechada ou Aberta)
+    const isClosed = (doorState !== 'open');
+    const jambWidth = Math.max(3, size * 0.12);
+
+    // Batentes laterais da porta
+    ctx.fillStyle = "#d49a24";
+    ctx.fillRect(x, y + size * 0.15, jambWidth, size * 0.7);
+    ctx.fillRect(x + size - jambWidth, y + size * 0.15, jambWidth, size * 0.7);
+
+    if (isClosed) {
+      // Folha da porta fechada bloqueando a passagem
+      ctx.fillStyle = "#8a5a1f";
+      ctx.fillRect(x + jambWidth, y + size * 0.42, size - jambWidth * 2, size * 0.16);
+
+      ctx.strokeStyle = "#f5ca65";
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(x + jambWidth, y + size * 0.42, size - jambWidth * 2, size * 0.16);
+
+      // Maçaneta / Trava dourada central
+      ctx.fillStyle = "#ffd066";
+      ctx.beginPath();
+      ctx.arc(x + size / 2, y + size * 0.5, Math.max(2, size * 0.05), 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      // Folha da porta aberta girada 90° com arco tracejado de giro arquitetônico
+      ctx.fillStyle = "#a87425";
+      ctx.fillRect(x + jambWidth, y + size * 0.15, size * 0.15, size * 0.6);
+
+      ctx.strokeStyle = "rgba(245, 202, 101, 0.45)";
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.arc(x + jambWidth, y + size * 0.15, size * 0.6, 0, Math.PI * 0.5);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+
+  ctx.restore();
+}
+
+function drawLabelLayer(label, rect) {
+  const { x, y, size } = rect;
+  ctx.save();
+  ctx.font = `600 ${Math.max(10, Math.min(13, 11 * camera.zoom))}px "Cinzel", "EB Garamond", serif`;
+  ctx.fillStyle = "rgba(232, 228, 220, 0.95)";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  
+  // Sombra de contraste para legibilidade
+  ctx.shadowColor = "rgba(0, 0, 0, 0.85)";
+  ctx.shadowBlur = 4;
+  ctx.fillText(label, x + size / 2, y + size / 2);
+  ctx.restore();
+}
+
+function drawGridLines(minX, maxX, minY, maxY, viewWidth, viewHeight) {
+  const zoom = camera.zoom;
+
+  // Linhas de 1 Metro (secundárias)
+  if (zoom > 0.35) {
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+
+    for (let x = minX; x <= maxX; x++) {
+      if (x % 5 === 0) continue;
+      const p = worldToScreen(x, 0);
+      ctx.moveTo(p.screenX + 0.5, 0);
+      ctx.lineTo(p.screenX + 0.5, viewHeight);
+    }
+
+    for (let y = minY; y <= maxY; y++) {
+      if (y % 5 === 0) continue;
+      const p = worldToScreen(0, y);
+      ctx.moveTo(0, p.screenY + 0.5);
+      ctx.lineTo(viewWidth, p.screenY + 0.5);
+    }
+    ctx.stroke();
+  }
+
+  // Linhas de 5 Metros (principais com numeração)
+  ctx.strokeStyle = "rgba(212, 154, 36, 0.22)";
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+
+  for (let x = Math.floor(minX / 5) * 5; x <= maxX; x += 5) {
+    if (x === 0) continue;
+    const p = worldToScreen(x, 0);
+    ctx.moveTo(p.screenX + 0.5, 0);
+    ctx.lineTo(p.screenX + 0.5, viewHeight);
+  }
+
+  for (let y = Math.floor(minY / 5) * 5; y <= maxY; y += 5) {
+    if (y === 0) continue;
+    const p = worldToScreen(0, y);
+    ctx.moveTo(0, p.screenY + 0.5);
+    ctx.lineTo(viewWidth, p.screenY + 0.5);
+  }
+  ctx.stroke();
+
+  if (zoom >= 0.5) {
+    ctx.font = `500 10px "JetBrains Mono", monospace`;
+    ctx.fillStyle = "rgba(212, 154, 36, 0.45)";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+
+    for (let x = Math.floor(minX / 5) * 5; x <= maxX; x += 5) {
+      if (x === 0) continue;
+      const p = worldToScreen(x, 0);
+      if (p.screenX > 20 && p.screenX < viewWidth - 40) {
+        ctx.fillText(`${x}m`, p.screenX + 4, 8);
+      }
+    }
+
+    for (let y = Math.floor(minY / 5) * 5; y <= maxY; y += 5) {
+      if (y === 0) continue;
+      const p = worldToScreen(0, y);
+      if (p.screenY > 20 && p.screenY < viewHeight - 40) {
+        ctx.fillText(`${y}m`, 8, p.screenY + 4);
+      }
+    }
+  }
+}
+
+function drawAxes(viewWidth, viewHeight) {
+  const origin = worldToScreen(0, 0);
+
+  ctx.strokeStyle = "rgba(212, 154, 36, 0.7)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+
+  ctx.moveTo(origin.screenX + 0.5, 0);
+  ctx.lineTo(origin.screenX + 0.5, viewHeight);
+
+  ctx.moveTo(0, origin.screenY + 0.5);
+  ctx.lineTo(viewWidth, origin.screenY + 0.5);
+  ctx.stroke();
+
+  ctx.save();
+  ctx.fillStyle = "rgba(212, 154, 36, 0.9)";
+  ctx.beginPath();
+  ctx.arc(origin.screenX, origin.screenY, 4.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.font = `700 11px "JetBrains Mono", monospace`;
+  ctx.fillStyle = "#f5ca65";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "bottom";
+  ctx.fillText("(0, 0)", origin.screenX + 8, origin.screenY - 6);
+  ctx.restore();
+}
+
+function drawHoverCell(cx, cy) {
+  const cellRect = getCellScreenRect(cx, cy);
+
+  ctx.fillStyle = "rgba(212, 154, 36, 0.14)";
+  ctx.fillRect(cellRect.x, cellRect.y, cellRect.size, cellRect.size);
+
+  ctx.strokeStyle = "rgba(212, 154, 36, 0.4)";
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(cellRect.x + 0.5, cellRect.y + 0.5, cellRect.size - 1, cellRect.size - 1);
+}
+
+function drawSelectedCell(cx, cy) {
+  const cellRect = getCellScreenRect(cx, cy);
+
+  ctx.save();
+  ctx.shadowColor = "rgba(212, 154, 36, 0.6)";
+  ctx.shadowBlur = 10;
+  
+  ctx.strokeStyle = "#ffb834";
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(cellRect.x + 1, cellRect.y + 1, cellRect.size - 2, cellRect.size - 2);
+
+  const cornerLen = Math.min(10, cellRect.size * 0.25);
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  
+  // Cantos superiores
+  ctx.moveTo(cellRect.x, cellRect.y + cornerLen);
+  ctx.lineTo(cellRect.x, cellRect.y);
+  ctx.lineTo(cellRect.x + cornerLen, cellRect.y);
+
+  ctx.moveTo(cellRect.x + cellRect.size - cornerLen, cellRect.y);
+  ctx.lineTo(cellRect.x + cellRect.size, cellRect.y);
+  ctx.lineTo(cellRect.x + cellRect.size, cellRect.y + cornerLen);
+
+  // Cantos inferiores
+  ctx.moveTo(cellRect.x, cellRect.y + cellRect.size - cornerLen);
+  ctx.lineTo(cellRect.x, cellRect.y + cellRect.size);
+  ctx.lineTo(cellRect.x + cornerLen, cellRect.y + cellRect.size);
+
+  ctx.moveTo(cellRect.x + cellRect.size - cornerLen, cellRect.y + cellRect.size);
+  ctx.lineTo(cellRect.x + cellRect.size, cellRect.y + cellRect.size);
+  ctx.lineTo(cellRect.x + cellRect.size, cellRect.y + cellRect.size - cornerLen);
+  
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawRectPreview() {
+  const x1 = Math.min(uiState.rectStartCell.x, uiState.rectEndCell.x);
+  const x2 = Math.max(uiState.rectStartCell.x, uiState.rectEndCell.x);
+  const y1 = Math.min(uiState.rectStartCell.y, uiState.rectEndCell.y);
+  const y2 = Math.max(uiState.rectStartCell.y, uiState.rectEndCell.y);
+
+  const topLeft = worldToScreen(x1, y2 + 1);
+  const bottomRight = worldToScreen(x2 + 1, y1);
+
+  const w = bottomRight.screenX - topLeft.screenX;
+  const h = bottomRight.screenY - topLeft.screenY;
+
+  ctx.save();
+  ctx.fillStyle = "rgba(212, 154, 36, 0.22)";
+  ctx.fillRect(topLeft.screenX, topLeft.screenY, w, h);
+
+  ctx.strokeStyle = "#f5ca65";
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.strokeRect(topLeft.screenX, topLeft.screenY, w, h);
+  ctx.restore();
+}
+
+// -------------------------------------------------------------
+// 6. ISOLAMENTO DE EVENTOS (UI vs CANVAS)
+// -------------------------------------------------------------
+function setupUIEventShield() {
+  const uiElements = document.querySelectorAll('#header-bar, #camera-controls-overlay, #cell-info-card, #status-bar, #modal-json, #toast-notification, #canvas-context-menu');
+  
+  uiElements.forEach(el => {
+    el.addEventListener("mousedown", (e) => e.stopPropagation());
+    el.addEventListener("pointerdown", (e) => e.stopPropagation());
+    el.addEventListener("touchstart", (e) => e.stopPropagation(), { passive: true });
+    el.addEventListener("wheel", (e) => e.stopPropagation(), { passive: true });
+    el.addEventListener("dblclick", (e) => e.stopPropagation());
+    el.addEventListener("contextmenu", (e) => e.stopPropagation());
+  });
+}
+
+function setupEventListeners() {
+  canvas.addEventListener("mousedown", onCanvasMouseDown);
+  canvas.addEventListener("mousemove", onCanvasMouseMove);
+  canvas.addEventListener("mouseleave", onCanvasMouseLeave);
+  canvas.addEventListener("wheel", onCanvasWheel, { passive: false });
+  canvas.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const { worldX, worldY } = screenToWorld(mouseX, mouseY);
+    abrirMenuContextual(e.clientX, e.clientY, worldX, worldY);
+  });
+
+  window.addEventListener("click", (e) => {
+    const menu = document.getElementById("canvas-context-menu");
+    if (menu && !menu.contains(e.target)) {
+      fecharMenuContextual();
+    }
+  });
+  window.addEventListener("wheel", fecharMenuContextual, { passive: true });
+
+  window.addEventListener("mousemove", onWindowMouseMove);
+  window.addEventListener("mouseup", onWindowMouseUp);
+
+  window.addEventListener("keydown", onKeyDown);
+  window.addEventListener("keyup", onKeyUp);
+}
+
+function onCanvasMouseDown(e) {
+  if (e.target !== canvas) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+  const { cellX, cellY } = screenToCell(mouseX, mouseY);
+
+  uiState.canvasInteractionActive = true;
+  uiState.dragDistance = 0;
+  uiState.dragStartScreen = { x: e.clientX, y: e.clientY };
+
+  // Pan
+  if (e.button === 1 || e.button === 2 || uiState.spacePressed || uiState.currentTool === 'pan') {
+    uiState.isDragging = true;
+    uiState.cameraStart = { x: camera.x, y: camera.y };
+    canvas.classList.add("panning");
+    return;
+  }
+
+  // Ferramentas de edição com botão esquerdo
+  if (e.button === 0) {
+    // 1. SELEÇÃO MÚLTIPLA COM CONTROL / CMD (Control+Select)
+    if (e.ctrlKey || e.metaKey) {
+      uiState.isMultiSelecting = true;
+      uiState.selectedCell = null;
+      uiState.selectedObject = null;
+      document.getElementById("object-info-card").style.display = "none";
+
+      const key = `${cellX},${cellY}`;
+      if (uiState.selectedCells.has(key)) {
+        uiState.selectedCells.delete(key);
+      } else {
+        uiState.selectedCells.add(key);
+      }
+      atualizarMultiSelecaoInfo();
+      uiState.needsRedraw = true;
+      return;
+    }
+
+    // Se clicar sem Ctrl/Cmd, reseta seleção múltipla anterior
+    if (uiState.selectedCells.size > 0 && !uiState.selectedCells.has(`${cellX},${cellY}`)) {
+      uiState.selectedCells.clear();
+    }
+
+    // 2. ARRASTAR OBJETO ESPACIAL
+    const objHit = obterObjetoEmCoordenada(cellX, cellY);
+    if (objHit && uiState.currentTool !== 'erase') {
+      pushUndoState();
+      uiState.isDraggingObject = true;
+      uiState.draggedObjectId = objHit.id;
+      uiState.dragObjectStartPos = { x: objHit.x, y: objHit.y };
+      uiState.dragObjectOffset = { x: cellX - objHit.x, y: cellY - objHit.y };
+      selecionarObjetoEspacial(objHit.id);
+      uiState.needsRedraw = true;
+      return;
+    }
+
+    // 3. FERRAMENTAS PADRÃO
+    if (uiState.currentTool === 'paint') {
+      pushUndoState();
+      uiState.isPainting = true;
+      aplicarPinturaOuObjeto(cellX, cellY);
+      selecionarCelula(cellX, cellY);
+    } else if (uiState.currentTool === 'erase') {
+      pushUndoState();
+      uiState.isPainting = true;
+      apagarCelulaOuObjeto(cellX, cellY);
+      selecionarCelula(cellX, cellY);
+    } else if (uiState.currentTool === 'rect') {
+      pushUndoState();
+      uiState.rectStartCell = { x: cellX, y: cellY };
+      uiState.rectEndCell = { x: cellX, y: cellY };
+      document.getElementById("status-rect-dimensions-wrap").style.display = "flex";
+      atualizarDimensoesRetangulo();
+      uiState.needsRedraw = true;
+    } else if (uiState.currentTool === 'select') {
+      selecionarCelula(cellX, cellY);
+    }
+  }
+}
+
+function onCanvasMouseMove(e) {
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+
+  const { cellX, cellY } = screenToCell(mouseX, mouseY);
+  if (!uiState.hoverCell || uiState.hoverCell.x !== cellX || uiState.hoverCell.y !== cellY) {
+    uiState.hoverCell = { x: cellX, y: cellY };
+    document.getElementById("status-cursor-grid").textContent = `X: ${cellX} | Y: ${cellY}`;
+    uiState.needsRedraw = true;
+  }
+}
+
+function onCanvasMouseLeave() {
+  if (!uiState.canvasInteractionActive) {
+    uiState.hoverCell = null;
+    uiState.needsRedraw = true;
+  }
+}
+
+function onWindowMouseMove(e) {
+  if (!uiState.canvasInteractionActive) return;
+
+  const dx = e.clientX - uiState.dragStartScreen.x;
+  const dy = e.clientY - uiState.dragStartScreen.y;
+  uiState.dragDistance = Math.hypot(dx, dy);
+
+  // 1. Pan
+  if (uiState.isDragging) {
+    const pixelsPerMeter = BASE_CELL_SIZE * camera.zoom;
+    camera.x = uiState.cameraStart.x - dx / pixelsPerMeter;
+    camera.y = uiState.cameraStart.y + dy / pixelsPerMeter;
+    uiState.needsRedraw = true;
+    return;
+  }
+
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+  const { cellX, cellY } = screenToCell(mouseX, mouseY);
+
+  // 2. ARRASTE DE OBJETO ESPACIAL PELO MAPA
+  if (uiState.isDraggingObject && uiState.draggedObjectId) {
+    const obj = plantaState.objects[uiState.draggedObjectId];
+    if (obj) {
+      const newX = cellX - uiState.dragObjectOffset.x;
+      const newY = cellY - uiState.dragObjectOffset.y;
+      if (obj.x !== newX || obj.y !== newY) {
+        obj.x = newX;
+        obj.y = newY;
+        obj.updatedAt = Date.now();
+        plantaState.updatedAt = Date.now();
+        const coordsBadge = document.getElementById("info-obj-coords");
+        if (coordsBadge) coordsBadge.textContent = `X: ${newX} | Y: ${newY}`;
+        uiState.needsRedraw = true;
+      }
+    }
+    return;
+  }
+
+  // 3. MULTI-SELEÇÃO COM CTRL+ARRASTO
+  if (uiState.isMultiSelecting || (e.ctrlKey || e.metaKey)) {
+    const key = `${cellX},${cellY}`;
+    if (!uiState.selectedCells.has(key)) {
+      uiState.selectedCells.add(key);
+      atualizarMultiSelecaoInfo();
+      uiState.needsRedraw = true;
+    }
+    return;
+  }
+
+  // 4. Pintura contínua com arrasto
+  if (uiState.isPainting) {
+    if (uiState.currentTool === 'paint') {
+      aplicarPinturaOuObjeto(cellX, cellY);
+    } else if (uiState.currentTool === 'erase') {
+      apagarCelulaOuObjeto(cellX, cellY);
+    }
+  }
+
+  // 5. Extensão do retângulo
+  if (uiState.currentTool === 'rect' && uiState.rectStartCell) {
+    uiState.rectEndCell = { x: cellX, y: cellY };
+    atualizarDimensoesRetangulo();
+    uiState.needsRedraw = true;
+  }
+}
+
+function onWindowMouseUp(e) {
+  if (!uiState.canvasInteractionActive) return;
+
+  const wasDragging = uiState.isDragging;
+  const wasPainting = uiState.isPainting;
+  const wasDraggingObject = uiState.isDraggingObject;
+  const hadRect = (uiState.currentTool === 'rect' && uiState.rectStartCell && uiState.rectEndCell);
+  const dragDist = uiState.dragDistance;
+
+  uiState.canvasInteractionActive = false;
+  uiState.isDragging = false;
+  uiState.isMultiSelecting = false;
+  canvas.classList.remove("panning");
+
+  if (wasDraggingObject && uiState.draggedObjectId) {
+    uiState.isDraggingObject = false;
+    const obj = plantaState.objects[uiState.draggedObjectId];
+    if (obj) {
+      if (obj.x !== uiState.dragObjectStartPos.x || obj.y !== uiState.dragObjectStartPos.y) {
+        salvarPlantaLocal(false);
+        selecionarObjetoEspacial(obj.id);
+        mostrarToast(`Objeto reposicionado para X:${obj.x}, Y:${obj.y}`);
+      } else {
+        if (undoStack.length > 0) {
+          undoStack.pop();
+          atualizarBotoesUndoRedo();
+        }
+      }
+    }
+    uiState.draggedObjectId = null;
+    return;
+  }
+
+  if (wasPainting) {
+    uiState.isPainting = false;
+    salvarPlantaLocal(false);
+  }
+
+  if (hadRect) {
+    preencherRetangulo(uiState.rectStartCell, uiState.rectEndCell, uiState.activeCategory, uiState.activeItemKey);
+    uiState.rectStartCell = null;
+    uiState.rectEndCell = null;
+    document.getElementById("status-rect-dimensions-wrap").style.display = "none";
+    salvarPlantaLocal(false);
+    uiState.needsRedraw = true;
+  } else if (wasDragging && dragDist < 5 && e.button === 0 && uiState.currentTool === 'pan' && uiState.hoverCell) {
+    selecionarCelula(uiState.hoverCell.x, uiState.hoverCell.y);
+  }
+}
+
+function onCanvasWheel(e) {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+
+  const zoomFactor = e.deltaY < 0 ? 1.15 : (1 / 1.15);
+  zoomAtScreenPoint(mouseX, mouseY, zoomFactor);
+}
+
+function zoomAtScreenPoint(screenX, screenY, factor) {
+  const oldZoom = camera.zoom;
+  const newZoom = Math.max(camera.minZoom, Math.min(camera.maxZoom, oldZoom * factor));
+  if (newZoom === oldZoom) return;
+
+  const { worldX, worldY } = screenToWorld(screenX, screenY);
+  camera.zoom = newZoom;
+
+  const rect = canvas.getBoundingClientRect();
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+  const pixelsPerMeter = BASE_CELL_SIZE * newZoom;
+
+  camera.x = worldX - (screenX - centerX) / pixelsPerMeter;
+  camera.y = worldY + (screenY - centerY) / pixelsPerMeter;
+
+  document.getElementById("cam-zoom-pct").textContent = `${Math.round(camera.zoom * 100)}%`;
+  uiState.needsRedraw = true;
+}
+
+function zoomRelativo(factor) {
+  const rect = canvas.getBoundingClientRect();
+  zoomAtScreenPoint(rect.width / 2, rect.height / 2, factor);
+}
+
+function centralizarOrigem() {
+  camera.x = 0;
+  camera.y = 0;
+  camera.zoom = 1.0;
+  document.getElementById("cam-zoom-pct").textContent = "100%";
+  uiState.needsRedraw = true;
+  mostrarToast("Câmera centralizada na Origem (0, 0)");
+}
+
+function enquadrarTudo() {
+  const keys = Object.keys(plantaState.cells);
+  if (keys.length === 0) {
+    centralizarOrigem();
+    return;
+  }
+
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  keys.forEach(k => {
+    const [x, y] = k.split(",").map(Number);
+    if (x < minX) minX = x;
+    if (x > maxX) maxX = x;
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
+  });
+
+  const centerWorldX = (minX + maxX + 1) / 2;
+  const centerWorldY = (minY + maxY + 1) / 2;
+  const spanX = (maxX - minX + 3) * BASE_CELL_SIZE;
+  const spanY = (maxY - minY + 3) * BASE_CELL_SIZE;
+
+  const rect = canvas.getBoundingClientRect();
+  const zoomX = rect.width / spanX;
+  const zoomY = rect.height / spanY;
+  const newZoom = Math.max(camera.minZoom, Math.min(2.0, Math.min(zoomX, zoomY)));
+
+  camera.x = centerWorldX;
+  camera.y = centerWorldY;
+  camera.zoom = newZoom;
+  document.getElementById("cam-zoom-pct").textContent = `${Math.round(camera.zoom * 100)}%`;
+  uiState.needsRedraw = true;
+  mostrarToast(`Enquadramento: ${keys.length} células (${(maxX - minX + 1)}×${(maxY - minY + 1)}m)`);
+}
+
+// -------------------------------------------------------------
+// 7. ATALHOS DE TECLADO E MENU CONTEXTUAL (V2.2)
+// -------------------------------------------------------------
+function onKeyDown(e) {
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+
+  // Atalhos Ctrl+Z e Ctrl+Y / Ctrl+Shift+Z para Undo / Redo
+  if (e.ctrlKey || e.metaKey) {
+    const keyLower = e.key.toLowerCase();
+    if (keyLower === 'z') {
+      e.preventDefault();
+      if (e.shiftKey) {
+        executarRedo();
+      } else {
+        executarUndo();
+      }
+      return;
+    } else if (keyLower === 'y') {
+      e.preventDefault();
+      executarRedo();
+      return;
+    } else if (keyLower === 's') {
+      e.preventDefault();
+      salvarPlantaLocal(true);
+      return;
+    }
+  }
+
+  if (e.key === 'Escape') {
+    fecharMenuContextual();
+    fecharBibliotecaModal();
+    fecharModalExportar();
+    uiState.selectedObject = null;
+    uiState.selectedCell = null;
+    uiState.selectedCells.clear();
+    document.getElementById("object-info-card").style.display = "none";
+    document.getElementById("cell-info-card").style.display = "none";
+    document.getElementById("status-selection-info").textContent = "Nenhuma";
+    uiState.needsRedraw = true;
+    return;
+  }
+
+  if (e.key === 'r' || e.key === 'R') {
+    e.preventDefault();
+    if (uiState.selectedObject) {
+      const dir = e.shiftKey ? -1 : 1;
+      rotacionarObjetoSelecionado(dir);
+    } else {
+      mostrarToast("💡 Selecione um objeto no mapa para rotacionar com 'R'");
+    }
+    return;
+  }
+
+  if (e.key === 'Delete' || e.key === 'Backspace') {
+    if (uiState.selectedCells.size > 0) {
+      e.preventDefault();
+      apagarMultiSelecao();
+      return;
+    }
+    if (uiState.selectedObject) {
+      e.preventDefault();
+      removerObjetoSelecionado();
+      return;
+    }
+    if (uiState.selectedCell) {
+      e.preventDefault();
+      pushUndoState();
+      apagarCelulaOuObjeto(uiState.selectedCell.x, uiState.selectedCell.y);
+      salvarPlantaLocal(false);
+      return;
+    }
+    return;
+  }
+
+  if (e.key === 'b' || e.key === 'B') {
+    e.preventDefault();
+    abrirBibliotecaModal();
+    return;
+  }
+
+  if (e.key === ' ' && !uiState.spacePressed) {
+    uiState.spacePressed = true;
+    canvas.classList.add("panning");
+  } else if (e.key === '1') {
+    setTool('pan');
+  } else if (e.key === '2') {
+    setTool('paint');
+  } else if (e.key === '3') {
+    setTool('rect');
+  } else if (e.key === '4') {
+    setTool('erase');
+  } else if (e.key === '5') {
+    setTool('select');
+  } else if (e.key === 'Home') {
+    centralizarOrigem();
+  }
+}
+
+function onKeyUp(e) {
+  if (e.key === ' ') {
+    uiState.spacePressed = false;
+    if (uiState.currentTool !== 'pan') {
+      canvas.classList.remove("panning");
+    }
+  }
+}
+
+// -------------------------------------------------------------
+// MENU CONTEXTUAL & ARQUITETURA DE AÇÕES EXTENSÍVEL (V2.2)
+// -------------------------------------------------------------
+function abrirMenuContextual(screenX, screenY, worldX, worldY) {
+  const menu = document.getElementById("canvas-context-menu");
+  if (!menu) return;
+
+  const { cellX, cellY } = screenToCell(screenX, screenY);
+  const obj = obterObjetoEmCoordenada(cellX, cellY);
+
+  let actions = [];
+
+  if (obj) {
+    selecionarObjetoEspacial(obj.id);
+    actions = obterAcoesObjetoEspacial(obj);
+  } else {
+    const key = `${cellX},${cellY}`;
+    const cellRaw = plantaState.cells[key];
+    if (cellRaw) {
+      selecionarCelula(cellX, cellY);
+      actions = obterAcoesCelula(cellX, cellY, cellRaw);
+    } else {
+      actions = [
+        { header: `CÉLULA (${cellX}, ${cellY})`, type: 'header' },
+        { label: 'Pintar Elemento Ativo', icon: '🖌️', action: () => { aplicarPinturaOuObjeto(cellX, cellY); salvarPlantaLocal(false); } },
+        { label: 'Abrir Biblioteca', icon: '🧰', shortcut: 'B', action: () => abrirBibliotecaModal() },
+        { type: 'divider' },
+        { label: 'Centralizar Câmera Aqui', icon: '🎯', action: () => { camera.x = cellX; camera.y = cellY; uiState.needsRedraw = true; } }
+      ];
+    }
+  }
+
+  renderizarMenuContextual(menu, actions);
+
+  menu.style.display = "flex";
+  const menuRect = menu.getBoundingClientRect();
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  let posX = screenX;
+  let posY = screenY;
+
+  if (posX + menuRect.width > vw - 10) posX = vw - menuRect.width - 10;
+  if (posY + menuRect.height > vh - 10) posY = vh - menuRect.height - 10;
+  if (posX < 10) posX = 10;
+  if (posY < 10) posY = 10;
+
+  menu.style.left = `${posX}px`;
+  menu.style.top = `${posY}px`;
+}
+
+function fecharMenuContextual() {
+  const menu = document.getElementById("canvas-context-menu");
+  if (menu) menu.style.display = "none";
+}
+
+function obterAcoesObjetoEspacial(obj) {
+  if (obj.type === 'door') {
+    const isClosed = (obj.openAmount === 0);
+    return [
+      { header: `🚪 PORTA INTERATIVA (${obj.width}×${obj.height}m)`, type: 'header' },
+      { label: 'Rotacionar 90°', shortcut: 'R', icon: '↻', action: () => rotacionarObjetoSelecionado(1) },
+      { label: 'Rotacionar -90°', shortcut: 'Shift+R', icon: '↺', action: () => rotacionarObjetoSelecionado(-1) },
+      { label: 'Espelhar Giro', icon: '↔', action: () => alternarDirecaoBalancoProxima(obj) },
+      { type: 'divider' },
+      { label: 'Abrir Totalmente (100%)', icon: '🚪', disabled: obj.openAmount === 1.0, action: () => definirAberturaPorta(obj, 1.0) },
+      {
+        type: 'stage_selector',
+        current: obj.openAmount || 0,
+        stages: [
+          { pct: 0, label: '0%' },
+          { pct: 0.25, label: '25%' },
+          { pct: 0.50, label: '50%' },
+          { pct: 0.75, label: '75%' },
+          { pct: 1.00, label: '100%' }
+        ],
+        action: (pct) => definirAberturaPorta(obj, pct)
+      },
+      { label: 'Fechar Porta (0%)', icon: '🔒', disabled: obj.openAmount === 0, action: () => definirAberturaPorta(obj, 0.0) },
+      isClosed ? {
+        label: obj.peekingThroughKeyhole ? 'Parar de Espiar Fechadura' : 'Espiar pela Fechadura',
+        icon: '👁️',
+        action: () => alternarEspiarFechaduraSelecionada()
+      } : null,
+      { type: 'divider' },
+      { label: 'Propriedades & Ajustes', icon: '⚙️', action: () => focarPainelPropriedadesObjeto(obj.id) },
+      { label: 'Remover Objeto', shortcut: 'Del', icon: '🗑️', danger: true, action: () => removerObjetoEspacial(obj.id) }
+    ].filter(Boolean);
+  }
+
+  return [
+    { header: `📦 OBJETO ESPACIAL (${obj.width}×${obj.height}m)`, type: 'header' },
+    { label: 'Rotacionar 90°', shortcut: 'R', icon: '↻', action: () => rotacionarObjetoSelecionado(1) },
+    { label: 'Rotacionar -90°', shortcut: 'Shift+R', icon: '↺', action: () => rotacionarObjetoSelecionado(-1) },
+    { type: 'divider' },
+    { label: 'Propriedades', icon: '⚙️', action: () => focarPainelPropriedadesObjeto(obj.id) },
+    { label: 'Remover Objeto', shortcut: 'Del', icon: '🗑️', danger: true, action: () => removerObjetoEspacial(obj.id) }
+  ];
+}
+
+function obterAcoesCelula(cellX, cellY, cellRaw) {
+  const props = obterPropriedadesCelula(cellRaw);
+  return [
+    { header: `🧱 CÉLULA (${cellX}, ${cellY})`, type: 'header' },
+    { label: 'Pintar Elemento Ativo', icon: '🖌️', action: () => { aplicarPinturaOuObjeto(cellX, cellY); salvarPlantaLocal(false); } },
+    props.cell.structure !== 'none' ? { label: 'Remover Estrutura', icon: '🧹', danger: true, action: () => removerEstruturaCelulaSelecionada() } : null,
+    { label: 'Limpar Célula', shortcut: 'Del', icon: '🗑️', danger: true, action: () => apagarCelulaOuObjeto(cellX, cellY) },
+    { type: 'divider' },
+    { label: 'Propriedades da Célula', icon: '⚙️', action: () => focarPainelPropriedadesCelula(cellX, cellY) }
+  ].filter(Boolean);
+}
+
+function renderizarMenuContextual(menuEl, actions) {
+  menuEl.innerHTML = "";
+  actions.forEach(item => {
+    if (item.type === 'header') {
+      const h = document.createElement("div");
+      h.className = "ctx-menu-header";
+      h.innerHTML = `<span>${item.header}</span>`;
+      menuEl.appendChild(h);
+    } else if (item.type === 'divider') {
+      const d = document.createElement("div");
+      d.className = "ctx-menu-divider";
+      menuEl.appendChild(d);
+    } else if (item.type === 'stage_selector') {
+      const wrap = document.createElement("div");
+      wrap.className = "ctx-menu-stages";
+      item.stages.forEach(st => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        const isActive = Math.abs(item.current - st.pct) < 0.05;
+        btn.className = `ctx-stage-btn ${isActive ? 'active' : ''}`;
+        btn.textContent = st.label;
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          item.action(st.pct);
+          fecharMenuContextual();
+        };
+        wrap.appendChild(btn);
+      });
+      menuEl.appendChild(wrap);
+    } else {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = `ctx-menu-item ${item.danger ? 'danger' : ''} ${item.disabled ? 'disabled' : ''}`;
+      btn.innerHTML = `
+        <span>${item.icon ? item.icon + ' ' : ''}${item.label}</span>
+        ${item.shortcut ? `<span class="ctx-menu-shortcut">${item.shortcut}</span>` : ''}
+      `;
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        if (!item.disabled && item.action) item.action();
+        fecharMenuContextual();
+      };
+      menuEl.appendChild(btn);
+    }
+  });
+}
+
+function rotacionarObjetoSelecionado(dir = 1) {
+  if (!uiState.selectedObject) return;
+  const obj = plantaState.objects[uiState.selectedObject];
+  if (!obj) return;
+
+  const oldW = obj.width;
+  const oldH = obj.height;
+  obj.width = oldH;
+  obj.height = oldW;
+  obj.orientation = (obj.width < obj.height) ? 'vertical' : 'horizontal';
+
+  const swingOrder = ['down', 'right', 'up', 'left'];
+  const idx = swingOrder.indexOf(obj.swingDirection || 'down');
+  if (idx !== -1) {
+    let nextIdx = (idx + dir) % 4;
+    if (nextIdx < 0) nextIdx += 4;
+    obj.swingDirection = swingOrder[nextIdx];
+  }
+
+  obj.updatedAt = Date.now();
+  plantaState.updatedAt = Date.now();
+
+  selecionarObjetoEspacial(obj.id);
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+  mostrarToast(`↻ Objeto rotacionado (${obj.width}×${obj.height}m)`);
+}
+
+function alternarDirecaoBalancoProxima(obj) {
+  if (!obj) return;
+  const order = ['down', 'right', 'up', 'left'];
+  const curr = order.indexOf(obj.swingDirection || 'down');
+  obj.swingDirection = order[(curr + 1) % 4];
+  obj.updatedAt = Date.now();
+  plantaState.updatedAt = Date.now();
+  selecionarObjetoEspacial(obj.id);
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+  mostrarToast(`↔ Balanço alterado para: ${obj.swingDirection.toUpperCase()}`);
+}
+
+function definirAberturaPorta(obj, targetPct) {
+  if (!obj || obj.type !== 'door') return;
+  const current = obj.openAmount || 0;
+  if (targetPct > current) {
+    const checagem = verificarAberturaPermitida(obj, targetPct);
+    if (!checagem.permitido) {
+      if (checagem.maxAmount > current) {
+        obj.openAmount = checagem.maxAmount;
+        mostrarToast(`⚠️ ABERTURA PARCIAL: Bloqueado a partir de ${Math.round(targetPct * 100)}%! Parou em ${Math.round(checagem.maxAmount * 100)}%.`);
+      } else {
+        mostrarToast(`⚠️ ABERTURA BLOQUEADA: Espaço ocupado! (${checagem.motivo})`);
+        return;
+      }
+    } else {
+      obj.openAmount = targetPct;
+    }
+  } else {
+    obj.openAmount = targetPct;
+  }
+
+  if (obj.openAmount > 0) obj.peekingThroughKeyhole = false;
+  obj.updatedAt = Date.now();
+  plantaState.updatedAt = Date.now();
+  selecionarObjetoEspacial(obj.id);
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+}
+
+function focarPainelPropriedadesObjeto(objId) {
+  selecionarObjetoEspacial(objId);
+  const card = document.getElementById("object-info-card");
+  if (card) card.style.display = "flex";
+}
+
+function focarPainelPropriedadesCelula(x, y) {
+  selecionarCelula(x, y);
+  const card = document.getElementById("cell-info-card");
+  if (card) card.style.display = "flex";
+}
+
+// -------------------------------------------------------------
+// 8. BIBLIOTECA DE ELEMENTOS, FAVORITOS E SELEÇÃO (V2.3 - INVENTÁRIO EM GRADE DE SLOTS)
+// -------------------------------------------------------------
+const STORAGE_KEY_DENSIDADE = "we_are_strangers_planta_densidade_biblio";
+let favoritosSet = new Set(['floor_stone', 'struct_wall', 'obj_door_1x1']);
+let densidadeBibliotecaModo = "medio"; // 'micro', 'pequeno', 'medio' ou 'grande'
+
+let isDraggingBiblio = false;
+let biblioDragOffsetX = 0;
+let biblioDragOffsetY = 0;
+let arrastoBibliotecaIniciado = false;
+
+function inicializarArrastoBiblioteca() {
+  const modal = document.getElementById("modal-biblioteca");
+  const win = modal ? modal.querySelector(".library-window") : null;
+  const header = win ? win.querySelector(".modal-header") : null;
+  if (!win || !header) return;
+
+  header.style.cursor = "grab";
+  header.title = "Clique e arraste para mover a biblioteca pelo mapa";
+
+  if (arrastoBibliotecaIniciado) return;
+  arrastoBibliotecaIniciado = true;
+
+  header.addEventListener("mousedown", (e) => {
+    if (e.target.closest(".modal-close-btn") || e.target.closest(".biblio-search-wrap")) return;
+
+    isDraggingBiblio = true;
+    header.style.cursor = "grabbing";
+
+    const rect = win.getBoundingClientRect();
+    biblioDragOffsetX = e.clientX - rect.left;
+    biblioDragOffsetY = e.clientY - rect.top;
+
+    win.style.transform = "none";
+    win.style.left = `${rect.left}px`;
+    win.style.top = `${rect.top}px`;
+
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isDraggingBiblio || !win) return;
+
+    let newLeft = e.clientX - biblioDragOffsetX;
+    let newTop = e.clientY - biblioDragOffsetY;
+
+    const maxLeft = window.innerWidth - win.offsetWidth - 10;
+    const maxTop = window.innerHeight - win.offsetHeight - 10;
+
+    newLeft = Math.max(10, Math.min(newLeft, maxLeft));
+    newTop = Math.max(10, Math.min(newTop, maxTop));
+
+    win.style.left = `${newLeft}px`;
+    win.style.top = `${newTop}px`;
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (isDraggingBiblio) {
+      isDraggingBiblio = false;
+      if (header) header.style.cursor = "grab";
+    }
+  });
+}
+
+function carregarDensidadeBibliotecaLocal() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY_DENSIDADE);
+    if (saved === 'micro' || saved === 'pequeno' || saved === 'medio' || saved === 'grande') {
+      densidadeBibliotecaModo = saved;
+    } else if (saved === 'compacto') {
+      densidadeBibliotecaModo = 'micro';
+    } else if (saved === 'ampliado') {
+      densidadeBibliotecaModo = 'grande';
+    }
+  } catch (err) {
+    console.error("Erro ao carregar densidade da biblioteca:", err);
+  }
+}
+
+function salvarDensidadeBibliotecaLocal() {
+  try {
+    localStorage.setItem(STORAGE_KEY_DENSIDADE, densidadeBibliotecaModo);
+  } catch (err) {
+    console.error("Erro ao salvar densidade da biblioteca:", err);
+  }
+}
+
+function definirDensidadeBiblioteca(modo) {
+  if (modo !== 'micro' && modo !== 'pequeno' && modo !== 'medio' && modo !== 'grande') return;
+  densidadeBibliotecaModo = modo;
+  salvarDensidadeBibliotecaLocal();
+
+  const container = document.getElementById("biblio-lista-container");
+  if (container) {
+    container.classList.remove("modo-micro", "modo-pequeno", "modo-medio", "modo-grande", "modo-compacto", "modo-ampliado");
+    container.classList.add(`modo-${modo}`);
+  }
+
+  const btnMicro = document.getElementById("btn-density-micro");
+  const btnPequeno = document.getElementById("btn-density-pequeno");
+  const btnMedio = document.getElementById("btn-density-medio");
+  const btnGrande = document.getElementById("btn-density-grande");
+  if (btnMicro && btnPequeno && btnMedio && btnGrande) {
+    btnMicro.classList.toggle("active", modo === 'micro');
+    btnPequeno.classList.toggle("active", modo === 'pequeno');
+    btnMedio.classList.toggle("active", modo === 'medio');
+    btnGrande.classList.toggle("active", modo === 'grande');
+  }
+}
+
+function carregarFavoritosLocal() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_FAVORITOS);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        favoritosSet = new Set(parsed);
+      }
+    }
+  } catch (err) {
+    console.error("Erro ao carregar favoritos:", err);
+  }
+}
+
+function salvarFavoritosLocal() {
+  try {
+    localStorage.setItem(STORAGE_KEY_FAVORITOS, JSON.stringify(Array.from(favoritosSet)));
+  } catch (err) {
+    console.error("Erro ao salvar favoritos:", err);
+  }
+}
+
+function toggleFavorito(elementoId, event) {
+  if (event) event.stopPropagation();
+  if (favoritosSet.has(elementoId)) {
+    favoritosSet.delete(elementoId);
+    mostrarToast("Item removido dos favoritos");
+  } else {
+    favoritosSet.add(elementoId);
+    mostrarToast("★ Item adicionado aos favoritos!");
+  }
+  salvarFavoritosLocal();
+  renderizarBiblioteca(document.getElementById("biblio-busca")?.value || "");
+}
+
+function abrirBibliotecaModal() {
+  carregarFavoritosLocal();
+  carregarDensidadeBibliotecaLocal();
+  renderizarBiblioteca(document.getElementById("biblio-busca")?.value || "");
+  definirDensidadeBiblioteca(densidadeBibliotecaModo);
+  const modal = document.getElementById("modal-biblioteca");
+  if (modal) {
+    modal.style.display = "flex";
+    document.getElementById("biblio-busca")?.focus();
+    inicializarArrastoBiblioteca();
+  }
+}
+
+function fecharBibliotecaModal() {
+  esconderTooltipItem();
+  const modal = document.getElementById("modal-biblioteca");
+  if (modal) modal.style.display = "none";
+}
+
+function filtrarBiblioteca(termo) {
+  renderizarBiblioteca(termo.trim().toLowerCase());
+}
+
+function obterRotuloCategoria(catKey) {
+  switch(catKey) {
+    case 'floor': return 'Piso / Terreno';
+    case 'structure': return 'Estrutura Física';
+    case 'special': return 'Condição de Terreno';
+    case 'object': return 'Objeto Espacial';
+    default: return 'Elemento';
+  }
+}
+
+function obterSpecsHtmlTooltip(item) {
+  if (item.categoria === 'object') {
+    return `
+      <div class="biblio-tooltip-spec-row">
+        <span class="biblio-tooltip-spec-label">Tamanho:</span>
+        <span class="biblio-tooltip-spec-val">${item.width} × ${item.height} m</span>
+      </div>
+      <div class="biblio-tooltip-spec-row">
+        <span class="biblio-tooltip-spec-label">Rotacionável:</span>
+        <span class="biblio-tooltip-spec-val">Sim (Tecla R)</span>
+      </div>
+      <div class="biblio-tooltip-spec-row">
+        <span class="biblio-tooltip-spec-label">Interativo:</span>
+        <span class="biblio-tooltip-spec-val">Sim</span>
+      </div>
+    `;
+  }
+  if (item.categoria === 'structure') {
+    const isWall = item.itemKey === 'wall';
+    return `
+      <div class="biblio-tooltip-spec-row">
+        <span class="biblio-tooltip-spec-label">Passável:</span>
+        <span class="biblio-tooltip-spec-val">Não (Bloqueio)</span>
+      </div>
+      <div class="biblio-tooltip-spec-row">
+        <span class="biblio-tooltip-spec-label">Bloqueia Visão:</span>
+        <span class="biblio-tooltip-spec-val">${isWall ? 'Sim (Opaco)' : 'Não (Livre)'}</span>
+      </div>
+    `;
+  }
+  if (item.categoria === 'special') {
+    const isFire = item.itemKey === 'fire';
+    return `
+      <div class="biblio-tooltip-spec-row">
+        <span class="biblio-tooltip-spec-label">Tipo:</span>
+        <span class="biblio-tooltip-spec-val">${isFire ? 'Efeito Perigoso' : 'Modificador'}</span>
+      </div>
+      <div class="biblio-tooltip-spec-row">
+        <span class="biblio-tooltip-spec-label">Custo Movimento:</span>
+        <span class="biblio-tooltip-spec-val">${isFire ? '1× (Perigo)' : '2× (Lentidão)'}</span>
+      </div>
+    `;
+  }
+  const isWater = item.itemKey === 'water';
+  return `
+    <div class="biblio-tooltip-spec-row">
+      <span class="biblio-tooltip-spec-label">Passável:</span>
+      <span class="biblio-tooltip-spec-val">Sim</span>
+    </div>
+    <div class="biblio-tooltip-spec-row">
+      <span class="biblio-tooltip-spec-label">Custo Movimento:</span>
+      <span class="biblio-tooltip-spec-val">${isWater ? '2 (Terreno Úmido)' : '1 (Padrão)'}</span>
+    </div>
+  `;
+}
+
+function mostrarTooltipItem(item, event) {
+  const tooltip = document.getElementById("biblio-tooltip");
+  if (!tooltip) return;
+
+  tooltip.innerHTML = `
+    <div class="biblio-tooltip-header">
+      <div class="biblio-tooltip-icon">${item.icone}</div>
+      <div>
+        <div class="biblio-tooltip-title">${item.nome}</div>
+        <div class="biblio-tooltip-category">${obterRotuloCategoria(item.categoria)}</div>
+      </div>
+    </div>
+    <div class="biblio-tooltip-desc">${item.desc}</div>
+    <div class="biblio-tooltip-specs">
+      ${obterSpecsHtmlTooltip(item)}
+    </div>
+    <div class="biblio-tooltip-footer">✦ Clique para selecionar</div>
+  `;
+
+  tooltip.style.display = "flex";
+  posicionarTooltipItem(event);
+}
+
+function posicionarTooltipItem(event) {
+  const tooltip = document.getElementById("biblio-tooltip");
+  if (!tooltip || tooltip.style.display === "none") return;
+
+  const rect = tooltip.getBoundingClientRect();
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  let posX = event.clientX + 14;
+  let posY = event.clientY + 14;
+
+  if (posX + rect.width > vw - 12) {
+    posX = event.clientX - rect.width - 14;
+  }
+  if (posY + rect.height > vh - 12) {
+    posY = event.clientY - rect.height - 14;
+  }
+
+  if (posX < 10) posX = 10;
+  if (posY < 10) posY = 10;
+
+  tooltip.style.left = `${posX}px`;
+  tooltip.style.top = `${posY}px`;
+}
+
+function esconderTooltipItem() {
+  const tooltip = document.getElementById("biblio-tooltip");
+  if (tooltip) tooltip.style.display = "none";
+}
+
+function renderizarBiblioteca(termo = "") {
+  const container = document.getElementById("biblio-lista-container");
+  if (!container) return;
+  container.innerHTML = "";
+  container.className = `biblio-lista-container modo-${densidadeBibliotecaModo}`;
+
+  const filtrados = ELEMENTOS_BIBLIOTECA.filter(item => {
+    if (!termo) return true;
+    return item.nome.toLowerCase().includes(termo) ||
+           item.desc.toLowerCase().includes(termo) ||
+           item.categoria.toLowerCase().includes(termo);
+  });
+
+  if (termo) {
+    if (filtrados.length > 0) {
+      container.appendChild(criarSecaoBibliotecaGrid(`🔍 RESULTADOS DE BUSCA ("${termo}")`, filtrados));
+    } else {
+      container.innerHTML = `<div style="text-align:center; color:var(--ink-dim); padding:24px; font-size:12px;">Nenhum elemento encontrado para "${termo}".</div>`;
+    }
+    return;
+  }
+
+  // 1. Seção de Favoritos (Sempre presente no topo)
+  const favoritosItens = ELEMENTOS_BIBLIOTECA.filter(item => favoritosSet.has(item.id));
+  container.appendChild(criarSecaoBibliotecaGrid("★ FAVORITOS", favoritosItens, true));
+
+  // 2. Pisos / Terrenos
+  const pisos = filtrados.filter(item => item.categoria === 'floor');
+  if (pisos.length > 0) {
+    container.appendChild(criarSecaoBibliotecaGrid("🧱 PISOS / TERRENOS", pisos));
+  }
+
+  // 3. Estruturas Físicas
+  const estruturas = filtrados.filter(item => item.categoria === 'structure');
+  if (estruturas.length > 0) {
+    container.appendChild(criarSecaoBibliotecaGrid("🏛️ ESTRUTURAS FÍSICAS", estruturas));
+  }
+
+  // 4. Condições de Terreno
+  const especiais = filtrados.filter(item => item.categoria === 'special');
+  if (especiais.length > 0) {
+    container.appendChild(criarSecaoBibliotecaGrid("⚠️ CONDIÇÕES DE TERRENO", especiais));
+  }
+
+  // 5. Objetos Espaciais
+  const objetos = filtrados.filter(item => item.categoria === 'object');
+  if (objetos.length > 0) {
+    container.appendChild(criarSecaoBibliotecaGrid("🚪 OBJETOS ESPACIAIS", objetos));
+  }
+}
+
+function criarSecaoBibliotecaGrid(tituloText, itens, mostrarMensagemVazio = false) {
+  const secao = document.createElement("div");
+  secao.className = "biblio-categoria-secao";
+
+  const titulo = document.createElement("div");
+  titulo.className = "biblio-categoria-titulo";
+  titulo.innerHTML = `<span>${tituloText}</span><span style="font-size:10px; color:var(--ink-faint);">${itens.length} ${itens.length === 1 ? 'item' : 'itens'}</span>`;
+  secao.appendChild(titulo);
+
+  if (itens.length === 0 && mostrarMensagemVazio) {
+    const vazio = document.createElement("div");
+    vazio.style.cssText = "font-size:11px; color:var(--ink-faint); font-style:italic; padding:6px 2px;";
+    vazio.textContent = "Nenhum elemento favoritado.";
+    secao.appendChild(vazio);
+    return secao;
+  }
+
+  const grid = document.createElement("div");
+  grid.className = "biblio-grid";
+
+  itens.forEach(item => {
+    const isFav = favoritosSet.has(item.id);
+    const isActive = (uiState.activeElementId === item.id);
+
+    const slot = document.createElement("div");
+    slot.className = `biblio-slot ${isActive ? 'active' : ''}`;
+
+    slot.innerHTML = `
+      <button type="button" class="biblio-slot-fav ${isFav ? 'is-fav' : ''}" onclick="toggleFavorito('${item.id}', event)" title="${isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}">
+        ${isFav ? '★' : '☆'}
+      </button>
+      <div class="biblio-slot-icon">${item.icone}</div>
+      <div class="biblio-slot-name" title="${item.nome}">${item.nome}</div>
+    `;
+
+    slot.addEventListener('mouseenter', (e) => mostrarTooltipItem(item, e));
+    slot.addEventListener('mousemove', (e) => posicionarTooltipItem(e));
+    slot.addEventListener('mouseleave', () => esconderTooltipItem());
+    slot.addEventListener('click', () => {
+      esconderTooltipItem();
+      selecionarElementoBiblioteca(item.id);
+    });
+
+    grid.appendChild(slot);
+  });
+
+  secao.appendChild(grid);
+  return secao;
+}
+
+function selecionarElementoBiblioteca(elementoId) {
+  const elem = ELEMENTOS_BIBLIOTECA.find(e => e.id === elementoId);
+  if (!elem) return;
+
+  uiState.activeElementId = elem.id;
+  uiState.activeCategory = elem.categoria;
+
+  if (elem.categoria === 'object') {
+    uiState.activeItemKey = elem.type;
+    document.getElementById("active-element-badge").textContent = `${elem.icone} ${elem.nome}`;
+  } else {
+    uiState.activeItemKey = elem.itemKey;
+    document.getElementById("active-element-badge").textContent = `${elem.icone} ${elem.nome}`;
+  }
+
+  fecharBibliotecaModal();
+  setTool('paint');
+  mostrarToast(`Elemento selecionado: ${elem.nome}`);
+}
+
+function setTool(tool) {
+  uiState.currentTool = tool;
+  document.querySelectorAll(".tool-btn").forEach(btn => btn.classList.remove("active"));
+  document.getElementById(`tool-${tool}`)?.classList.add("active");
+
+  canvas.classList.remove("panning", "painting", "erasing", "rectangle");
+  if (tool === 'paint') canvas.classList.add("painting");
+  if (tool === 'erase') canvas.classList.add("erasing");
+  if (tool === 'rect') canvas.classList.add("rectangle");
+}
+
+// -------------------------------------------------------------
+// 9. MOTOR DE OBJETOS ESPACIAIS & PORTAS INTERATIVAS (V2.1)
+// -------------------------------------------------------------
+function obterObjetoEmCoordenada(cx, cy) {
+  const ids = Object.keys(plantaState.objects);
+  for (let i = ids.length - 1; i >= 0; i--) {
+    const obj = plantaState.objects[ids[i]];
+    if (!obj) continue;
+    const w = obj.orientation === 'vertical' ? obj.height : obj.width;
+    const h = obj.orientation === 'vertical' ? obj.width : obj.height;
+
+    if (cx >= obj.x && cx < obj.x + w && cy >= obj.y && cy < obj.y + h) {
+      return obj;
+    }
+  }
+  return null;
+}
+
+function criarObjetoEspacial(type, x, y, width = 1, height = 1) {
+  const id = `obj_${type}_${Date.now()}_${Math.floor(Math.random()*1000)}`;
+  const obj = {
+    id,
+    type,
+    x,
+    y,
+    width,
+    height,
+    orientation: (width < height) ? 'vertical' : 'horizontal',
+    openAmount: 0.0, // 0.0, 0.25, 0.50, 0.75, 1.00
+    swingDirection: 'down', // 'down', 'up', 'right', 'left'
+    peekingThroughKeyhole: false,
+    updatedAt: Date.now()
+  };
+
+  plantaState.objects[id] = obj;
+  plantaState.updatedAt = Date.now();
+  selecionarObjetoEspacial(id);
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+  mostrarToast(`Objeto ${type.toUpperCase()} criado em X:${x}, Y:${y}`);
+}
+
+function removerObjetoEspacial(objId) {
+  if (plantaState.objects[objId]) {
+    delete plantaState.objects[objId];
+    plantaState.updatedAt = Date.now();
+    if (uiState.selectedObject === objId) {
+      uiState.selectedObject = null;
+      document.getElementById("object-info-card").style.display = "none";
+    }
+    salvarPlantaLocal(false);
+    uiState.needsRedraw = true;
+    mostrarToast("Objeto espacial removido com sucesso!");
+  }
+}
+
+function selecionarObjetoEspacial(objId) {
+  uiState.selectedObject = objId;
+  uiState.selectedCell = null;
+  document.getElementById("cell-info-card").style.display = "none";
+
+  const obj = plantaState.objects[objId];
+  const card = document.getElementById("object-info-card");
+
+  if (!obj || !card) return;
+
+  card.style.display = "flex";
+  document.getElementById("info-obj-coords").textContent = `X: ${obj.x} | Y: ${obj.y}`;
+  document.getElementById("info-obj-title").textContent = "Objeto Espacial";
+  document.getElementById("info-obj-name").textContent = `Porta Interativa (${obj.width}×${obj.height}m)`;
+  document.getElementById("info-obj-dim").textContent = `${obj.width} × ${obj.height} m (${obj.width * obj.height} m²)`;
+  document.getElementById("info-obj-orientation-btn").textContent = `${obj.orientation === 'vertical' ? 'Vertical' : 'Horizontal'} (Mudar)`;
+
+  const doorSection = document.getElementById("info-obj-door-section");
+  if (obj.type === 'door') {
+    doorSection.style.display = "flex";
+    const pct = Math.round((obj.openAmount || 0) * 100);
+    document.getElementById("info-door-pct-text").textContent = `${pct}%`;
+
+    let stageName = "Fechada (0%)";
+    if (pct === 25) stageName = "Entreaberta (25%)";
+    else if (pct === 50) stageName = "Parcialmente Aberta (50%)";
+    else if (pct === 75) stageName = "Quase Totalmente Aberta (75%)";
+    else if (pct === 100) stageName = "Totalmente Aberta (100%)";
+
+    document.getElementById("info-door-stage-name").textContent = stageName;
+    document.getElementById("info-door-swing-select").value = obj.swingDirection || "down";
+
+    const btnKeyhole = document.getElementById("btn-espiar-fechadura");
+    if (pct === 0) {
+      btnKeyhole.style.display = "inline-flex";
+      btnKeyhole.textContent = obj.peekingThroughKeyhole ? "👁️ Parar de Espiar Fechadura" : "👁️ Espiar pela Fechadura";
+    } else {
+      btnKeyhole.style.display = "none";
+      obj.peekingThroughKeyhole = false;
+    }
+  } else {
+    doorSection.style.display = "none";
+  }
+
+  document.getElementById("status-selection-info").textContent = `Objeto ${obj.type.toUpperCase()} em X:${obj.x}, Y:${obj.y}`;
+  uiState.needsRedraw = true;
+}
+
+// Cálculo e Verificação de Bloqueio de Abertura da Porta
+function obterCelulasGiroPorta(obj, targetOpenAmount) {
+  const celulas = [];
+  if (targetOpenAmount <= 0) return celulas;
+
+  const w = obj.orientation === 'vertical' ? obj.height : obj.width;
+  const h = obj.orientation === 'vertical' ? obj.width : obj.height;
+
+  // Calcula a projeção dos metros que a folha da porta ocupa ao girar
+  if (obj.swingDirection === 'down') {
+    for (let dy = 1; dy <= h; dy++) {
+      for (let dx = 0; dx < w; dx++) celulas.push({ x: obj.x + dx, y: obj.y + dy });
+    }
+  } else if (obj.swingDirection === 'up') {
+    for (let dy = 1; dy <= h; dy++) {
+      for (let dx = 0; dx < w; dx++) celulas.push({ x: obj.x + dx, y: obj.y - dy });
+    }
+  } else if (obj.swingDirection === 'right') {
+    for (let dx = 1; dx <= w; dx++) {
+      for (let dy = 0; dy < h; dy++) celulas.push({ x: obj.x + w + dx - 1, y: obj.y + dy });
+    }
+  } else if (obj.swingDirection === 'left') {
+    for (let dx = 1; dx <= w; dx++) {
+      for (let dy = 0; dy < h; dy++) celulas.push({ x: obj.x - dx, y: obj.y + dy });
+    }
+  }
+
+  return celulas;
+}
+
+function verificarAberturaPermitida(obj, targetOpenAmount) {
+  if (targetOpenAmount <= 0) return { permitido: true, maxAmount: 0 };
+
+  const steps = [0.25, 0.50, 0.75, 1.00].filter(s => s <= targetOpenAmount);
+  let maxPermitted = 0;
+  let motivoBloqueio = "";
+
+  for (const step of steps) {
+    const celulasAbertura = obterCelulasGiroPorta(obj, step);
+    let stepPermitido = true;
+
+    for (let i = 0; i < celulasAbertura.length; i++) {
+      const c = celulasAbertura[i];
+      const key = `${c.x},${c.y}`;
+      const cellRaw = plantaState.cells[key];
+
+      if (cellRaw) {
+        const cellProps = obterPropriedadesCelula(cellRaw);
+        if (!cellProps.passavel || cellProps.estrutura.id === 'wall' || cellProps.estrutura.id === 'obstacle') {
+          stepPermitido = false;
+          motivoBloqueio = `Bloqueado por ${cellProps.estrutura.nome || 'estrutura'} em (${c.x}, ${c.y})`;
+          break;
+        }
+      }
+
+      const objExistente = obterObjetoEmCoordenada(c.x, c.y);
+      if (objExistente && objExistente.id !== obj.id) {
+        stepPermitido = false;
+        motivoBloqueio = `Bloqueado por outro objeto espacial em (${c.x}, ${c.y})`;
+        break;
+      }
+    }
+
+    if (stepPermitido) {
+      maxPermitted = step;
+    } else {
+      break;
+    }
+  }
+
+  return {
+    permitido: maxPermitted === targetOpenAmount,
+    maxAmount: maxPermitted,
+    motivo: motivoBloqueio
+  };
+}
+
+function alterarAberturaPortaSelecionada(delta) {
+  if (!uiState.selectedObject) return;
+  const obj = plantaState.objects[uiState.selectedObject];
+  if (!obj || obj.type !== 'door') return;
+
+  const current = obj.openAmount || 0;
+  const target = Math.max(0, Math.min(1.0, current + delta));
+
+  if (target > current) {
+    const checagem = verificarAberturaPermitida(obj, target);
+    if (!checagem.permitido) {
+      if (checagem.maxAmount > current) {
+        obj.openAmount = checagem.maxAmount;
+        mostrarToast(`⚠️ ABERTURA PARCIAL: Bloqueado a partir de ${Math.round(target * 100)}%! Parou em ${Math.round(checagem.maxAmount * 100)}%. (${checagem.motivo})`);
+      } else {
+        mostrarToast(`⚠️ ABERTURA BLOQUEADA: Espaço ocupado por obstáculo! (${checagem.motivo})`);
+        return;
+      }
+    } else {
+      obj.openAmount = target;
+    }
+  } else {
+    obj.openAmount = target;
+  }
+
+  if (obj.openAmount > 0) obj.peekingThroughKeyhole = false;
+  obj.updatedAt = Date.now();
+  plantaState.updatedAt = Date.now();
+
+  selecionarObjetoEspacial(obj.id);
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+}
+
+function alterarDirecaoBalancoPorta(direcao) {
+  if (!uiState.selectedObject) return;
+  const obj = plantaState.objects[uiState.selectedObject];
+  if (!obj) return;
+
+  obj.swingDirection = direcao;
+  obj.updatedAt = Date.now();
+  plantaState.updatedAt = Date.now();
+
+  selecionarObjetoEspacial(obj.id);
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+}
+
+function alternarEspiarFechaduraSelecionada() {
+  if (!uiState.selectedObject) return;
+  const obj = plantaState.objects[uiState.selectedObject];
+  if (!obj || obj.type !== 'door') return;
+
+  obj.peekingThroughKeyhole = !obj.peekingThroughKeyhole;
+  obj.updatedAt = Date.now();
+  plantaState.updatedAt = Date.now();
+
+  selecionarObjetoEspacial(obj.id);
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+  mostrarToast(obj.peekingThroughKeyhole ? "👁️ Espiando pela fechadura da porta..." : "Visão de fechadura desativada");
+}
+
+function alternarOrientacaoObjetoSelecionado() {
+  if (!uiState.selectedObject) return;
+  const obj = plantaState.objects[uiState.selectedObject];
+  if (!obj) return;
+
+  obj.orientation = (obj.orientation === 'vertical') ? 'horizontal' : 'vertical';
+  obj.updatedAt = Date.now();
+  plantaState.updatedAt = Date.now();
+
+  selecionarObjetoEspacial(obj.id);
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+}
+
+function removerObjetoSelecionado() {
+  if (uiState.selectedObject) {
+    removerObjetoEspacial(uiState.selectedObject);
+  }
+}
+
+// Desenho dos Objetos Espaciais no Canvas
+function drawSpatialObjects(minCellX, maxCellX, minCellY, maxCellY) {
+  const ids = Object.keys(plantaState.objects);
+  ids.forEach(id => {
+    const obj = plantaState.objects[id];
+    if (!obj) return;
+
+    const w = obj.orientation === 'vertical' ? obj.height : obj.width;
+    const h = obj.orientation === 'vertical' ? obj.width : obj.height;
+
+    // Se estiver visível no viewport
+    if (obj.x + w >= minCellX && obj.x <= maxCellX && obj.y + h >= minCellY && obj.y <= maxCellY) {
+      drawSingleSpatialObject(obj, w, h);
+    }
+  });
+}
+
+function drawSingleSpatialObject(obj, w, h) {
+  const topLeft = worldToScreen(obj.x, obj.y + h);
+  const cellSize = BASE_CELL_SIZE * camera.zoom;
+  const screenW = w * cellSize;
+  const screenH = h * cellSize;
+  const x = topLeft.screenX;
+  const y = topLeft.screenY;
+
+  ctx.save();
+
+  if (obj.type === 'door') {
+    const isClosed = (obj.openAmount === 0);
+    const jambWidth = Math.max(4, cellSize * 0.14);
+
+    // Batentes de encaxe da porta
+    ctx.fillStyle = "#d49a24";
+    if (obj.orientation === 'horizontal') {
+      ctx.fillRect(x, y + screenH * 0.2, jambWidth, screenH * 0.6);
+      ctx.fillRect(x + screenW - jambWidth, y + screenH * 0.2, jambWidth, screenH * 0.6);
+    } else {
+      ctx.fillRect(x + screenW * 0.2, y, screenW * 0.6, jambWidth);
+      ctx.fillRect(x + screenW * 0.2, y + screenH - jambWidth, screenW * 0.6, jambWidth);
+    }
+
+    // Arco de giro e balanço da folha
+    if (obj.openAmount > 0) {
+      ctx.strokeStyle = "rgba(245, 202, 101, 0.45)";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+
+      const swingRadius = Math.max(screenW, screenH) * obj.openAmount;
+      ctx.arc(x + jambWidth, y + jambWidth, swingRadius, 0, Math.PI * 0.5 * obj.openAmount);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // Painel / Folha da Porta
+    ctx.fillStyle = "#8a5a1f";
+    ctx.strokeStyle = "#f5ca65";
+    ctx.lineWidth = 1.5;
+
+    if (isClosed) {
+      ctx.fillRect(x + jambWidth, y + screenH * 0.35, screenW - jambWidth * 2, screenH * 0.3);
+      ctx.strokeRect(x + jambWidth, y + screenH * 0.35, screenW - jambWidth * 2, screenH * 0.3);
+
+      // Trava / Maçaneta Dourada
+      ctx.fillStyle = "#ffd066";
+      ctx.beginPath();
+      ctx.arc(x + screenW / 2, y + screenH / 2, Math.max(3, cellSize * 0.08), 0, Math.PI * 2);
+      ctx.fill();
+
+      // Indicador de Espiar pela Fechadura
+      if (obj.peekingThroughKeyhole) {
+        ctx.fillStyle = "#5ab4ff";
+        ctx.shadowColor = "rgba(90, 180, 255, 0.8)";
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(x + screenW / 2, y + screenH / 2, Math.max(4, cellSize * 0.12), 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    } else {
+      // Porta entreaberta ou aberta
+      const angle = obj.openAmount * (Math.PI / 2);
+      ctx.translate(x + jambWidth, y + jambWidth);
+      ctx.rotate(angle);
+      ctx.fillRect(0, 0, (screenW - jambWidth * 2), screenH * 0.22);
+      ctx.strokeRect(0, 0, (screenW - jambWidth * 2), screenH * 0.22);
+    }
+  }
+
+  // Se o objeto estiver em movimento de arraste ou selecionado, desenha caixa pontilhada de destaque
+  if (uiState.isDraggingObject && uiState.draggedObjectId === obj.id) {
+    ctx.strokeStyle = "#5ab4ff";
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([4, 2]);
+    ctx.strokeRect(x - 3, y - 3, screenW + 6, screenH + 6);
+    ctx.setLineDash([]);
+  } else if (uiState.selectedObject === obj.id) {
+    ctx.strokeStyle = "#ffb834";
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 3]);
+    ctx.strokeRect(x - 2, y - 2, screenW + 4, screenH + 4);
+    ctx.setLineDash([]);
+  }
+
+  ctx.restore();
+}
+
+// -------------------------------------------------------------
+// 10. ATUALIZAÇÃO DOS EVENTOS DO CANVAS & MOUSE (V2.1)
+// -------------------------------------------------------------
+function aplicarPinturaOuObjeto(cellX, cellY) {
+  if (uiState.activeCategory === 'object') {
+    const item = ELEMENTOS_BIBLIOTECA.find(e => e.id === uiState.activeElementId);
+    const w = item ? (item.width || 1) : 1;
+    const h = item ? (item.height || 1) : 1;
+    criarObjetoEspacial(uiState.activeItemKey || 'door', cellX, cellY, w, h);
+  } else {
+    aplicarPinturaCelula(cellX, cellY, uiState.activeCategory, uiState.activeItemKey);
+  }
+}
+
+function aplicarPinturaCelula(x, y, category, id) {
+  const key = `${x},${y}`;
+  const cell = normalizarCelula(plantaState.cells[key]);
+
+  if (category === 'floor') {
+    cell.floor = id;
+  } else if (category === 'structure') {
+    cell.structure = id;
+    if (cell.floor === 'none') cell.floor = 'stone';
+  } else if (category === 'special') {
+    cell.special = id;
+    if (cell.floor === 'none') cell.floor = 'stone';
+  }
+
+  cell.updatedAt = Date.now();
+  plantaState.cells[key] = cell;
+  plantaState.updatedAt = Date.now();
+
+  atualizarIndicadoresStatus();
+  if (uiState.selectedCell && uiState.selectedCell.x === x && uiState.selectedCell.y === y) {
+    atualizarPainelCelula(x, y);
+  }
+  uiState.needsRedraw = true;
+}
+
+function apagarCelulaOuObjeto(x, y) {
+  const obj = obterObjetoEmCoordenada(x, y);
+  if (obj) {
+    removerObjetoEspacial(obj.id);
+    return;
+  }
+
+  const key = `${x},${y}`;
+  if (plantaState.cells[key]) {
+    delete plantaState.cells[key];
+    plantaState.updatedAt = Date.now();
+    atualizarIndicadoresStatus();
+    if (uiState.selectedCell && uiState.selectedCell.x === x && uiState.selectedCell.y === y) {
+      atualizarPainelCelula(x, y);
+    }
+    uiState.needsRedraw = true;
+  }
+}
+
+function preencherRetangulo(c1, c2, category, id) {
+  const x1 = Math.min(c1.x, c2.x);
+  const x2 = Math.max(c1.x, c2.x);
+  const y1 = Math.min(c1.y, c2.y);
+  const y2 = Math.max(c1.y, c2.y);
+
+  for (let y = y1; y <= y2; y++) {
+    for (let x = x1; x <= x2; x++) {
+      if (category !== 'object') {
+        aplicarPinturaCelula(x, y, category, id);
+      }
+    }
+  }
+
+  plantaState.updatedAt = Date.now();
+  atualizarIndicadoresStatus();
+  mostrarToast(`Área retangular aplicada (${(x2-x1+1)} × ${(y2-y1+1)}m)`);
+  uiState.needsRedraw = true;
+}
+
+function atualizarDimensoesRetangulo() {
+  if (!uiState.rectStartCell || !uiState.rectEndCell) return;
+  const w = Math.abs(uiState.rectEndCell.x - uiState.rectStartCell.x) + 1;
+  const h = Math.abs(uiState.rectEndCell.y - uiState.rectStartCell.y) + 1;
+  const area = w * h;
+  document.getElementById("status-rect-dimensions").textContent = `${w} × ${h} m (${area} m²)`;
+}
+
+function selecionarCelula(x, y) {
+  const obj = obterObjetoEmCoordenada(x, y);
+  if (obj) {
+    selecionarObjetoEspacial(obj.id);
+    return;
+  }
+
+  uiState.selectedObject = null;
+  document.getElementById("object-info-card").style.display = "none";
+
+  uiState.selectedCell = { x, y };
+  atualizarPainelCelula(x, y);
+  document.getElementById("status-selection-info").textContent = `X: ${x} | Y: ${y}`;
+  uiState.needsRedraw = true;
+}
+
+function atualizarPainelCelula(x, y) {
+  const card = document.getElementById("cell-info-card");
+  const key = `${x},${y}`;
+  const cellRaw = plantaState.cells[key];
+
+  card.style.display = "flex";
+  document.getElementById("info-cell-coords").textContent = `X: ${x} | Y: ${y}`;
+  document.getElementById("info-cell-meters").textContent = `${x * 1.0}m, ${y * 1.0}m`;
+
+  const extraActionRow = document.getElementById("cell-action-extra-row");
+
+  if (cellRaw) {
+    const props = obterPropriedadesCelula(cellRaw);
+
+    document.getElementById("info-cell-floor").textContent = `${props.chao.icone} ${props.chao.nome}`;
+    document.getElementById("info-cell-structure").textContent = `${props.estrutura.icone} ${props.estrutura.nome}`;
+    document.getElementById("info-cell-special").textContent = `${props.especial.icone} ${props.especial.nome}`;
+    document.getElementById("info-cell-label").value = props.cell.label || "";
+
+    extraActionRow.style.display = (props.cell.structure && props.cell.structure !== 'none') ? "block" : "none";
+
+    // Propriedades Táticas
+    const passEl = document.getElementById("info-prop-passable");
+    passEl.textContent = props.passavel ? "Sim" : "Não";
+    passEl.className = `prop-val ${props.passavel ? 'status-yes' : 'status-no'}`;
+
+    const costEl = document.getElementById("info-prop-cost");
+    costEl.textContent = props.custoMovimento === Infinity ? "Impassável" : `${props.custoMovimento}×`;
+    costEl.className = `prop-val ${props.custoMovimento === Infinity ? 'status-no' : (props.custoMovimento > 1 ? 'status-warn' : '')}`;
+
+    const visEl = document.getElementById("info-prop-vision");
+    visEl.textContent = props.bloqueiaVisao ? "Sim (Bloqueia)" : "Não (Livre)";
+    visEl.className = `prop-val ${props.bloqueiaVisao ? 'status-warn' : 'status-yes'}`;
+
+    const hazEl = document.getElementById("info-prop-hazard");
+    hazEl.textContent = props.perigo;
+    hazEl.className = `prop-val ${props.perigo !== 'Nenhum' ? 'status-warn' : ''}`;
+  } else {
+    document.getElementById("info-cell-floor").textContent = "Vazio (Sem Piso)";
+    document.getElementById("info-cell-structure").textContent = "Nenhuma";
+    document.getElementById("info-cell-special").textContent = "Nenhum";
+    document.getElementById("info-cell-label").value = "";
+    extraActionRow.style.display = "none";
+
+    const passEl = document.getElementById("info-prop-passable");
+    passEl.textContent = "—"; passEl.className = "prop-val";
+    const costEl = document.getElementById("info-prop-cost");
+    costEl.textContent = "—"; costEl.className = "prop-val";
+    const visEl = document.getElementById("info-prop-vision");
+    visEl.textContent = "—"; visEl.className = "prop-val";
+    const hazEl = document.getElementById("info-prop-hazard");
+    hazEl.textContent = "—"; hazEl.className = "prop-val";
+  }
+}
+
+function removerEstruturaCelulaSelecionada() {
+  if (!uiState.selectedCell) return;
+  const { x, y } = uiState.selectedCell;
+  const key = `${x},${y}`;
+  const cell = plantaState.cells[key];
+  if (!cell) return;
+
+  cell.structure = 'none';
+  cell.updatedAt = Date.now();
+  plantaState.updatedAt = Date.now();
+
+  atualizarPainelCelula(x, y);
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+  mostrarToast("Estrutura removida da célula");
+}
+
+function atualizarRotuloCelulaSelecionada(rotulo) {
+  if (!uiState.selectedCell) return;
+  const { x, y } = uiState.selectedCell;
+  const key = `${x},${y}`;
+  if (!plantaState.cells[key]) {
+    aplicarPinturaCelula(x, y, uiState.activeCategory, uiState.activeItemKey);
+  }
+  plantaState.cells[key].label = rotulo.trim();
+  plantaState.cells[key].updatedAt = Date.now();
+  plantaState.updatedAt = Date.now();
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+}
+
+function atualizarMultiSelecaoInfo() {
+  const size = uiState.selectedCells.size;
+  const statusInfo = document.getElementById("status-selection-info");
+  const card = document.getElementById("cell-info-card");
+
+  if (size === 0) {
+    if (statusInfo) statusInfo.textContent = "Nenhuma";
+    return;
+  }
+
+  if (statusInfo) {
+    statusInfo.textContent = `${size} células selecionadas (${size} m²) [Ctrl+Select]`;
+  }
+
+  if (size === 1) {
+    const firstKey = Array.from(uiState.selectedCells)[0];
+    const [x, y] = firstKey.split(",").map(Number);
+    uiState.selectedCell = { x, y };
+    atualizarPainelCelula(x, y);
+    return;
+  }
+
+  // Multi-Seleção de 2 ou mais células
+  if (card) {
+    card.style.display = "flex";
+    document.getElementById("info-cell-coords").textContent = `${size} Células`;
+    document.getElementById("info-cell-meters").textContent = `${size}.0 m² total`;
+    
+    document.getElementById("info-cell-floor").textContent = "Múltipla Seleção";
+    document.getElementById("info-cell-structure").textContent = "Múltipla Seleção";
+    document.getElementById("info-cell-special").textContent = "Múltipla Seleção";
+    document.getElementById("info-cell-label").value = "";
+
+    const passEl = document.getElementById("info-prop-passable");
+    if (passEl) { passEl.textContent = `${size} Células`; passEl.className = "prop-val"; }
+    const costEl = document.getElementById("info-prop-cost");
+    if (costEl) { costEl.textContent = `${size} m²`; costEl.className = "prop-val"; }
+    const visEl = document.getElementById("info-prop-vision");
+    if (visEl) { visEl.textContent = "Multi"; visEl.className = "prop-val"; }
+    const hazEl = document.getElementById("info-prop-hazard");
+    if (hazEl) { hazEl.textContent = "Multi"; hazEl.className = "prop-val"; }
+
+    const extraRow = document.getElementById("cell-action-extra-row");
+    if (extraRow) extraRow.style.display = "none";
+  }
+}
+
+function aplicarPinturaMultiSelecao() {
+  if (uiState.selectedCells.size === 0) return;
+  pushUndoState();
+  const cat = uiState.activeCategory;
+  const keyItem = uiState.activeItemKey;
+  let count = 0;
+
+  uiState.selectedCells.forEach(key => {
+    const [x, y] = key.split(",").map(Number);
+    if (cat === 'object') {
+      const item = ELEMENTOS_BIBLIOTECA.find(e => e.id === uiState.activeElementId);
+      const w = item ? (item.width || 1) : 1;
+      const h = item ? (item.height || 1) : 1;
+      criarObjetoEspacial(uiState.activeItemKey || 'door', x, y, w, h);
+    } else {
+      aplicarPinturaCelula(x, y, cat, keyItem);
+      count++;
+    }
+  });
+
+  salvarPlantaLocal(false);
+  uiState.needsRedraw = true;
+  mostrarToast(`🖌️ Elemento aplicado a ${count} células da multi-seleção!`);
+}
+
+function apagarMultiSelecao() {
+  if (uiState.selectedCells.size === 0) return;
+  pushUndoState();
+  let count = 0;
+
+  uiState.selectedCells.forEach(key => {
+    const [x, y] = key.split(",").map(Number);
+    if (plantaState.cells[key]) {
+      delete plantaState.cells[key];
+      count++;
+    }
+    const obj = obterObjetoEmCoordenada(x, y);
+    if (obj) {
+      removerObjetoEspacial(obj.id);
+    }
+  });
+
+  plantaState.updatedAt = Date.now();
+  uiState.selectedCells.clear();
+  document.getElementById("cell-info-card").style.display = "none";
+  salvarPlantaLocal(false);
+  atualizarIndicadoresStatus();
+  uiState.needsRedraw = true;
+  mostrarToast(`🧹 ${count} células limpas!`);
+}
+
+function pintarCelulaSelecionada() {
+  if (uiState.selectedCells.size > 1) {
+    aplicarPinturaMultiSelecao();
+    return;
+  }
+  if (!uiState.selectedCell) return;
+  pushUndoState();
+  aplicarPinturaOuObjeto(uiState.selectedCell.x, uiState.selectedCell.y);
+  salvarPlantaLocal(false);
+}
+
+function apagarCelulaSelecionada() {
+  if (uiState.selectedCells.size > 1) {
+    apagarMultiSelecao();
+    return;
+  }
+  if (!uiState.selectedCell) return;
+  pushUndoState();
+  apagarCelulaOuObjeto(uiState.selectedCell.x, uiState.selectedCell.y);
+  salvarPlantaLocal(false);
+}
+
+function atualizarIndicadoresStatus() {
+  const totalCells = Object.keys(plantaState.cells).length;
+  const totalObjs = Object.keys(plantaState.objects).length;
+  document.getElementById("status-total-cells").textContent = `${totalCells} (e ${totalObjs} obj)`;
+  document.getElementById("status-total-area").textContent = `${totalCells} m²`;
+}
+
+// -------------------------------------------------------------
+// 11. PERSISTÊNCIA LOCAL V3 & IMPORTAÇÃO/EXPORTAÇÃO COM OBJETOS
+// -------------------------------------------------------------
+function salvarPlantaLocal(exibirMensagem = true) {
+  try {
+    const payload = {
+      version: 3,
+      nome: plantaState.nome,
+      unidade: "m",
+      cellSizeMeters: 1.0,
+      camera: { x: camera.x, y: camera.y, zoom: camera.zoom },
+      cells: plantaState.cells,
+      objects: plantaState.objects,
+      updatedAt: Date.now()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    if (exibirMensagem) {
+      mostrarToast("💾 Planta salva com sucesso (V3)!");
+    }
+  } catch (err) {
+    console.error("Erro ao salvar planta no localStorage:", err);
+  }
+}
+
+function carregarPlantaLocal() {
+  carregarFavoritosLocal();
+  try {
+    let raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) raw = localStorage.getItem(STORAGE_KEY_V2_LEGACY);
+    if (!raw) raw = localStorage.getItem(STORAGE_KEY_V1_LEGACY);
+
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed.cells === 'object') {
+        const normalizedCells = {};
+        Object.keys(parsed.cells).forEach(k => {
+          const norm = normalizarCelula(parsed.cells[k]);
+          if (norm.structure === 'door') {
+            const [cx, cy] = k.split(",").map(Number);
+            criarObjetoEspacial('door', cx, cy, 1, 1);
+            norm.structure = 'none';
+          }
+          normalizedCells[k] = norm;
+        });
+
+        plantaState.cells = normalizedCells;
+        if (parsed.objects && typeof parsed.objects === 'object') {
+          plantaState.objects = parsed.objects;
+        }
+        plantaState.version = 3;
+        plantaState.nome = parsed.nome || "Planta Tática";
+        if (parsed.camera) {
+          camera.x = parsed.camera.x || 0;
+          camera.y = parsed.camera.y || 0;
+          camera.zoom = Math.max(camera.minZoom, Math.min(camera.maxZoom, parsed.camera.zoom || 1.0));
+          document.getElementById("cam-zoom-pct").textContent = `${Math.round(camera.zoom * 100)}%`;
+        }
+        return;
+      }
+    }
+  } catch (err) {
+    console.error("Erro ao carregar dados da planta:", err);
+  }
+
+  criarSalaInicialDemonstracao();
+}
+
+function criarSalaInicialDemonstracao() {
+  for (let y = -3; y <= 2; y++) {
+    for (let x = -3; x <= 2; x++) {
+      const key = `${x},${y}`;
+      const isPerimeter = (x === -3 || x === 2 || y === -3 || y === 2);
+      const isDoor = (x === 0 && y === -3);
+
+      if (isDoor) {
+        plantaState.cells[key] = {
+          floor: 'stone',
+          structure: 'door',
+          doorState: 'closed',
+          special: 'none',
+          label: 'Entrada',
+          updatedAt: Date.now()
+        };
+      } else if (isPerimeter) {
+        plantaState.cells[key] = {
+          floor: 'stone',
+          structure: 'wall',
+          special: 'none',
+          doorState: 'closed',
+          label: '',
+          updatedAt: Date.now()
+        };
+      } else {
+        plantaState.cells[key] = {
+          floor: (x === 0 && y === 0) ? 'wood' : 'stone',
+          structure: 'none',
+          special: (x === 1 && y === 1) ? 'fire' : 'none',
+          doorState: 'closed',
+          label: (x === 0 && y === 0) ? 'Origem' : '',
+          updatedAt: Date.now()
+        };
+      }
+    }
+  }
+  salvarPlantaLocal(false);
+}
+
+function confirmarLimparPlanta() {
+  if (confirm("Deseja realmente limpar toda a planta e iniciar um novo mapa?")) {
+    plantaState.cells = {};
+    plantaState.updatedAt = Date.now();
+    uiState.selectedCell = null;
+    document.getElementById("cell-info-card").style.display = "none";
+    document.getElementById("status-selection-info").textContent = "Nenhuma";
+    atualizarIndicadoresStatus();
+    centralizarOrigem();
+    salvarPlantaLocal(false);
+    mostrarToast("Planta limpa. Novo mapa iniciado!");
+  }
+}
+
+function abrirModalExportar() {
+  const keys = Object.keys(plantaState.cells);
+  let minX = 0, maxX = 0, minY = 0, maxY = 0;
+  let temDistantes = false;
+
+  if (keys.length > 0) {
+    minX = Infinity; maxX = -Infinity; minY = Infinity; maxY = -Infinity;
+    keys.forEach(k => {
+      const [x, y] = k.split(",").map(Number);
+      if (x < minX) minX = x;
+      if (x > maxX) maxX = x;
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
+      if (Math.abs(x) > 100 || Math.abs(y) > 100) {
+        temDistantes = true;
+      }
+    });
+  }
+
+  document.getElementById("audit-total-cells").textContent = String(keys.length);
+  document.getElementById("audit-bounds-text").textContent = `X: [${minX} a ${maxX}m], Y: [${minY} a ${maxY}m]`;
+  document.getElementById("audit-distant-warning").style.display = temDistantes ? "block" : "none";
+
+  const payload = {
+    version: 3,
+    nome: plantaState.nome,
+    unidade: "m",
+    cellSizeMeters: 1.0,
+    cells: plantaState.cells,
+    objects: plantaState.objects,
+    updatedAt: Date.now(),
+    exportedAt: new Date().toISOString()
+  };
+  document.getElementById("modal-json-text").value = JSON.stringify(payload, null, 2);
+  document.getElementById("modal-json").style.display = "flex";
+}
+
+function limparCelulasDistantes() {
+  if (confirm("Deseja remover apenas as células situadas a mais de 100 metros da origem? Células na área principal serão mantidas.")) {
+    const keys = Object.keys(plantaState.cells);
+    let removidas = 0;
+    keys.forEach(k => {
+      const [x, y] = k.split(",").map(Number);
+      if (Math.abs(x) > 100 || Math.abs(y) > 100) {
+        delete plantaState.cells[k];
+        removidas++;
+      }
+    });
+    plantaState.updatedAt = Date.now();
+    salvarPlantaLocal(false);
+    fecharModalExportar();
+    enquadrarTudo();
+    atualizarIndicadoresStatus();
+    mostrarToast(`🧹 ${removidas} células distantes removidas com sucesso!`);
+  }
+}
+
+function getNomeArquivoExportacao() {
+  const nomeBase = (plantaState.nome || 'planta-tatica')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9_-]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    || 'planta-tatica';
+  return `${nomeBase}.json`;
+}
+
+function baixarArquivoJson() {
+  try {
+    const payload = {
+      version: 3,
+      nome: plantaState.nome || "Planta Tática",
+      unidade: plantaState.unidade || "m",
+      cellSizeMeters: plantaState.cellSizeMeters || 1.0,
+      camera: { x: camera.x, y: camera.y, zoom: camera.zoom },
+      cells: plantaState.cells,
+      objects: plantaState.objects,
+      updatedAt: plantaState.updatedAt || Date.now(),
+      exportedAt: new Date().toISOString()
+    };
+
+    const jsonString = JSON.stringify(payload, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = getNomeArquivoExportacao();
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    mostrarToast("💾 Arquivo .json baixado com sucesso!");
+  } catch (err) {
+    console.error("Erro ao baixar JSON:", err);
+    alert("Ocorreu um erro ao gerar o arquivo JSON para download.");
+  }
+}
+
+function abrirSeletorArquivoJson() {
+  const input = document.getElementById("input-arquivo-json");
+  if (input) {
+    input.value = "";
+    input.click();
+  }
+}
+
+function validarEstruturaPlanta(data) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    return { valido: false, erro: "O arquivo deve conter um objeto JSON válido." };
+  }
+  if (!('cells' in data) || typeof data.cells !== 'object' || data.cells === null || Array.isArray(data.cells)) {
+    return { valido: false, erro: "O campo 'cells' é obrigatório e deve ser uma coleção de células do mapa." };
+  }
+
+  const keys = Object.keys(data.cells);
+  for (let i = 0; i < Math.min(keys.length, 100); i++) {
+    const k = keys[i];
+    const parts = k.split(",");
+    if (parts.length !== 2 || isNaN(Number(parts[0])) || isNaN(Number(parts[1]))) {
+      return { valido: false, erro: `Coordenada de célula inválida encontrada: "${k}". Formato esperado: "X,Y".` };
+    }
+  }
+  return { valido: true };
+}
+
+function aplicarDadosPlantaImportada(parsed, nomeArquivoFallback = "") {
+  const totalCelulasAtuais = Object.keys(plantaState.cells).length;
+  if (totalCelulasAtuais > 0) {
+    const continuar = confirm("A importação substituirá a planta atual. Deseja continuar?");
+    if (!continuar) {
+      return false;
+    }
+  }
+
+  const normalizedCells = {};
+  if (parsed.cells && typeof parsed.cells === 'object') {
+    Object.keys(parsed.cells).forEach(k => {
+      normalizedCells[k] = normalizarCelula(parsed.cells[k]);
+    });
+  }
+
+  plantaState.cells = normalizedCells;
+  plantaState.objects = (parsed.objects && typeof parsed.objects === 'object') ? parsed.objects : {};
+  plantaState.version = 3;
+  plantaState.unidade = parsed.unidade || "m";
+  plantaState.cellSizeMeters = parsed.cellSizeMeters || 1.0;
+  plantaState.nome = parsed.nome || nomeArquivoFallback || "Planta Tática";
+  plantaState.updatedAt = parsed.updatedAt || Date.now();
+
+  if (parsed.camera && typeof parsed.camera.x === 'number' && typeof parsed.camera.y === 'number') {
+    camera.x = parsed.camera.x;
+    camera.y = parsed.camera.y;
+    if (typeof parsed.camera.zoom === 'number') {
+      camera.zoom = Math.max(camera.minZoom, Math.min(camera.maxZoom, parsed.camera.zoom));
+      document.getElementById("cam-zoom-pct").textContent = `${Math.round(camera.zoom * 100)}%`;
+    }
+  } else {
+    enquadrarTudo();
+  }
+
+  uiState.selectedCell = null;
+  document.getElementById("cell-info-card").style.display = "none";
+  document.getElementById("status-selection-info").textContent = "Nenhuma";
+
+  salvarPlantaLocal(false);
+  fecharModalExportar();
+  atualizarIndicadoresStatus();
+  uiState.needsRedraw = true;
+  mostrarToast(`📥 Planta "${plantaState.nome}" carregada com sucesso!`);
+  return true;
+}
+
+function aoSelecionarArquivoJson(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  if (!file.name.toLowerCase().endsWith(".json") && file.type && !file.type.includes("json")) {
+    alert("Formato de arquivo inválido. Por favor, selecione um arquivo com a extensão .json.");
+    event.target.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const conteudo = e.target.result;
+      const parsed = JSON.parse(conteudo);
+      const validacao = validarEstruturaPlanta(parsed);
+      if (!validacao.valido) {
+        alert("Arquivo incompatível: " + validacao.erro);
+        return;
+      }
+
+      const nomeLimpo = file.name.replace(/\.[^/.]+$/, "");
+      aplicarDadosPlantaImportada(parsed, nomeLimpo);
+    } catch (err) {
+      console.error("Erro ao processar arquivo JSON:", err);
+      alert("Erro ao ler o arquivo JSON: O conteúdo não é um JSON válido ou está corrompido.");
+    } finally {
+      event.target.value = "";
+    }
+  };
+
+  reader.onerror = function() {
+    alert("Erro ao ler o arquivo selecionado no seu computador.");
+    event.target.value = "";
+  };
+
+  reader.readAsText(file, "UTF-8");
+}
+
+function fecharModalExportar() {
+  document.getElementById("modal-json").style.display = "none";
+}
+
+function copiarJsonExportado() {
+  const txt = document.getElementById("modal-json-text");
+  txt.select();
+  navigator.clipboard.writeText(txt.value).then(() => {
+    mostrarToast("📋 JSON copiado para a área de transferência!");
+  }).catch(() => {
+    mostrarToast("Selecione e copie o texto manualmente.");
+  });
+}
+
+function importarJsonDigitado() {
+  try {
+    const raw = document.getElementById("modal-json-text").value.trim();
+    if (!raw) {
+      alert("Por favor, cole o código JSON da planta no campo de texto antes de carregar.");
+      return;
+    }
+    const parsed = JSON.parse(raw);
+    const validacao = validarEstruturaPlanta(parsed);
+    if (!validacao.valido) {
+      alert("JSON incompatível: " + validacao.erro);
+      return;
+    }
+
+    aplicarDadosPlantaImportada(parsed, "Planta Importada");
+  } catch (err) {
+    alert("Erro ao processar JSON: " + err.message);
+  }
+}
+
+function mostrarToast(mensagem) {
+  const toast = document.getElementById("toast-notification");
+  toast.textContent = mensagem;
+  toast.classList.add("show");
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2200);
+}
+
+window.addEventListener("DOMContentLoaded", initApp);
+</script>
+</body>
+</html>

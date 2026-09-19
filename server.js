@@ -105,6 +105,10 @@ app.get('/api/campanhas/:codigo', (req, res) => {
   res.json(serializarSala(sala));
 });
 
+app.get(['/planta', '/planta.html'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'planta.html'));
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
