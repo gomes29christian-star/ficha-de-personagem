@@ -11850,6 +11850,87 @@ body.modo-claro .tatico-cond-ico-badge.debuff-dano {
   to { visibility: hidden; }
 }
 
+/* Variantes de Estilo do Pop-up Notificação por Tipo de Evento */
+.toast-conquista-equipe.tipo-rolagem {
+  box-shadow: 0 0 0 4px #000000, 0 0 0 8px #00f0ff, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 240, 255, 0.45);
+  border-color: #00f0ff;
+}
+.toast-conquista-equipe.tipo-rolagem .toast-conquista-sub {
+  color: #00f0ff;
+  text-shadow: 2px 2px #000000;
+}
+.toast-conquista-equipe.tipo-rolagem .toast-conquista-titulo {
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+}
+.toast-conquista-equipe.tipo-rolagem .toast-conquista-desc {
+  color: #c0f6ff;
+}
+
+.toast-conquista-equipe.tipo-sussurro {
+  box-shadow: 0 0 0 4px #000000, 0 0 0 8px #9b59b6, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 30px rgba(155, 89, 182, 0.55);
+  border-color: #9b59b6;
+}
+.toast-conquista-equipe.tipo-sussurro .toast-conquista-sub {
+  color: #e0aaff;
+  text-shadow: 2px 2px #000000;
+}
+.toast-conquista-equipe.tipo-sussurro .toast-conquista-titulo {
+  color: #d2b4de;
+  text-shadow: 2px 2px #000000;
+}
+.toast-conquista-equipe.tipo-sussurro .toast-conquista-desc {
+  color: #f5eeff;
+}
+
+.toast-conquista-equipe.tipo-individual {
+  box-shadow: 0 0 0 4px #000000, 0 0 0 8px #f39c12, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(243, 156, 18, 0.5);
+  border-color: #f39c12;
+}
+.toast-conquista-equipe.tipo-individual .toast-conquista-sub {
+  color: #f1c40f;
+  text-shadow: 2px 2px #000000;
+}
+.toast-conquista-equipe.tipo-individual .toast-conquista-titulo {
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+}
+.toast-conquista-equipe.tipo-individual .toast-conquista-desc {
+  color: #fff4d1;
+}
+
+.toast-conquista-equipe.tipo-secreta {
+  box-shadow: 0 0 0 4px #000000, 0 0 0 8px #a569bd, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 32px rgba(165, 105, 189, 0.65);
+  border-color: #a569bd;
+}
+.toast-conquista-equipe.tipo-secreta .toast-conquista-sub {
+  color: #d2b4de;
+  text-shadow: 2px 2px #000000;
+}
+.toast-conquista-equipe.tipo-secreta .toast-conquista-titulo {
+  color: #00f0ff;
+  text-shadow: 2px 2px #000000;
+}
+.toast-conquista-equipe.tipo-secreta .toast-conquista-desc {
+  color: #e8d7f1;
+}
+
+.toast-conquista-equipe.tipo-equipe {
+  box-shadow: 0 0 0 4px #000000, 0 0 0 8px #f1c40f, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(241, 196, 15, 0.45);
+  border-color: #ffffff;
+}
+.toast-conquista-equipe.tipo-equipe .toast-conquista-sub {
+  color: #ffff00;
+  text-shadow: 2px 2px #000000;
+}
+.toast-conquista-equipe.tipo-equipe .toast-conquista-titulo {
+  color: #00f0ff;
+  text-shadow: 2px 2px #000000;
+}
+.toast-conquista-equipe.tipo-equipe .toast-conquista-desc {
+  color: #ffffff;
+}
+
 /* Modal Detalhes de Conquistas do Membro */
 .modal-membro-overlay {
   position: fixed;
@@ -15155,20 +15236,33 @@ if(window.innerWidth <= 768){
 
 <!-- MODAL DE QR CODE DA CAMPANHA -->
 <div id="modal-qrcode-campanha" class="modal-membro-overlay" aria-hidden="true" style="display:none;" onclick="fecharModalQRCodeCampanhaPorOverlay(event)">
-  <div class="modal-membro-janela" style="max-width:400px; text-align:center;" role="dialog" aria-labelledby="modal-qrcode-titulo" aria-modal="true">
+  <div class="modal-membro-janela" style="max-width:420px; text-align:center;" role="dialog" aria-labelledby="modal-qrcode-titulo" aria-modal="true">
     <div class="modal-membro-cabecalho">
       <h3 id="modal-qrcode-titulo" style="font-family:'MirageFinal', serif; font-size:18px; margin:0; color:var(--ink);">📱 Entrada Rápida na Campanha</h3>
       <button type="button" class="btn-fechar-modal" onclick="fecharModalQRCodeCampanha()" title="Fechar janela">✕</button>
     </div>
-    <div class="modal-membro-corpo" style="align-items:center; gap:16px;">
-      <p style="font-size:12.5px; color:var(--ink-dim); margin:0;">Aponte a câmera do seu celular ou compartilhe o código abaixo:</p>
-      <div id="qrcode-canvas-container" style="background:#fff; padding:16px; border-radius:8px; display:inline-block; border:1px solid var(--line);">
-        <!-- Gerado via SVG/Canvas dinâmico -->
+    <div class="modal-membro-corpo" style="align-items:center; gap:14px; padding:20px 16px;">
+      <p style="font-size:13px; color:var(--ink-dim); margin:0; line-height:1.4;">Aponte a câmera do celular para o QR Code abaixo para entrar diretamente nesta mesa de jogo:</p>
+      
+      <div id="qrcode-canvas-container" style="background:#ffffff; padding:12px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(0,0,0,0.12); border:1px solid var(--line-soft); min-width:214px; min-height:214px;">
+        <!-- Gerado dinamicamente com QRCodeLib / SVG -->
       </div>
-      <div style="font-family:monospace; font-size:18px; font-weight:bold; color:var(--accent); letter-spacing:0.08em;" id="qrcode-codigo-txt">STRANGERS-0000</div>
-      <button type="button" class="btn-secundario" onclick="copiarCodigoCampanha()" style="width:100%; height:36px;">
-        <span>📋 Copiar Código da Sala</span>
-      </button>
+      
+      <div style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center;">
+        <span style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-dim); font-weight:bold;">Código da Sala</span>
+        <div style="font-family:monospace; font-size:20px; font-weight:bold; color:var(--accent); letter-spacing:0.08em; background:var(--bg-inset); padding:6px 16px; border-radius:6px; border:1px solid var(--line-soft); user-select:all;" id="qrcode-codigo-txt">STRANGERS-0000</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
+        <button type="button" class="btn-primario" onclick="copiarLinkEntradaCampanha()" style="width:100%; height:38px; justify-content:center; font-size:13px; font-weight:bold;">
+          <span>🔗 Copiar Link de Entrada</span>
+        </button>
+        <button type="button" class="btn-secundario" onclick="copiarCodigoCampanha()" style="width:100%; height:36px; justify-content:center; font-size:12.5px;">
+          <span>📋 Copiar Apenas o Código</span>
+        </button>
+      </div>
+
+      <div style="font-size:11px; color:var(--ink-dim); word-break:break-all; max-width:100%; opacity:0.8;" id="qrcode-url-preview"></div>
     </div>
   </div>
 </div>
@@ -31666,33 +31760,53 @@ function processarMensagemCampanha(msg) {
             mostrarStatus(`👋 ${msg.membro.nomePersonagem} conectou-se à campanha.`, "ok");
         }
 
-    } else if (type === 'conquista_equipe_recebida') {
-        const { conquista, desbloqueadoPor, sala } = msg;
-        if (sala) salaCampanhaAtiva = sala;
+    } else if (type === 'conquista_equipe_recebida' || type === 'desbloquear_conquista_equipe') {
+        const c = msg.conquista || (msg.evento && msg.evento.conquista);
+        const autor = msg.desbloqueadoPor || (msg.evento && msg.evento.desbloqueadoPor) || "Um membro da equipe";
+        if (msg.sala) salaCampanhaAtiva = msg.sala;
 
-        if (conquista && conquista.id) {
-            const eraNova = !conquistasDesbloqueadas.has(conquista.id);
-            conquistasDesbloqueadas.add(conquista.id);
+        if (c && c.id) {
+            const eraNova = !conquistasDesbloqueadas.has(c.id);
+            conquistasDesbloqueadas.add(c.id);
 
             if (eraNova) {
                 if (typeof salvarFichaAutomatico === "function") salvarFichaAutomatico();
                 renderizarListaConquistas();
             }
 
-            exibirToastConquistaEquipe(conquista, desbloqueadoPor);
+            exibirToastConquistaEquipe(c, autor);
             if (typeof somAtivado !== "undefined" && somAtivado) {
                 tocarSom("vitoria");
             }
         }
         renderizarPainelCampanha();
+        renderizarFeedCampanha();
 
-    } else if (type === 'conquista_membro_notificada') {
+    } else if (type === 'conquista_membro_notificada' || type === 'notificar_conquista_individual_ou_secreta') {
         if (msg.sala) salaCampanhaAtiva = msg.sala;
         renderizarPainelCampanha();
+        renderizarFeedCampanha();
 
-    } else if (type === 'rolagem_recebida') {
+        const c = msg.conquista || (msg.evento && msg.evento.conquista) || {};
+        const jogador = msg.jogadorNome || (msg.evento && msg.evento.desbloqueadoPor) || (msg.evento && msg.evento.autor) || "Um membro da mesa";
+        const ehSecreta = (msg.tipoConquista === 'secreta' || (msg.evento && msg.evento.tipo === 'conquista_secreta') || c.nivel1 === 'secretas');
+
+        exibirToastConquistaIndividual(c, jogador, ehSecreta);
+
+        if (typeof somAtivado !== "undefined" && somAtivado) {
+            tocarSom("vitoria");
+        }
+
+    } else if (type === 'rolagem_recebida' || type === 'transmitir_rolagem') {
         if (msg.sala) salaCampanhaAtiva = msg.sala;
         renderizarFeedCampanha();
+
+        const ev = msg.evento || msg;
+        const rol = msg.rolagem || ev.rolagem || {};
+        const jogador = msg.jogadorNome || ev.jogador || ev.autor || "Um membro da mesa";
+
+        exibirToastRolagemCampanha(rol, jogador);
+
         if (typeof somAtivado !== "undefined" && somAtivado) {
             tocarSom("dado");
         }
@@ -31724,10 +31838,18 @@ function processarMensagemCampanha(msg) {
         exibirAlertaMestreNaTela(alerta, autor);
         renderizarFeedCampanha();
 
-    } else if (type === 'sussurro_recebido') {
+    } else if (type === 'sussurro_recebido' || type === 'enviar_sussurro') {
         if (msg.sala) salaCampanhaAtiva = msg.sala;
         renderizarFeedCampanha();
-        mostrarStatus(`🤫 Sussurro de ${msg.remetente}: ${msg.texto}`, "aviso");
+
+        const ev = msg.evento || msg;
+        const remetente = msg.remetente || ev.remetente || "Aliado";
+        const destinatario = msg.destinatario || ev.destinatario || "Você";
+        const texto = msg.texto || ev.texto || "";
+
+        exibirToastSussurroCampanha(remetente, destinatario, texto);
+
+        mostrarStatus(`🤫 Sussurro de ${remetente}: ${texto}`, "aviso");
         if (typeof somAtivado !== "undefined" && somAtivado) {
             tocarSom("clique");
         }
@@ -32323,37 +32445,519 @@ function exportarRelatorioCampanha() {
     mostrarStatus("📥 Relatório da sessão exportado com sucesso!", "ok");
 }
 
-function abrirModalQRCodeCampanha() {
-    const modal = document.getElementById("modal-qrcode-campanha");
-    if (!modal || !salaCampanhaAtiva) return;
-    const txtCod = document.getElementById("qrcode-codigo-txt");
-    const container = document.getElementById("qrcode-canvas-container");
-    if (txtCod) txtCod.textContent = salaCampanhaAtiva.codigo;
+// ==========================================
+// GERADOR NATIVO DE QR CODE (ISO/IEC 18004 COMPATÍVEL)
+// ==========================================
+const QRCodeLib = (function() {
+    const QRMode = { NUMBER: 1, ALPHA_NUM: 2, BYTE: 4, KANJI: 8 };
+    const QRErrorCorrectLevel = { L: 1, M: 0, Q: 3, H: 2 };
 
-    if (container) {
-        const cod = salaCampanhaAtiva.codigo;
-        // Desenha representação visual geométrica de matriz / QR
-        let svgBlocks = '';
-        const size = 180;
-        const gridCount = 21;
-        const step = size / gridCount;
-        for (let r = 0; r < gridCount; r++) {
-            for (let c = 0; c < gridCount; c++) {
-                // Cantos de localização padrão QR
-                const isCorner = (r < 7 && c < 7) || (r < 7 && c >= gridCount - 7) || (r >= gridCount - 7 && c < 7);
-                const isCenter = isCorner && (r >= 2 && r <= 4 && c >= 2 && c <= 4 || r >= 2 && r <= 4 && c >= gridCount - 5 && c <= gridCount - 3 || r >= gridCount - 5 && r <= gridCount - 3 && c >= 2 && c <= 4);
-                const isBorder = isCorner && (r === 0 || r === 6 || c === 0 || c === 6 || r === 0 || r === 6 || c === gridCount - 7 || c === gridCount - 1 || r === gridCount - 7 || r === gridCount - 1 || c === 0 || c === 6);
-                
-                // Hash determinístico com base no código da sala
-                const charCode = cod.charCodeAt((r * gridCount + c) % cod.length) || 42;
-                const isFilled = isBorder || isCenter || (!isCorner && ((r * 7 + c * 13 + charCode) % 3 === 0));
+    const QRMath = {
+        glog: function(n) {
+            if (n < 1) throw new Error("glog(" + n + ")");
+            return QRMath.LOG_TABLE[n];
+        },
+        gexp: function(n) {
+            while (n < 0) n += 255;
+            while (n >= 256) n -= 255;
+            return QRMath.EXP_TABLE[n];
+        },
+        EXP_TABLE: new Array(256),
+        LOG_TABLE: new Array(256)
+    };
+    for (let i = 0; i < 8; i++) QRMath.EXP_TABLE[i] = 1 << i;
+    for (let i = 8; i < 256; i++) QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4] ^ QRMath.EXP_TABLE[i - 5] ^ QRMath.EXP_TABLE[i - 6] ^ QRMath.EXP_TABLE[i - 8];
+    for (let i = 0; i < 255; i++) QRMath.LOG_TABLE[QRMath.EXP_TABLE[i]] = i;
 
-                if (isFilled) {
-                    svgBlocks += `<rect x="${c * step}" y="${r * step}" width="${step}" height="${step}" fill="#111" />`;
+    function QRPolynomial(num, shift) {
+        if (num.length === undefined) throw new Error(num.length + "/" + shift);
+        let offset = 0;
+        while (offset < num.length && num[offset] === 0) offset++;
+        this.num = new Array(num.length - offset + shift);
+        for (let i = 0; i < num.length - offset; i++) this.num[i] = num[i + offset];
+        for (let i = num.length - offset; i < this.num.length; i++) this.num[i] = 0;
+    }
+    QRPolynomial.prototype = {
+        get: function(index) { return this.num[index]; },
+        getLength: function() { return this.num.length; },
+        multiply: function(e) {
+            const num = new Array(this.getLength() + e.getLength() - 1);
+            for (let i = 0; i < num.length; i++) num[i] = 0;
+            for (let i = 0; i < this.getLength(); i++) {
+                for (let j = 0; j < e.getLength(); j++) {
+                    num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i)) + QRMath.glog(e.get(j)));
+                }
+            }
+            return new QRPolynomial(num, 0);
+        },
+        mod: function(e) {
+            if (this.getLength() - e.getLength() < 0) return this;
+            const ratio = QRMath.glog(this.get(0)) - QRMath.glog(e.get(0));
+            const num = new Array(this.getLength());
+            for (let i = 0; i < this.getLength(); i++) num[i] = this.get(i);
+            for (let i = 0; i < e.getLength(); i++) {
+                num[i] ^= QRMath.gexp(QRMath.glog(e.get(i)) + ratio);
+            }
+            return new QRPolynomial(num, 0).mod(e);
+        }
+    };
+
+    const RS_BLOCK_TABLE = [
+        [1, 26, 19], [1, 26, 16], [1, 26, 13], [1, 26, 9],
+        [1, 44, 34], [1, 44, 28], [1, 44, 22], [1, 44, 16],
+        [1, 70, 55], [1, 70, 44], [2, 35, 17], [2, 35, 13],
+        [1, 100, 80], [2, 50, 32], [2, 50, 24], [4, 25, 9],
+        [1, 134, 108], [2, 67, 43], [2, 33, 15, 2, 34, 16], [2, 33, 11, 2, 34, 12],
+        [2, 86, 68], [4, 43, 27], [4, 43, 19], [4, 43, 15],
+        [2, 98, 78], [4, 49, 31], [2, 32, 14, 4, 33, 15], [4, 39, 13, 1, 40, 14],
+        [2, 121, 97], [2, 60, 38, 2, 61, 39], [4, 40, 18, 2, 41, 19], [4, 40, 14, 2, 41, 15],
+        [2, 146, 116], [3, 58, 36, 2, 59, 37], [4, 36, 16, 4, 37, 17], [4, 36, 12, 4, 37, 13],
+        [2, 86, 68, 2, 87, 69], [4, 69, 43, 1, 70, 44], [6, 43, 19, 2, 44, 20], [6, 43, 15, 2, 44, 16],
+        [4, 101, 81], [1, 80, 50, 4, 81, 51], [4, 50, 22, 4, 51, 23], [3, 36, 12, 8, 37, 13],
+        [2, 116, 92, 2, 117, 93], [6, 58, 36, 2, 59, 37], [4, 46, 20, 6, 47, 21], [7, 42, 14, 4, 43, 15],
+        [4, 133, 107], [8, 59, 37, 1, 60, 38], [8, 44, 20, 4, 45, 21], [12, 33, 11, 4, 34, 12],
+        [3, 145, 115, 1, 146, 116], [4, 64, 40, 5, 65, 41], [11, 36, 16, 5, 37, 17], [11, 36, 12, 5, 37, 13]
+    ];
+
+    function QRRSBlock(totalCount, dataCount) {
+        this.totalCount = totalCount;
+        this.dataCount = dataCount;
+    }
+    QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
+        const rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
+        if (!rsBlock) throw new Error("bad rs block @ " + typeNumber + "/" + errorCorrectLevel);
+        const length = rsBlock.length / 3;
+        const list = [];
+        for (let i = 0; i < length; i++) {
+            const count = rsBlock[i * 3 + 0];
+            const totalCount = rsBlock[i * 3 + 1];
+            const dataCount = rsBlock[i * 3 + 2];
+            for (let j = 0; j < count; j++) {
+                list.push(new QRRSBlock(totalCount, dataCount));
+            }
+        }
+        return list;
+    };
+    QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
+        switch (errorCorrectLevel) {
+            case QRErrorCorrectLevel.L: return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+            case QRErrorCorrectLevel.M: return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+            case QRErrorCorrectLevel.Q: return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+            case QRErrorCorrectLevel.H: return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+            default: return undefined;
+        }
+    };
+
+    function QRBitBuffer() {
+        this.buffer = [];
+        this.length = 0;
+    }
+    QRBitBuffer.prototype = {
+        get: function(index) {
+            const bufIndex = Math.floor(index / 8);
+            return ((this.buffer[bufIndex] >>> (7 - index % 8)) & 1) === 1;
+        },
+        put: function(num, length) {
+            for (let i = 0; i < length; i++) {
+                this.putBit(((num >>> (length - i - 1)) & 1) === 1);
+            }
+        },
+        getLengthInBits: function() { return this.length; },
+        putBit: function(bit) {
+            const bufIndex = Math.floor(this.length / 8);
+            if (this.buffer.length <= bufIndex) this.buffer.push(0);
+            if (bit) this.buffer[bufIndex] |= (0x80 >>> (this.length % 8));
+            this.length++;
+        }
+    };
+
+    function QRCode(typeNumber, errorCorrectLevel) {
+        this.typeNumber = typeNumber;
+        this.errorCorrectLevel = errorCorrectLevel;
+        this.modules = null;
+        this.moduleCount = 0;
+        this.dataCache = null;
+        this.dataList = [];
+    }
+    QRCode.prototype = {
+        addData: function(data) {
+            this.dataList.push(data);
+            this.dataCache = null;
+        },
+        isDark: function(row, col) {
+            if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) return false;
+            return !!this.modules[row][col];
+        },
+        getModuleCount: function() { return this.moduleCount; },
+        make: function() {
+            if (this.typeNumber < 1) {
+                let typeNumber = 1;
+                for (typeNumber = 1; typeNumber <= 14; typeNumber++) {
+                    const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
+                    const buffer = new QRBitBuffer();
+                    let totalDataCount = 0;
+                    for (let i = 0; i < rsBlocks.length; i++) totalDataCount += rsBlocks[i].dataCount;
+                    for (let i = 0; i < this.dataList.length; i++) {
+                        const data = this.dataList[i];
+                        buffer.put(QRMode.BYTE, 4);
+                        buffer.put(data.length, typeNumber < 10 ? 8 : 16);
+                        for (let j = 0; j < data.length; j++) buffer.put(data.charCodeAt(j), 8);
+                    }
+                    if (buffer.getLengthInBits() <= totalDataCount * 8) break;
+                }
+                this.typeNumber = Math.min(14, typeNumber);
+            }
+            this.makeImpl(false, this.getBestMaskPattern());
+        },
+        makeImpl: function(test, maskPattern) {
+            this.moduleCount = this.typeNumber * 4 + 17;
+            this.modules = new Array(this.moduleCount);
+            for (let row = 0; row < this.moduleCount; row++) {
+                this.modules[row] = new Array(this.moduleCount);
+                for (let col = 0; col < this.moduleCount; col++) {
+                    this.modules[row][col] = null;
+                }
+            }
+            this.setupPositionProbePattern(0, 0);
+            this.setupPositionProbePattern(this.moduleCount - 7, 0);
+            this.setupPositionProbePattern(0, this.moduleCount - 7);
+            this.setupPositionAdjustPattern();
+            this.setupTimingPattern();
+            this.setupTypeInfo(test, maskPattern);
+            if (this.typeNumber >= 7) this.setupTypeNumber(test);
+            if (this.dataCache == null) {
+                this.dataCache = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
+            }
+            this.mapData(this.dataCache, maskPattern);
+        },
+        setupPositionProbePattern: function(row, col) {
+            for (let r = -1; r <= 7; r++) {
+                if (row + r <= -1 || this.moduleCount <= row + r) continue;
+                for (let c = -1; c <= 7; c++) {
+                    if (col + c <= -1 || this.moduleCount <= col + c) continue;
+                    if ((0 <= r && r <= 6 && (c === 0 || c === 6)) || (0 <= c && c <= 6 && (r === 0 || r === 6)) || (2 <= r && r <= 4 && 2 <= c && c <= 4)) {
+                        this.modules[row + r][col + c] = true;
+                    } else {
+                        this.modules[row + r][col + c] = false;
+                    }
+                }
+            }
+        },
+        getBestMaskPattern: function() {
+            let minLostPoint = 0;
+            let pattern = 0;
+            for (let i = 0; i < 8; i++) {
+                this.makeImpl(true, i);
+                const lostPoint = QRCode.getLostPoint(this);
+                if (i === 0 || minLostPoint > lostPoint) {
+                    minLostPoint = lostPoint;
+                    pattern = i;
+                }
+            }
+            return pattern;
+        },
+        setupTimingPattern: function() {
+            for (let r = 8; r < this.moduleCount - 8; r++) {
+                if (this.modules[r][6] !== null) continue;
+                this.modules[r][6] = (r % 2 === 0);
+            }
+            for (let c = 8; c < this.moduleCount - 8; c++) {
+                if (this.modules[6][c] !== null) continue;
+                this.modules[6][c] = (c % 2 === 0);
+            }
+        },
+        setupPositionAdjustPattern: function() {
+            const pos = QRCode.getPatternPosition(this.typeNumber);
+            for (let i = 0; i < pos.length; i++) {
+                for (let j = 0; j < pos.length; j++) {
+                    const row = pos[i];
+                    const col = pos[j];
+                    if (this.modules[row][col] !== null) continue;
+                    for (let r = -2; r <= 2; r++) {
+                        for (let c = -2; c <= 2; c++) {
+                            if (r === -2 || r === 2 || c === -2 || c === 2 || (r === 0 && c === 0)) {
+                                this.modules[row + r][col + c] = true;
+                            } else {
+                                this.modules[row + r][col + c] = false;
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        setupTypeInfo: function(test, maskPattern) {
+            const data = (this.errorCorrectLevel << 3) | maskPattern;
+            const bits = QRCode.getBCHTypeInfo(data);
+            for (let i = 0; i < 15; i++) {
+                const mod = (!test && ((bits >> i) & 1) === 1);
+                if (i < 6) this.modules[i][8] = mod;
+                else if (i < 8) this.modules[i + 1][8] = mod;
+                else this.modules[this.moduleCount - 15 + i][8] = mod;
+                if (i < 8) this.modules[8][this.moduleCount - i - 1] = mod;
+                else if (i < 9) this.modules[8][15 - i - 1 + 1] = mod;
+                else this.modules[8][15 - i - 1] = mod;
+            }
+            this.modules[this.moduleCount - 8][8] = !test;
+        },
+        setupTypeNumber: function(test) {
+            const bits = QRCode.getBCHTypeNumber(this.typeNumber);
+            for (let i = 0; i < 18; i++) {
+                const mod = (!test && ((bits >> i) & 1) === 1);
+                this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
+                this.modules[i % 3 + this.moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+            }
+        },
+        mapData: function(data, maskPattern) {
+            let inc = -1;
+            let row = this.moduleCount - 1;
+            let bitIndex = 7;
+            let byteIndex = 0;
+            const mask = QRCode.getMask(maskPattern);
+            for (let col = this.moduleCount - 1; col > 0; col -= 2) {
+                if (col === 6) col--;
+                while (true) {
+                    for (let c = 0; c < 2; c++) {
+                        if (this.modules[row][col - c] === null) {
+                            let dark = false;
+                            if (byteIndex < data.length) {
+                                dark = (((data[byteIndex] >>> bitIndex) & 1) === 1);
+                            }
+                            if (mask(row, col - c)) dark = !dark;
+                            this.modules[row][col - c] = dark;
+                            bitIndex--;
+                            if (bitIndex === -1) {
+                                byteIndex++;
+                                bitIndex = 7;
+                            }
+                        }
+                    }
+                    row += inc;
+                    if (row < 0 || this.moduleCount <= row) {
+                        row -= inc;
+                        inc = -inc;
+                        break;
+                    }
                 }
             }
         }
-        container.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" style="display:block;">${svgBlocks}</svg>`;
+    };
+
+    QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
+        const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+        const buffer = new QRBitBuffer();
+        for (let i = 0; i < dataList.length; i++) {
+            const data = dataList[i];
+            buffer.put(QRMode.BYTE, 4);
+            buffer.put(data.length, typeNumber < 10 ? 8 : 16);
+            for (let j = 0; j < data.length; j++) buffer.put(data.charCodeAt(j), 8);
+        }
+        let totalDataCount = 0;
+        for (let i = 0; i < rsBlocks.length; i++) totalDataCount += rsBlocks[i].dataCount;
+        if (buffer.getLengthInBits() > totalDataCount * 8) throw new Error("Overflow de bits QR (" + buffer.getLengthInBits() + ">" + (totalDataCount * 8) + ")");
+        if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) buffer.put(0, 4);
+        while (buffer.getLengthInBits() % 8 !== 0) buffer.putBit(false);
+        while (true) {
+            if (buffer.getLengthInBits() >= totalDataCount * 8) break;
+            buffer.put(0xEC, 8);
+            if (buffer.getLengthInBits() >= totalDataCount * 8) break;
+            buffer.put(0x11, 8);
+        }
+        return QRCode.createBytes(buffer, rsBlocks);
+    };
+
+    QRCode.createBytes = function(buffer, rsBlocks) {
+        let offset = 0;
+        let maxDcCount = 0;
+        let maxEcCount = 0;
+        const dcdata = new Array(rsBlocks.length);
+        const ecdata = new Array(rsBlocks.length);
+        for (let r = 0; r < rsBlocks.length; r++) {
+            const dcCount = rsBlocks[r].dataCount;
+            const ecCount = rsBlocks[r].totalCount - dcCount;
+            maxDcCount = Math.max(maxDcCount, dcCount);
+            maxEcCount = Math.max(maxEcCount, ecCount);
+            dcdata[r] = new Array(dcCount);
+            for (let i = 0; i < dcdata[r].length; i++) dcdata[r][i] = 0xff & buffer.buffer[i + offset];
+            offset += dcCount;
+            const rsPoly = QRCode.getErrorCorrectPolynomial(ecCount);
+            const rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+            const modPoly = rawPoly.mod(rsPoly);
+            ecdata[r] = new Array(rsPoly.getLength() - 1);
+            for (let i = 0; i < ecdata[r].length; i++) {
+                const modIndex = i + modPoly.getLength() - ecdata[r].length;
+                ecdata[r][i] = (modIndex >= 0) ? modPoly.get(modIndex) : 0;
+            }
+        }
+        let totalCodeCount = 0;
+        for (let i = 0; i < rsBlocks.length; i++) totalCodeCount += rsBlocks[i].totalCount;
+        const data = new Array(totalCodeCount);
+        let index = 0;
+        for (let i = 0; i < maxDcCount; i++) {
+            for (let r = 0; r < rsBlocks.length; r++) {
+                if (i < dcdata[r].length) data[index++] = dcdata[r][i];
+            }
+        }
+        for (let i = 0; i < maxEcCount; i++) {
+            for (let r = 0; r < rsBlocks.length; r++) {
+                if (i < ecdata[r].length) data[index++] = ecdata[r][i];
+            }
+        }
+        return data;
+    };
+
+    QRCode.getErrorCorrectPolynomial = function(errorCorrectLength) {
+        let a = new QRPolynomial([1], 0);
+        for (let i = 0; i < errorCorrectLength; i++) {
+            a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0));
+        }
+        return a;
+    };
+
+    QRCode.getMask = function(maskPattern) {
+        switch (maskPattern) {
+            case 0: return function(i, j) { return (i + j) % 2 === 0; };
+            case 1: return function(i, j) { return i % 2 === 0; };
+            case 2: return function(i, j) { return j % 3 === 0; };
+            case 3: return function(i, j) { return (i + j) % 3 === 0; };
+            case 4: return function(i, j) { return (Math.floor(i / 2) + Math.floor(j / 3)) % 2 === 0; };
+            case 5: return function(i, j) { return (i * j) % 2 + (i * j) % 3 === 0; };
+            case 6: return function(i, j) { return ((i * j) % 2 + (i * j) % 3) % 2 === 0; };
+            case 7: return function(i, j) { return ((i * j) % 3 + (i + j) % 2) % 2 === 0; };
+            default: throw new Error("bad maskPattern:" + maskPattern);
+        }
+    };
+
+    QRCode.getPatternPosition = function(typeNumber) {
+        const PATTERN_POSITION_TABLE = [
+            [], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34],
+            [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50], [6, 30, 54],
+            [6, 32, 58], [6, 34, 62], [6, 26, 46, 66]
+        ];
+        return PATTERN_POSITION_TABLE[typeNumber - 1] || [];
+    };
+
+    QRCode.getBCHTypeInfo = function(data) {
+        let d = data << 10;
+        while (QRCode.getBCHDigit(d) - QRCode.getBCHDigit(1335) >= 0) {
+            d ^= (1335 << (QRCode.getBCHDigit(d) - QRCode.getBCHDigit(1335)));
+        }
+        return ((data << 10) | d) ^ 21522;
+    };
+
+    QRCode.getBCHTypeNumber = function(data) {
+        let d = data << 12;
+        while (QRCode.getBCHDigit(d) - QRCode.getBCHDigit(7973) >= 0) {
+            d ^= (7973 << (QRCode.getBCHDigit(d) - QRCode.getBCHDigit(7973)));
+        }
+        return (data << 12) | d;
+    };
+
+    QRCode.getBCHDigit = function(data) {
+        let digit = 0;
+        while (data !== 0) {
+            digit++;
+            data >>>= 1;
+        }
+        return digit;
+    };
+
+    QRCode.getLostPoint = function(qrCode) {
+        const moduleCount = qrCode.getModuleCount();
+        let lostPoint = 0;
+        for (let row = 0; row < moduleCount; row++) {
+            for (let col = 0; col < moduleCount; col++) {
+                let sameCount = 0;
+                const dark = qrCode.isDark(row, col);
+                for (let r = -1; r <= 1; r++) {
+                    if (row + r < 0 || moduleCount <= row + r) continue;
+                    for (let c = -1; c <= 1; c++) {
+                        if (col + c < 0 || moduleCount <= col + c) continue;
+                        if (r === 0 && c === 0) continue;
+                        if (dark === qrCode.isDark(row + r, col + c)) sameCount++;
+                    }
+                }
+                if (sameCount > 5) lostPoint += (3 + sameCount - 5);
+            }
+        }
+        return lostPoint;
+    };
+
+    return {
+        gerarSVG: function(texto, tamanho = 200) {
+            try {
+                const qr = new QRCode(0, QRErrorCorrectLevel.M);
+                qr.addData(texto);
+                qr.make();
+                const count = qr.getModuleCount();
+                const margin = 3;
+                const total = count + margin * 2;
+                const cellSize = (tamanho / total).toFixed(3);
+                
+                let rects = '';
+                for (let r = 0; r < count; r++) {
+                    for (let c = 0; c < count; c++) {
+                        if (qr.isDark(r, c)) {
+                            const x = ((c + margin) * cellSize).toFixed(2);
+                            const y = ((r + margin) * cellSize).toFixed(2);
+                            rects += `<rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" fill="#000000" shape-rendering="crispEdges"/>`;
+                        }
+                    }
+                }
+                return `<svg width="${tamanho}" height="${tamanho}" viewBox="0 0 ${tamanho} ${tamanho}" xmlns="http://www.w3.org/2000/svg" style="background:#ffffff; border-radius:4px; display:block; margin:0 auto;"><rect width="${tamanho}" height="${tamanho}" fill="#ffffff"/>${rects}</svg>`;
+            } catch(e) {
+                console.error("Erro na geração de QR Code nativo:", e);
+                return null;
+            }
+        }
+    };
+})();
+
+function obterUrlEntradaCampanha(codigo) {
+    const cod = codigo || (salaCampanhaAtiva && salaCampanhaAtiva.codigo) || "";
+    let base = window.location.href.split('?')[0].split('#')[0];
+    if (!base || base.startsWith('about:') || base.startsWith('blob:')) {
+        base = 'https://ais-pre-dwen5kqcrdsml2yvfrdbe6-207260996794.us-west2.run.app/';
+    }
+    return `${base}?codigo=${encodeURIComponent(cod)}#campanhas`;
+}
+
+function copiarLinkEntradaCampanha() {
+    if (!salaCampanhaAtiva || !salaCampanhaAtiva.codigo) return;
+    const url = obterUrlEntradaCampanha(salaCampanhaAtiva.codigo);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+            mostrarStatus("🔗 Link de entrada rápida copiado com sucesso!", "ok");
+        }).catch(() => {
+            prompt("Copie o link direto da campanha:", url);
+        });
+    } else {
+        prompt("Copie o link direto da campanha:", url);
+    }
+}
+
+function abrirModalQRCodeCampanha() {
+    const modal = document.getElementById("modal-qrcode-campanha");
+    if (!modal || !salaCampanhaAtiva) return;
+    const cod = salaCampanhaAtiva.codigo;
+    const txtCod = document.getElementById("qrcode-codigo-txt");
+    const container = document.getElementById("qrcode-canvas-container");
+    const urlPreview = document.getElementById("qrcode-url-preview");
+
+    if (txtCod) txtCod.textContent = cod;
+    
+    const urlEntrada = obterUrlEntradaCampanha(cod);
+    if (urlPreview) {
+        urlPreview.textContent = urlEntrada;
+    }
+
+    if (container) {
+        const svgReal = QRCodeLib.gerarSVG(urlEntrada, 200);
+        if (svgReal) {
+            container.innerHTML = svgReal;
+        } else {
+            // Fallback de alta fidelidade
+            container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(urlEntrada)}" alt="QR Code Campanha ${cod}" style="width:200px; height:200px; display:block; border-radius:4px;" />`;
+        }
     }
 
     modal.style.display = "flex";
@@ -32419,38 +33023,34 @@ function limparTimersToastConquista() {
     timersToastConquista = [];
 }
 
-function exibirToastConquista(conquista, subTextoPersonalizado = "", autor = "") {
+function exibirToastMesa({
+    tipo = 'equipe',
+    icone = '🏆',
+    subtitulo = '',
+    titulo = '',
+    desc = '',
+    duracao = 6500
+} = {}) {
     const toast = document.getElementById("toast-conquista-equipe");
-    if (!toast || !conquista) return;
+    if (!toast) return;
 
     limparTimersToastConquista();
     animacaoToastConquistaConcluida = false;
+
+    // Remove todas as classes de tipo prévias e adiciona a nova
+    toast.classList.remove("tipo-rolagem", "tipo-sussurro", "tipo-individual", "tipo-secreta", "tipo-equipe");
+    toast.classList.add(`tipo-${tipo}`);
 
     const iconeEl = document.getElementById("toast-conquista-icone");
     const subEl = document.getElementById("toast-conquista-sub");
     const titEl = document.getElementById("toast-conquista-titulo");
     const descEl = document.getElementById("toast-conquista-desc");
 
-    const icone = conquista.icone || '🏆';
-    let subtitulo = subTextoPersonalizado;
-    if (!subtitulo) {
-        if (conquista.nivel1 === "secretas") {
-            subtitulo = "🔮 CONQUISTA SECRETA DESBLOQUEADA!";
-        } else if (conquista.nivel2 === "equipe") {
-            subtitulo = "🤝 FEITO DE EQUIPE DESBLOQUEADO!";
-        } else {
-            subtitulo = "🌟 CONQUISTA DESBLOQUEADA!";
-        }
-    }
+    const textoTitulo = String(titulo || "");
+    const textoDesc = String(desc || "");
 
-    const textoTitulo = (conquista.titulo || "Conquista") + (conquista.pontos ? ` (+${conquista.pontos} pts)` : "");
-    let textoDesc = conquista.desc || "";
-    if (autor && conquista.nivel2 === "equipe") {
-        textoDesc = `Desbloqueado por ${autor} para todos do grupo! ${textoDesc ? `• ${textoDesc}` : ''}`;
-    }
-
-    if (iconeEl) iconeEl.textContent = icone;
-    if (subEl) subEl.textContent = subtitulo;
+    if (iconeEl) iconeEl.textContent = icone || '🏆';
+    if (subEl) subEl.textContent = subtitulo || '';
     if (titEl) titEl.innerHTML = '<span class="toast-conquista-cursor"></span>';
     if (descEl) descEl.innerHTML = '';
 
@@ -32462,7 +33062,7 @@ function exibirToastConquista(conquista, subTextoPersonalizado = "", autor = "")
         limparTimersToastConquista();
         if (titEl) titEl.textContent = textoTitulo;
         if (descEl) descEl.textContent = textoDesc;
-        agendarFechamentoToast(5000);
+        agendarFechamentoToast(4500);
     }
 
     toast.onclick = function() {
@@ -32473,37 +33073,37 @@ function exibirToastConquista(conquista, subTextoPersonalizado = "", autor = "")
         }
     };
 
-    function agendarFechamentoToast(ms = 6000) {
+    function agendarFechamentoToast(ms = duracao) {
         const timer = setTimeout(() => {
             toast.classList.remove("visivel");
         }, ms);
         timersToastConquista.push(timer);
     }
 
-    // Digitação Gradual Letra por Letra
+    // Digitação Gradual Letra por Letra (8-Bit Typewriter)
     let indexTit = 0;
     function digitarTitulo() {
         if (animacaoToastConquistaConcluida) return;
         indexTit++;
         const char = textoTitulo[indexTit - 1];
         if (titEl) {
-            titEl.innerHTML = textoTitulo.slice(0, indexTit) + '<span class="toast-conquista-cursor"></span>';
+            titEl.innerHTML = escapeHTML(textoTitulo.slice(0, indexTit)) + '<span class="toast-conquista-cursor"></span>';
         }
         if (char && /[a-zA-Z0-9À-ÿ]/.test(char) && indexTit % 2 === 0) {
             tocarSomBip8Bit(330 + (indexTit % 4) * 35);
         }
 
         if (indexTit < textoTitulo.length) {
-            const timer = setTimeout(digitarTitulo, 28);
+            const timer = setTimeout(digitarTitulo, 22);
             timersToastConquista.push(timer);
         } else {
             if (titEl) titEl.textContent = textoTitulo;
             if (textoDesc) {
-                const timerDesc = setTimeout(iniciarDigitacaoDescricao, 180);
+                const timerDesc = setTimeout(iniciarDigitacaoDescricao, 150);
                 timersToastConquista.push(timerDesc);
             } else {
                 animacaoToastConquistaConcluida = true;
-                agendarFechamentoToast(5500);
+                agendarFechamentoToast(duracao);
             }
         }
     }
@@ -32518,33 +33118,124 @@ function exibirToastConquista(conquista, subTextoPersonalizado = "", autor = "")
             indexDesc++;
             const char = textoDesc[indexDesc - 1];
             if (descEl) {
-                descEl.innerHTML = textoDesc.slice(0, indexDesc) + '<span class="toast-conquista-cursor"></span>';
+                descEl.innerHTML = escapeHTML(textoDesc.slice(0, indexDesc)) + '<span class="toast-conquista-cursor"></span>';
             }
             if (char && /[a-zA-Z0-9À-ÿ]/.test(char) && indexDesc % 3 === 0) {
                 tocarSomBip8Bit(220 + (indexDesc % 3) * 25);
             }
 
             if (indexDesc < textoDesc.length) {
-                let delay = 22;
-                if ([".", "!", "?"].includes(char)) delay = 120;
+                let delay = 18;
+                if ([".", "!", "?"].includes(char)) delay = 90;
                 const timer = setTimeout(passoDesc, delay);
                 timersToastConquista.push(timer);
             } else {
                 if (descEl) descEl.textContent = textoDesc;
                 animacaoToastConquistaConcluida = true;
-                agendarFechamentoToast(6000);
+                agendarFechamentoToast(duracao);
             }
         }
 
         passoDesc();
     }
 
-    const tInicial = setTimeout(digitarTitulo, 100);
+    const tInicial = setTimeout(digitarTitulo, 80);
     timersToastConquista.push(tInicial);
 }
 
+function exibirToastRolagemCampanha(rolagem, jogadorNome) {
+    const jogador = jogadorNome || "Um membro da mesa";
+    const nomeTeste = rolagem?.pericia || rolagem?.nome || "Rolagem de Teste";
+    const total = rolagem?.resultadoFinal !== undefined ? rolagem.resultadoFinal : (rolagem?.total !== undefined ? rolagem.total : (rolagem?.resultado !== undefined ? rolagem.resultado : "?"));
+    const faixa = rolagem?.faixaNome || rolagem?.faixaTipo || "";
+    
+    let detalhe = "";
+    if (Array.isArray(rolagem?.dados) && rolagem.dados.length > 0) {
+        detalhe = `Dados: [${rolagem.dados.join(', ')}] = ${rolagem.somaDados || 0}${rolagem.somaAtributos ? ` | Mod: +${rolagem.somaAtributos}` : ''}`;
+    }
+    if (faixa) {
+        detalhe = `${faixa}${detalhe ? ` • ${detalhe}` : ''}`;
+    }
+
+    exibirToastMesa({
+        tipo: 'rolagem',
+        icone: '🎲',
+        subtitulo: '🎲 ROLAGEM DE DADOS NA MESA',
+        titulo: `${jogador} • ${nomeTeste}: ${total}`,
+        desc: detalhe || 'Resultado do teste transmitido em tempo real para a campanha.',
+        duracao: 6000
+    });
+}
+
+function exibirToastSussurroCampanha(remetente, destinatario, texto) {
+    const rem = remetente || "Aliado";
+    const dest = destinatario || "Você";
+    const txt = (texto || "").trim();
+
+    exibirToastMesa({
+        tipo: 'sussurro',
+        icone: '🤫',
+        subtitulo: '🤫 SUSSURRO PRIVADO RECEBIDO',
+        titulo: `De ${rem} para ${dest}`,
+        desc: txt ? `"${txt}"` : 'Mensagem confidencial recebida na mesa.',
+        duracao: 6500
+    });
+}
+
+function exibirToastConquistaIndividual(conquista, jogadorNome, ehSecreta = false) {
+    const jogador = jogadorNome || "Um membro da mesa";
+    const c = conquista || {};
+    const pts = c.pontos ? ` (+${c.pontos} pts)` : '';
+    const tit = (c.titulo || "Conquista") + pts;
+    const descBase = c.desc || "";
+
+    if (ehSecreta || c.nivel1 === 'secretas') {
+        exibirToastMesa({
+            tipo: 'secreta',
+            icone: c.icone || '🔮',
+            subtitulo: '🔮 CONQUISTA SECRETA DESBLOQUEADA!',
+            titulo: `${tit}`,
+            desc: `Desbloqueada por ${jogador}! ${descBase ? `• ${descBase}` : ''}`,
+            duracao: 7000
+        });
+    } else {
+        exibirToastMesa({
+            tipo: 'individual',
+            icone: c.icone || '🌟',
+            subtitulo: '🌟 CONQUISTA INDIVIDUAL DESBLOQUEADA!',
+            titulo: `${tit}`,
+            desc: `Desbloqueada por ${jogador}! ${descBase ? `• ${descBase}` : ''}`,
+            duracao: 7000
+        });
+    }
+}
+
 function exibirToastConquistaEquipe(conquista, desbloqueadoPor) {
-    exibirToastConquista(conquista, "🤝 FEITO DE EQUIPE DESBLOQUEADO!", desbloqueadoPor);
+    const c = conquista || {};
+    const autor = desbloqueadoPor || "Um membro da equipe";
+    const pts = c.pontos ? ` (+${c.pontos} pts)` : '';
+    const tit = (c.titulo || "Feito de Equipe") + pts;
+    const descBase = c.desc || "";
+
+    exibirToastMesa({
+        tipo: 'equipe',
+        icone: c.icone || '🤝',
+        subtitulo: '🤝 FEITO DE EQUIPE DESBLOQUEADO!',
+        titulo: `${tit}`,
+        desc: `Desbloqueado por ${autor} para todos do grupo! ${descBase ? `• ${descBase}` : ''}`,
+        duracao: 7500
+    });
+}
+
+function exibirToastConquista(conquista, subTextoPersonalizado = "", autor = "") {
+    if (!conquista) return;
+    if (conquista.nivel2 === "equipe") {
+        exibirToastConquistaEquipe(conquista, autor);
+    } else if (conquista.nivel1 === "secretas") {
+        exibirToastConquistaIndividual(conquista, autor || "Você", true);
+    } else {
+        exibirToastConquistaIndividual(conquista, autor || "Você", false);
+    }
 }
 
 function filtrarFeedCampanha(tipo) {
@@ -33280,7 +33971,43 @@ function fecharModalVisualizarFichaPorOverlay(e) {
 function inicializarCampanhasMultiplayer() {
     gerarCodigoAleatorioCampanha();
 
-    // Auto-reconectar se o jogador já possuía uma sala de campanha salva
+    // 1. Checa parâmetros de URL para entrada instantânea via QR Code / Link compartilhado
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        let codigoUrl = urlParams.get('codigo') || urlParams.get('campanha') || urlParams.get('sala');
+        
+        if (!codigoUrl && window.location.hash) {
+            const rawHash = window.location.hash.replace(/^#/, '');
+            if (rawHash.includes('=')) {
+                const hashParams = new URLSearchParams(rawHash.replace(/^campanhas[?&]/, ''));
+                codigoUrl = hashParams.get('codigo') || hashParams.get('campanha') || hashParams.get('sala');
+            }
+        }
+
+        if (codigoUrl) {
+            codigoUrl = codigoUrl.trim().toUpperCase();
+            const inputCod = document.getElementById("campanha_input_codigo_entrar");
+            if (inputCod) inputCod.value = codigoUrl;
+
+            // Alterna para a aba de Campanhas
+            if (typeof alternarAba === "function") {
+                alternarAba('campanhas', false);
+            }
+
+            // Conecta diretamente à sala da campanha indicada no QR Code
+            setTimeout(() => {
+                conectarWebSocketCampanha(codigoUrl);
+                if (typeof mostrarStatus === "function") {
+                    mostrarStatus(`📱 Conectando à sala ${codigoUrl} via QR Code/Link...`, "ok");
+                }
+            }, 250);
+            return;
+        }
+    } catch(e) {
+        console.error("Erro ao verificar parâmetro de campanha na URL:", e);
+    }
+
+    // 2. Auto-reconectar se o jogador já possuía uma sala de campanha salva
     try {
         const codigoSalvo = localStorage.getItem('we_are_strangers_campanha_codigo');
         if (codigoSalvo) {

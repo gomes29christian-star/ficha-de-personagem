@@ -740,15 +740,17 @@ wss.on('connection', (ws) => {
         const sala = salasCampanhas.get(ws.salaCodigo);
         if (!sala) return;
 
-        const { rolagem } = msg;
+        const { rolagem, jogadorNome } = msg;
         if (!rolagem) return;
 
+        const nomeDoJogador = jogadorNome || ws.jogadorInfo?.nomePersonagem || 'Personagem';
+        const resFinal = rolagem.resultadoFinal !== undefined ? rolagem.resultadoFinal : (rolagem.total !== undefined ? rolagem.total : 0);
         const logRolagem = {
           id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
           tipo: 'rolagem_dado',
-          jogador: ws.jogadorInfo?.nomePersonagem || 'Personagem',
+          jogador: nomeDoJogador,
           rolagem: rolagem,
-          texto: `🎲 ${ws.jogadorInfo?.nomePersonagem} rolou ${rolagem.pericia || 'Dados'}: Total ${rolagem.total} (${rolagem.detalhes || ''})`,
+          texto: `🎲 ${nomeDoJogador} rolou ${rolagem.pericia || 'Dados'}: Total ${resFinal} (${rolagem.faixaNome || ''})`,
           data: Date.now()
         };
         sala.historico.push(logRolagem);
@@ -756,6 +758,8 @@ wss.on('connection', (ws) => {
         broadcastParaSala(ws.salaCodigo, {
           type: 'rolagem_recebida',
           evento: logRolagem,
+          rolagem: rolagem,
+          jogadorNome: nomeDoJogador,
           sala: serializarSala(sala)
         });
 
