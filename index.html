@@ -6283,6 +6283,7 @@ html.tem-contorno-letras .secao-titulo,
 html.tem-contorno-letras .pericia-nome.destaque,
 html.tem-contorno-letras .atributo-sigla,
 html.tem-contorno-letras .atalho-tecla,
+html.tem-contorno-letras .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-sub,
 html.tem-contorno-letras svg[stroke="var(--accent)"],
 html.tem-contorno-letras svg[fill="var(--accent)"] {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
@@ -6292,6 +6293,7 @@ html.tem-contorno-letras svg[fill="var(--accent)"] {
 
 html.tem-contorno-letras .icone-tema-cor,
 html.tem-contorno-letras .conq-card.desbloqueada .conq-card-icone,
+html.tem-contorno-letras .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-icone,
 html.tem-contorno-letras .modal-confirm-icone,
 html.tem-contorno-letras svg[stroke="var(--accent)"],
 html.tem-contorno-letras svg[fill="var(--accent)"] {
@@ -6965,15 +6967,11 @@ html.animacao-strokes-roxas .galho-svg path {
 }
 
 #conq-lista-grid .conq-card.conq-secreta.bloqueada:hover::before,
-#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada):hover::before {
-  opacity: 0.45;
-  animation-play-state: paused;
-}
-
+#conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada):hover::before,
 #conq-lista-grid .conq-card.conq-secreta.bloqueada:hover::after,
 #conq-lista-grid .conq-card.conq-secreta:not(.desbloqueada):hover::after {
-  opacity: 0.45;
-  animation-play-state: paused;
+  /* Mantém a névoa densa ao passar o mouse sem revelar a descrição antes de segurar por 5 segundos */
+  animation-play-state: running;
 }
 
 #conq-lista-grid .conq-card.conq-secreta.bloqueada:hover.descricao-revelada .conq-card-desc,
@@ -11783,6 +11781,67 @@ body.modo-claro .tatico-cond-ico-badge.debuff-dano {
   image-rendering: pixelated;
   -webkit-font-smoothing: none;
   transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s steps(4), visibility 0.25s;
+}
+
+/* Design Harmônico e Moderno para Notificações Gerais (Afetado pela COR TEMA) */
+.toast-conquista-equipe.toast-modo-harmonico {
+  background: color-mix(in srgb, var(--bg-card, #141312) 95%, var(--accent, #c6a052));
+  border: 1px solid var(--accent, #c6a052);
+  color: var(--ink, #f5eedf);
+  border-radius: 8px;
+  padding: 12px 18px;
+  gap: 14px;
+  box-shadow: 0 10px 32px var(--shadow, rgba(0,0,0,0.85)), 0 0 24px color-mix(in srgb, var(--accent) 35%, transparent);
+  image-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'EB Garamond', Georgia, serif;
+}
+
+.toast-conquista-equipe.toast-modo-harmonico .toast-conquista-icone {
+  font-size: 24px;
+  line-height: 1;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  padding: 8px;
+  border-radius: 6px;
+  animation: none;
+  image-rendering: auto;
+}
+
+.toast-conquista-equipe.toast-modo-harmonico .toast-conquista-sub {
+  font-family: 'MirageFinal', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+  text-shadow: none;
+  margin-bottom: 2px;
+}
+
+.toast-conquista-equipe.toast-modo-harmonico .toast-conquista-titulo {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  text-shadow: none;
+  line-height: 1.25;
+}
+
+.toast-conquista-equipe.toast-modo-harmonico .toast-conquista-desc {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 13.5px;
+  color: var(--ink-dim);
+  text-shadow: none;
+  margin-top: 3px;
+}
+
+.toast-conquista-equipe.toast-modo-harmonico .toast-conquista-cursor {
+  background-color: var(--accent);
+  width: 2px;
+  height: 14px;
+  border-radius: 1px;
 }
 .toast-conquista-equipe.visivel {
   transform: translateX(-50%) translateY(0);
@@ -33038,7 +33097,14 @@ function exibirToastMesa({
     animacaoToastConquistaConcluida = false;
 
     // Remove todas as classes de tipo prévias e adiciona a nova
-    toast.classList.remove("tipo-rolagem", "tipo-sussurro", "tipo-individual", "tipo-secreta", "tipo-equipe");
+    toast.classList.remove("tipo-rolagem", "tipo-sussurro", "tipo-individual", "tipo-secreta", "tipo-equipe", "toast-modo-harmonico");
+    
+    // Conquistas mantêm o estilo 8-Bit Pixel Art retro.
+    // Notificações gerais de mesa (rolagens, sussurros, chat, alertas) usam o novo Design Harmônico do site afetado pela Cor Tema.
+    const tiposConquista8Bit = ["equipe", "individual", "secreta"];
+    if (!tiposConquista8Bit.includes(tipo)) {
+        toast.classList.add("toast-modo-harmonico");
+    }
     toast.classList.add(`tipo-${tipo}`);
 
     const iconeEl = document.getElementById("toast-conquista-icone");
