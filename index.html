@@ -31365,6 +31365,87 @@ function atualizarBadgeStatusCampanha(status, codigo = "") {
     }
 }
 
+let canalBroadcastCampanha = null;
+
+function inicializarCanalBroadcastCampanha(codigo) {
+    if (canalBroadcastCampanha) {
+        try { canalBroadcastCampanha.close(); } catch(e) {}
+        canalBroadcastCampanha = null;
+    }
+    if (typeof BroadcastChannel !== 'undefined' && codigo) {
+        try {
+            canalBroadcastCampanha = new BroadcastChannel('we_are_strangers_campanha_' + codigo);
+            canalBroadcastCampanha.onmessage = (event) => {
+                if (event && event.data) {
+                    processarMensagemCampanha(event.data);
+                }
+            };
+        } catch(e) {}
+    }
+}
+
+function transmitirParaCanalLocal(msg) {
+    if (canalBroadcastCampanha) {
+        try {
+            canalBroadcastCampanha.postMessage(msg);
+        } catch(e) {}
+    }
+    try {
+        if (msg && msg.sala && msg.sala.codigo) {
+            localStorage.setItem('was_campanha_sync_' + msg.sala.codigo, JSON.stringify({ msg, t: Date.now() }));
+        }
+    } catch(e) {}
+}
+
+function garantirSalaLocal(codigo, nomeCampanha = "") {
+    if (!codigo) return null;
+    const cod = String(codigo).trim().toUpperCase();
+    const dadosJogador = obterDadosJogadorLocal();
+
+    if (!salaCampanhaAtiva || salaCampanhaAtiva.codigo !== cod) {
+        salaCampanhaAtiva = {
+            codigo: cod,
+            nome: nomeCampanha || `Campanha ${cod}`,
+            criadorId: dadosJogador.id,
+            criadorNome: dadosJogador.nomeJogador || dadosJogador.nomePersonagem,
+            criadoEm: Date.now(),
+            totalMembros: 1,
+            membrosOnline: 1,
+            membros: [dadosJogador],
+            conquistasEquipe: Array.from(conquistasDesbloqueadas).filter(id => {
+                const c = [...CONQUISTAS_OFICIAIS, ...conquistasCampanha].find(item => item.id === id);
+                return c && c.nivel2 === 'equipe';
+            }),
+            diarioSessao: '',
+            historico: [{
+                id: 'evt_' + Date.now(),
+                tipo: 'membro_conectou',
+                texto: `${dadosJogador.nomePersonagem} (${dadosJogador.nomeJogador}) ingressou na campanha.`,
+                autor: dadosJogador.nomePersonagem,
+                data: Date.now()
+            }]
+        };
+    } else {
+        const idx = (salaCampanhaAtiva.membros || []).findIndex(m => m.id === dadosJogador.id);
+        if (idx >= 0) {
+            salaCampanhaAtiva.membros[idx] = Object.assign({}, salaCampanhaAtiva.membros[idx], dadosJogador);
+        } else {
+            salaCampanhaAtiva.membros = salaCampanhaAtiva.membros || [];
+            salaCampanhaAtiva.membros.push(dadosJogador);
+        }
+    }
+
+    try { localStorage.setItem('we_are_strangers_campanha_codigo', cod); } catch(e) {}
+    inicializarCanalBroadcastCampanha(cod);
+    atualizarBadgeStatusCampanha('conectado', cod);
+    renderizarPainelCampanha();
+    atualizarSeletoresMembros();
+    if (typeof atualizarBloqueioAbasNavegadorUI === "function") {
+        atualizarBloqueioAbasNavegadorUI();
+    }
+    return salaCampanhaAtiva;
+}
+
 function iniciarPollingFallbackCampanha(codigo) {
     if (!codigo) return;
     const cod = String(codigo).trim().toUpperCase();
@@ -31402,6 +31483,26 @@ function conectarWebSocketCampanha(codigo, nomeCampanha = "") {
     if (!codigo) return;
     const cod = String(codigo).trim().toUpperCase();
 
+    // 1. Garante entrada instantânea no lado do cliente
+    garantirSalaLocal(cod, nomeCampanha);
+
+    // 2. Dispara requisição HTTP de entrada em paralelo para sincronização imediata
+    const dadosJogador = obterDadosJogadorLocal();
+    fetch(`/api/campanhas/${encodeURIComponent(cod)}/entrar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jogador: dadosJogador, nomeCampanha: nomeCampanha || `Campanha ${cod}` })
+    })
+    .then(res => res.ok ? res.json() : null)
+    .then(data => {
+        if (data && data.sala) {
+            processarMensagemCampanha(data);
+        }
+    })
+    .catch(() => {
+        iniciarPollingFallbackCampanha(cod);
+    });
+
     if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
         if (salaCampanhaAtiva && salaCampanhaAtiva.codigo === cod) {
             return;
@@ -31414,13 +31515,10 @@ function conectarWebSocketCampanha(codigo, nomeCampanha = "") {
         timerHeartbeatCampanha = null;
     }
 
-    atualizarBadgeStatusCampanha('conectando');
-
     let host = window.location.host;
-    if (!host || host === "") {
-        host = window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+    if (!host || host === "" || window.location.protocol === 'file:') {
+        host = 'localhost:3000';
     }
-    if (!host) host = 'localhost:3000';
 
     const protocol = (window.location.protocol === 'https:') ? 'wss://' : 'ws://';
     const wsUrl = protocol + host;
@@ -31435,15 +31533,15 @@ function conectarWebSocketCampanha(codigo, nomeCampanha = "") {
                 timerPollingFallbackCampanha = null;
             }
 
-            const dadosJogador = obterDadosJogadorLocal();
+            const dadosJogadorAtual = obterDadosJogadorLocal();
             socketCampanha.send(JSON.stringify({
                 type: 'criar_ou_entrar_sala',
                 codigo: cod,
                 nomeCampanha: nomeCampanha || `Campanha ${cod}`,
-                jogador: dadosJogador
+                jogador: dadosJogadorAtual
             }));
 
-            // Inicia heartbeat ping/pong constante para impedir timeout em qualquer proxy, 4G ou dispositivo remoto
+            // Inicia heartbeat ping/pong constante para impedir timeout em qualquer proxy ou dispositivo remoto
             timerHeartbeatCampanha = setInterval(() => {
                 if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
                     try {
@@ -31471,9 +31569,7 @@ function conectarWebSocketCampanha(codigo, nomeCampanha = "") {
 
             const codCampanha = (salaCampanhaAtiva && salaCampanhaAtiva.codigo) ? salaCampanhaAtiva.codigo : cod;
             if (codCampanha) {
-                // Ativa fallback HTTP imediato para manter a sala online
                 iniciarPollingFallbackCampanha(codCampanha);
-                
                 tentativaReconexaoCampanha++;
                 const delay = Math.min(1000 * Math.pow(1.3, Math.min(tentativaReconexaoCampanha, 8)), 5000);
                 
@@ -31484,8 +31580,6 @@ function conectarWebSocketCampanha(codigo, nomeCampanha = "") {
                         conectarWebSocketCampanha(codAtual, salaCampanhaAtiva ? salaCampanhaAtiva.nome : "");
                     }
                 }, delay);
-            } else {
-                atualizarBadgeStatusCampanha('offline');
             }
         };
 
@@ -31552,7 +31646,6 @@ function processarMensagemCampanha(msg) {
         if (typeof atualizarBloqueioAbasNavegadorUI === "function") {
             atualizarBloqueioAbasNavegadorUI();
         }
-        mostrarStatus(`✓ Conectado à Campanha [${salaCampanhaAtiva.codigo}]!`, "ok");
 
     } else if (type === 'sala_atualizada') {
         salaCampanhaAtiva = msg.sala;
@@ -31733,6 +31826,10 @@ function sairSalaCampanha() {
             socketCampanha.send(JSON.stringify({ type: 'sair_sala' }));
         } catch(e) {}
     }
+    if (canalBroadcastCampanha) {
+        try { canalBroadcastCampanha.close(); } catch(e) {}
+        canalBroadcastCampanha = null;
+    }
     salaCampanhaAtiva = null;
     try { localStorage.removeItem('we_are_strangers_campanha_codigo'); } catch(e) {}
     atualizarBadgeStatusCampanha('offline');
@@ -31770,6 +31867,11 @@ function sincronizarEstadoComCampanha() {
         } catch(e) {}
     }
 
+    transmitirParaCanalLocal({
+        type: 'atualizar_meu_estado',
+        jogador: dadosJogador
+    });
+
     // Se o WebSocket estiver temporariamente reconectando, sincroniza via HTTP REST fallback
     if (salaCampanhaAtiva.codigo) {
         fetch(`/api/campanhas/${encodeURIComponent(salaCampanhaAtiva.codigo)}/sync`, {
@@ -31789,9 +31891,9 @@ function sincronizarEstadoComCampanha() {
 }
 
 function transmitirRolagemParaCampanha(itemHistorico) {
-    if (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN || !salaCampanhaAtiva) return;
+    if (!salaCampanhaAtiva) return;
     const nomePersonagem = (document.getElementById("nome_personagem")?.value || "").trim() || "Personagem";
-    socketCampanha.send(JSON.stringify({
+    const payloadRolagem = {
         type: 'transmitir_rolagem',
         rolagem: {
             pericia: itemHistorico.pericia,
@@ -31806,13 +31908,24 @@ function transmitirRolagemParaCampanha(itemHistorico) {
             totalPontos: itemHistorico.totalPontos
         },
         jogadorNome: nomePersonagem
-    }));
+    };
+
+    if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+        socketCampanha.send(JSON.stringify(payloadRolagem));
+    } else {
+        fetch(`/api/campanhas/${encodeURIComponent(salaCampanhaAtiva.codigo)}/rolagem`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ rolagem: payloadRolagem.rolagem, jogadorNome: nomePersonagem })
+        }).catch(() => {});
+    }
+    transmitirParaCanalLocal(payloadRolagem);
 }
 
 function transmitirDesbloqueioEquipeCampanha(conquista) {
-    if (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN || !salaCampanhaAtiva) return;
+    if (!salaCampanhaAtiva) return;
     const nomePersonagem = (document.getElementById("nome_personagem")?.value || "").trim() || "Personagem";
-    socketCampanha.send(JSON.stringify({
+    const payloadConq = {
         type: 'desbloquear_conquista_equipe',
         conquista: {
             id: conquista.id,
@@ -31822,13 +31935,24 @@ function transmitirDesbloqueioEquipeCampanha(conquista) {
             icone: conquista.icone || '👥'
         },
         desbloqueadoPor: nomePersonagem
-    }));
+    };
+
+    if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+        socketCampanha.send(JSON.stringify(payloadConq));
+    } else {
+        fetch(`/api/campanhas/${encodeURIComponent(salaCampanhaAtiva.codigo)}/conquista-equipe`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ conquista: payloadConq.conquista, desbloqueadoPor: nomePersonagem })
+        }).catch(() => {});
+    }
+    transmitirParaCanalLocal(payloadConq);
 }
 
 function transmitirConquistaIndividualCampanha(conquista) {
-    if (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN || !salaCampanhaAtiva) return;
+    if (!salaCampanhaAtiva) return;
     const nomePersonagem = (document.getElementById("nome_personagem")?.value || "").trim() || "Personagem";
-    socketCampanha.send(JSON.stringify({
+    const payload = {
         type: 'notificar_conquista_individual_ou_secreta',
         conquista: {
             id: conquista.id,
@@ -31839,13 +31963,18 @@ function transmitirConquistaIndividualCampanha(conquista) {
         },
         tipoConquista: 'individual',
         jogadorNome: nomePersonagem
-    }));
+    };
+
+    if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+        socketCampanha.send(JSON.stringify(payload));
+    }
+    transmitirParaCanalLocal(payload);
 }
 
 function transmitirConquistaSecretaCampanha(conquista) {
-    if (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN || !salaCampanhaAtiva) return;
+    if (!salaCampanhaAtiva) return;
     const nomePersonagem = (document.getElementById("nome_personagem")?.value || "").trim() || "Personagem";
-    socketCampanha.send(JSON.stringify({
+    const payload = {
         type: 'notificar_conquista_individual_ou_secreta',
         conquista: {
             id: conquista.id,
@@ -31856,7 +31985,12 @@ function transmitirConquistaSecretaCampanha(conquista) {
         },
         tipoConquista: 'secreta',
         jogadorNome: nomePersonagem
-    }));
+    };
+
+    if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+        socketCampanha.send(JSON.stringify(payload));
+    }
+    transmitirParaCanalLocal(payload);
 }
 
 const LIMITE_MAX_MSGS_2_MIN = 6;
@@ -31906,7 +32040,7 @@ function enviarMensagemChatCampanha() {
     if (!input) return;
     const texto = input.value.trim();
     if (!texto) return;
-    if (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN || !salaCampanhaAtiva) {
+    if (!salaCampanhaAtiva) {
         mostrarStatus("Você não está conectado a nenhuma sala de campanha.", "erro");
         return;
     }
@@ -31927,18 +32061,28 @@ function enviarMensagemChatCampanha() {
     const destinatarioId = destSelect ? destSelect.value : 'todos';
 
     if (destinatarioId && destinatarioId !== 'todos') {
-        socketCampanha.send(JSON.stringify({
-            type: 'enviar_sussurro',
-            destinatarioId: destinatarioId,
-            texto: texto,
-            remetente: nomePersonagem
-        }));
+        if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+            socketCampanha.send(JSON.stringify({
+                type: 'enviar_sussurro',
+                destinatarioId: destinatarioId,
+                texto: texto,
+                remetente: nomePersonagem
+            }));
+        }
     } else {
-        socketCampanha.send(JSON.stringify({
-            type: 'enviar_mensagem_chat',
-            texto: texto,
-            autor: nomePersonagem
-        }));
+        if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+            socketCampanha.send(JSON.stringify({
+                type: 'enviar_mensagem_chat',
+                texto: texto,
+                autor: nomePersonagem
+            }));
+        } else {
+            fetch(`/api/campanhas/${encodeURIComponent(salaCampanhaAtiva.codigo)}/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ texto, autor: nomePersonagem })
+            }).catch(() => {});
+        }
     }
     historicoEnviosChatCampanha.push(agora);
     input.value = "";
@@ -31949,19 +32093,27 @@ function enviarMensagemChatCampanha() {
 }
 
 function salvarDiarioSessaoCampanha() {
-    if (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN || !salaCampanhaAtiva) return;
+    if (!salaCampanhaAtiva) return;
     const texto = (document.getElementById("campanha-diario-texto")?.value || "").trim();
     const nomePersonagem = (document.getElementById("nome_personagem")?.value || "").trim() || "Personagem";
-    socketCampanha.send(JSON.stringify({
-        type: 'atualizar_diario_sessao',
-        texto: texto,
-        autor: nomePersonagem
-    }));
+    if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+        socketCampanha.send(JSON.stringify({
+            type: 'atualizar_diario_sessao',
+            texto: texto,
+            autor: nomePersonagem
+        }));
+    } else {
+        fetch(`/api/campanhas/${encodeURIComponent(salaCampanhaAtiva.codigo)}/diario`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ texto, autor: nomePersonagem })
+        }).catch(() => {});
+    }
     mostrarStatus("💾 Diário de bordo sincronizado com a mesa!", "ok");
 }
 
 function dispararAlertaMestre() {
-    if (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN || !salaCampanhaAtiva) return;
+    if (!salaCampanhaAtiva) return;
     const titulo = (document.getElementById("gm_alerta_titulo")?.value || "").trim() || "⚠️ ALERTA DO MESTRE";
     const msg = (document.getElementById("gm_alerta_msg")?.value || "").trim();
     const nivel = document.getElementById("gm_alerta_nivel")?.value || "perigo";
@@ -31970,11 +32122,19 @@ function dispararAlertaMestre() {
         return;
     }
     const nomePersonagem = (document.getElementById("nome_personagem")?.value || "").trim() || "Mestre";
-    socketCampanha.send(JSON.stringify({
-        type: 'alerta_mestre',
-        alerta: { titulo, msg, nivel },
-        autor: nomePersonagem
-    }));
+    if (socketCampanha && socketCampanha.readyState === WebSocket.OPEN) {
+        socketCampanha.send(JSON.stringify({
+            type: 'alerta_mestre',
+            alerta: { titulo, msg, nivel },
+            autor: nomePersonagem
+        }));
+    } else {
+        fetch(`/api/campanhas/${encodeURIComponent(salaCampanhaAtiva.codigo)}/alerta`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ alerta: { titulo, msg, nivel }, autor: nomePersonagem })
+        }).catch(() => {});
+    }
     document.getElementById("gm_alerta_msg").value = "";
     mostrarStatus("⚡ Alerta narrativo disparado na tela de todos!", "ok");
 }
@@ -32074,6 +32234,16 @@ function executarTransferenciaItem() {
             },
             remetente: nomePersonagem
         }));
+    } else if (salaCampanhaAtiva) {
+        fetch(`/api/campanhas/${encodeURIComponent(salaCampanhaAtiva.codigo)}/transferir-item`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                destinatarioId: destId,
+                item: itemAEnviar,
+                remetenteNome: nomePersonagem
+            })
+        }).catch(() => {});
     }
 
     fecharModalTransferirItem();
@@ -33169,6 +33339,18 @@ function inicializarCampanhasMultiplayer() {
         const cod = (salaCampanhaAtiva && salaCampanhaAtiva.codigo) || localStorage.getItem('we_are_strangers_campanha_codigo');
         if (cod && (!socketCampanha || socketCampanha.readyState !== WebSocket.OPEN)) {
             conectarWebSocketCampanha(cod);
+        }
+    });
+
+    window.addEventListener('storage', (event) => {
+        if (!event.key || !salaCampanhaAtiva) return;
+        if (event.key === 'was_campanha_sync_' + salaCampanhaAtiva.codigo && event.newValue) {
+            try {
+                const data = JSON.parse(event.newValue);
+                if (data && data.msg) {
+                    processarMensagemCampanha(data.msg);
+                }
+            } catch(e) {}
         }
     });
 }

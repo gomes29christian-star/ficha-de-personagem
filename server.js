@@ -193,18 +193,233 @@ app.post('/api/campanhas/:codigo/entrar', (req, res) => {
 app.post('/api/campanhas/:codigo/sync', (req, res) => {
   const cod = String(req.params.codigo || '').trim().toUpperCase();
   const { jogador } = req.body || {};
-  const sala = salasCampanhas.get(cod);
-  if (!sala) return res.status(404).json({ erro: 'Campanha não encontrada.' });
+  if (!cod) return res.status(400).json({ erro: 'Código inválido' });
 
-  if (jogador && jogador.id && sala.membros.has(jogador.id)) {
-    const membro = sala.membros.get(jogador.id);
-    Object.assign(membro, jogador, { online: true, ultimoVisto: Date.now() });
+  let sala = salasCampanhas.get(cod);
+  if (!sala) {
+    sala = obterOuCriarSala(cod, null, jogador?.id, jogador?.nomeJogador || jogador?.nomePersonagem);
   }
+
+  if (jogador && jogador.id) {
+    if (sala.membros.has(jogador.id)) {
+      const membro = sala.membros.get(jogador.id);
+      Object.assign(membro, jogador, { online: true, ultimoVisto: Date.now() });
+    } else {
+      sala.membros.set(jogador.id, {
+        id: jogador.id,
+        nomePersonagem: jogador.nomePersonagem || 'Personagem',
+        nomeJogador: jogador.nomeJogador || 'Jogador',
+        avatar: jogador.avatar || '',
+        isMestre: (sala.criadorId === jogador.id),
+        classe1: jogador.classe1 || '',
+        classe2: jogador.classe2 || '',
+        nivel: jogador.nivel || '',
+        corTema: jogador.corTema || '#c9b183',
+        vidaAtual: jogador.vidaAtual ?? 100,
+        vidaMax: jogador.vidaMax ?? 100,
+        vidaTemp: jogador.vidaTemp ?? 0,
+        estaminaAtual: jogador.estaminaAtual ?? 80,
+        estaminaMax: jogador.estaminaMax ?? 80,
+        estaminaTemp: jogador.estaminaTemp ?? 0,
+        mentalAtual: jogador.mentalAtual ?? 50,
+        mentalMax: jogador.mentalMax ?? 50,
+        mentalTemp: jogador.mentalTemp ?? 0,
+        auraAtual: jogador.auraAtual ?? 30,
+        auraMax: jogador.auraMax ?? 30,
+        auraTemp: jogador.auraTemp ?? 0,
+        sanidadeAtual: jogador.sanidadeAtual ?? 50,
+        sanidadeMax: jogador.sanidadeMax ?? 50,
+        recursoAtual: jogador.recursoAtual ?? 80,
+        recursoMax: jogador.recursoMax ?? 80,
+        recursoNome: jogador.recursoNome || 'Estamina',
+        atributos: jogador.atributos || { HPR: 1, PRX: 1, PSI: 1, QI: 1 },
+        periciasTop: Array.isArray(jogador.periciasTop) ? jogador.periciasTop : [],
+        condicoes: Array.isArray(jogador.condicoes) ? jogador.condicoes : [],
+        conquistasIndividuais: Array.isArray(jogador.conquistasIndividuais) ? jogador.conquistasIndividuais : [],
+        conquistasSecretas: Array.isArray(jogador.conquistasSecretas) ? jogador.conquistasSecretas : [],
+        conquistasEquipe: Array.isArray(jogador.conquistasEquipe) ? jogador.conquistasEquipe : [],
+        trocarPorCodinome: !!jogador.trocarPorCodinome,
+        identidadeReal: jogador.identidadeReal || '',
+        codinomeOriginal: jogador.codinomeOriginal || '',
+        reveladoPara: Array.isArray(jogador.reveladoPara) ? jogador.reveladoPara : [],
+        online: true,
+        ultimoVisto: Date.now()
+      });
+    }
+  }
+
+  if (Array.isArray(jogador?.conquistasEquipe)) {
+    jogador.conquistasEquipe.forEach(cqId => sala.conquistasEquipe.add(cqId));
+  }
+
+  broadcastParaSala(cod, {
+    type: 'sala_atualizada',
+    sala: serializarSala(sala)
+  });
 
   res.json({
     sala: serializarSala(sala),
     conquistasEquipe: Array.from(sala.conquistasEquipe)
   });
+});
+
+app.post('/api/campanhas/:codigo/rolagem', (req, res) => {
+  const cod = String(req.params.codigo || '').trim().toUpperCase();
+  const { rolagem, jogadorNome } = req.body || {};
+  const sala = salasCampanhas.get(cod);
+  if (!sala || !rolagem) return res.status(400).json({ erro: 'Dados inválidos' });
+
+  const logRolagem = {
+    id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    tipo: 'rolagem',
+    texto: `🎲 ${jogadorNome || 'Jogador'} rolou ${rolagem.pericia || 'Atributo'}: ${rolagem.resultadoFinal} (${rolagem.faixaNome})`,
+    rolagem: rolagem,
+    autor: jogadorNome || 'Jogador',
+    data: Date.now()
+  };
+  sala.historico.push(logRolagem);
+
+  broadcastParaSala(cod, {
+    type: 'rolagem_recebida',
+    rolagem: rolagem,
+    jogadorNome: jogadorNome || 'Jogador',
+    evento: logRolagem,
+    sala: serializarSala(sala)
+  });
+
+  res.json({ ok: true, evento: logRolagem });
+});
+
+app.post('/api/campanhas/:codigo/chat', (req, res) => {
+  const cod = String(req.params.codigo || '').trim().toUpperCase();
+  const { texto, autor } = req.body || {};
+  const sala = salasCampanhas.get(cod);
+  if (!sala || !texto) return res.status(400).json({ erro: 'Dados inválidos' });
+
+  const logMsg = {
+    id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    tipo: 'chat',
+    texto: texto.slice(0, 500),
+    autor: autor || 'Jogador',
+    data: Date.now()
+  };
+  sala.historico.push(logMsg);
+
+  broadcastParaSala(cod, {
+    type: 'mensagem_chat_recebida',
+    mensagem: logMsg,
+    sala: serializarSala(sala)
+  });
+
+  res.json({ ok: true, mensagem: logMsg });
+});
+
+app.post('/api/campanhas/:codigo/alerta', (req, res) => {
+  const cod = String(req.params.codigo || '').trim().toUpperCase();
+  const { alerta, autor } = req.body || {};
+  const sala = salasCampanhas.get(cod);
+  if (!sala || !alerta) return res.status(400).json({ erro: 'Dados inválidos' });
+
+  const logAlerta = {
+    id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    tipo: 'alerta_mestre',
+    texto: `⚠️ [ALERTA DO MESTRE] ${alerta.titulo}: ${alerta.msg}`,
+    alerta: alerta,
+    autor: autor || 'Mestre',
+    data: Date.now()
+  };
+  sala.historico.push(logAlerta);
+
+  broadcastParaSala(cod, {
+    type: 'alerta_mestre_recebido',
+    alerta: alerta,
+    autor: autor || 'Mestre',
+    evento: logAlerta,
+    sala: serializarSala(sala)
+  });
+
+  res.json({ ok: true, evento: logAlerta });
+});
+
+app.post('/api/campanhas/:codigo/diario', (req, res) => {
+  const cod = String(req.params.codigo || '').trim().toUpperCase();
+  const { texto, autor } = req.body || {};
+  const sala = salasCampanhas.get(cod);
+  if (!sala) return res.status(404).json({ erro: 'Sala não encontrada' });
+
+  sala.diarioSessao = texto || '';
+  const logDiario = {
+    id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    tipo: 'diario_atualizado',
+    texto: `📖 Diário de sessão atualizado por ${autor || 'Mestre'}.`,
+    data: Date.now()
+  };
+  sala.historico.push(logDiario);
+
+  broadcastParaSala(cod, {
+    type: 'diario_sessao_atualizado',
+    texto: sala.diarioSessao,
+    autor: autor || 'Mestre',
+    sala: serializarSala(sala)
+  });
+
+  res.json({ ok: true });
+});
+
+app.post('/api/campanhas/:codigo/conquista-equipe', (req, res) => {
+  const cod = String(req.params.codigo || '').trim().toUpperCase();
+  const { conquista, desbloqueadoPor } = req.body || {};
+  const sala = salasCampanhas.get(cod);
+  if (!sala || !conquista || !conquista.id) return res.status(400).json({ erro: 'Dados inválidos' });
+
+  sala.conquistasEquipe.add(conquista.id);
+  const logConq = {
+    id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    tipo: 'conquista_equipe',
+    texto: `🤝 FEITO DE EQUIPE DESBLOQUEADO: "${conquista.titulo}" por ${desbloqueadoPor || 'Equipe'}! (+${conquista.pontos || 0} pts)`,
+    conquista: conquista,
+    data: Date.now()
+  };
+  sala.historico.push(logConq);
+
+  broadcastParaSala(cod, {
+    type: 'conquista_equipe_recebida',
+    conquista: conquista,
+    desbloqueadoPor: desbloqueadoPor || 'Equipe',
+    sala: serializarSala(sala),
+    evento: logConq
+  });
+
+  res.json({ ok: true, sala: serializarSala(sala) });
+});
+
+app.post('/api/campanhas/:codigo/transferir-item', (req, res) => {
+  const cod = String(req.params.codigo || '').trim().toUpperCase();
+  const { destinatarioId, item, remetenteNome } = req.body || {};
+  const sala = salasCampanhas.get(cod);
+  if (!sala || !destinatarioId || !item) return res.status(400).json({ erro: 'Dados inválidos' });
+
+  const destMembro = sala.membros.get(destinatarioId);
+  const nomeDest = destMembro ? (destMembro.nomePersonagem || destMembro.nomeJogador) : 'Aliado';
+
+  const logTransf = {
+    id: 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    tipo: 'item_transferido',
+    texto: `📦 ${remetenteNome || 'Jogador'} transferiu "${item.nome || 'Item'}" para ${nomeDest}.`,
+    data: Date.now()
+  };
+  sala.historico.push(logTransf);
+
+  broadcastParaSala(cod, {
+    type: 'item_transferido_recebido',
+    destinatarioId: destinatarioId,
+    remetenteNome: remetenteNome || 'Jogador',
+    item: item,
+    evento: logTransf,
+    sala: serializarSala(sala)
+  });
+
+  res.json({ ok: true });
 });
 
 app.get(['/planta', '/planta.html'], (req, res) => {
