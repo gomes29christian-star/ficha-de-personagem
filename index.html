@@ -6473,6 +6473,168 @@ html.animacao-strokes-roxas .galho-svg path {
   animation: piscarStrokesRoxoSvg 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
 }
 
+/* ============================================================
+   CONQUISTA SECRETA "REVE" - ESTILOS E ANIMAÇÕES RAVE
+   ============================================================ */
+.reve-cinematica-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(5, 5, 10, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: inset 0 0 100px rgba(255, 0, 128, 0.5), inset 0 0 180px rgba(0, 240, 255, 0.4);
+}
+
+.reve-laser-beam {
+  position: absolute;
+  top: -20%;
+  width: 4px;
+  height: 140%;
+  background: var(--laser-color, #00f0ff);
+  box-shadow: 0 0 15px var(--laser-color, #00f0ff), 0 0 30px var(--laser-color, #00f0ff);
+  opacity: 0.85;
+  transform-origin: top center;
+  animation: reve-laser-sweep 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes reve-laser-sweep {
+  0% { transform: rotate(-35deg) scaleY(1); opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { transform: rotate(35deg) scaleY(1.1); opacity: 0.4; }
+}
+
+.reve-equalizer-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  padding: 0 20px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.reve-eq-bar {
+  width: 3.5%;
+  height: 20%;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 0 12px currentColor;
+  animation: reve-eq-bounce 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes reve-eq-bounce {
+  0% { height: 15%; opacity: 0.4; }
+  100% { height: 95%; opacity: 1; }
+}
+
+.reve-banner-box {
+  position: relative;
+  z-index: 10;
+  background: rgba(15, 12, 28, 0.88);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 35px var(--accent-glow), 0 0 70px rgba(255, 0, 200, 0.5);
+  border-radius: 12px;
+  padding: 28px 36px;
+  text-align: center;
+  max-width: 580px;
+  width: 90%;
+  animation: reve-banner-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes reve-banner-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.reve-disco-icone {
+  font-size: 58px;
+  animation: reve-disco-spin 2s linear infinite;
+  display: inline-block;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 16px #ffffff);
+}
+
+@keyframes reve-disco-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.reve-titulo-destaque {
+  font-family: 'MirageFinal', 'Old Europe', Georgia, serif;
+  font-size: clamp(24px, 5vw, 36px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px #ff007f, 0 0 20px #00f0ff, 0 0 40px #ff007f;
+  margin-bottom: 6px;
+}
+
+.reve-subtitulo-destaque {
+  font-family: 'MirageFinal', serif;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.reve-desc-texto {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  color: #ffffff;
+  opacity: 0.92;
+  margin-bottom: 20px;
+}
+
+.reve-fechar-btn {
+  background: linear-gradient(90deg, #ff007f, #7928ca, #00f0ff);
+  background-size: 200% 200%;
+  animation: reve-btn-gradient 2s ease infinite;
+  color: #ffffff;
+  font-family: 'MirageFinal', serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+  transition: transform 0.15s ease;
+}
+
+.reve-fechar-btn:hover {
+  transform: scale(1.06);
+}
+
+@keyframes reve-btn-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.reve-card-glow-destaque {
+  animation: reve-card-rainbow 1.2s ease-in-out infinite alternate !important;
+}
+
+@keyframes reve-card-rainbow {
+  0% { box-shadow: 0 0 15px #ff007f, 0 0 30px #ff007f; border-color: #ff007f !important; }
+  50% { box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff; border-color: #00f0ff !important; }
+  100% { box-shadow: 0 0 15px #7928ca, 0 0 30px #7928ca; border-color: #7928ca !important; }
+}
+
 /* ==========================================================================
    MÓDULO DE CONQUISTAS & FEITOS (OFICIAIS / CAMPANHA & INDIVIDUAL / EQUIPE)
    ========================================================================== */
@@ -11783,210 +11945,231 @@ body.modo-claro .tatico-cond-ico-badge.debuff-dano {
   transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s steps(4), visibility 0.25s;
 }
 
-/* Design Harmônico e Moderno para Notificações Gerais (Afetado pela COR TEMA) */
+/* ==========================================================================
+   REMODELAGEM COMPLETA DO DESIGN DE NOTIFICAÇÃO DA MESA (HARMÔNICO & COR TEMA)
+   ========================================================================== */
 .toast-conquista-equipe.toast-modo-harmonico {
-  background: color-mix(in srgb, var(--bg-card, #141312) 95%, var(--accent, #c6a052));
-  border: 1px solid var(--accent, #c6a052);
+  position: fixed;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-180px);
+  opacity: 0;
+  visibility: hidden;
+  background: radial-gradient(ellipse at 15% 50%, color-mix(in srgb, var(--accent, #c6a052) 18%, var(--bg-card, #141312)) 0%, var(--bg-card, #141312) 75%);
+  border: 1px solid color-mix(in srgb, var(--accent, #c6a052) 70%, var(--line, #2c2722));
+  outline: 1px solid color-mix(in srgb, var(--accent, #c6a052) 30%, transparent);
+  outline-offset: -4px;
   color: var(--ink, #f5eedf);
-  border-radius: 8px;
-  padding: 12px 18px;
-  gap: 14px;
-  box-shadow: 0 10px 32px var(--shadow, rgba(0,0,0,0.85)), 0 0 24px color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 6px;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.9), 0 0 28px color-mix(in srgb, var(--accent, #c6a052) 30%, transparent);
+  z-index: 100000;
+  max-width: 90vw;
+  width: max-content;
+  min-width: 320px;
+  pointer-events: auto;
+  cursor: pointer;
   image-rendering: auto;
   -webkit-font-smoothing: antialiased;
   font-family: 'EB Garamond', Georgia, serif;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, visibility 0.3s;
+}
+
+.toast-conquista-equipe.toast-modo-harmonico.visivel {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  visibility: visible;
 }
 
 .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-icone {
-  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
   line-height: 1;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 15%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
-  padding: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent, #c6a052);
+  background: color-mix(in srgb, var(--accent, #c6a052) 15%, var(--bg-void, #0d0c0b));
+  border: 1px solid color-mix(in srgb, var(--accent, #c6a052) 55%, transparent);
   border-radius: 6px;
+  box-shadow: inset 0 0 12px color-mix(in srgb, var(--accent, #c6a052) 30%, transparent), 0 0 14px color-mix(in srgb, var(--accent, #c6a052) 20%, transparent);
   animation: none;
   image-rendering: auto;
+}
+
+.toast-conquista-equipe.toast-modo-harmonico .toast-conquista-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 
 .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-sub {
   font-family: 'MirageFinal', serif;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--accent);
+  letter-spacing: 0.09em;
+  color: var(--accent, #c6a052);
   text-transform: uppercase;
-  text-shadow: none;
-  margin-bottom: 2px;
+  text-shadow: none !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent, #c6a052) 25%, transparent);
+  padding-bottom: 3px;
+  margin-bottom: 3px;
+  display: inline-block;
 }
 
 .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-titulo {
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
-  color: var(--ink);
-  text-shadow: none;
+  color: var(--ink, #f5eedf);
+  text-shadow: none !important;
   line-height: 1.25;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-desc {
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: 13.5px;
-  color: var(--ink-dim);
-  text-shadow: none;
-  margin-top: 3px;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-dim, #a39b8c);
+  text-shadow: none !important;
+  line-height: 1.4;
+  margin-top: 2px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-cursor {
-  background-color: var(--accent);
+  background-color: var(--accent, #c6a052);
   width: 2px;
-  height: 14px;
+  height: 15px;
   border-radius: 1px;
-}
-.toast-conquista-equipe.visivel {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-  visibility: visible;
-}
-.toast-conquista-icone {
-  font-size: 32px;
-  line-height: 1;
-  flex-shrink: 0;
-  animation: pixelIconBounce 0.8s steps(3, start) infinite alternate;
-  image-rendering: pixelated;
-}
-@keyframes pixelIconBounce {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-  100% { transform: translateY(0); }
-}
-.toast-conquista-texto {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  flex: 1;
-  min-width: 0;
-}
-.toast-conquista-sub {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #ffff00;
-  text-shadow: 2px 2px #000000;
-  line-height: 1.4;
-}
-.toast-conquista-titulo {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
-  font-weight: normal;
-  color: #00f0ff;
-  text-shadow: 2px 2px #000000;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-.toast-conquista-desc {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8.5px;
-  color: #ffffff;
-  text-shadow: 1px 1px #000000;
-  line-height: 1.6;
-  letter-spacing: 0.2px;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-.toast-conquista-cursor {
   display: inline-block;
-  width: 6px;
-  height: 10px;
-  background-color: currentColor;
   margin-left: 2px;
-  vertical-align: baseline;
-  animation: toastCursorBlink 0.4s steps(2, start) infinite;
-}
-@keyframes toastCursorBlink {
-  to { visibility: hidden; }
+  vertical-align: middle;
+  animation: toastCursorBlink 0.5s ease-in-out infinite alternate;
 }
 
-/* Variantes de Estilo do Pop-up Notificação por Tipo de Evento */
-.toast-conquista-equipe.tipo-rolagem {
+/* Customização por Variantes do Modo Harmônico */
+.toast-conquista-equipe.toast-modo-harmonico.tipo-rolagem {
+  border-color: color-mix(in srgb, var(--accent, #c6a052) 80%, white);
+}
+.toast-conquista-equipe.toast-modo-harmonico.tipo-rolagem .toast-conquista-sub {
+  color: var(--accent, #c6a052);
+}
+
+.toast-conquista-equipe.toast-modo-harmonico.tipo-sussurro {
+  border-color: color-mix(in srgb, var(--accent, #c6a052) 50%, #9b59b6);
+  background: radial-gradient(ellipse at 20% 50%, color-mix(in srgb, #9b59b6 18%, var(--bg-card, #141312)) 0%, var(--bg-card, #141312) 75%);
+}
+.toast-conquista-equipe.toast-modo-harmonico.tipo-sussurro .toast-conquista-sub {
+  color: color-mix(in srgb, var(--accent, #c6a052) 60%, #e0aaff);
+}
+
+/* Suporte ao Modo Claro para Notificações Harmônicas */
+body.modo-claro .toast-conquista-equipe.toast-modo-harmonico {
+  background: radial-gradient(ellipse at 15% 50%, color-mix(in srgb, var(--accent, #9b814e) 15%, #eae1d0) 0%, #eae1d0 75%);
+  border-color: color-mix(in srgb, var(--accent, #9b814e) 60%, #bdaf98);
+  color: #171410;
+  box-shadow: 0 12px 36px rgba(40, 30, 15, 0.25), 0 0 20px color-mix(in srgb, var(--accent, #9b814e) 25%, transparent);
+}
+body.modo-claro .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-icone {
+  background: color-mix(in srgb, var(--accent, #9b814e) 15%, #dfd5c2);
+  border-color: color-mix(in srgb, var(--accent, #9b814e) 50%, transparent);
+}
+body.modo-claro .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-titulo {
+  color: #171410;
+}
+body.modo-claro .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-desc {
+  color: #524739;
+}
+
+/* Variantes de Estilo para Conquistas (Estilo 8-Bit Pixel Art Retrô) */
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-rolagem {
   box-shadow: 0 0 0 4px #000000, 0 0 0 8px #00f0ff, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 240, 255, 0.45);
   border-color: #00f0ff;
 }
-.toast-conquista-equipe.tipo-rolagem .toast-conquista-sub {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-rolagem .toast-conquista-sub {
   color: #00f0ff;
   text-shadow: 2px 2px #000000;
 }
-.toast-conquista-equipe.tipo-rolagem .toast-conquista-titulo {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-rolagem .toast-conquista-titulo {
   color: #ffffff;
   text-shadow: 2px 2px #000000;
 }
-.toast-conquista-equipe.tipo-rolagem .toast-conquista-desc {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-rolagem .toast-conquista-desc {
   color: #c0f6ff;
 }
 
-.toast-conquista-equipe.tipo-sussurro {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-sussurro {
   box-shadow: 0 0 0 4px #000000, 0 0 0 8px #9b59b6, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 30px rgba(155, 89, 182, 0.55);
   border-color: #9b59b6;
 }
-.toast-conquista-equipe.tipo-sussurro .toast-conquista-sub {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-sussurro .toast-conquista-sub {
   color: #e0aaff;
   text-shadow: 2px 2px #000000;
 }
-.toast-conquista-equipe.tipo-sussurro .toast-conquista-titulo {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-sussurro .toast-conquista-titulo {
   color: #d2b4de;
   text-shadow: 2px 2px #000000;
 }
-.toast-conquista-equipe.tipo-sussurro .toast-conquista-desc {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-sussurro .toast-conquista-desc {
   color: #f5eeff;
 }
 
-.toast-conquista-equipe.tipo-individual {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-individual {
   box-shadow: 0 0 0 4px #000000, 0 0 0 8px #f39c12, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(243, 156, 18, 0.5);
   border-color: #f39c12;
 }
-.toast-conquista-equipe.tipo-individual .toast-conquista-sub {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-individual .toast-conquista-sub {
   color: #f1c40f;
   text-shadow: 2px 2px #000000;
 }
-.toast-conquista-equipe.tipo-individual .toast-conquista-titulo {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-individual .toast-conquista-titulo {
   color: #ffffff;
   text-shadow: 2px 2px #000000;
 }
-.toast-conquista-equipe.tipo-individual .toast-conquista-desc {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-individual .toast-conquista-desc {
   color: #fff4d1;
 }
 
-.toast-conquista-equipe.tipo-secreta {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-secreta {
   box-shadow: 0 0 0 4px #000000, 0 0 0 8px #a569bd, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 32px rgba(165, 105, 189, 0.65);
   border-color: #a569bd;
 }
-.toast-conquista-equipe.tipo-secreta .toast-conquista-sub {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-secreta .toast-conquista-sub {
   color: #d2b4de;
   text-shadow: 2px 2px #000000;
 }
-.toast-conquista-equipe.tipo-secreta .toast-conquista-titulo {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-secreta .toast-conquista-titulo {
   color: #00f0ff;
   text-shadow: 2px 2px #000000;
 }
-.toast-conquista-equipe.tipo-secreta .toast-conquista-desc {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-secreta .toast-conquista-desc {
   color: #e8d7f1;
 }
 
-.toast-conquista-equipe.tipo-equipe {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-equipe {
   box-shadow: 0 0 0 4px #000000, 0 0 0 8px #f1c40f, 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(241, 196, 15, 0.45);
   border-color: #ffffff;
 }
-.toast-conquista-equipe.tipo-equipe .toast-conquista-sub {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-equipe .toast-conquista-sub {
   color: #ffff00;
   text-shadow: 2px 2px #000000;
 }
-.toast-conquista-equipe.tipo-equipe .toast-conquista-titulo {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-equipe .toast-conquista-titulo {
   color: #00f0ff;
   text-shadow: 2px 2px #000000;
 }
-.toast-conquista-equipe.tipo-equipe .toast-conquista-desc {
+.toast-conquista-equipe:not(.toast-modo-harmonico).tipo-equipe .toast-conquista-desc {
   color: #ffffff;
 }
 
@@ -12508,6 +12691,14 @@ body.modo-claro .campanha-diario-textarea {
 <body>
 <div id="vinheta-estamina-critica" aria-hidden="true"></div>
 
+<!-- 🟣======================================================================================== -->
+<!-- 🟣 [PISTA SECRETA DEVTOOLS 1/4 - COLORIDO ROXO]                                           -->
+<!-- 🟣 Segredo1: Control Direito                                                              -->
+<!-- 🟣======================================================================================== -->
+<template id="segredo-elements-1" class="segredo-elements-purple" data-pista="Segredo1: Control Direito" style="display: none !important;">
+  <div style="color: #a855f7; font-weight: bold; font-family: monospace;">🔮 Segredo1: Control Direito</div>
+</template>
+
 <div class="cabecalho-topo">
 <!-- Barra de Configurações do Cabeçalho (Modo Claro/Escuro) -->
 <div class="cabecalho-controles-wrap" id="cabecalho-controles-wrap">
@@ -12745,7 +12936,7 @@ body.modo-claro .campanha-diario-textarea {
 <!-- Barra Rápida de Atalhos de Teclado (Hotbar RPG 1-9) -->
 <div class="barra-atalhos-container" id="barra-atalhos-container">
   <div class="barra-atalhos-cabecalho">
-    <div class="barra-atalhos-titulo">
+    <div class="barra-atalhos-titulo" style="margin-right: auto;">
       <span class="barra-atalhos-icone">⚡</span>
       <span class="barra-atalhos-rotulo">ATALHOS RÁPIDOS [1–9]</span>
     </div>
@@ -12776,6 +12967,7 @@ body.modo-claro .campanha-diario-textarea {
           </div>
           <button type="button" class="avatar-remover" id="avatar_remover" title="Remover imagem" onclick="event.stopPropagation();removerAvatar()">&times;</button>
         </div>
+        <div id="ficha-badge-premio-yudi" class="badge-premio-yudi" style="display:none; margin-top: 8px; padding: 4px 10px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(234, 179, 8, 0.1) 100%); border: 1.5px solid #f59e0b; border-radius: 12px; font-family: system-ui, sans-serif; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(245, 158, 11, 0.35); cursor: help;" title="Prêmio da Roleta"></div>
       </div>
       <input type="file" id="input-avatar" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none" onchange="carregarAvatar(event)">
 
@@ -12925,6 +13117,13 @@ body.modo-claro .campanha-diario-textarea {
 
   <!-- Seção de Recursos Vitais (Vida, Mental, Estamina, Aura) -->
   <div class="ficha-recursos-card" id="secao-recursos">
+    <!-- 🟣======================================================================================== -->
+    <!-- 🟣 [PISTA SECRETA DEVTOOLS 2/4 - COLORIDO ROXO]                                           -->
+    <!-- 🟣 Segredo2: SUPER                                                                        -->
+    <!-- 🟣======================================================================================== -->
+    <template id="segredo-elements-2" class="segredo-elements-purple" data-pista="Segredo2: SUPER" style="display: none !important;">
+      <div style="color: #a855f7; font-weight: bold; font-family: monospace;">🔮 Segredo2: SUPER</div>
+    </template>
     <div class="ficha-recursos-topo">
       <div class="secao-titulo-compacto">
         <span class="secao-icone">❖</span>
@@ -14839,6 +15038,13 @@ if(window.innerWidth <= 768){
 </div>
 
 <!-- Container da Lista de Cards de Conquistas -->
+<!-- 🟣======================================================================================== -->
+<!-- 🟣 [PISTA SECRETA DEVTOOLS 3/4 - COLORIDO ROXO]                                           -->
+<!-- 🟣 Segredo3: Control Esquerdo                                                            -->
+<!-- 🟣======================================================================================== -->
+<template id="segredo-elements-3" class="segredo-elements-purple" data-pista="Segredo3: Control Esquerdo" style="display: none !important;">
+  <div style="color: #a855f7; font-weight: bold; font-family: monospace;">🔮 Segredo3: Control Esquerdo</div>
+</template>
 <div id="conq-lista-grid" class="conq-lista-grid">
   <!-- Preenchido dinamicamente via JavaScript -->
 </div>
@@ -17021,6 +17227,9 @@ function definirCorPrincipal(valor, registrarAlteracao = true, sincronizar = tru
     }
     if (typeof verificarGatilhoAntiContraste === "function") {
         verificarGatilhoAntiContraste();
+    }
+    if (typeof verificarGatilhoReve === "function") {
+        verificarGatilhoReve(valor);
     }
 }
 
@@ -20073,6 +20282,14 @@ function atualizarBarraRecurso(chave){
     if(typeof avaliarEstaminaCritica === 'function' && (chave === 'estamina' || !chave)){
         avaliarEstaminaCritica();
     }
+
+    if(typeof verificarGatilhoFarmadorAura === 'function' && (chave === 'aura' || !chave)){
+        verificarGatilhoFarmadorAura();
+    }
+
+    if(typeof verificarGatilhoJackpot === 'function' && (chave === 'vida' || chave === 'mental' || chave === 'estamina' || !chave)){
+        verificarGatilhoJackpot();
+    }
 }
 
 function zerarRecursoTemporario(chave){
@@ -20348,6 +20565,7 @@ function coletarEstadoFicha(){
         identidadeSecretaCodigo: (typeof codigoIdentidadeSecreta !== "undefined") ? codigoIdentidadeSecreta : "",
         salvamentoManual: salvamentoManualAtivo,
         modoClaro: modoClaroAtivo,
+        premioYudi: (typeof estadoPremioYudiGlobal !== "undefined" ? estadoPremioYudiGlobal : null),
         atualizadoEm: new Date().toISOString()
     };
 }
@@ -20438,6 +20656,13 @@ function aplicarEstadoFicha(estado){
 
     avatarAtual = estado.avatar || "";
     aplicarAvatar();
+
+    if (estado.premioYudi) {
+        estadoPremioYudiGlobal = estado.premioYudi;
+        if (typeof renderizarBadgePremioYudi === "function") {
+            renderizarBadgePremioYudi();
+        }
+    }
 
     const corSalva = estado.cor || "#c9b183";
     document.getElementById("ficha_cor").value = corSalva;
@@ -21414,6 +21639,9 @@ async function salvarFicha(silencioso = false){
 
         if(!silencioso){
             mostrarStatus("✓ Ficha \"" + estado.nome + "\" salva com sucesso.", "ok");
+            if (typeof registrarSalvamentoManual === "function") {
+                registrarSalvamentoManual();
+            }
         }
         limparAlteracoesNaoSalvas();
         renderizarListaFichas();
@@ -21636,11 +21864,26 @@ function resetarFichaParaPadrao(){
     mostrarStatus("✓ Ficha limpa. Pronto para criar um novo personagem.", "ok");
 }
 
+function formatarDataBR(isoStr) {
+    try {
+        const d = isoStr ? new Date(isoStr) : new Date();
+        if (isNaN(d.getTime())) return "";
+        const dia = String(d.getDate()).padStart(2, '0');
+        const mes = String(d.getMonth() + 1).padStart(2, '0');
+        const ano = d.getFullYear();
+        return `${dia}/${mes}/${ano}`;
+    } catch(e) {
+        return "";
+    }
+}
+
 function formatarData(iso){
     try{
         const d = new Date(iso);
-        return d.toLocaleDateString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric'}) +
-               " às " + d.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+        const dataBr = formatarDataBR(d);
+        const hora = String(d.getHours()).padStart(2, '0');
+        const min = String(d.getMinutes()).padStart(2, '0');
+        return `${dataBr} às ${hora}:${min}`;
     }catch(e){
         return "";
     }
@@ -24806,6 +25049,60 @@ const CONQUISTAS_SECRETAS = [
         titulo: "Esquele-BROS",
         pontos: 0,
         desc: "Interprete ao pé das LETRAS"
+    },
+    {
+        id: "sec_farmador_aura",
+        nivel1: "secretas",
+        nivel2: "individual",
+        icone: "✨",
+        titulo: "Farmador de Aura",
+        pontos: 0,
+        desc: "6767676767676767676767676767676767676767."
+    },
+    {
+        id: "sec_paranoia",
+        nivel1: "secretas",
+        nivel2: "individual",
+        icone: "💾",
+        titulo: "Paranóia",
+        pontos: 0,
+        desc: "Tu sabe que tem modo automático, né?"
+    },
+    {
+        id: "sec_reve",
+        nivel1: "secretas",
+        nivel2: "individual",
+        icone: "🪩",
+        titulo: "REVE",
+        pontos: 0,
+        desc: "Virou balada?"
+    },
+    {
+        id: "sec_segredo_fonte",
+        nivel1: "secretas",
+        nivel2: "individual",
+        icone: "💻",
+        titulo: "Segredo-Fonte",
+        pontos: 0,
+        desc: "Deixa eu adivinhar... seu nome é Felipe e sua habilidade é Quebrar Códigos?"
+    },
+    {
+        id: "sec_jackpot",
+        nivel1: "secretas",
+        nivel2: "individual",
+        icone: "🎰",
+        titulo: "JACKPOT",
+        pontos: 0,
+        desc: "7.7.7."
+    },
+    {
+        id: "sec_companhia",
+        nivel1: "secretas",
+        nivel2: "individual",
+        icone: "📞",
+        titulo: "Companhia",
+        pontos: 0,
+        desc: "O Yudi ficava orgulhoso, mas o crédito do celular dos seus pais não."
     }
 ];
 
@@ -25027,6 +25324,14 @@ function desbloquearConquistaSecreta(id) {
         executarAnimacaoStrokesRoxas();
     } else if (id === "sec_esquelebros") {
         executarCinematicaEsqueleBros();
+    } else if (id === "sec_reve") {
+        executarCinematicaReve();
+    } else if (id === "sec_segredo_fonte") {
+        executarCinematicaSegredoFonte();
+    } else if (id === "sec_jackpot") {
+        executarCinematicaJackpot();
+    } else if (id === "sec_companhia") {
+        renderizarBadgePremioYudi();
     }
 
     return true;
@@ -25450,6 +25755,1353 @@ function verificarGatilhoEsqueleBros() {
     }
 }
 
+/* ============================================================
+   CONQUISTA SECRETA "FARMADOR DE AURA" - LÓGICA E DISPARO
+   ============================================================ */
+let tempoInicioAura67 = null;
+
+function verificarGatilhoFarmadorAura() {
+    // 1. Só pode ser desbloqueada após a primeira conquista secreta "eSPECtador Incherido" (duplo clique na logo)
+    const eSPECtadorDesbloqueado = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+
+    if (!eSPECtadorDesbloqueado) {
+        tempoInicioAura67 = null;
+        return;
+    }
+
+    if (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_farmador_aura")) {
+        tempoInicioAura67 = null;
+        return;
+    }
+
+    const atualEl = document.getElementById("recurso_aura_atual");
+    const maxEl = document.getElementById("recurso_aura_max");
+    const tempEl = document.getElementById("recurso_aura_temp");
+
+    if (!atualEl || !maxEl) {
+        tempoInicioAura67 = null;
+        return;
+    }
+
+    const max = parseInt(maxEl.value, 10) || 1;
+    const atual = parseInt(atualEl.value, 10) || 0;
+    const temp = tempEl ? (parseInt(tempEl.value, 10) || 0) : 0;
+
+    const pct = max > 0 ? Math.round(((atual + temp) / max) * 100) : 0;
+    const pctBase = max > 0 ? Math.round((atual / max) * 100) : 0;
+
+    if (pct === 67 || pctBase === 67) {
+        const agora = Date.now();
+        if (!tempoInicioAura67) {
+            tempoInicioAura67 = agora;
+        } else if (agora - tempoInicioAura67 >= 10000) {
+            tempoInicioAura67 = null;
+            desbloquearConquistaSecreta("sec_farmador_aura");
+        }
+    } else {
+        tempoInicioAura67 = null;
+    }
+}
+
+setInterval(verificarGatilhoFarmadorAura, 500);
+
+/* ============================================================
+   CONQUISTA SECRETA "JACKPOT" - LÓGICA E DISPARO
+   ============================================================ */
+function verificarGatilhoJackpot() {
+    const eSPECtadorDesbloqueado = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+
+    if (!eSPECtadorDesbloqueado) {
+        return;
+    }
+
+    if (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_jackpot")) {
+        return;
+    }
+
+    const vidaEl = document.getElementById("recurso_vida_atual");
+    const mentalEl = document.getElementById("recurso_mental_atual");
+    const estaminaEl = document.getElementById("recurso_estamina_atual");
+
+    if (!vidaEl || !mentalEl || !estaminaEl) {
+        return;
+    }
+
+    const vida = parseInt(vidaEl.value, 10);
+    const mental = parseInt(mentalEl.value, 10);
+    const estamina = parseInt(estaminaEl.value, 10);
+
+    if (vida === 7 && mental === 7 && estamina === 7) {
+        desbloquearConquistaSecreta("sec_jackpot");
+    }
+}
+
+setInterval(verificarGatilhoJackpot, 500);
+
+/* ============================================================
+   CONQUISTA SECRETA "PARANÓIA" - LÓGICA E DISPARO
+   ============================================================ */
+let historicoSalvamentosManuaisParanoia = [];
+
+function registrarSalvamentoManual() {
+    // 1. Só pode ser desbloqueada após a primeira conquista secreta "eSPECtador Incherido" (duplo clique na logo)
+    const eSPECtadorDesbloqueado = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+
+    if (!eSPECtadorDesbloqueado) {
+        historicoSalvamentosManuaisParanoia = [];
+        return;
+    }
+
+    if (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_paranoia")) {
+        historicoSalvamentosManuaisParanoia = [];
+        return;
+    }
+
+    const agora = Date.now();
+    const JANELA_7_MINUTOS = 7 * 60 * 1000; // 7 minutos em milissegundos
+
+    // Mantém apenas salvamentos ocorridos nos últimos 7 minutos
+    historicoSalvamentosManuaisParanoia = historicoSalvamentosManuaisParanoia.filter(t => (agora - t) <= JANELA_7_MINUTOS);
+    historicoSalvamentosManuaisParanoia.push(agora);
+
+    // Se salvou manualmente 5 vezes dentro de 7 minutos, desbloqueia a conquista
+    if (historicoSalvamentosManuaisParanoia.length >= 5) {
+        historicoSalvamentosManuaisParanoia = [];
+        desbloquearConquistaSecreta("sec_paranoia");
+    }
+}
+
+/* ============================================================
+   CONQUISTA SECRETA "REVE" - LÓGICA, ÁUDIO & CINEMÁTICA RAVE
+   ============================================================ */
+let historicoTrocasMatizReve = [];
+let ultimoTempoTrocaReve = 0;
+
+function hexParaMatizGrados(hex) {
+    if (!hex || typeof hex !== "string") return 0;
+    let c = hex.replace("#", "").trim();
+    if (c.length === 3) c = c.split("").map(x => x + x).join("");
+    if (c.length !== 6) return 0;
+    const r = parseInt(c.substring(0, 2), 16) / 255;
+    const g = parseInt(c.substring(2, 4), 16) / 255;
+    const b = parseInt(c.substring(4, 6), 16) / 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h = 0;
+    if (max !== min) {
+        const d = max - min;
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+    return Math.round(h * 360);
+}
+
+function verificarGatilhoReve(corHex) {
+    const eSPECtadorDesbloqueado = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+
+    if (!eSPECtadorDesbloqueado) {
+        historicoTrocasMatizReve = [];
+        ultimoTempoTrocaReve = 0;
+        return;
+    }
+
+    if (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_reve")) {
+        historicoTrocasMatizReve = [];
+        ultimoTempoTrocaReve = 0;
+        return;
+    }
+
+    const agora = Date.now();
+    const matizAtual = hexParaMatizGrados(corHex);
+
+    // Regra "sem parar": se o jogador pausar por mais de 450ms, a sequência ininterrupta reinicia
+    if (ultimoTempoTrocaReve > 0 && (agora - ultimoTempoTrocaReve) > 450) {
+        historicoTrocasMatizReve = [];
+    }
+    ultimoTempoTrocaReve = agora;
+
+    // Mantém trocas ocorridas nos últimos 3.5 segundos da sequência ininterrupta
+    historicoTrocasMatizReve = historicoTrocasMatizReve.filter(item => (agora - item.t) <= 3500);
+    historicoTrocasMatizReve.push({ t: agora, h: matizAtual });
+
+    // Regra "loucamente e sem parar": precisa de alternância frenética e contínua por pelo menos 2.2 segundos
+    if (historicoTrocasMatizReve.length >= 12) {
+        const duracaoIninterrupta = agora - historicoTrocasMatizReve[0].t;
+
+        let mudancaTotalHue = 0;
+        for (let i = 1; i < historicoTrocasMatizReve.length; i++) {
+            let diff = Math.abs(historicoTrocasMatizReve[i].h - historicoTrocasMatizReve[i - 1].h);
+            if (diff > 180) diff = 360 - diff;
+            mudancaTotalHue += diff;
+        }
+
+        // Exige alternância contínua sem parar (>= 2200ms), com pelo menos 12 eventos frenéticos e rotação significativa de matiz
+        if (duracaoIninterrupta >= 2200 && mudancaTotalHue >= 250) {
+            historicoTrocasMatizReve = [];
+            ultimoTempoTrocaReve = 0;
+            desbloquearConquistaSecreta("sec_reve");
+        }
+    }
+}
+
+function tocarAudioRaveBalada() {
+    if (!somAtivado) return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+    if (ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+    }
+
+    const agora = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.40, agora);
+    master.connect(ctx.destination);
+
+    // Beat Four-on-the-Floor Techno Rave
+    const bpm = 138;
+    const durBeats = (60 / bpm);
+
+    for (let i = 0; i < 16; i++) {
+        const t = agora + i * (durBeats / 2); // semicolcheias
+
+        // Kick Drum encorpado de balada (tempos fortes)
+        if (i % 2 === 0) {
+            const kickOsc = ctx.createOscillator();
+            const kickGain = ctx.createGain();
+            kickOsc.type = "sine";
+            kickOsc.frequency.setValueAtTime(140, t);
+            kickOsc.frequency.exponentialRampToValueAtTime(32, t + 0.12);
+            kickGain.gain.setValueAtTime(0.7, t);
+            kickGain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
+            kickOsc.connect(kickGain);
+            kickGain.connect(master);
+            kickOsc.start(t);
+            kickOsc.stop(t + 0.15);
+        }
+
+        // Offbeat Hi-Hat sintetizado
+        if (i % 2 === 1) {
+            try {
+                const len = Math.floor(ctx.sampleRate * 0.05);
+                const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+                const data = buf.getChannelData(0);
+                for (let k = 0; k < len; k++) {
+                    data[k] = (Math.random() * 2 - 1) * Math.exp(-k / (ctx.sampleRate * 0.012));
+                }
+                const hatSource = ctx.createBufferSource();
+                hatSource.buffer = buf;
+                const hatFilter = ctx.createBiquadFilter();
+                hatFilter.type = "highpass";
+                hatFilter.frequency.setValueAtTime(7000, t);
+                const hatGain = ctx.createGain();
+                hatGain.gain.setValueAtTime(0.25, t);
+                hatSource.connect(hatFilter);
+                hatFilter.connect(hatGain);
+                hatGain.connect(master);
+                hatSource.start(t);
+                hatSource.stop(t + 0.06);
+            } catch(e) {}
+        }
+
+        // Arpejo Synth-Lead RAVE
+        const notasRave = [440, 523.25, 659.25, 783.99, 880, 1046.50, 1174.66, 1318.51];
+        const freqNota = notasRave[i % notasRave.length];
+
+        const synthOsc = ctx.createOscillator();
+        const synthGain = ctx.createGain();
+        const synthFilter = ctx.createBiquadFilter();
+
+        synthOsc.type = "sawtooth";
+        synthOsc.frequency.setValueAtTime(freqNota, t);
+
+        synthFilter.type = "lowpass";
+        synthFilter.frequency.setValueAtTime(1200 + (i * 200), t);
+        synthFilter.frequency.exponentialRampToValueAtTime(300, t + 0.15);
+
+        synthGain.gain.setValueAtTime(0.22, t);
+        synthGain.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
+
+        synthOsc.connect(synthFilter);
+        synthFilter.connect(synthGain);
+        synthGain.connect(master);
+
+        synthOsc.start(t);
+        synthOsc.stop(t + 0.18);
+    }
+}
+
+function executarCinematicaReve() {
+    const segredosDesbloqueados = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+    if (!segredosDesbloqueados) return;
+
+    tocarAudioRaveBalada();
+
+    const antigo = document.getElementById("reve-cinematica-overlay");
+    if (antigo) antigo.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "reve-cinematica-overlay";
+    overlay.className = "reve-cinematica-overlay";
+
+    // Criar laser beams e luzes disco de balada
+    for (let i = 0; i < 8; i++) {
+        const laser = document.createElement("div");
+        laser.className = "reve-laser-beam";
+        laser.style.left = `${(i * 14) + 2}%`;
+        laser.style.animationDelay = `${i * 0.18}s`;
+        laser.style.setProperty("--laser-color", `hsl(${i * 45}, 100%, 50%)`);
+        overlay.appendChild(laser);
+    }
+
+    // Criar barras de equalizador neon animadas na base
+    const eqContainer = document.createElement("div");
+    eqContainer.className = "reve-equalizer-container";
+    for (let i = 0; i < 20; i++) {
+        const bar = document.createElement("div");
+        bar.className = "reve-eq-bar";
+        bar.style.animationDelay = `${(i % 5) * 0.1}s`;
+        bar.style.background = `hsl(${(i * 18) % 360}, 100%, 55%)`;
+        eqContainer.appendChild(bar);
+    }
+    overlay.appendChild(eqContainer);
+
+    // Banner da Conquista
+    const banner = document.createElement("div");
+    banner.className = "reve-banner-box";
+    banner.innerHTML = `
+        <div class="reve-disco-icone">🪩</div>
+        <div class="reve-titulo-destaque">VIRAR BALADA! 🕺💃</div>
+        <div class="reve-subtitulo-destaque">🔮 CONQUISTA SECRETA DESBLOQUEADA • "REVE"</div>
+        <div class="reve-desc-texto">"Virou balada?"</div>
+        <button type="button" class="reve-fechar-btn" onclick="document.getElementById('reve-cinematica-overlay')?.remove()">🪩 CURTIR BALADA [ X ]</button>
+    `;
+    overlay.appendChild(banner);
+    document.body.appendChild(overlay);
+
+    // Efeito de estroboscópio de cores no tema principal durante a balada
+    let tempoInicioRave = Date.now();
+    let corOriginal = corPrincipalAtual;
+    let intervalStrobe = setInterval(() => {
+        let decorrido = Date.now() - tempoInicioRave;
+        if (decorrido > 3800) {
+            clearInterval(intervalStrobe);
+            definirCorPrincipal(corOriginal, false, true);
+            return;
+        }
+        let hueStrobe = (decorrido / 8) % 360;
+        document.documentElement.style.setProperty('--accent', `hsl(${hueStrobe}, 100%, 55%)`);
+    }, 40);
+
+    // Transição suave para navegação à conquista
+    setTimeout(() => {
+        if (typeof alternarAba === "function") {
+            alternarAba("conquistas", false);
+        }
+        conquistasSecretasDesbloqueadas = true;
+        const btnSecretas = document.getElementById("conq-btn-n1-secretas");
+        if (btnSecretas) {
+            btnSecretas.style.display = "inline-flex";
+        }
+        if (typeof alternarNivel1Conquistas === "function") {
+            alternarNivel1Conquistas("secretas");
+        }
+        if (typeof renderizarListaConquistas === "function") {
+            renderizarListaConquistas();
+        }
+
+        setTimeout(() => {
+            const cardReve = document.getElementById("conq-card-sec_reve") ||
+                document.querySelector('#conq-lista-grid .conq-card[data-conq-id="sec_reve"]');
+            if (cardReve) {
+                cardReve.scrollIntoView({ behavior: "smooth", block: "center" });
+                cardReve.classList.add("reve-card-glow-destaque");
+                setTimeout(() => cardReve.classList.remove("reve-card-glow-destaque"), 3500);
+            }
+        }, 150);
+
+        overlay.style.transition = "opacity 0.8s ease-out";
+        overlay.style.opacity = "0";
+        setTimeout(() => overlay.remove(), 850);
+    }, 4200);
+}
+
+/* ============================================================
+   CONQUISTA SECRETA "SEGREDO-FONTE" - ÁUDIO & CINEMÁTICA HACKER F12
+   ============================================================ */
+function tocarAudioHackerSegredoFonte() {
+    if (!somAtivado) return;
+    const ctx = obterAudioContext();
+    if (!ctx) return;
+    if (ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+    }
+
+    const agora = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.35, agora);
+    master.connect(ctx.destination);
+
+    // Beeps de acesso cibernético / terminal hacker
+    const freqs = [587.33, 880, 1174.66, 1760, 2349.32, 3520];
+    freqs.forEach((f, idx) => {
+        const t = agora + (idx * 0.08);
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = "square";
+        osc.frequency.setValueAtTime(f, t);
+        g.gain.setValueAtTime(0.15, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
+        osc.connect(g);
+        g.connect(master);
+        osc.start(t);
+        osc.stop(t + 0.08);
+    });
+
+    // Sweep de desbloqueio cibernético
+    const sweepOsc = ctx.createOscillator();
+    const sweepGain = ctx.createGain();
+    sweepOsc.type = "sawtooth";
+    sweepOsc.frequency.setValueAtTime(200, agora + 0.5);
+    sweepOsc.frequency.exponentialRampToValueAtTime(1600, agora + 1.2);
+    sweepGain.gain.setValueAtTime(0.2, agora + 0.5);
+    sweepGain.gain.exponentialRampToValueAtTime(0.001, agora + 1.3);
+    sweepOsc.connect(sweepGain);
+    sweepGain.connect(master);
+    sweepOsc.start(agora + 0.5);
+    sweepOsc.stop(agora + 1.35);
+}
+
+function executarCinematicaSegredoFonte() {
+    const segredosDesbloqueados = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+    if (!segredosDesbloqueados) return;
+
+    tocarAudioHackerSegredoFonte();
+
+    const antigo = document.getElementById("hacker-cinematica-overlay");
+    if (antigo) antigo.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "hacker-cinematica-overlay";
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(5, 12, 10, 0.94);
+        backdrop-filter: blur(8px);
+        z-index: 999999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: monospace;
+        color: #00ffcc;
+        box-shadow: inset 0 0 100px rgba(0,255,204,0.15);
+    `;
+
+    overlay.innerHTML = `
+        <div style="background: #0d1520; border: 1px solid #00ffcc; box-shadow: 0 0 35px rgba(0,255,204,0.35); padding: 28px 36px; border-radius: 12px; max-width: 580px; width: 90%; text-align: center;">
+            <div style="font-size: 52px; margin-bottom: 12px; filter: drop-shadow(0 0 12px #00ffcc);">💻</div>
+            <div style="font-size: 22px; font-weight: bold; color: #00ffcc; text-shadow: 0 0 10px #00ffcc; margin-bottom: 8px;">QUEBRAR CÓDIGOS DETECTADO! ⚡</div>
+            <div style="font-size: 13px; color: #38bdf8; letter-spacing: 1px; margin-bottom: 18px; font-weight: bold;">🔮 CONQUISTA SECRETA DESBLOQUEADA • "Segredo-Fonte"</div>
+            <div style="background: rgba(0,0,0,0.65); border: 1px solid rgba(0,255,204,0.3); padding: 16px; border-radius: 8px; color: #e2e8f0; font-size: 14px; margin-bottom: 22px; line-height: 1.5;">
+                "Deixa eu adivinhar... seu nome é Felipe e sua habilidade é Quebrar Códigos?"
+            </div>
+            <button type="button" onclick="document.getElementById('hacker-cinematica-overlay')?.remove()" style="background: #00ffcc; color: #090d16; border: none; padding: 11px 26px; font-weight: bold; font-family: monospace; border-radius: 6px; cursor: pointer; font-size: 13px; transition: transform 0.2s ease;">
+                [ 💻 HACKEAR SISTEMA / FECHAR ]
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    setTimeout(() => {
+        if (typeof alternarAba === "function") {
+            alternarAba("conquistas", false);
+        }
+        conquistasSecretasDesbloqueadas = true;
+        const btnSecretas = document.getElementById("conq-btn-n1-secretas");
+        if (btnSecretas) {
+            btnSecretas.style.display = "inline-flex";
+        }
+        if (typeof alternarNivel1Conquistas === "function") {
+            alternarNivel1Conquistas("secretas");
+        }
+        if (typeof renderizarListaConquistas === "function") {
+            renderizarListaConquistas();
+        }
+
+        setTimeout(() => {
+            const cardFonte = document.getElementById("conq-card-sec_segredo_fonte") ||
+                document.querySelector('#conq-lista-grid .conq-card[data-conq-id="sec_segredo_fonte"]');
+            if (cardFonte) {
+                cardFonte.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        }, 150);
+
+        setTimeout(() => {
+            if (overlay && overlay.parentNode) {
+                overlay.style.transition = "opacity 0.6s ease-out";
+                overlay.style.opacity = "0";
+                setTimeout(() => overlay.remove(), 600);
+            }
+        }, 4000);
+    }, 1200);
+}
+
+/* ============================================================
+   CINEMÁTICA / ANIMAÇÃO DA CONQUISTA "JACKPOT" (7.7.7)
+   ============================================================ */
+function executarCinematicaJackpot() {
+    const segredosDesbloqueados = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+    if (!segredosDesbloqueados) return;
+
+    const antigo = document.getElementById("jackpot-cinematica-overlay");
+    if (antigo) antigo.remove();
+
+    // Efeitos Sonoros com Web Audio API
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+            const ctx = new AudioCtx();
+            
+            const tocarGiro = (freq, tempo) => {
+                setTimeout(() => {
+                    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.08);
+                }, tempo);
+            };
+
+            const tocarTravaCarretel = (freq, tempo) => {
+                setTimeout(() => {
+                    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.22);
+                }, tempo);
+            };
+
+            const tocarFanfarraJackpot = (tempoInicio) => {
+                setTimeout(() => {
+                    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+                    const notas = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
+                    notas.forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
+                        gain.gain.setValueAtTime(0.25, ctx.currentTime + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.08 + 0.35);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime + idx * 0.08);
+                        osc.stop(ctx.currentTime + idx * 0.08 + 0.35);
+                    });
+                }, tempoInicio);
+            };
+
+            for (let i = 0; i < 18; i++) {
+                tocarGiro(320 + (i % 3) * 120, i * 100);
+            }
+            tocarTravaCarretel(440, 700);  // Primeiro 7
+            tocarTravaCarretel(554, 1400); // Segundo 7
+            tocarTravaCarretel(659, 2100); // Terceiro 7 -> JACKPOT!
+            tocarFanfarraJackpot(2150);
+            tocarFanfarraJackpot(2700);
+        }
+    } catch (e) {
+        console.warn("Áudio do Jackpot não pôde ser inicializado:", e);
+    }
+
+    // Criar Overlay
+    const overlay = document.createElement("div");
+    overlay.id = "jackpot-cinematica-overlay";
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: radial-gradient(circle, rgba(20, 15, 35, 0.96) 0%, rgba(5, 3, 10, 0.98) 100%);
+        backdrop-filter: blur(10px);
+        z-index: 999999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        color: #fff;
+        overflow: hidden;
+    `;
+
+    const dataFormatadaPtBr = formatarDataBR();
+
+    overlay.innerHTML = `
+        <canvas id="jackpot-canvas-moedas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></canvas>
+        <style>
+            @keyframes jackpotGlow {
+                0%, 100% { box-shadow: 0 0 30px #f59e0b, 0 0 60px #eab308, inset 0 0 20px rgba(245, 158, 11, 0.5); }
+                50% { box-shadow: 0 0 60px #f59e0b, 0 0 100px #eab308, inset 0 0 40px rgba(234, 179, 8, 0.8); }
+            }
+            @keyframes reelSpin {
+                0% { transform: translateY(-4%); opacity: 0.8; }
+                50% { transform: translateY(4%); opacity: 1; }
+                100% { transform: translateY(-4%); opacity: 0.8; }
+            }
+            @keyframes jackpotPulseText {
+                0%, 100% { transform: scale(1); text-shadow: 0 0 20px #fbbf24, 0 0 40px #f59e0b; }
+                50% { transform: scale(1.05); text-shadow: 0 0 35px #f59e0b, 0 0 70px #eab308, 0 0 100px #ffffff; }
+            }
+            @keyframes slotPop {
+                0% { transform: scale(0.6); opacity: 0; }
+                70% { transform: scale(1.2); }
+                100% { transform: scale(1); opacity: 1; }
+            }
+            .slot-reel {
+                width: 90px;
+                height: 110px;
+                background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 50%, #1e1b4b 100%);
+                border: 3px solid #f59e0b;
+                border-radius: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 56px;
+                font-weight: 900;
+                color: #fbbf24;
+                text-shadow: 0 0 15px #f59e0b;
+                box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 20px rgba(245, 158, 11, 0.4);
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                user-select: none;
+            }
+            .slot-reel.active-spin {
+                animation: reelSpin 0.1s infinite linear;
+                filter: blur(1px);
+            }
+            .slot-reel.locked {
+                animation: slotPop 0.4s ease-out forwards;
+                border-color: #fef08a;
+                background: linear-gradient(180deg, #854d0e 0%, #a16207 50%, #713f12 100%);
+                box-shadow: 0 0 35px #f59e0b, inset 0 0 20px #fef08a;
+            }
+        </style>
+        <div style="position: relative; z-index: 2; background: rgba(15, 23, 42, 0.94); border: 3px solid #f59e0b; animation: jackpotGlow 2s infinite ease-in-out; padding: 36px 44px; border-radius: 24px; max-width: 600px; width: 90%; text-align: center;">
+            <div style="font-size: 13px; font-weight: 800; letter-spacing: 3px; color: #fbbf24; text-transform: uppercase; margin-bottom: 8px;">
+                🎰 CASSINO DAS CONQUISTAS 🎰
+            </div>
+            <div id="jackpot-titulo-principal" style="font-size: 30px; font-weight: 900; color: #fef08a; margin-bottom: 22px; animation: jackpotPulseText 1.5s infinite ease-in-out; letter-spacing: 1px;">
+                TESTANDO SUA SORTE...
+            </div>
+
+            <!-- CARRETÉIS DE CAÇA-NÍQUEL -->
+            <div style="display: flex; justify-content: center; gap: 18px; margin-bottom: 24px;">
+                <div id="slot-1" class="slot-reel active-spin">🎰</div>
+                <div id="slot-2" class="slot-reel active-spin">🎰</div>
+                <div id="slot-3" class="slot-reel active-spin">🎰</div>
+            </div>
+
+            <div id="jackpot-detalhes-box" style="opacity: 0; transition: opacity 0.6s ease; background: rgba(0,0,0,0.65); border: 1px solid rgba(245, 158, 11, 0.4); padding: 18px; border-radius: 12px; margin-bottom: 24px;">
+                <div style="font-size: 13px; color: #fbbf24; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px;">
+                    🔮 CONQUISTA SECRETA DESBLOQUEADA • "JACKPOT"
+                </div>
+                <div style="font-size: 26px; font-weight: 900; color: #ffffff; letter-spacing: 6px; text-shadow: 0 0 12px #f59e0b; margin-bottom: 8px;">
+                    7 . 7 . 7
+                </div>
+                <div style="font-size: 14px; color: #cbd5e1; line-height: 1.5; font-style: italic;">
+                    "Vida = 7 • Mental = 7 • Estamina = 7. Três sete em alinhamento perfeito!"
+                </div>
+                <div style="font-size: 11px; color: #94a3b8; margin-top: 8px;">
+                    Desbloqueado em: ${dataFormatadaPtBr}
+                </div>
+            </div>
+
+            <button id="jackpot-btn-fechar" type="button" style="opacity: 0; pointer-events: none; transition: all 0.4s ease; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #000; border: none; padding: 14px 36px; font-weight: 900; font-size: 15px; letter-spacing: 1px; border-radius: 30px; cursor: pointer; box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); text-transform: uppercase;">
+                🎰 RECEBER PRÊMIO & CONTINUAR 🎰
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Canvas de Partículas de Moedas / Estrelas
+    const canvas = document.getElementById("jackpot-canvas-moedas");
+    if (canvas) {
+        const ctx = canvas.getContext("2d");
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        const resizeHandler = () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        };
+        window.addEventListener("resize", resizeHandler);
+
+        const simbolos = ["🪙", "💰", "7️⃣", "✨", "⭐", "💎", "🎰"];
+        const particulas = [];
+
+        for (let i = 0; i < 90; i++) {
+            particulas.push({
+                x: Math.random() * width,
+                y: Math.random() * height - height,
+                vx: (Math.random() - 0.5) * 3,
+                vy: Math.random() * 4 + 3,
+                size: Math.random() * 24 + 18,
+                simbolo: simbolos[Math.floor(Math.random() * simbolos.length)],
+                rotacao: Math.random() * Math.PI * 2,
+                vRotacao: (Math.random() - 0.5) * 0.1,
+                opacity: Math.random() * 0.7 + 0.3
+            });
+        }
+
+        let animFrameId;
+        function animarCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particulas.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.rotacao += p.vRotacao;
+
+                if (p.y > height + 50) {
+                    p.y = -40;
+                    p.x = Math.random() * width;
+                }
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotacao);
+                ctx.globalAlpha = p.opacity;
+                ctx.font = `${p.size}px sans-serif`;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(p.simbolo, 0, 0);
+                ctx.restore();
+            });
+
+            animFrameId = requestAnimationFrame(animarCanvas);
+        }
+
+        animarCanvas();
+
+        overlay._limparCanvas = () => {
+            cancelAnimationFrame(animFrameId);
+            window.removeEventListener("resize", resizeHandler);
+        };
+    }
+
+    // Controle dos carretéis
+    const slot1 = document.getElementById("slot-1");
+    const slot2 = document.getElementById("slot-2");
+    const slot3 = document.getElementById("slot-3");
+    const tituloPrincipal = document.getElementById("jackpot-titulo-principal");
+    const detalhesBox = document.getElementById("jackpot-detalhes-box");
+    const btnFechar = document.getElementById("jackpot-btn-fechar");
+
+    const iconesAleatorios = ["🍒", "🔔", "💎", "🍋", "⭐", "🎰", "🍇"];
+
+    const intervalTroca = setInterval(() => {
+        if (slot1 && slot1.classList.contains("active-spin")) {
+            slot1.textContent = iconesAleatorios[Math.floor(Math.random() * iconesAleatorios.length)];
+        }
+        if (slot2 && slot2.classList.contains("active-spin")) {
+            slot2.textContent = iconesAleatorios[Math.floor(Math.random() * iconesAleatorios.length)];
+        }
+        if (slot3 && slot3.classList.contains("active-spin")) {
+            slot3.textContent = iconesAleatorios[Math.floor(Math.random() * iconesAleatorios.length)];
+        }
+    }, 70);
+
+    // Parar Carretel 1 no 7 (700ms)
+    setTimeout(() => {
+        if (slot1) {
+            slot1.classList.remove("active-spin");
+            slot1.classList.add("locked");
+            slot1.textContent = "7";
+        }
+    }, 700);
+
+    // Parar Carretel 2 no 7 (1400ms)
+    setTimeout(() => {
+        if (slot2) {
+            slot2.classList.remove("active-spin");
+            slot2.classList.add("locked");
+            slot2.textContent = "7";
+        }
+    }, 1400);
+
+    // Parar Carretel 3 no 7 (2100ms) -> GRAND JACKPOT!
+    setTimeout(() => {
+        clearInterval(intervalTroca);
+        if (slot3) {
+            slot3.classList.remove("active-spin");
+            slot3.classList.add("locked");
+            slot3.textContent = "7";
+        }
+
+        if (tituloPrincipal) {
+            tituloPrincipal.innerHTML = "🎉 GRAND JACKPOT! 🎉";
+            tituloPrincipal.style.color = "#fef08a";
+        }
+
+        if (detalhesBox) {
+            detalhesBox.style.opacity = "1";
+        }
+
+        if (btnFechar) {
+            btnFechar.style.opacity = "1";
+            btnFechar.style.pointerEvents = "auto";
+            btnFechar.onclick = () => fecharOverlayJackpot();
+        }
+    }, 2100);
+
+    function fecharOverlayJackpot() {
+        if (overlay._limparCanvas) overlay._limparCanvas();
+        overlay.style.transition = "opacity 0.5s ease";
+        overlay.style.opacity = "0";
+        setTimeout(() => {
+            overlay.remove();
+            
+            if (typeof alternarAba === "function") {
+                alternarAba("conquistas", false);
+            }
+            conquistasSecretasDesbloqueadas = true;
+            const btnSecretas = document.getElementById("conq-btn-n1-secretas");
+            if (btnSecretas) {
+                btnSecretas.style.display = "inline-flex";
+            }
+            if (typeof alternarNivel1Conquistas === "function") {
+                alternarNivel1Conquistas("secretas");
+            }
+            if (typeof renderizarListaConquistas === "function") {
+                renderizarListaConquistas();
+            }
+
+            setTimeout(() => {
+                const cardJackpot = document.getElementById("conq-card-sec_jackpot") ||
+                    document.querySelector('#conq-lista-grid .conq-card[data-conq-id="sec_jackpot"]');
+                if (cardJackpot) {
+                    cardJackpot.scrollIntoView({ behavior: "smooth", block: "center" });
+                    cardJackpot.style.transition = "transform 0.3s ease, box-shadow 0.3s ease";
+                    cardJackpot.style.transform = "scale(1.08)";
+                    cardJackpot.style.boxShadow = "0 0 30px #f59e0b";
+                    setTimeout(() => {
+                        cardJackpot.style.transform = "scale(1)";
+                        cardJackpot.style.boxShadow = "";
+                    }, 1200);
+                }
+            }, 200);
+        }, 500);
+    }
+}
+
+/* ============================================================
+   CONQUISTA SECRETA "COMPANHIA" (40028922) — LÓGICA & ROLETA YUDI
+   ============================================================ */
+let _ligacaoYudiEmAndamento = false;
+let estadoPremioYudiGlobal = null;
+
+function verificarGatilhoCompanhia() {
+    if (_ligacaoYudiEmAndamento) return;
+    _ligacaoYudiEmAndamento = true;
+
+    // Garante que a aba de segredos esteja desbloqueada
+    if (typeof conquistasDesbloqueadas !== "undefined" && !conquistasDesbloqueadas.has("sec_easteregg_rodape")) {
+        desbloquearConquistaSecreta("sec_easteregg_rodape");
+    }
+
+    // Tocador do som de telefone via Web Audio API
+    let ctxAudio = null;
+    let timerSomRing = null;
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+            ctxAudio = new AudioCtx();
+            
+            const tocarBeepDTMF = (f1, f2, dur) => {
+                if (ctxAudio.state === 'suspended') ctxAudio.resume().catch(() => {});
+                const osc1 = ctxAudio.createOscillator();
+                const osc2 = ctxAudio.createOscillator();
+                const gain = ctxAudio.createGain();
+                osc1.frequency.value = f1;
+                osc2.frequency.value = f2;
+                gain.gain.setValueAtTime(0.08, ctxAudio.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctxAudio.currentTime + dur);
+                osc1.connect(gain); osc2.connect(gain);
+                gain.connect(ctxAudio.destination);
+                osc1.start(); osc2.start();
+                osc1.stop(ctxAudio.currentTime + dur); osc2.stop(ctxAudio.currentTime + dur);
+            };
+
+            // Bips rápidos de discagem DTMF (40028922)
+            const freqs = [[941, 1336], [1336, 941], [1336, 941], [697, 1336], [852, 1477], [852, 1477], [697, 1336], [697, 1336]];
+            freqs.forEach((pair, idx) => {
+                setTimeout(() => tocarBeepDTMF(pair[0], pair[1], 0.08), idx * 100);
+            });
+
+            // Som de chamada do telefone (tuuu... tuuu...)
+            const tocarTuuuPhone = () => {
+                if (!ctxAudio || ctxAudio.state === 'closed') return;
+                if (ctxAudio.state === 'suspended') ctxAudio.resume().catch(() => {});
+                const osc = ctxAudio.createOscillator();
+                const gain = ctxAudio.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(425, ctxAudio.currentTime);
+                gain.gain.setValueAtTime(0.12, ctxAudio.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctxAudio.currentTime + 1.2);
+                osc.connect(gain); gain.connect(ctxAudio.destination);
+                osc.start(); osc.stop(ctxAudio.currentTime + 1.2);
+            };
+
+            setTimeout(tocarTuuuPhone, 1000);
+            timerSomRing = setInterval(tocarTuuuPhone, 2800);
+        }
+    } catch(e) {}
+
+    // Modal de Ligação de 15 Segundos
+    const overlay = document.createElement("div");
+    overlay.id = "yudi-ligacao-overlay";
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: radial-gradient(circle, rgba(15, 23, 42, 0.96) 0%, rgba(3, 7, 18, 0.98) 100%);
+        backdrop-filter: blur(12px);
+        z-index: 999999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Mirage Gothic', 'MirageFinal', system-ui, -apple-system, sans-serif;
+        color: #fff;
+        padding: 20px;
+    `;
+
+    let tempoRestante = 15;
+
+    overlay.innerHTML = `
+        <div style="background: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #090d16 100%); border: 2px solid rgba(96, 165, 250, 0.5); border-radius: 20px; padding: 36px 32px; max-width: 560px; width: 92%; text-align: center; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(59, 130, 246, 0.25); animation: yudiPulseCall 1.8s infinite ease-in-out;">
+            <style>
+                #yudi-ligacao-overlay * {
+                    font-family: 'Mirage Gothic', 'MirageFinal', system-ui, -apple-system, sans-serif !important;
+                }
+                @keyframes yudiPulseCall {
+                    0%, 100% { box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 25px rgba(59, 130, 246, 0.3); border-color: rgba(96, 165, 250, 0.5); }
+                    50% { box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 50px rgba(59, 130, 246, 0.6); border-color: rgba(96, 165, 250, 0.9); }
+                }
+                @keyframes yudiRingAnim {
+                    0%, 100% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.6)); }
+                    12%, 36%, 60% { transform: rotate(-14deg) scale(1.18); filter: drop-shadow(0 0 20px rgba(96, 165, 250, 1)); }
+                    24%, 48% { transform: rotate(14deg) scale(1.18); filter: drop-shadow(0 0 20px rgba(96, 165, 250, 1)); }
+                }
+                .call-ring-box {
+                    position: relative;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 80px;
+                    height: 80px;
+                    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(15, 23, 42, 0.6) 100%);
+                    border: 2px solid rgba(96, 165, 250, 0.4);
+                    border-radius: 50%;
+                    margin-bottom: 18px;
+                    box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+                }
+                .call-ring-icon {
+                    font-size: 40px;
+                    animation: yudiRingAnim 1.4s infinite ease-in-out;
+                }
+            </style>
+
+            <div class="call-ring-box">
+                <span class="call-ring-icon">📞</span>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                <span style="font-size: 21px; color: #f8fafc; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;">
+                    LIGAÇÃO TELEFÔNICA
+                </span>
+                <span style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: #ffffff; font-size: 16px; font-weight: 800; padding: 4px 14px; border-radius: 20px; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); letter-spacing: 0.06em; white-space: nowrap;">
+                    4002-8922
+                </span>
+            </div>
+
+            <p style="margin: 0 0 22px 0; font-size: 14.5px; color: #93c5fd; opacity: 0.95; font-weight: 500;">
+                Aguarde na linha! A chamada está conectando ao vivo...
+            </p>
+
+            <div id="yudi-call-status-log" style="font-size: 14px; color: #cbd5e1; font-style: italic; min-height: 28px; font-weight: 500; letter-spacing: 0.02em; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 12px; padding: 12px 18px; margin-bottom: 12px;">
+                [00:00] Discando 4002-8922...
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const logEl = document.getElementById("yudi-call-status-log");
+    const timerDisplay = document.getElementById("yudi-timer-display");
+    const progressBar = document.getElementById("yudi-progress-bar");
+
+    const statusMsgs = {
+        14: "[00:01] Chamando no número 4002-8922...",
+        11: "[00:04] Tuuu... Tuuu... Atendendo chamada...",
+        8:  "[00:07] Conectando ao estúdio ao vivo...",
+        5:  "[00:10] O crédito do celular dos seus pais está acabando...",
+        2:  "[00:13] Linha quase conectada! Torça pela roleta!"
+    };
+
+    const intervalCount = setInterval(() => {
+        tempoRestante--;
+        if (timerDisplay) timerDisplay.textContent = tempoRestante;
+        if (progressBar) progressBar.style.width = `${(tempoRestante / 15) * 100}%`;
+
+        if (statusMsgs[tempoRestante] && logEl) {
+            logEl.textContent = statusMsgs[tempoRestante];
+        }
+
+        if (tempoRestante <= 0) {
+            clearInterval(intervalCount);
+            if (timerSomRing) clearInterval(timerSomRing);
+            if (ctxAudio) { ctxAudio.close().catch(()=>{}); }
+            overlay.remove();
+            _ligacaoYudiEmAndamento = false;
+
+            // Sorteio: 5% de chance de vitória, 95% de chance de falha
+            const sorteio = Math.random();
+            if (sorteio < 0.05) {
+                desbloquearConquistaSecreta("sec_companhia");
+                executarRoletaYudi();
+            } else {
+                exibirMensagemTentativaYudi();
+            }
+        }
+    }, 1000);
+}
+
+function exibirMensagemTentativaYudi() {
+    const antigo = document.getElementById("yudi-mensagem-falha-overlay");
+    if (antigo) antigo.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "yudi-mensagem-falha-overlay";
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(12px);
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        font-family: 'Mirage Gothic', 'MirageFinal', system-ui, -apple-system, sans-serif;
+    `;
+
+    overlay.innerHTML = `
+        <div style="background: linear-gradient(160deg, #1e293b 0%, #0f172a 100%); border: 2px solid rgba(239, 68, 68, 0.6); border-radius: 20px; padding: 32px 28px; max-width: 540px; width: 92%; text-align: center; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(239, 68, 68, 0.35); color: #fff;">
+            <style>
+                #yudi-mensagem-falha-overlay * {
+                    font-family: 'Mirage Gothic', 'MirageFinal', system-ui, -apple-system, sans-serif !important;
+                }
+            </style>
+            <div style="font-size: 48px; margin-bottom: 12px; filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.5));">📞</div>
+            <h3 style="margin: 0 0 16px 0; font-size: 21px; color: #f87171; font-weight: 800; letter-spacing: 0.04em;">
+                LINHA DIRETA — AVISO DA LINHA
+            </h3>
+            <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 18px; margin-bottom: 20px; font-size: 15px; line-height: 1.6; text-align: left; color: #e2e8f0;">
+                <p style="margin: 0 0 12px 0;">
+                    Ah! Não foi dessa vez que você conseguiu, mas continue tentando! Ligue somente durante o programa! Valeu!
+                </p>
+                <p style="margin: 0; font-size: 13.5px; color: #fbbf24; font-style: italic;">
+                    PS: não deixe seus pais saberem que você está ligando ☺️
+                </p>
+            </div>
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <button type="button" onclick="document.getElementById('yudi-mensagem-falha-overlay').remove();" style="padding: 10px 18px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #ccc; font-weight: 600; cursor: pointer;">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+}
+
+function executarRoletaYudi() {
+    const antigo = document.getElementById("yudi-roleta-overlay");
+    if (antigo) antigo.remove();
+
+    const PREMIOS_YUDI = [
+        { id: "videogame", nome: "Videogame", emoji: "🎮", cor: "#ef4444" },
+        { id: "bike", nome: "Bike", emoji: "🚲", cor: "#f59e0b" },
+        { id: "patins", nome: "Patim", emoji: "🛼", cor: "#10b981" },
+        { id: "skate", nome: "Skate", emoji: "🛹", cor: "#06b6d4" },
+        { id: "computador", nome: "Computador", emoji: "💻", cor: "#3b82f6" },
+        { id: "boneca", nome: "Boneca", emoji: "🪆", cor: "#8b5cf6" },
+        { id: "tv", nome: "TV", emoji: "📺", cor: "#ec4899" }
+    ];
+
+    const idxGanhador = Math.floor(Math.random() * PREMIOS_YUDI.length);
+    const premioSorteado = PREMIOS_YUDI[idxGanhador];
+
+    const overlay = document.createElement("div");
+    overlay.id = "yudi-roleta-overlay";
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: radial-gradient(circle, rgba(24, 16, 42, 0.98) 0%, rgba(5, 3, 12, 0.99) 100%);
+        backdrop-filter: blur(12px);
+        z-index: 999999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Mirage Gothic', 'MirageFinal', system-ui, -apple-system, sans-serif;
+        color: #fff;
+        padding: 20px;
+    `;
+
+    overlay.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; max-width: 520px; width: 100%; text-align: center;">
+            <style>
+                #yudi-roleta-overlay * {
+                    font-family: 'Mirage Gothic', 'MirageFinal', system-ui, -apple-system, sans-serif !important;
+                }
+            </style>
+            <div style="margin-bottom: 12px; font-size: 14px; font-weight: 800; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(251, 191, 36, 0.15); border: 1px solid #fbbf24; padding: 4px 14px; border-radius: 20px;">
+                🎉 ROLETA DE PRÊMIOS DO YUDI
+            </div>
+            <h2 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);">
+                4002-8922: A ROLETA ESTÁ GIRANDO!
+            </h2>
+
+            <!-- Ponteiro indicador -->
+            <div style="position: relative; width: 320px; height: 320px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+                <div style="position: absolute; top: -14px; z-index: 10; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 24px solid #f59e0b; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.8));"></div>
+                
+                <!-- Roda da Roleta -->
+                <div id="yudi-roleta-disco" style="width: 300px; height: 300px; border-radius: 50%; border: 6px solid #fbbf24; box-shadow: 0 0 40px rgba(245, 158, 11, 0.5), inset 0 0 20px rgba(0,0,0,0.8); position: relative; overflow: hidden; transition: transform 4.5s cubic-bezier(0.15, 0.85, 0.15, 1);">
+                </div>
+
+                <!-- Centro da Roleta -->
+                <div style="position: absolute; width: 64px; height: 64px; background: radial-gradient(circle, #fbbf24 0%, #b45309 100%); border: 3px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0,0,0,0.8); font-size: 22px; z-index: 5;">
+                    ⭐
+                </div>
+            </div>
+
+            <!-- Resultado -->
+            <div id="yudi-roleta-resultado" style="opacity: 0; transform: scale(0.8); transition: all 0.5s ease; width: 100%; text-align: center;">
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const disco = document.getElementById("yudi-roleta-disco");
+    const totalSeg = PREMIOS_YUDI.length;
+    const anguloPorSeg = 360 / totalSeg;
+
+    let conicGradients = [];
+    PREMIOS_YUDI.forEach((p, idx) => {
+        const inicio = idx * anguloPorSeg;
+        const fim = (idx + 1) * anguloPorSeg;
+        conicGradients.push(`${p.cor} ${inicio}deg ${fim}deg`);
+    });
+
+    disco.style.background = `conic-gradient(${conicGradients.join(", ")})`;
+
+    PREMIOS_YUDI.forEach((p, idx) => {
+        const anguloMeio = (idx + 0.5) * anguloPorSeg;
+        const rad = (anguloMeio - 90) * (Math.PI / 180);
+        const raio = 100;
+        const x = 150 + raio * Math.cos(rad);
+        const y = 150 + raio * Math.sin(rad);
+
+        const elPr = document.createElement("div");
+        elPr.style.cssText = `
+            position: absolute;
+            left: ${x}px; top: ${y}px;
+            transform: translate(-50%, -50%) rotate(${anguloMeio}deg);
+            display: flex; flex-direction: column; align-items: center;
+            color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.9); font-weight: 800; font-size: 11px;
+            pointer-events: none;
+        `;
+        elPr.innerHTML = `<span style="font-size: 22px;">${p.emoji}</span><span>${p.nome}</span>`;
+        disco.appendChild(elPr);
+    });
+
+    let timerTick = null;
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+            const ctxA = new AudioCtx();
+            let delayTick = 80;
+            let elapsed = 0;
+
+            const tocarTick = () => {
+                if (elapsed > 4200) return;
+                if (ctxA.state === 'suspended') ctxA.resume().catch(()=>{});
+                const osc = ctxA.createOscillator();
+                const gain = ctxA.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(600 + Math.random() * 200, ctxA.currentTime);
+                gain.gain.setValueAtTime(0.08, ctxA.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctxA.currentTime + 0.04);
+                osc.connect(gain); gain.connect(ctxA.destination);
+                osc.start(); osc.stop(ctxA.currentTime + 0.04);
+
+                elapsed += delayTick;
+                delayTick += 12;
+                timerTick = setTimeout(tocarTick, delayTick);
+            };
+            tocarTick();
+        }
+    } catch(e) {}
+
+    const girosCompletos = 5 * 360;
+    const anguloAlvo = girosCompletos + (360 - ((idxGanhador + 0.5) * anguloPorSeg));
+
+    setTimeout(() => {
+        disco.style.transform = `rotate(${anguloAlvo}deg)`;
+    }, 100);
+
+    setTimeout(() => {
+        if (timerTick) clearTimeout(timerTick);
+
+        const dataBrFormatada = formatarDataBR();
+        const premioObjeto = {
+            id: premioSorteado.id,
+            nome: premioSorteado.nome,
+            emoji: premioSorteado.emoji,
+            data: dataBrFormatada
+        };
+
+        salvarPremioYudiNaFicha(premioObjeto);
+
+        const boxRes = document.getElementById("yudi-roleta-resultado");
+        if (boxRes) {
+            boxRes.style.opacity = "1";
+            boxRes.style.transform = "scale(1)";
+            boxRes.innerHTML = `
+                <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(234, 179, 8, 0.15) 100%); border: 2px solid #f59e0b; border-radius: 14px; padding: 20px; box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);">
+                    <div style="font-size: 64px; animation: slotPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin-bottom: 8px;">
+                        ${premioSorteado.emoji}
+                    </div>
+                    <h3 style="margin: 0 0 6px 0; font-size: 22px; color: #fbbf24; font-weight: 900;">
+                        PARABÉNS! VOCÊ GANHOU: ${premioSorteado.nome.toUpperCase()} ${premioSorteado.emoji}!
+                    </h3>
+                    <p style="margin: 0 0 16px 0; font-size: 13.5px; color: #e2e8f0;">
+                        O emoji do prêmio <strong>${premioSorteado.emoji} ${premioSorteado.nome}</strong> foi fixado permanentemente ao lado do seu retrato na ficha do personagem!
+                    </p>
+                    <button type="button" onclick="fecharRoletaYudiEIrParaConquistas();" style="padding: 10px 24px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border: none; border-radius: 8px; color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);">
+                        🏆 Ver Conquista "Companhia"
+                    </button>
+                </div>
+            `;
+        }
+    }, 4600);
+}
+
+function fecharRoletaYudiEIrParaConquistas() {
+    const overlay = document.getElementById("yudi-roleta-overlay");
+    if (overlay) {
+        overlay.style.transition = "opacity 0.4s ease";
+        overlay.style.opacity = "0";
+        setTimeout(() => overlay.remove(), 400);
+    }
+    if (typeof alternarAba === "function") {
+        alternarAba("conquistas", false);
+    }
+    conquistasSecretasDesbloqueadas = true;
+    const btnSecretas = document.getElementById("conq-btn-n1-secretas");
+    if (btnSecretas) btnSecretas.style.display = "inline-flex";
+    if (typeof alternarNivel1Conquistas === "function") alternarNivel1Conquistas("secretas");
+    if (typeof renderizarListaConquistas === "function") renderizarListaConquistas();
+
+    setTimeout(() => {
+        const cardComp = document.getElementById("conq-card-sec_companhia") ||
+            document.querySelector('#conq-lista-grid .conq-card[data-conq-id="sec_companhia"]');
+        if (cardComp) {
+            cardComp.scrollIntoView({ behavior: "smooth", block: "center" });
+            cardComp.style.transform = "scale(1.08)";
+            cardComp.style.boxShadow = "0 0 30px #3b82f6";
+            setTimeout(() => { cardComp.style.transform = "scale(1)"; cardComp.style.boxShadow = ""; }, 1200);
+        }
+    }, 200);
+}
+
+function salvarPremioYudiNaFicha(premioObj) {
+    estadoPremioYudiGlobal = premioObj;
+    try {
+        localStorage.setItem("we_are_strangers_premio_yudi", JSON.stringify(premioObj));
+    } catch(e) {}
+    renderizarBadgePremioYudi();
+    if (typeof salvarFichaAutomatico === "function") {
+        salvarFichaAutomatico();
+    } else if (typeof marcarAlteracaoFeita === "function") {
+        marcarAlteracaoFeita();
+    }
+}
+
+function renderizarBadgePremioYudi() {
+    let premio = estadoPremioYudiGlobal;
+    if (!premio) {
+        try {
+            const bruto = localStorage.getItem("we_are_strangers_premio_yudi");
+            if (bruto) {
+                premio = JSON.parse(bruto);
+                estadoPremioYudiGlobal = premio;
+            }
+        } catch(e) {}
+    }
+
+    const badgeEl = document.getElementById("ficha-badge-premio-yudi");
+    if (!badgeEl) return;
+
+    if (premio && premio.emoji) {
+        const dataStr = premio.data || formatarDataBR();
+        badgeEl.style.display = "inline-flex";
+        badgeEl.setAttribute("title", `Prêmio da Roleta: ${premio.nome} (${premio.emoji}) - Ganho em ${dataStr}`);
+        badgeEl.innerHTML = `<span style="font-size: 16px; margin-right: 4px;">${premio.emoji}</span><span style="font-size: 11px; font-weight: 700; color: #fbbf24; text-transform: uppercase;">${premio.nome}</span>`;
+    } else {
+        badgeEl.style.display = "none";
+    }
+}
+
+// Capturador global de teclas numéricas para o código 40028922
+window._bufferSequenciaYudi = "";
+document.addEventListener("keydown", function(e) {
+    if (e.key >= "0" && e.key <= "9") {
+        window._bufferSequenciaYudi = (window._bufferSequenciaYudi || "") + e.key;
+        if (window._bufferSequenciaYudi.length > 20) {
+            window._bufferSequenciaYudi = window._bufferSequenciaYudi.slice(-20);
+        }
+        if (window._bufferSequenciaYudi.endsWith("40028922")) {
+            window._bufferSequenciaYudi = "";
+            verificarGatilhoCompanhia();
+        }
+    }
+}, true);
+
 function tocarAudioEsqueleBros() {
     if (!somAtivado) return;
     const ctx = obterAudioContext();
@@ -25761,6 +27413,10 @@ function desbloquearAbaConquistasSecretas(comAnimacao = true) {
 
     if (typeof verificarGatilhoEsqueleBros === "function") {
         verificarGatilhoEsqueleBros();
+    }
+
+    if (typeof verificarGatilhoFarmadorAura === "function") {
+        verificarGatilhoFarmadorAura();
     }
 }
 
@@ -27450,6 +29106,7 @@ function processarSenhaIdentidadeSecreta() {
         ehCriacaoIdentidadeSecreta = false;
         pendenteQueimaDeArquivoIdentidade = false;
         sessaoIdentidadeSecretaDesbloqueada = true;
+        fichaCriadaNesteNavegador = true;
         fecharModalSenhaIdentidadeSecreta();
 
         if (acaoAposSenhaIdentidade === "alternar_direto") {
@@ -28088,53 +29745,57 @@ function alternarEstadoAtivoDisfarce() {
 
 function ativarDisfarceFicha() {
     executarEfeitoTransicaoVisualDisfarce(true);
-    identidadeRealDados = {
-        avatar: avatarAtual,
-        identidade: document.getElementById("ficha_identidade")?.value || "",
-        nomeSocial: document.getElementById("ficha_nome_social")?.value || "",
-        codinome: document.getElementById("ficha_codinome")?.value || "",
-        titulo: document.getElementById("ficha_titulo")?.value || "",
-        temNomeSocial: !!document.getElementById("ficha_tem_nome_social")?.checked,
-        temCodinome: !!document.getElementById("ficha_tem_codinome")?.checked,
-        trocarPorCodinome: !!document.getElementById("ficha_trocar_por_codinome")?.checked,
-        nivel: document.getElementById("ficha_nivel")?.value || "",
-        classe1: document.getElementById("ficha_classe1")?.value || "",
-        classe2: document.getElementById("ficha_classe2")?.value || "",
-        cor: document.getElementById("ficha_cor")?.value || "#c9b183",
-        contornoAtivo: typeof contornoLetrasAtivo !== "undefined" ? contornoLetrasAtivo : false,
-        contornoCor: typeof contornoLetrasCor !== "undefined" ? contornoLetrasCor : "#ffffff",
-        atributos: {
-            HPR: parseInt(document.getElementById("attr_HPR")?.value, 10) || 1,
-            PRX: parseInt(document.getElementById("attr_PRX")?.value, 10) || 1,
-            PSI: parseInt(document.getElementById("attr_PSI")?.value, 10) || 1,
-            QI:  parseInt(document.getElementById("attr_QI")?.value, 10) || 1
-        },
-        recursos: {
-            vida: {
-                atual: parseInt(document.getElementById("recurso_vida_atual")?.value, 10) || 100,
-                max: parseInt(document.getElementById("recurso_vida_max")?.value, 10) || 100,
-                temp: parseInt(document.getElementById("recurso_vida_temp")?.value, 10) || 0
+    if (!identidadeRealDados) {
+        identidadeRealDados = {
+            avatar: avatarAtual,
+            identidade: document.getElementById("ficha_identidade")?.value || "",
+            nomeSocial: document.getElementById("ficha_nome_social")?.value || "",
+            codinome: document.getElementById("ficha_codinome")?.value || "",
+            titulo: document.getElementById("ficha_titulo")?.value || "",
+            temNomeSocial: !!document.getElementById("ficha_tem_nome_social")?.checked,
+            temCodinome: !!document.getElementById("ficha_tem_codinome")?.checked,
+            trocarPorCodinome: !!document.getElementById("ficha_trocar_por_codinome")?.checked,
+            nivel: document.getElementById("ficha_nivel")?.value || "",
+            classe1: document.getElementById("ficha_classe1")?.value || "",
+            classe2: document.getElementById("ficha_classe2")?.value || "",
+            cor: document.getElementById("ficha_cor")?.value || "#c9b183",
+            contornoAtivo: typeof contornoLetrasAtivo !== "undefined" ? contornoLetrasAtivo : false,
+            contornoCor: typeof contornoLetrasCor !== "undefined" ? contornoLetrasCor : "#ffffff",
+            atributos: {
+                HPR: parseInt(document.getElementById("attr_HPR")?.value, 10) || 1,
+                PRX: parseInt(document.getElementById("attr_PRX")?.value, 10) || 1,
+                PSI: parseInt(document.getElementById("attr_PSI")?.value, 10) || 1,
+                QI:  parseInt(document.getElementById("attr_QI")?.value, 10) || 1
             },
-            estamina: {
-                atual: parseInt(document.getElementById("recurso_estamina_atual")?.value, 10) || 80,
-                max: parseInt(document.getElementById("recurso_estamina_max")?.value, 10) || 80,
-                temp: parseInt(document.getElementById("recurso_estamina_temp")?.value, 10) || 0
-            },
-            mental: {
-                atual: parseInt(document.getElementById("recurso_mental_atual")?.value, 10) || 50,
-                max: parseInt(document.getElementById("recurso_mental_max")?.value, 10) || 50,
-                temp: parseInt(document.getElementById("recurso_mental_temp")?.value, 10) || 0
-            },
-            aura: {
-                atual: parseInt(document.getElementById("recurso_aura_atual")?.value, 10) || 30,
-                max: parseInt(document.getElementById("recurso_aura_max")?.value, 10) || 30,
-                temp: parseInt(document.getElementById("recurso_aura_temp")?.value, 10) || 0
+            recursos: {
+                vida: {
+                    atual: parseInt(document.getElementById("recurso_vida_atual")?.value, 10) || 100,
+                    max: parseInt(document.getElementById("recurso_vida_max")?.value, 10) || 100,
+                    temp: parseInt(document.getElementById("recurso_vida_temp")?.value, 10) || 0
+                },
+                estamina: {
+                    atual: parseInt(document.getElementById("recurso_estamina_atual")?.value, 10) || 80,
+                    max: parseInt(document.getElementById("recurso_estamina_max")?.value, 10) || 80,
+                    temp: parseInt(document.getElementById("recurso_estamina_temp")?.value, 10) || 0
+                },
+                mental: {
+                    atual: parseInt(document.getElementById("recurso_mental_atual")?.value, 10) || 50,
+                    max: parseInt(document.getElementById("recurso_mental_max")?.value, 10) || 50,
+                    temp: parseInt(document.getElementById("recurso_mental_temp")?.value, 10) || 0
+                },
+                aura: {
+                    atual: parseInt(document.getElementById("recurso_aura_atual")?.value, 10) || 30,
+                    max: parseInt(document.getElementById("recurso_aura_max")?.value, 10) || 30,
+                    temp: parseInt(document.getElementById("recurso_aura_temp")?.value, 10) || 0
+                }
             }
-        }
-    };
+        };
+    }
 
     identidadeSecretaAtiva = true;
     aplicarDisfarceNaFicha();
+
+    if (typeof salvarFichaAutomatico === "function") salvarFichaAutomatico();
 
     if (typeof mostrarStatus === "function") {
         mostrarStatus("🎭 DISFARCE ATIVADO: Sua ficha agora exibe a Identidade Secreta para a campanha!", "ok");
@@ -28142,9 +29803,9 @@ function ativarDisfarceFicha() {
 }
 
 function desativarDisfarceFicha() {
-    if (!fichaCriadaNesteNavegador) {
+    if (!fichaCriadaNesteNavegador && !sessaoIdentidadeSecretaDesbloqueada) {
         if (typeof mostrarStatus === "function") {
-            mostrarStatus("🔒 Em outro navegador, a Identidade Secreta não pode ser desativada.", "aviso");
+            mostrarStatus("🔒 Em outro navegador, a Identidade Secreta não pode ser desativada sem autenticação.", "aviso");
         }
         return;
     }
@@ -28219,6 +29880,7 @@ function desativarDisfarceFicha() {
     if (typeof atualizarNomesPersonagem === "function") atualizarNomesPersonagem();
     atualizarBannerDisfarceUI();
 
+    if (typeof salvarFichaAutomatico === "function") salvarFichaAutomatico();
     if (typeof sincronizarEstadoComCampanha === "function") sincronizarEstadoComCampanha();
     if (typeof renderizarMembrosModoTatico === "function") renderizarMembrosModoTatico();
 
@@ -28230,10 +29892,8 @@ function desativarDisfarceFicha() {
 function aplicarDisfarceNaFicha() {
     const d = identidadeSecretaDados;
     
-    if (d.avatar) {
-        avatarAtual = d.avatar;
-        if (typeof aplicarAvatar === "function") aplicarAvatar();
-    }
+    avatarAtual = (d && typeof d.avatar !== "undefined") ? (d.avatar || "") : "";
+    if (typeof aplicarAvatar === "function") aplicarAvatar();
 
     if (document.getElementById("ficha_identidade")) document.getElementById("ficha_identidade").value = d.identidade || "";
     if (document.getElementById("ficha_nome_social")) document.getElementById("ficha_nome_social").value = d.nomeSocial || "";
@@ -28293,6 +29953,7 @@ function aplicarDisfarceNaFicha() {
     if (typeof atualizarNomesPersonagem === "function") atualizarNomesPersonagem();
     atualizarBannerDisfarceUI();
 
+    if (typeof salvarFichaAutomatico === "function") salvarFichaAutomatico();
     if (typeof sincronizarEstadoComCampanha === "function") sincronizarEstadoComCampanha();
     if (typeof renderizarMembrosModoTatico === "function") renderizarMembrosModoTatico();
 }
@@ -30431,7 +32092,7 @@ function obterDadosJogadorLocal() {
     const nomePersonagem = (infoNome ? infoNome.completo : (document.getElementById("nome_personagem")?.value || document.getElementById("ficha_nome")?.value || "")).trim() || "Personagem Sem Nome";
     const nomeJogador = (document.getElementById("nome_jogador")?.value || "").trim() || "Jogador";
     const avatarImg = document.getElementById("ficha_avatar_img");
-    const avatarSrc = (avatarImg && avatarImg.src && !avatarImg.src.endsWith('/')) ? avatarImg.src : "";
+    const avatarSrc = (typeof avatarAtual !== "undefined" && avatarAtual) ? avatarAtual : ((avatarImg && avatarImg.src && !avatarImg.src.endsWith('/')) ? avatarImg.src : "");
 
     const classe1 = (document.getElementById("ficha_classe1")?.value || "").trim();
     const classe2 = (document.getElementById("ficha_classe2")?.value || "").trim();
@@ -30955,7 +32616,7 @@ function renderizarMembrosModoTatico() {
         card.className = classesCard;
 
         let avatarHtml = "👤";
-        if (m.avatar && m.avatar.startsWith("data:image")) {
+        if (m.avatar && (m.avatar.startsWith("data:image") || m.avatar.startsWith("http") || m.avatar.startsWith("blob:") || m.avatar.startsWith("/") || m.avatar.length > 50)) {
             avatarHtml = `<img src="${m.avatar}" alt="${escapeHTML(m.nomePersonagem || 'Avatar')}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
         } else if (m.corTema) {
             avatarHtml = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:${m.corTema}20; color:${m.corTema}; font-weight:bold; font-size:26px; border-radius:8px; font-family:'MirageFinal',serif;">${(m.nomePersonagem || "P").charAt(0).toUpperCase()}</div>`;
@@ -32473,7 +34134,7 @@ function exportarRelatorioCampanha() {
     if (!salaCampanhaAtiva) return;
     const nome = salaCampanhaAtiva.nome || "Campanha";
     const codigo = salaCampanhaAtiva.codigo || "STRANGERS";
-    const data = new Date().toLocaleDateString("pt-BR");
+    const data = formatarDataBR();
     const membros = salaCampanhaAtiva.membros || [];
     const conquistasEquipeIds = salaCampanhaAtiva.conquistasEquipe || [];
     const todasEquipe = [...CONQUISTAS_OFICIAIS, ...conquistasCampanha].filter(c => c.nivel2 === 'equipe');
@@ -33399,8 +35060,10 @@ function renderizarMembrosCampanha() {
         const ehMeu = (m.id === meuId);
 
         let avatarHtml = "👤";
-        if (m.avatar && m.avatar.startsWith("data:image")) {
+        if (m.avatar && (m.avatar.startsWith("data:image") || m.avatar.startsWith("http") || m.avatar.startsWith("blob:") || m.avatar.startsWith("/") || m.avatar.length > 50)) {
             avatarHtml = `<img src="${m.avatar}" alt="${m.nomePersonagem}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
+        } else if (m.corTema) {
+            avatarHtml = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:${m.corTema}20; color:${m.corTema}; font-weight:bold; font-size:16px; border-radius:50%; font-family:'MirageFinal',serif;">${(m.nomePersonagem || "P").charAt(0).toUpperCase()}</div>`;
         }
 
         const qtdIndiv = (m.conquistasIndividuais || []).length;
@@ -34153,6 +35816,9 @@ instalarListenersAtributos();
 instalarListenersRastreamentoAlteracoes();
 atualizarOpcoesClasse();
 aplicarAvatar();
+if (typeof renderizarBadgePremioYudi === "function") {
+    renderizarBadgePremioYudi();
+}
 atualizarTodasBarrasRecursos();
 inicializarStorage();
 inicializarAbasCategorias();
@@ -34219,5 +35885,152 @@ if (typeof avaliarEstaminaCritica === "function") {
     avaliarEstaminaCritica();
 }
 </script>
+
+<!-- 🟣======================================================================================== -->
+<!-- 🟣 [PISTA SECRETA DEVTOOLS 4/4 - COLORIDO ROXO]                                           -->
+<!-- 🟣 Segredo4: 0                                                                           -->
+<!-- 🟣======================================================================================== -->
+<template id="segredo-elements-4" class="segredo-elements-purple" data-pista="Segredo4: 0" style="display: none !important;">
+  <div style="color: #a855f7; font-weight: bold; font-family: monospace;">🔮 Segredo4: 0</div>
+</template>
+
+<script>
+/* ============================================================
+   CONQUISTA SECRETA DEVTOOLS (ELEMENTS) - EXECUÇÃO VIA ATALHO
+   Pistas espalhadas em roxo pelo Elements:
+   1: Control Direito
+   2: SUPER
+   3: Control Esquerdo
+   4: 0
+   Atalho: Control esquerdo + SUPER + Control Direito + 0
+   ============================================================ */
+function executarDesbloqueioSegredoF12() {
+    if (typeof conquistasDesbloqueadas !== "undefined" && !conquistasDesbloqueadas.has("sec_easteregg_rodape")) {
+        desbloquearConquistaSecreta("sec_easteregg_rodape");
+    }
+    desbloquearConquistaSecreta("sec_segredo_fonte");
+    console.log("%c⚡ [DEVTOOLS ELEMENTS] CONQUISTA SECRETA 'Segredo-Fonte' DESBLOQUEADA!", "color: #a855f7; font-size: 16px; font-weight: bold; background: #190a28; padding: 10px 14px; border: 2px solid #a855f7; border-radius: 6px;");
+    console.log("%c'Deixa eu adivinhar... seu nome é Felipe e sua habilidade é Quebrar Códigos?'", "color: #c084fc; font-size: 13px; font-style: italic;");
+    return "⚡ Conquista 'Segredo-Fonte' desbloqueada com sucesso!";
+}
+
+window.desbloquearSegredoF12 = executarDesbloqueioSegredoF12;
+window.desbloquearSegredoConsole = executarDesbloqueioSegredoF12;
+
+try {
+    if (window.top && window.top !== window) {
+        window.top.desbloquearSegredoF12 = executarDesbloqueioSegredoF12;
+        window.top.desbloquearSegredoConsole = executarDesbloqueioSegredoF12;
+    }
+} catch(e) {}
+
+try {
+    if (window.parent && window.parent !== window) {
+        window.parent.desbloquearSegredoF12 = executarDesbloqueioSegredoF12;
+        window.parent.desbloquearSegredoConsole = executarDesbloqueioSegredoF12;
+    }
+} catch(e) {}
+
+// Listener do comando "Control esquerdo + SUPER + Control Direito + 0"
+(function inicializarSegredoElementsKeyCombo() {
+    let secretKeysHeld = {
+        ctrlLeft: false,
+        ctrlRight: false,
+        superKey: false,
+        zeroKey: false
+    };
+    let recentKeysLog = [];
+
+    function testarEExecutarSegredo() {
+        if (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_segredo_fonte")) {
+            return;
+        }
+
+        const agora = Date.now();
+        recentKeysLog = recentKeysLog.filter(item => (agora - item.time) < 5000);
+
+        const temCtrlLeft = secretKeysHeld.ctrlLeft || recentKeysLog.some(i => i.type === 'ctrlLeft');
+        const temSuper = secretKeysHeld.superKey || recentKeysLog.some(i => i.type === 'superKey');
+        const temCtrlRight = secretKeysHeld.ctrlRight || recentKeysLog.some(i => i.type === 'ctrlRight');
+        const temZero = secretKeysHeld.zeroKey || recentKeysLog.some(i => i.type === 'zeroKey');
+
+        if (temCtrlLeft && temSuper && temCtrlRight && temZero) {
+            executarDesbloqueioSegredoF12();
+        }
+    }
+
+    function processarEventoTeclado(e, isKeyDown) {
+        let algoMudou = false;
+
+        // Control Esquerdo
+        if (e.code === "ControlLeft" || (e.key === "Control" && e.location === 1)) {
+            if (isKeyDown) {
+                secretKeysHeld.ctrlLeft = true;
+                recentKeysLog.push({ type: 'ctrlLeft', time: Date.now() });
+            } else {
+                setTimeout(() => { secretKeysHeld.ctrlLeft = false; }, 1200);
+            }
+            algoMudou = true;
+        }
+
+        // Control Direito
+        if (e.code === "ControlRight" || (e.key === "Control" && e.location === 2)) {
+            if (isKeyDown) {
+                secretKeysHeld.ctrlRight = true;
+                recentKeysLog.push({ type: 'ctrlRight', time: Date.now() });
+            } else {
+                setTimeout(() => { secretKeysHeld.ctrlRight = false; }, 1200);
+            }
+            algoMudou = true;
+        }
+
+        // SUPER / Meta / Windows / Command
+        if (e.key === "Meta" || e.key === "OS" || e.code === "MetaLeft" || e.code === "MetaRight" || e.metaKey) {
+            if (isKeyDown) {
+                secretKeysHeld.superKey = true;
+                recentKeysLog.push({ type: 'superKey', time: Date.now() });
+            } else {
+                setTimeout(() => { secretKeysHeld.superKey = false; }, 1200);
+            }
+            algoMudou = true;
+        }
+
+        // Número 0
+        if (e.key === "0" || e.code === "Digit0" || e.code === "Numpad0") {
+            if (isKeyDown) {
+                secretKeysHeld.zeroKey = true;
+                recentKeysLog.push({ type: 'zeroKey', time: Date.now() });
+            } else {
+                setTimeout(() => { secretKeysHeld.zeroKey = false; }, 1200);
+            }
+            algoMudou = true;
+        }
+
+        if (e.ctrlKey) {
+            if (e.location === 1) secretKeysHeld.ctrlLeft = true;
+            if (e.location === 2) secretKeysHeld.ctrlRight = true;
+        }
+        if (e.metaKey) {
+            secretKeysHeld.superKey = true;
+        }
+
+        if (isKeyDown && (algoMudou || e.ctrlKey || e.metaKey)) {
+            testarEExecutarSegredo();
+        }
+    }
+
+    const alvos = [window];
+    try { if (window.top) alvos.push(window.top); } catch(e){}
+    try { if (window.parent) alvos.push(window.parent); } catch(e){}
+
+    alvos.forEach(alvo => {
+        try {
+            alvo.addEventListener("keydown", (e) => processarEventoTeclado(e, true), true);
+            alvo.addEventListener("keyup", (e) => processarEventoTeclado(e, false), true);
+        } catch(e) {}
+    });
+})();
+</script>
+
 </body>
 </html>
