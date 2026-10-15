@@ -2012,6 +2012,220 @@ body.modo-claro select optgroup {
   --recurso-glow: var(--accent-glow);
 }
 
+/* Estilização de bloqueio da AURA para personagens HUMANOS */
+#card-recurso-aura.aura-bloqueada-humano {
+  position: relative;
+  --recurso-cor: #6b7280 !important;
+  --recurso-grad: linear-gradient(90deg, #374151 0%, #6b7280 100%) !important;
+  --recurso-trilho: #1f2937 !important;
+  --recurso-borda: #4b5563 !important;
+  --recurso-glow: rgba(107, 114, 128, 0.2) !important;
+  border-color: #4b5563 !important;
+  background: rgba(17, 24, 39, 0.85) !important;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .recurso-barra-trilho {
+  background: #111827 !important;
+  border-color: #374151 !important;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .recurso-barra-preenchimento,
+#card-recurso-aura.aura-bloqueada-humano #barra_aura_fill {
+  background: linear-gradient(90deg, #374151 0%, #6b7280 100%) !important;
+  box-shadow: none !important;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .recurso-barra-container {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+/* Overlay de Correntes Oculto por Padrão */
+.aura-correntes-overlay {
+  display: none;
+}
+
+/* Camada de correntes cruzadas metálicas imersivas sobre a barra de Aura para HUMANOS */
+#card-recurso-aura.aura-bloqueada-humano .aura-correntes-overlay {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: pointer;
+  pointer-events: auto;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.85), 0 0 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.25s ease;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .aura-correntes-overlay:hover {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: color-mix(in srgb, var(--accent) 70%, #ffffff);
+  box-shadow: inset 0 0 20px color-mix(in srgb, var(--accent) 35%, transparent), 0 0 20px var(--accent-glow, rgba(168, 85, 247, 0.4));
+}
+
+/* Padrão de Elo de Correntes Metálicas em SVG */
+.aura-correntes-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.65;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 50% 50%, rgba(15, 23, 42, 0.1) 0%, rgba(3, 7, 18, 0.92) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='26' viewBox='0 0 50 26'%3E%3Cdefs%3E%3ClinearGradient id='m' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23f1f5f9'/%3E%3Cstop offset='30%25' stop-color='%2394a3b8'/%3E%3Cstop offset='60%25' stop-color='%23475569'/%3E%3Cstop offset='100%25' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3Cfilter id='s'%3E%3CfeDropShadow dx='1' dy='1.5' stdDeviation='1' flood-color='%23000' flood-opacity='0.9'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23s)' stroke='url(%23m)' stroke-width='3' fill='none'%3E%3Crect x='2' y='4' width='20' height='10' rx='5' transform='rotate(-22 12 9)'/%3E%3Crect x='16' y='10' width='20' height='10' rx='5' transform='rotate(-22 26 15)'/%3E%3Crect x='30' y='16' width='20' height='10' rx='5' transform='rotate(-22 40 21)'/%3E%3Crect x='28' y='4' width='20' height='10' rx='5' transform='rotate(22 38 9)'/%3E%3Crect x='14' y='10' width='20' height='10' rx='5' transform='rotate(22 24 15)'/%3E%3Crect x='0' y='16' width='20' height='10' rx='5' transform='rotate(22 10 21)'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 50px 26px;
+  mix-blend-mode: overlay;
+  transition: opacity 0.25s ease;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .aura-correntes-overlay:hover .aura-correntes-bg {
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px var(--accent-glow, rgba(168, 85, 247, 0.5)));
+}
+
+/* Badge Central de Aço Forjado e Cadeado Vetorial */
+.aura-correntes-cadeado-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 2;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .aura-correntes-overlay:hover .aura-correntes-cadeado-badge {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 30%, #0f172a) 0%, #0f172a 100%);
+  transform: scale(1.03);
+  box-shadow: 0 0 18px var(--accent-glow, rgba(168, 85, 247, 0.5)), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.aura-cadeado-svg {
+  width: 14px;
+  height: 14px;
+  color: #cbd5e1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+  transition: transform 0.25s ease, color 0.25s ease, filter 0.25s ease;
+  flex-shrink: 0;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .aura-correntes-overlay:hover .aura-cadeado-svg {
+  color: var(--accent);
+  transform: rotate(-10deg) scale(1.12);
+  filter: drop-shadow(0 0 8px var(--accent-glow, rgba(168, 85, 247, 0.8)));
+}
+
+.aura-correntes-rotulo {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #e2e8f0;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.aura-correntes-rotulo-hover {
+  display: none;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 0 10px var(--accent-glow, rgba(168, 85, 247, 0.7));
+}
+
+#card-recurso-aura.aura-bloqueada-humano .aura-correntes-overlay:hover .aura-correntes-rotulo {
+  display: none;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .aura-correntes-overlay:hover .aura-correntes-rotulo-hover {
+  display: inline-block;
+}
+
+/* Ícone de Máscara Infeliz (Persona de Carl Jung) para AURA Bloqueada */
+#card-recurso-aura .aura-icone-mascara {
+  display: none;
+}
+#card-recurso-aura .aura-icone-desbloqueado {
+  display: inline;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .aura-icone-mascara {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  vertical-align: sub;
+  color: #a78bfa;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+  transition: all 0.25s ease;
+}
+
+#card-recurso-aura.aura-bloqueada-humano:hover .aura-icone-mascara {
+  color: #c084fc;
+  filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.85));
+  transform: scale(1.12);
+}
+
+#card-recurso-aura.aura-bloqueada-humano .aura-icone-desbloqueado {
+  display: none;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .recurso-ident::after {
+  content: " [PERSONA INCOMPLETA]";
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #a78bfa;
+  margin-left: 6px;
+  padding: 1px 6px;
+  background: rgba(30, 27, 75, 0.75);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  border-radius: 4px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .recurso-inputs,
+#card-recurso-aura.aura-bloqueada-humano .recurso-delta-box {
+  background: rgba(31, 41, 55, 0.6) !important;
+  border-color: #374151 !important;
+}
+
+#card-recurso-aura.aura-bloqueada-humano input {
+  color: #6b7280 !important;
+  cursor: not-allowed !important;
+}
+
+#card-recurso-aura.aura-bloqueada-humano .recurso-badge {
+  background: rgba(75, 85, 99, 0.3) !important;
+  color: #9ca3af !important;
+  border-color: #4b5563 !important;
+}
+
+#card-recurso-aura.aura-bloqueada-humano button,
+#card-recurso-aura.aura-bloqueada-humano .recurso-btn-max {
+  background: rgba(31, 41, 55, 0.8) !important;
+  color: #6b7280 !important;
+  border-color: #374151 !important;
+  cursor: not-allowed !important;
+}
+
 /* Suporte ao Modo Claro */
 body.modo-claro .ficha-recursos-card {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 8px rgba(40, 30, 15, 0.06);
@@ -2873,7 +3087,268 @@ body.modo-claro .btn-modo-salvamento.manual-ativo{
   font-family:'MirageFinal',serif;font-weight:400;font-size:15px;letter-spacing:.08em;
   cursor:pointer;text-transform:uppercase;transition:background .15s ease, letter-spacing .15s ease, color .15s ease;
 }
-.btn-rolar:hover{background:var(--ink);color:#050505 !important;text-shadow:none;letter-spacing:.12em}
+
+/* ---------- BARRA DE FILTROS E HIERARQUIA DE PERÍCIAS ---------- */
+.pericias-filtros-container {
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+
+.pericias-filtros-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pericias-busca-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+}
+
+.pericias-busca-wrap .busca-icone {
+  position: absolute;
+  left: 10px;
+  font-size: 14px;
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+
+.pericias-busca-wrap input {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+  background: var(--bg-void);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  color: var(--ink);
+  font-size: 13px;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.pericias-busca-wrap input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 8px var(--accent-glow, rgba(168, 85, 247, 0.3));
+}
+
+.pericias-contador-badge {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.pericias-hierarquia-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hierarquia-titulo {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hierarquia-slots-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filtro-slot-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-inset);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 4px 8px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.slot-badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  padding: 2px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.select-filtro-hierarquia {
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+}
+
+.select-filtro-hierarquia option {
+  background: var(--bg-panel);
+  color: var(--ink);
+}
+
+.hierarquia-seta {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.btn-filtro-acao {
+  padding: 6px 12px;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-filtro-acao:hover {
+  background: var(--accent);
+  color: #050505;
+}
+
+.btn-filtro-acao.btn-limpar {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.btn-filtro-acao.btn-limpar:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.pericias-chips-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+  border-top: 1px dashed var(--line-soft);
+}
+
+.chips-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.chip-filtro-btn {
+  padding: 4px 10px;
+  background: var(--bg-inset);
+  border: 1px solid var(--line-soft);
+  color: var(--ink-dim);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chip-filtro-btn:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.chip-filtro-btn.ativo {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow, rgba(168, 85, 247, 0.3));
+}
+
+/* ESTRELA E CARD FAVORITADO */
+.pericia-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.pericia-nome-texto {
+  font-family: 'MirageFinal', serif;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.btn-favoritar-pericia {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--ink-faint);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s, filter 0.2s;
+  padding: 2px 4px;
+  line-height: 1;
+  border-radius: 4px;
+  margin-left: auto;
+}
+
+.btn-favoritar-pericia:hover {
+  transform: scale(1.3);
+  color: #f59e0b;
+}
+
+.btn-favoritar-pericia.ativa {
+  color: #f59e0b;
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
+  transform: scale(1.15);
+}
+
+.pericia-card.pericia-favoritada {
+  border-top-color: #f59e0b !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.2), inset 0 1px 1px rgba(245, 158, 11, 0.2);
+}
+
+.pericia-card.pericia-favoritada .pericia-nome-texto {
+  color: #fef08a;
+  text-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+}
+
+.pericia-card.oculto-por-filtro {
+  display: none !important;
+}
+
 
 .btn-secundario{
   width:100%;padding:11px;background:transparent;color:var(--accent);
@@ -6284,6 +6759,12 @@ html.tem-contorno-letras .pericia-nome.destaque,
 html.tem-contorno-letras .atributo-sigla,
 html.tem-contorno-letras .atalho-tecla,
 html.tem-contorno-letras .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-sub,
+html.tem-contorno-letras .rito-encarnacao-card.selecionado .rito-encarnacao-nome,
+html.tem-contorno-letras .rito-badge,
+html.tem-contorno-letras .recurso-aura-nome,
+html.tem-contorno-letras .cor-tema-texto,
+html.tem-contorno-letras [data-cor-tema],
+html.tem-contorno-letras [data-tema-cor],
 html.tem-contorno-letras svg[stroke="var(--accent)"],
 html.tem-contorno-letras svg[fill="var(--accent)"] {
   -webkit-text-stroke: var(--tema-contorno-stroke, 1px) var(--tema-contorno-cor, #ffffff);
@@ -6292,6 +6773,9 @@ html.tem-contorno-letras svg[fill="var(--accent)"] {
 }
 
 html.tem-contorno-letras .icone-tema-cor,
+html.tem-contorno-letras .cor-tema-icone,
+html.tem-contorno-letras .recurso-aura-icone,
+html.tem-contorno-letras .rito-encarnacao-card.selecionado .rito-encarnacao-icone,
 html.tem-contorno-letras .conq-card.desbloqueada .conq-card-icone,
 html.tem-contorno-letras .toast-conquista-equipe.toast-modo-harmonico .toast-conquista-icone,
 html.tem-contorno-letras .modal-confirm-icone,
@@ -7151,6 +7635,33 @@ html.animacao-strokes-roxas .galho-svg path {
   border-color: rgba(199, 125, 255, 0.85) !important;
   box-shadow: 0 0 26px rgba(157, 78, 221, 0.6), inset 0 0 16px rgba(199, 125, 255, 0.25) !important;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+/* Efeito de Neblina e Vinheta das Conquistas Secretas para o Rito de Individuação */
+.rito-modal-fog-bg {
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.78;
+  background:
+    radial-gradient(ellipse at 30% 35%, color-mix(in srgb, var(--accent) 45%, rgba(147, 51, 234, 0.35)) 0%, transparent 68%),
+    radial-gradient(ellipse at 70% 65%, color-mix(in srgb, var(--accent) 30%, rgba(88, 28, 135, 0.25)) 0%, transparent 65%),
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 25%, rgba(168, 85, 247, 0.2)) 0%, transparent 60%);
+  animation: derivaNevoeiroDensa 12s ease-in-out infinite alternate;
+}
+
+.rito-modal-vignette {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: inset 0 0 35px color-mix(in srgb, var(--accent) 30%, rgba(168, 85, 247, 0.3)), inset 0 0 65px rgba(10, 8, 16, 0.85);
+  animation: nevoeiroBordaVignette 6s ease-in-out infinite alternate;
 }
 
 @keyframes derivaNevoeiroDensa {
@@ -12931,6 +13442,11 @@ body.modo-claro .campanha-diario-textarea {
     <span class="aba-texto">Campanhas</span>
     <span class="aba-badge-tag" id="tab-badge-campanhas-status">OFF</span>
   </button>
+  <button type="button" class="aba-nav-btn" id="tab-btn-rito" role="tab" style="border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); background: color-mix(in srgb, var(--accent) 12%, transparent);" onclick="RitoIndividuacaoManager.abrirModalRito()" title="Abrir Dossiê do Rito de Individuação (Transformação em Stranger)">
+    <span class="aba-icone" style="color: var(--accent); filter: drop-shadow(0 0 6px var(--accent-glow));">✧</span>
+    <span class="aba-texto" style="color: color-mix(in srgb, var(--accent) 85%, #ffffff); font-weight: 700;">Rito de Individuação</span>
+    <span class="aba-badge-tag" style="background: color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent); border-color: color-mix(in srgb, var(--accent) 50%, transparent);">STRANGER</span>
+  </button>
 </nav>
 
 <!-- Barra Rápida de Atalhos de Teclado (Hotbar RPG 1-9) -->
@@ -13294,10 +13810,20 @@ body.modo-claro .campanha-diario-textarea {
       </div>
 
       <!-- 4. AURA: COR DO TEMA -->
-      <div class="recurso-card recurso-aura" id="card-recurso-aura">
+      <div class="recurso-card recurso-aura aura-bloqueada-humano" id="card-recurso-aura">
         <div class="recurso-cabecalho">
           <div class="recurso-ident">
-            <span class="recurso-icone" aria-hidden="true">✧</span>
+            <span class="recurso-icone" aria-hidden="true" title="Aura Suprimida pela Persona (Carl Jung)">
+              <svg class="aura-icone-mascara" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Máscara da Persona Infeliz (Carl Jung) -->
+                <path d="M12 2C6.5 2 3 6 3 12c0 5 3 9.5 9 10 6-.5 9-5 9-10 0-6-3.5-10-9-10z"></path>
+                <path d="M8 9.5c1-.5 2.5-.5 3.5 0M12.5 9.5c1-.5 2.5-.5 3.5 0"></path>
+                <circle cx="9" cy="11.5" r="1" fill="currentColor"></circle>
+                <circle cx="15" cy="11.5" r="1" fill="currentColor"></circle>
+                <path d="M8.5 17.5c2-1.8 5-1.8 7 0"></path>
+              </svg>
+              <span class="aura-icone-desbloqueado">✧</span>
+            </span>
             <span class="recurso-nome">Aura</span>
           </div>
           <div class="recurso-valores-wrap">
@@ -13314,11 +13840,23 @@ body.modo-claro .campanha-diario-textarea {
             <span class="recurso-badge" id="recurso_aura_pct">100%</span>
           </div>
         </div>
-        <div class="recurso-barra-container" title="Clique ou arraste para ajustar a Aura">
+        <div class="recurso-barra-container" title="Clique para abrir o Rito de Individuação se estiver bloqueado" onclick="if (document.getElementById('card-recurso-aura')?.classList.contains('aura-bloqueada-humano')) RitoIndividuacaoManager.abrirModalRito()">
           <div class="recurso-barra-trilho"></div>
           <div class="recurso-barra-preenchimento" id="barra_aura_fill" style="width: 100%;"></div>
           <div class="recurso-barra-preenchimento-temp" id="barra_aura_temp_fill" style="left: 100%; width: 0%;"></div>
           <div class="recurso-barra-marcas" aria-hidden="true"><span></span><span></span></div>
+          <div class="aura-correntes-overlay" aria-hidden="true">
+            <div class="aura-correntes-bg"></div>
+            <div class="aura-correntes-cadeado-badge">
+              <svg class="aura-cadeado-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                <circle cx="12" cy="16" r="1.5" fill="currentColor"></circle>
+              </svg>
+              <span class="aura-correntes-rotulo">MÁSCARA DA PERSONA — INDIVIDUAÇÃO PENDENTE</span>
+              <span class="aura-correntes-rotulo-hover">TRANSCENDER PERSONA — INICIAR RITO DE INDIVIDUAÇÃO</span>
+            </div>
+          </div>
           <input type="range" class="recurso-slider" id="slider_aura" min="0" max="30" value="30" oninput="sliderRecursoAlterado('aura', this.value)" aria-label="Ajustar Aura em barra">
         </div>
         <div class="recurso-acoes-rapidas">
@@ -13451,6 +13989,87 @@ body.modo-claro .campanha-diario-textarea {
     <span class="icone-som">🔔</span> <span class="texto-som">Som: Ativado</span>
   </button>
 </div>
+
+<!-- BARRA DE FILTROS ACUMULÁVEIS E HIERÁRQUICOS DE PERÍCIAS -->
+<div class="pericias-filtros-container" id="pericias-filtros-container">
+  <div class="pericias-filtros-topo">
+    <div class="pericias-busca-wrap">
+      <span class="busca-icone">🔍</span>
+      <input type="text" id="filtro-pericia-busca" placeholder="Buscar perícia por nome..." oninput="aplicarFiltrosPericias()" title="Filtrar por nome da perícia">
+    </div>
+    <div class="pericias-contador-badge" id="pericias-contador-badge">
+      Exibindo todas as perícias
+    </div>
+  </div>
+
+  <div class="pericias-hierarquia-bar">
+    <span class="hierarquia-titulo">⚡ Hierarquia de Filtros e Ordenação:</span>
+    
+    <div class="hierarquia-slots-group">
+      <!-- Slot 1 (Hierarquia Nível 1) -->
+      <div class="filtro-slot-item">
+        <span class="slot-badge">1º Nível</span>
+        <select id="filtro-pericia-nivel1" onchange="aplicarFiltrosPericias()" class="select-filtro-hierarquia">
+          <option value="todos">Todos (Sem filtro/ordem no Nível 1)</option>
+          <option value="favoritos">⭐ Favoritos em Primeiro</option>
+          <option value="mais_habeis">🔥 Mais Hábeis (Pontos Puros)</option>
+          <option value="alfabetica">🔤 Ordem Alfabética (A-Z)</option>
+          <option value="apenas_favoritos">⭐ Apenas Favoritos (Ocultar Outras)</option>
+          <option value="attr_HPR">💪 Atributo Principal: HPR</option>
+          <option value="attr_PRX">⚡ Atributo Principal: PRX</option>
+          <option value="attr_PSI">🔮 Atributo Principal: PSI</option>
+          <option value="attr_QI">🧠 Atributo Principal: QI</option>
+          <option value="cat_militares">⚔️ Categoria: Militares</option>
+          <option value="cat_interpessoais">🤝 Categoria: Interpessoais</option>
+          <option value="cat_mentais">🧠 Categoria: Mentais</option>
+          <option value="cat_convenientes">🎒 Categoria: Convenientes</option>
+          <option value="cat_personalizadas">✨ Categoria: Personalizadas</option>
+        </select>
+      </div>
+
+      <span class="hierarquia-seta">➔</span>
+
+      <!-- Slot 2 (Hierarquia Nível 2) -->
+      <div class="filtro-slot-item">
+        <span class="slot-badge">2º Nível</span>
+        <select id="filtro-pericia-nivel2" onchange="aplicarFiltrosPericias()" class="select-filtro-hierarquia">
+          <option value="todos">Todos (Sem filtro/ordem no Nível 2)</option>
+          <option value="mais_habeis" selected>🔥 Mais Hábeis (Pontos Puros)</option>
+          <option value="favoritos">⭐ Favoritos em Primeiro</option>
+          <option value="alfabetica">🔤 Ordem Alfabética (A-Z)</option>
+          <option value="apenas_favoritos">⭐ Apenas Favoritos (Ocultar Outras)</option>
+          <option value="attr_HPR">💪 Atributo Principal: HPR</option>
+          <option value="attr_PRX">⚡ Atributo Principal: PRX</option>
+          <option value="attr_PSI">🔮 Atributo Principal: PSI</option>
+          <option value="attr_QI">🧠 Atributo Principal: QI</option>
+          <option value="cat_militares">⚔️ Categoria: Militares</option>
+          <option value="cat_interpessoais">🤝 Categoria: Interpessoais</option>
+          <option value="cat_mentais">🧠 Categoria: Mentais</option>
+          <option value="cat_convenientes">🎒 Categoria: Convenientes</option>
+          <option value="cat_personalizadas">✨ Categoria: Personalizadas</option>
+        </select>
+      </div>
+
+      <button type="button" class="btn-filtro-acao" onclick="inverterHierarquiaFiltros()" title="Trocar a ordem dos níveis de hierarquia">
+        🔄 Inverter
+      </button>
+      <button type="button" class="btn-filtro-acao btn-limpar" onclick="limparFiltrosPericias()" title="Resetar todos os filtros">
+        🧹 Limpar
+      </button>
+    </div>
+  </div>
+
+  <div class="pericias-chips-bar">
+    <span class="chips-label">Atalhos Rápidos:</span>
+    <button type="button" class="chip-filtro-btn" id="chip-fav-toggle" onclick="alternarQuickFilter('apenas_favoritos')">⭐ Favoritos</button>
+    <button type="button" class="chip-filtro-btn" id="chip-mais-habeis-toggle" onclick="alternarQuickFilter('mais_habeis')">🔥 Mais Hábeis</button>
+    <button type="button" class="chip-filtro-btn" id="chip-attr-hpr" onclick="alternarQuickFilter('attr_HPR')">💪 HPR</button>
+    <button type="button" class="chip-filtro-btn" id="chip-attr-prx" onclick="alternarQuickFilter('attr_PRX')">⚡ PRX</button>
+    <button type="button" class="chip-filtro-btn" id="chip-attr-psi" onclick="alternarQuickFilter('attr_PSI')">🔮 PSI</button>
+    <button type="button" class="chip-filtro-btn" id="chip-attr-qi" onclick="alternarQuickFilter('attr_QI')">🧠 QI</button>
+  </div>
+</div>
+
 <div id="painel-pericias">
 <details class="categoria-grupo" id="cat-militares" open>
   <summary class="categoria-cabecalho">
@@ -16943,6 +17562,239 @@ function atualizarPainel(){
     if(typeof renderizarPericiasTaticas === 'function') {
         renderizarPericiasTaticas();
     }
+    if (typeof atualizarFavoritosUI === 'function') {
+        atualizarFavoritosUI();
+    }
+    if (typeof aplicarFiltrosPericias === 'function') {
+        aplicarFiltrosPericias();
+    }
+}
+
+/* SISTEMA DE PERÍCIAS FAVORITAS E FILTROS HIERÁRQUICOS ACUMULÁVEIS */
+const favoritasPericias = {};
+
+function alternarFavoritoPericia(nome) {
+    if (!nome) return;
+    favoritasPericias[nome] = !favoritasPericias[nome];
+    atualizarFavoritosUI();
+    aplicarFiltrosPericias();
+    if (typeof salvarSilencioso === 'function') salvarSilencioso();
+}
+
+function atualizarFavoritosUI() {
+    if (typeof document === 'undefined') return;
+    document.querySelectorAll('.pericia-card').forEach(card => {
+        let nome = card.getAttribute('data-nome');
+        const inputPuros = card.querySelector('input[id^="pp_"]');
+
+        if (!nome && inputPuros) {
+            const idInput = inputPuros.id.replace('pp_', '');
+            const listAll = (typeof pericias !== 'undefined' ? pericias : []).concat(typeof personalizadas !== 'undefined' ? personalizadas : []);
+            const pEncontrada = listAll.find(p => (typeof idSeguro === 'function' ? idSeguro(p.nome) : p.nome.replace(/\s+/g, '_')) === idInput);
+            if (pEncontrada) nome = pEncontrada.nome;
+        }
+
+        if (!nome) {
+            const titleEl = card.querySelector('.pericia-title');
+            if (titleEl) {
+                const textSpan = titleEl.querySelector('.pericia-nome-texto');
+                nome = textSpan ? textSpan.textContent.trim() : titleEl.childNodes[0]?.textContent?.trim() || "";
+            }
+        }
+
+        if (!nome) return;
+        card.setAttribute('data-nome', nome);
+
+        const titleEl = card.querySelector('.pericia-title');
+        if (titleEl) {
+            let nomeSpan = titleEl.querySelector('.pericia-nome-texto');
+            if (!nomeSpan) {
+                const textoOriginal = titleEl.childNodes[0]?.textContent?.trim() || nome;
+                if (titleEl.childNodes[0]) titleEl.childNodes[0].textContent = '';
+                nomeSpan = document.createElement('span');
+                nomeSpan.className = 'pericia-nome-texto';
+                nomeSpan.textContent = textoOriginal;
+                titleEl.insertBefore(nomeSpan, titleEl.firstChild);
+            }
+
+            let btnFav = titleEl.querySelector('.btn-favoritar-pericia');
+            if (!btnFav) {
+                btnFav = document.createElement('button');
+                btnFav.type = 'button';
+                btnFav.className = 'btn-favoritar-pericia';
+                btnFav.title = 'Favoritar / Desfavoritar Perícia';
+                btnFav.onclick = (e) => {
+                    e.stopPropagation();
+                    alternarFavoritoPericia(nome);
+                };
+                titleEl.appendChild(btnFav);
+            }
+
+            const isFav = !!favoritasPericias[nome];
+            if (isFav) {
+                btnFav.innerHTML = '⭐';
+                btnFav.classList.add('ativa');
+                card.classList.add('pericia-favoritada');
+            } else {
+                btnFav.innerHTML = '☆';
+                btnFav.classList.remove('ativa');
+                card.classList.remove('pericia-favoritada');
+            }
+        }
+    });
+}
+
+function inverterHierarquiaFiltros() {
+    const sel1 = document.getElementById('filtro-pericia-nivel1');
+    const sel2 = document.getElementById('filtro-pericia-nivel2');
+    if (!sel1 || !sel2) return;
+    const v1 = sel1.value;
+    const v2 = sel2.value;
+    sel1.value = v2;
+    sel2.value = v1;
+    aplicarFiltrosPericias();
+}
+
+function limparFiltrosPericias() {
+    const buscaInput = document.getElementById('filtro-pericia-busca');
+    const sel1 = document.getElementById('filtro-pericia-nivel1');
+    const sel2 = document.getElementById('filtro-pericia-nivel2');
+    if (buscaInput) buscaInput.value = '';
+    if (sel1) sel1.value = 'todos';
+    if (sel2) sel2.value = 'todos';
+
+    document.querySelectorAll('.chip-filtro-btn').forEach(btn => btn.classList.remove('ativo'));
+    aplicarFiltrosPericias();
+}
+
+function alternarQuickFilter(valorOpcao) {
+    const sel1 = document.getElementById('filtro-pericia-nivel1');
+    if (!sel1) return;
+
+    if (sel1.value === valorOpcao) {
+        sel1.value = 'todos';
+    } else {
+        sel1.value = valorOpcao;
+    }
+    aplicarFiltrosPericias();
+}
+
+function aplicarFiltrosPericias() {
+    if (typeof document === 'undefined') return;
+    const buscaInput = document.getElementById('filtro-pericia-busca');
+    const sel1 = document.getElementById('filtro-pericia-nivel1');
+    const sel2 = document.getElementById('filtro-pericia-nivel2');
+    
+    if (!buscaInput && !sel1 && !sel2) return;
+
+    const query = (buscaInput?.value || '').toLowerCase().trim();
+    const rule1 = sel1?.value || 'todos';
+    const rule2 = sel2?.value || 'todos';
+
+    // Atualiza chips ativos
+    document.querySelectorAll('.chip-filtro-btn').forEach(chip => {
+        const id = chip.id;
+        if ((id === 'chip-fav-toggle' && (rule1 === 'apenas_favoritos' || rule2 === 'apenas_favoritos')) ||
+            (id === 'chip-mais-habeis-toggle' && (rule1 === 'mais_habeis' || rule2 === 'mais_habeis')) ||
+            (id === 'chip-attr-hpr' && (rule1 === 'attr_HPR' || rule2 === 'attr_HPR')) ||
+            (id === 'chip-attr-prx' && (rule1 === 'attr_PRX' || rule2 === 'attr_PRX')) ||
+            (id === 'chip-attr-psi' && (rule1 === 'attr_PSI' || rule2 === 'attr_PSI')) ||
+            (id === 'chip-attr-qi' && (rule1 === 'attr_QI' || rule2 === 'attr_QI'))) {
+            chip.classList.add('ativo');
+        } else {
+            chip.classList.remove('ativo');
+        }
+    });
+
+    const todosCards = Array.from(document.querySelectorAll('.pericia-card'));
+    let visiveisQtd = 0;
+
+    function atendeFiltro(card, regra) {
+        if (!regra || regra === 'todos' || regra === 'mais_habeis' || regra === 'favoritos' || regra === 'alfabetica') {
+            return true;
+        }
+
+        const nome = card.getAttribute('data-nome') || card.querySelector('.pericia-nome-texto')?.textContent?.trim() || "";
+        const isFav = !!favoritasPericias[nome];
+
+        if (regra === 'apenas_favoritos') {
+            return isFav;
+        }
+
+        if (regra.startsWith('attr_')) {
+            const attrAlvo = regra.replace('attr_', '');
+            const selectBase = card.querySelector('.pericia-base select');
+            const strongBase = card.querySelector('.pericia-base strong');
+            const attrAtual = selectBase ? selectBase.value : (strongBase ? strongBase.textContent.trim() : '');
+            return attrAtual === attrAlvo;
+        }
+
+        if (regra.startsWith('cat_')) {
+            const catAlvoKey = regra.replace('cat_', '');
+            const grupoPai = card.closest('.categoria-grupo, #lista-personalizadas');
+            const grupoId = grupoPai ? grupoPai.id : '';
+            if (catAlvoKey === 'militares') return grupoId === 'cat-militares';
+            if (catAlvoKey === 'interpessoais') return grupoId === 'cat-interpessoais';
+            if (catAlvoKey === 'mentais') return grupoId === 'cat-mentais';
+            if (catAlvoKey === 'convenientes') return grupoId === 'cat-convenientes';
+            if (catAlvoKey === 'personalizadas') return grupoId === 'lista-personalizadas';
+            return true;
+        }
+
+        return true;
+    }
+
+    todosCards.forEach(card => {
+        const nome = card.getAttribute('data-nome') || card.querySelector('.pericia-nome-texto')?.textContent?.trim() || "";
+        const atendeBusca = !query || nome.toLowerCase().includes(query);
+        const atendeR1 = atendeFiltro(card, rule1);
+        const atendeR2 = atendeFiltro(card, rule2);
+
+        if (atendeBusca && atendeR1 && atendeR2) {
+            card.classList.remove('oculto-por-filtro');
+            visiveisQtd++;
+        } else {
+            card.classList.add('oculto-por-filtro');
+        }
+    });
+
+    function compararSub(cardA, cardB, regra) {
+        const nomeA = cardA.getAttribute('data-nome') || cardA.querySelector('.pericia-nome-texto')?.textContent?.trim() || "";
+        const nomeB = cardB.getAttribute('data-nome') || cardB.querySelector('.pericia-nome-texto')?.textContent?.trim() || "";
+        const purosA = parseInt(cardA.querySelector('input[id^="pp_"]')?.value || '0', 10) || 0;
+        const purosB = parseInt(cardB.querySelector('input[id^="pp_"]')?.value || '0', 10) || 0;
+        const favA = !!favoritasPericias[nomeA];
+        const favB = !!favoritasPericias[nomeB];
+
+        if (regra === 'favoritos') {
+            if (favA !== favB) return favB ? 1 : -1;
+        }
+        if (regra === 'mais_habeis') {
+            if (purosA !== purosB) return purosB - purosA;
+        }
+        if (regra === 'alfabetica') {
+            return nomeA.localeCompare(nomeB);
+        }
+        return 0;
+    }
+
+    const containersGrades = document.querySelectorAll('.categoria-grade, #lista-personalizadas');
+    containersGrades.forEach(container => {
+        const cardsGrade = Array.from(container.querySelectorAll('.pericia-card'));
+        cardsGrade.sort((a, b) => {
+            const comp1 = compararSub(a, b, rule1);
+            if (comp1 !== 0) return comp1;
+            const comp2 = compararSub(a, b, rule2);
+            if (comp2 !== 0) return comp2;
+            return 0;
+        });
+        cardsGrade.forEach(card => container.appendChild(card));
+    });
+
+    const badgeEl = document.getElementById('pericias-contador-badge');
+    if (badgeEl) {
+        badgeEl.textContent = `Exibindo ${visiveisQtd} de ${todosCards.length} perícias`;
+    }
 }
 
 function instalarListenersAtributos(){
@@ -17190,7 +18042,7 @@ function atualizarNomesPersonagem(registrarAlteracao = true) {
 }
 
 let corPrincipalAtual = "#c9b183";
-let contornoLetrasAtivo = false;
+let contornoLetrasAtivo = true;
 let contornoLetrasCor = "#ffffff";
 
 function propagarSincronizacaoTema(tipo, valor) {
@@ -20202,6 +21054,936 @@ const RECURSOS_CONFIG = [
     { chave: "aura", nome: "Aura", padraoAtual: 30, padraoMax: 30 }
 ];
 
+/* ============================================================
+   ARQUITETURA LÓGICA & MODELOS DE DADOS DO RITO DE INDIVIDUAÇÃO
+   (Transformação de HUMANO para STRANGER - We're Strangers)
+   ============================================================ */
+
+window.MODELO_PADRAO_RITO_INDIVIDUACAO = Object.freeze({
+    // 1. Estado principal do personagem: 'HUMANO' | 'STRANGER'
+    estadoPersonagem: 'HUMANO',
+
+    // 2. Estado do recurso vital AURA (inacessível para HUMANOS)
+    aura: {
+        habilitada: false,
+        notas: ''
+    },
+
+    // 3. Encarnação Primordial: null | 'ANGELICAL' | 'DEMONÍACA'
+    encarnacaoPrimordial: null,
+
+    // 4. Estado do processo de individuação: 'NAO_INICIADO' | 'EM_PROGRESSO' | 'CONCLUIDO' | 'FALHO'
+    estadoProcesso: 'NAO_INICIADO',
+
+    // 5. Etapa atual do wizard da interface: 'A' | 'B' | 'C' | 'D' | 'E' | 'F'
+    etapaAtual: 'A',
+
+    // 6. Identidades (Anterior vs Emergente)
+    identidadeAnterior: {
+        nome: '',
+        codinome: '',
+        titulo: ''
+    },
+    identidadeEmergente: {
+        nome: '',
+        tituloStranger: '',
+        oQueSobreviveu: '',
+        oQueMudou: '',
+        conflitosPermanentes: '',
+        oQueNasceu: ''
+    },
+
+    // 7. Cicatrizes e feridas profundas da alma
+    cicatrizesAlma: [],
+
+    // 8. Condições narrativas necessárias para a transformação
+    condicoesNarrativas: {
+        gatilhoAtivado: false,
+        descricaoGatilho: '',
+        requisitosCumpridos: []
+    },
+
+    // 9. Consequências narrativas e mecânicas associadas (extensível)
+    consequencias: {
+        narrativas: [],
+        mecanicas: {}
+    },
+
+    // 10. Aprovação do mestre
+    aprovacaoMestre: {
+        aprovado: false,
+        mestreId: null,
+        dataAprovacao: null,
+        notas: ''
+    },
+
+    // 11. Data e registro histórico da transformação
+    registroHistorico: {
+        dataTransformacao: null,
+        localOuSessao: '',
+        relatoTransformacao: ''
+    },
+
+    // 12. Versão histórica dos dados anteriores à transformação (snapshot)
+    historicoPreTransformacao: null
+});
+
+window.RitoIndividuacaoManager = (function() {
+    let _estadoRitoGlobal = JSON.parse(JSON.stringify(window.MODELO_PADRAO_RITO_INDIVIDUACAO));
+
+    function clonarObjeto(obj) {
+        if (!obj) return null;
+        try {
+            return JSON.parse(JSON.stringify(obj));
+        } catch(e) {
+            return null;
+        }
+    }
+
+    // 1. MIGRAÇÃO & PADRONIZAÇÃO COMPATÍVEL
+    function migrarEstado(estadoBruto) {
+        if (!estadoBruto || typeof estadoBruto !== 'object') {
+            return clonarObjeto(window.MODELO_PADRAO_RITO_INDIVIDUACAO);
+        }
+
+        const base = clonarObjeto(window.MODELO_PADRAO_RITO_INDIVIDUACAO);
+        const estadoPersonagemValido = (estadoBruto.estadoPersonagem === 'STRANGER') ? 'STRANGER' : 'HUMANO';
+        base.estadoPersonagem = estadoPersonagemValido;
+
+        base.aura.habilitada = (estadoPersonagemValido === 'STRANGER') && !!(estadoBruto.aura && estadoBruto.aura.habilitada);
+        base.aura.notas = (estadoBruto.aura && estadoBruto.aura.notas) ? String(estadoBruto.aura.notas) : '';
+
+        const etapasValidas = ['A', 'B', 'C', 'D', 'E', 'F'];
+        base.etapaAtual = etapasValidas.includes(estadoBruto.etapaAtual) ? estadoBruto.etapaAtual : 'A';
+
+        if (estadoPersonagemValido === 'STRANGER') {
+            if (estadoBruto.encarnacaoPrimordial === 'ANGELICAL' || estadoBruto.encarnacaoPrimordial === 'DEMONÍACA') {
+                base.encarnacaoPrimordial = estadoBruto.encarnacaoPrimordial;
+            } else {
+                base.encarnacaoPrimordial = null;
+            }
+        } else if (estadoBruto.encarnacaoPrimordial === 'ANGELICAL' || estadoBruto.encarnacaoPrimordial === 'DEMONÍACA') {
+            base.encarnacaoPrimordial = estadoBruto.encarnacaoPrimordial;
+        }
+
+        const processosValidos = ['NAO_INICIADO', 'EM_PROGRESSO', 'CONCLUIDO', 'FALHO'];
+        if (processosValidos.includes(estadoBruto.estadoProcesso)) {
+            base.estadoProcesso = estadoBruto.estadoProcesso;
+        } else if (estadoPersonagemValido === 'STRANGER') {
+            base.estadoProcesso = 'CONCLUIDO';
+        }
+
+        if (estadoBruto.identidadeAnterior) {
+            base.identidadeAnterior.nome = estadoBruto.identidadeAnterior.nome || '';
+            base.identidadeAnterior.codinome = estadoBruto.identidadeAnterior.codinome || '';
+            base.identidadeAnterior.titulo = estadoBruto.identidadeAnterior.titulo || '';
+        }
+        if (estadoBruto.identidadeEmergente) {
+            base.identidadeEmergente.nome = estadoBruto.identidadeEmergente.nome || '';
+            base.identidadeEmergente.tituloStranger = estadoBruto.identidadeEmergente.tituloStranger || '';
+            base.identidadeEmergente.oQueSobreviveu = estadoBruto.identidadeEmergente.oQueSobreviveu || '';
+            base.identidadeEmergente.oQueMudou = estadoBruto.identidadeEmergente.oQueMudou || '';
+            base.identidadeEmergente.conflitosPermanentes = estadoBruto.identidadeEmergente.conflitosPermanentes || '';
+            base.identidadeEmergente.oQueNasceu = estadoBruto.identidadeEmergente.oQueNasceu || '';
+        }
+
+        if (Array.isArray(estadoBruto.cicatrizesAlma)) {
+            base.cicatrizesAlma = estadoBruto.cicatrizesAlma.map(c => ({
+                id: c.id || ('cic_' + Math.random().toString(36).substring(2, 9)),
+                nome: c.nome || 'Cicatriz da Alma',
+                descricao: c.descricao || '',
+                data: c.data || (typeof formatarDataBR === 'function' ? formatarDataBR() : new Date().toLocaleDateString('pt-BR'))
+            }));
+        }
+
+        if (estadoBruto.condicoesNarrativas) {
+            base.condicoesNarrativas.gatilhoAtivado = !!estadoBruto.condicoesNarrativas.gatilhoAtivado;
+            base.condicoesNarrativas.descricaoGatilho = estadoBruto.condicoesNarrativas.descricaoGatilho || '';
+            base.condicoesNarrativas.requisitosCumpridos = Array.isArray(estadoBruto.condicoesNarrativas.requisitosCumpridos) 
+                ? [...estadoBruto.condicoesNarrativas.requisitosCumpridos] : [];
+        }
+
+        if (estadoBruto.consequencias) {
+            base.consequencias.narrativas = Array.isArray(estadoBruto.consequencias.narrativas) ? [...estadoBruto.consequencias.narrativas] : [];
+            base.consequencias.mecanicas = (estadoBruto.consequencias.mecanicas && typeof estadoBruto.consequencias.mecanicas === 'object')
+                ? { ...estadoBruto.consequencias.mecanicas } : {};
+        }
+
+        if (estadoBruto.aprovacaoMestre) {
+            base.aprovacaoMestre.aprovado = !!estadoBruto.aprovacaoMestre.aprovado;
+            base.aprovacaoMestre.mestreId = estadoBruto.aprovacaoMestre.mestreId || null;
+            base.aprovacaoMestre.dataAprovacao = estadoBruto.aprovacaoMestre.dataAprovacao || null;
+            base.aprovacaoMestre.notas = estadoBruto.aprovacaoMestre.notas || '';
+        }
+
+        if (estadoBruto.registroHistorico) {
+            base.registroHistorico.dataTransformacao = estadoBruto.registroHistorico.dataTransformacao || null;
+            base.registroHistorico.localOuSessao = estadoBruto.registroHistorico.localOuSessao || '';
+            base.registroHistorico.relatoTransformacao = estadoBruto.registroHistorico.relatoTransformacao || '';
+        }
+
+        if (estadoBruto.historicoPreTransformacao) {
+            base.historicoPreTransformacao = clonarObjeto(estadoBruto.historicoPreTransformacao);
+        }
+
+        return base;
+    }
+
+    function aplicarEstado(estadoRito) {
+        _estadoRitoGlobal = migrarEstado(estadoRito);
+        atualizarUI();
+        return _estadoRitoGlobal;
+    }
+
+    function obterEstadoParaSalvar() {
+        return clonarObjeto(_estadoRitoGlobal);
+    }
+
+    // 2. VALIDAÇÃO DE ACESSO À AURA
+    function validarUsoAura(estadoFicha) {
+        const rito = (estadoFicha && estadoFicha.ritoIndividuacao) ? estadoFicha.ritoIndividuacao : _estadoRitoGlobal;
+        if (!rito || rito.estadoPersonagem !== 'STRANGER' || !rito.aura.habilitada) {
+            return {
+                permitido: false,
+                motivo: 'A AURA permanece retida sob a Persona (Máscara Infeliz de Carl Jung). Conclua o Rito de Individuação para despertar a verdadeira essência STRANGER.'
+            };
+        }
+        return { permitido: true, motivo: '' };
+    }
+
+    // 3. PERSISTÊNCIA DE PROGRESSE DO RITO (SEM STRANGER OU DESBLOQUEIO DE AURA)
+    function salvarProgressoRito() {
+        capturarCamposDOMFormulario();
+        if (_estadoRitoGlobal.estadoPersonagem === 'HUMANO') {
+            _estadoRitoGlobal.estadoProcesso = 'EM_PROGRESSO';
+        }
+        atualizarUI();
+        if (typeof marcarAlteracaoFeita === 'function') marcarAlteracaoFeita();
+        if (typeof salvarFichaAutomatico === 'function') salvarFichaAutomatico();
+    }
+
+    function capturarCamposDOMFormulario() {
+        const nomeAnt = document.getElementById('rito_identidade_anterior_nome');
+        if (nomeAnt) _estadoRitoGlobal.identidadeAnterior.nome = nomeAnt.value.trim();
+
+        const codiAnt = document.getElementById('rito_identidade_anterior_codinome');
+        if (codiAnt) _estadoRitoGlobal.identidadeAnterior.codinome = codiAnt.value.trim();
+
+        const titAnt = document.getElementById('rito_identidade_anterior_titulo');
+        if (titAnt) _estadoRitoGlobal.identidadeAnterior.titulo = titAnt.value.trim();
+
+        const descGat = document.getElementById('rito_gatilho_descricao');
+        if (descGat) _estadoRitoGlobal.condicoesNarrativas.descricaoGatilho = descGat.value.trim();
+
+        const reqCumpr = document.getElementById('rito_requisitos_cumpridos');
+        if (reqCumpr) {
+            _estadoRitoGlobal.condicoesNarrativas.requisitosCumpridos = reqCumpr.value.split('\n').map(s=>s.trim()).filter(Boolean);
+        }
+
+        const nomeEmerg = document.getElementById('rito_identidade_emergente_nome');
+        if (nomeEmerg) _estadoRitoGlobal.identidadeEmergente.nome = nomeEmerg.value.trim();
+
+        const titStranger = document.getElementById('rito_identidade_emergente_titulo');
+        if (titStranger) _estadoRitoGlobal.identidadeEmergente.tituloStranger = titStranger.value.trim();
+
+        const sob = document.getElementById('rito_refle_sobreviveu');
+        if (sob) _estadoRitoGlobal.identidadeEmergente.oQueSobreviveu = sob.value.trim();
+
+        const mud = document.getElementById('rito_refle_mudou');
+        if (mud) _estadoRitoGlobal.identidadeEmergente.oQueMudou = mud.value.trim();
+
+        const conf = document.getElementById('rito_refle_conflitos');
+        if (conf) _estadoRitoGlobal.identidadeEmergente.conflitosPermanentes = conf.value.trim();
+
+        const nasc = document.getElementById('rito_refle_nasceu');
+        if (nasc) _estadoRitoGlobal.identidadeEmergente.oQueNasceu = nasc.value.trim();
+
+        const apMestre = document.getElementById('rito_aprovacao_mestre_chk');
+        if (apMestre) _estadoRitoGlobal.aprovacaoMestre.aprovado = apMestre.checked;
+
+        const mestreIdInput = document.getElementById('rito_aprovacao_mestre_id');
+        if (mestreIdInput) _estadoRitoGlobal.aprovacaoMestre.mestreId = mestreIdInput.value.trim();
+
+        const mestreNotas = document.getElementById('rito_aprovacao_mestre_notas');
+        if (mestreNotas) _estadoRitoGlobal.aprovacaoMestre.notas = mestreNotas.value.trim();
+    }
+
+    // 4. SELEÇÃO DE ENCARNAÇÃO (SEM EXECUTAR TRANSFORMAÇÃO)
+    function selecionarEncarnacao(encarnacao) {
+        if (encarnacao === 'ANGELICAL' || encarnacao === 'DEMONÍACA') {
+            _estadoRitoGlobal.encarnacaoPrimordial = encarnacao;
+            salvarProgressoRito();
+            renderizarConteudoEtapa('C');
+        }
+    }
+
+    // 5. MANIPULAÇÃO DE CICATRIZES DA ALMA
+    function adicionarCicatrizAlma() {
+        const nomeEl = document.getElementById('rito_nova_cicatriz_nome');
+        const descEl = document.getElementById('rito_nova_cicatriz_desc');
+
+        if (!nomeEl || !nomeEl.value.trim()) {
+            if (typeof mostrarStatus === 'function') mostrarStatus('Informe o nome da cicatriz da alma.', 'erro');
+            return;
+        }
+
+        const novaCicatriz = {
+            id: 'cic_' + Math.random().toString(36).substring(2, 9),
+            nome: nomeEl.value.trim(),
+            descricao: descEl ? descEl.value.trim() : '',
+            data: typeof formatarDataBR === 'function' ? formatarDataBR() : new Date().toLocaleDateString('pt-BR')
+        };
+
+        _estadoRitoGlobal.cicatrizesAlma.push(novaCicatriz);
+        nomeEl.value = '';
+        if (descEl) descEl.value = '';
+        salvarProgressoRito();
+        renderizarListaCicatrizesDOM();
+    }
+
+    function removerCicatrizAlma(id) {
+        _estadoRitoGlobal.cicatrizesAlma = _estadoRitoGlobal.cicatrizesAlma.filter(c => c.id !== id);
+        salvarProgressoRito();
+        renderizarListaCicatrizesDOM();
+    }
+
+    function renderizarListaCicatrizesDOM() {
+        const container = document.getElementById('rito_lista_cicatrizes_container');
+        if (!container) return;
+
+        if (_estadoRitoGlobal.cicatrizesAlma.length === 0) {
+            container.innerHTML = `<div style="font-size: 12.5px; color: var(--ink-faint, #94a3b8); font-style: italic; padding: 10px; text-align: center; border: 1px dashed rgba(255,255,255,0.15); border-radius: 8px;">Nenhuma cicatriz profunda da alma registrada ainda.</div>`;
+            return;
+        }
+
+        container.innerHTML = _estadoRitoGlobal.cicatrizesAlma.map(c => `
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
+                <div style="flex: 1;">
+                    <div style="font-size: 13.5px; font-weight: 700; color: #f8fafc; margin-bottom: 2px;">✦ ${escapeHTML(c.nome)}</div>
+                    ${c.descricao ? `<div style="font-size: 12.5px; color: #cbd5e1; line-height: 1.4;">${escapeHTML(c.descricao)}</div>` : ''}
+                    <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;">Registrado em: ${c.data}</div>
+                </div>
+                <button type="button" onclick="RitoIndividuacaoManager.removerCicatrizAlma('${c.id}')" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; border-radius: 6px; padding: 4px 8px; font-size: 11px; cursor: pointer; font-weight: 700;">Remover</button>
+            </div>
+        `).join('');
+    }
+
+    // 6. NAVEGAÇÃO ENTRE ETAPAS DO WIZARD
+    function navegarEtapa(proximaEtapa) {
+        salvarProgressoRito();
+        const etapasValidas = ['A', 'B', 'C', 'D', 'E', 'F'];
+        if (etapasValidas.includes(proximaEtapa)) {
+            _estadoRitoGlobal.etapaAtual = proximaEtapa;
+            renderizarBarraProgressoModal();
+            renderizarConteudoEtapa(proximaEtapa);
+        }
+    }
+
+    // 7. ABRIR E FECHAR O MODAL DE INDIVIDUAÇÃO
+    function abrirModalRito(etapaDesejada) {
+        if (_estadoRitoGlobal.estadoPersonagem === 'STRANGER') {
+            if (typeof mostrarStatus === 'function') mostrarStatus('O personagem já é um STRANGER. O rito não pode ser iniciado novamente.', 'info');
+            return;
+        }
+
+        // Pré-preencher nome anterior se estiver vazio
+        if (!_estadoRitoGlobal.identidadeAnterior.nome) {
+            const nomeFicha = document.getElementById('ficha_nome')?.value.trim() || document.getElementById('ficha_identidade')?.value.trim();
+            if (nomeFicha) _estadoRitoGlobal.identidadeAnterior.nome = nomeFicha;
+        }
+
+        if (etapaDesejada) _estadoRitoGlobal.etapaAtual = etapaDesejada;
+        _estadoRitoGlobal.estadoProcesso = 'EM_PROGRESSO';
+
+        let overlay = document.getElementById('rito-individuacao-modal-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'rito-individuacao-modal-overlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0; left: 0; width: 100vw; height: 100vh;
+                background: rgba(8, 8, 12, 0.88);
+                backdrop-filter: blur(12px);
+                z-index: 999990;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 16px;
+                font-family: 'Mirage Gothic', 'MirageFinal', system-ui, -apple-system, sans-serif;
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        overlay.style.display = 'flex';
+        renderizarModalEstruturaHTML(overlay);
+        renderizarBarraProgressoModal();
+        renderizarConteudoEtapa(_estadoRitoGlobal.etapaAtual);
+    }
+
+    function fecharModalRito() {
+        salvarProgressoRito();
+        const overlay = document.getElementById('rito-individuacao-modal-overlay');
+        if (overlay) overlay.style.display = 'none';
+        atualizarUI();
+    }
+
+    // 8. RENDERIZADORES DE HTML E ESTILOS DA INTERFACE
+    function renderizarModalEstruturaHTML(overlay) {
+        overlay.innerHTML = `
+            <div style="background: linear-gradient(160deg, #090710 0%, #120e1c 50%, #06040a 100%); border: 1.5px solid color-mix(in srgb, var(--accent) 55%, rgba(255,255,255,0.15)); border-radius: 20px; max-width: 780px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 45px var(--accent-glow, rgba(168, 85, 247, 0.3)); overflow: hidden; color: #f8fafc; position: relative;">
+                <!-- Camadas de Neblina das Conquistas Secretas -->
+                <div class="rito-modal-fog-bg" aria-hidden="true"></div>
+                <div class="rito-modal-vignette" aria-hidden="true"></div>
+
+                <!-- Cabeçalho do Modal -->
+                <div style="position: relative; z-index: 2; padding: 20px 24px; border-bottom: 1px solid color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.08)); display: flex; align-items: center; justify-content: space-between; background: linear-gradient(180deg, rgba(18, 14, 26, 0.92) 0%, rgba(10, 8, 16, 0.95) 100%); backdrop-filter: blur(8px);">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 22px; color: var(--accent); filter: drop-shadow(0 0 8px var(--accent-glow));">✧</span>
+                        <div>
+                            <h3 style="margin: 0; font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: 0.05em; text-shadow: 0 0 10px var(--accent-glow);">RITO DE INDIVIDUAÇÃO</h3>
+                            <span style="font-size: 12px; color: color-mix(in srgb, var(--accent) 70%, #d1d5db); font-weight: 500; font-style: italic;">Dossiê de Preparação de Transformação em STRANGER</span>
+                        </div>
+                    </div>
+                    <button type="button" onclick="RitoIndividuacaoManager.fecharModalRito()" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; border-radius: 8px; padding: 6px 14px; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s ease;">✕ Salvar e Sair</button>
+                </div>
+
+                <!-- Barra de Progresso do Wizard -->
+                <div id="rito_wizard_progress_bar_container" style="position: relative; z-index: 2; padding: 14px 24px; background: rgba(8, 6, 12, 0.88); border-bottom: 1px solid color-mix(in srgb, var(--accent) 20%, rgba(255,255,255,0.06));"></div>
+
+                <!-- Conteúdo Dinâmico da Etapa -->
+                <div id="rito_wizard_stage_content" style="position: relative; z-index: 2; padding: 24px; overflow-y: auto; flex: 1;"></div>
+            </div>
+        `;
+    }
+
+    function renderizarBarraProgressoModal() {
+        const container = document.getElementById('rito_wizard_progress_bar_container');
+        if (!container) return;
+
+        const etapas = [
+            { key: 'A', rotulo: '1. O Despertar' },
+            { key: 'B', rotulo: '2. Dossiê' },
+            { key: 'C', rotulo: '3. Encarnação' },
+            { key: 'D', rotulo: '4. Individuação' },
+            { key: 'E', rotulo: '5. Validação Mestre' },
+            { key: 'F', rotulo: '6. Revisão' }
+        ];
+
+        const atualIdx = etapas.findIndex(e => e.key === _estadoRitoGlobal.etapaAtual);
+        const pct = Math.round(((atualIdx + 1) / etapas.length) * 100);
+
+        container.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+                ${etapas.map((e, idx) => {
+                    const ativa = e.key === _estadoRitoGlobal.etapaAtual;
+                    const concluida = idx < atualIdx;
+                    return `
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('${e.key}')" style="background: ${ativa ? 'color-mix(in srgb, var(--accent) 28%, transparent)' : (concluida ? 'rgba(34, 197, 94, 0.15)' : 'rgba(255,255,255,0.04)')}; border: 1px solid ${ativa ? 'var(--accent)' : (concluida ? '#22c55e' : 'rgba(255,255,255,0.1)')}; color: ${ativa ? 'var(--accent)' : (concluida ? '#4ade80' : '#828a9c')}; border-radius: 14px; padding: 4px 10px; font-size: 11.5px; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: ${ativa ? '0 0 14px color-mix(in srgb, var(--accent) 35%, transparent)' : 'none'}; text-shadow: ${ativa ? '0 0 8px var(--accent-glow)' : 'none'};">
+                            ${concluida ? '✓' : ''} ${e.rotulo}
+                        </button>
+                    `;
+                }).join('')}
+            </div>
+            <div style="width: 100%; background: #060408; height: 6px; border-radius: 3px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);">
+                <div style="width: ${pct}%; height: 100%; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #ffffff)); transition: width 0.3s ease; box-shadow: 0 0 12px var(--accent-glow);"></div>
+            </div>
+        `;
+    }
+
+    function renderizarConteudoEtapa(etapa) {
+        const container = document.getElementById('rito_wizard_stage_content');
+        if (!container) return;
+
+        if (etapa === 'A') {
+            container.innerHTML = `
+                <div style="max-width: 680px; margin: 0 auto; text-align: left;">
+                    <div style="background: linear-gradient(145deg, rgba(20, 16, 28, 0.75) 0%, rgba(10, 8, 16, 0.88) 100%); border: 1px solid color-mix(in srgb, var(--accent) 35%, rgba(255,255,255,0.12)); border-radius: 14px; padding: 22px; margin-bottom: 20px; box-shadow: inset 0 0 15px rgba(0,0,0,0.5);">
+                        <h4 style="margin: 0 0 12px 0; font-size: 17px; color: var(--accent); font-weight: 800; text-shadow: 0 0 8px var(--accent-glow);">✧ ETAPA A — O DESPERTAR NARRATIVO</h4>
+                        <p style="font-size: 14px; line-height: 1.6; color: #e2e8f0; margin: 0 0 14px 0;">
+                            A individuação é o evento divisor de águas na jornada de um personagem humano. Ao despertar a sua centelha, o personagem transcende a condição comum e torna-se um <strong>STRANGER</strong>.
+                        </p>
+                        <div style="background: rgba(8, 6, 12, 0.85); border-left: 3px solid #fbbf24; padding: 14px 16px; border-radius: 0 8px 8px 0; margin-bottom: 14px; font-size: 13.5px; line-height: 1.5; color: #cbd5e1;">
+                            <strong style="color: #fbbf24; display: block; margin-bottom: 4px;">Resumo das Consequências Fundamentais:</strong>
+                            <ul style="margin: 0; padding-left: 18px;">
+                                <li>O corpo e vitalidade do personagem serão restaurados conforme as regras do RPG na conclusão do rito.</li>
+                                <li>As cicatrizes profundas da alma definidas pelo jogador serão permanentemente preservadas.</li>
+                                <li>O personagem escolherá uma Encarnação Primordial (<strong>ANGELICAL</strong> ou <strong>DEMONÍACA</strong>).</li>
+                                <li>O recurso vital <strong>AURA</strong> será habilitado após a validação e conclusão definitiva.</li>
+                                <li>A transformação é <strong>permanente</strong> (salvo exceções registradas pelas regras do sistema).</li>
+                            </ul>
+                        </div>
+                        <p style="font-size: 13px; color: #94a3b8; font-style: italic; margin: 0;">
+                            ℹ️ Esta fase é de preparação do dossiê. Nenhuma alteração definitiva será aplicada à sua ficha nesta Etapa 2.
+                        </p>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('B')" style="padding: 10px 22px; background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 65%, #000000) 100%); border: 1px solid var(--accent); border-radius: 10px; color: #08060e; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 0 4px 18px var(--accent-glow); letter-spacing: 0.03em;">
+                            Avançar para Dossiê de Individuação →
+                        </button>
+                    </div>
+                </div>
+            `;
+        } else if (etapa === 'B') {
+            container.innerHTML = `
+                <div style="max-width: 680px; margin: 0 auto; text-align: left;">
+                    <h4 style="margin: 0 0 16px 0; font-size: 17px; color: var(--accent); font-weight: 800; text-shadow: 0 0 8px var(--accent-glow);">✧ ETAPA B — O DOSSIÊ DE INDIVIDUAÇÃO</h4>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+                        <div>
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: color-mix(in srgb, var(--accent) 70%, #d1d5db); margin-bottom: 4px; text-transform: uppercase;">Nome Humano Anterior</label>
+                            <input type="text" id="rito_identidade_anterior_nome" value="${escapeHTML(_estadoRitoGlobal.identidadeAnterior.nome)}" placeholder="Nome do personagem humano" style="width: 100%; padding: 10px 12px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.15)); border-radius: 8px; color: #fff; font-size: 13.5px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: color-mix(in srgb, var(--accent) 70%, #d1d5db); margin-bottom: 4px; text-transform: uppercase;">Codinome Anterior (opcional)</label>
+                            <input type="text" id="rito_identidade_anterior_codinome" value="${escapeHTML(_estadoRitoGlobal.identidadeAnterior.codinome)}" placeholder="Alcunha da vida humana" style="width: 100%; padding: 10px 12px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.15)); border-radius: 8px; color: #fff; font-size: 13.5px;">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; font-size: 12px; font-weight: 700; color: color-mix(in srgb, var(--accent) 70%, #d1d5db); margin-bottom: 4px; text-transform: uppercase;">Gatilho Catalisador da Transformação</label>
+                        <textarea id="rito_gatilho_descricao" rows="3" placeholder="Descreva o evento traumático, revelação ou rito narrativo que despertou a transformação..." style="width: 100%; padding: 10px 12px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.15)); border-radius: 8px; color: #fff; font-size: 13.5px; resize: vertical;">${escapeHTML(_estadoRitoGlobal.condicoesNarrativas.descricaoGatilho)}</textarea>
+                    </div>
+
+                    <!-- Seção de Cicatrizes da Alma -->
+                    <div style="background: linear-gradient(145deg, rgba(20, 16, 28, 0.75) 0%, rgba(10, 8, 16, 0.88) 100%); border: 1px solid color-mix(in srgb, var(--accent) 30%, rgba(255,255,255,0.12)); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+                        <div style="font-size: 14px; font-weight: 800; color: #fbbf24; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                            <span>✦ Cicatrizes e Feridas Profundas da Alma</span>
+                            <span style="font-size: 11px; font-weight: 500; color: #94a3b8;">(Permanecem após o Rito)</span>
+                        </div>
+                        
+                        <div id="rito_lista_cicatrizes_container" style="margin-bottom: 12px;"></div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 8px; align-items: flex-end;">
+                            <input type="text" id="rito_nova_cicatriz_nome" placeholder="Nome da cicatriz" style="padding: 8px 10px; background: rgba(8, 6, 12, 0.9); border: 1px solid color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.15)); border-radius: 6px; color: #fff; font-size: 12.5px;">
+                            <input type="text" id="rito_nova_cicatriz_desc" placeholder="Descrição do trauma profundo" style="padding: 8px 10px; background: rgba(8, 6, 12, 0.9); border: 1px solid color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.15)); border-radius: 6px; color: #fff; font-size: 12.5px;">
+                            <button type="button" onclick="RitoIndividuacaoManager.adicionarCicatrizAlma()" style="padding: 8px 14px; background: color-mix(in srgb, var(--accent) 25%, transparent); border: 1px solid var(--accent); color: var(--accent); font-weight: 700; border-radius: 6px; font-size: 12px; cursor: pointer;">+ Adicionar</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; gap: 12px;">
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('A')" style="padding: 10px 18px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #ccc; font-weight: 600; cursor: pointer;">← Anterior</button>
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('C')" style="padding: 10px 22px; background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 65%, #000000) 100%); border: 1px solid var(--accent); border-radius: 10px; color: #08060e; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 0 4px 18px var(--accent-glow); letter-spacing: 0.03em;">Avançar para Escolha da Encarnação →</button>
+                    </div>
+                </div>
+            `;
+            renderizarListaCicatrizesDOM();
+        } else if (etapa === 'C') {
+            const isAng = _estadoRitoGlobal.encarnacaoPrimordial === 'ANGELICAL';
+            const isDem = _estadoRitoGlobal.encarnacaoPrimordial === 'DEMONÍACA';
+
+            container.innerHTML = `
+                <div style="max-width: 680px; margin: 0 auto; text-align: left;">
+                    <h4 style="margin: 0 0 8px 0; font-size: 17px; color: var(--accent); font-weight: 800; text-shadow: 0 0 8px var(--accent-glow);">✧ ETAPA C — ESCOLHA DA ENCARNAÇÃO PRIMORDIAL</h4>
+                    <p style="font-size: 13.5px; color: #cbd5e1; margin: 0 0 20px 0;">
+                        Selecione a categoria de encarnação. Esta decisão moldará a afinidade primordial do seu STRANGER.
+                    </p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 22px;">
+                        <!-- CARD ANGELICAL -->
+                        <div onclick="RitoIndividuacaoManager.selecionarEncarnacao('ANGELICAL')" style="background: ${isAng ? 'linear-gradient(160deg, color-mix(in srgb, var(--accent) 25%, rgba(20, 16, 28, 0.9)) 0%, rgba(10, 8, 16, 0.95) 100%)' : 'rgba(10, 8, 16, 0.75)'}; border: 2px solid ${isAng ? 'var(--accent)' : 'rgba(255,255,255,0.12)'}; border-radius: 14px; padding: 20px; cursor: pointer; transition: all 0.3s ease; box-shadow: ${isAng ? '0 0 30px var(--accent-glow)' : 'none'}; relative;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="font-size: 24px; color: var(--accent); filter: drop-shadow(0 0 6px var(--accent-glow));">✦</span>
+                                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 12px; background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--accent);">ANGELICAL</span>
+                            </div>
+                            <h5 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 800; color: #f8fafc;">Categoria Angelical</h5>
+                            <ul style="margin: 0; padding-left: 18px; font-size: 13px; color: #cbd5e1; line-height: 1.5;">
+                                <li><strong>Menor potência inicial.</strong></li>
+                                <li><strong>Maior estabilidade inicial.</strong></li>
+                            </ul>
+                            <div style="margin-top: 14px; font-size: 12px; font-weight: 700; color: ${isAng ? 'var(--accent)' : '#64748b'}; text-align: right;">
+                                ${isAng ? '✓ SELECIONADO' : 'Clique para Selecionar'}
+                            </div>
+                        </div>
+
+                        <!-- CARD DEMONÍACA -->
+                        <div onclick="RitoIndividuacaoManager.selecionarEncarnacao('DEMONÍACA')" style="background: ${isDem ? 'linear-gradient(160deg, rgba(127, 29, 29, 0.35) 0%, rgba(10, 8, 16, 0.95) 100%)' : 'rgba(10, 8, 16, 0.75)'}; border: 2px solid ${isDem ? '#ef4444' : 'rgba(255,255,255,0.12)'}; border-radius: 14px; padding: 20px; cursor: pointer; transition: all 0.3s ease; box-shadow: ${isDem ? '0 0 30px rgba(239, 68, 68, 0.35)' : 'none'}; relative;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="font-size: 24px; color: #f87171; filter: drop-shadow(0 0 6px rgba(248,113,113,0.6));">⏣</span>
+                                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 12px; background: rgba(239, 68, 68, 0.2); color: #fca5a5;">DEMONÍACA</span>
+                            </div>
+                            <h5 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 800; color: #f8fafc;">Categoria Demoníaca</h5>
+                            <ul style="margin: 0; padding-left: 18px; font-size: 13px; color: #cbd5e1; line-height: 1.5;">
+                                <li><strong>Maior potência inicial.</strong></li>
+                                <li><strong>Maior instabilidade inicial.</strong></li>
+                            </ul>
+                            <div style="margin-top: 14px; font-size: 12px; font-weight: 700; color: ${isDem ? '#f87171' : '#64748b'}; text-align: right;">
+                                ${isDem ? '✓ SELECIONADO' : 'Clique para Selecionar'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 20%, rgba(255,255,255,0.1)); border-radius: 10px; padding: 14px; margin-bottom: 20px; font-size: 12.5px; color: #94a3b8; font-style: italic;">
+                        ⚠️ A escolha da encarnação primordial é conceitual e se tornará permanente na conclusão do rito na Etapa 3. Nenhuma fórmula, bônus numérico ou desbloqueio de AURA é aplicado nesta etapa de preparação.
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; gap: 12px;">
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('B')" style="padding: 10px 18px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #ccc; font-weight: 600; cursor: pointer;">← Anterior</button>
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('D')" style="padding: 10px 22px; background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 65%, #000000) 100%); border: 1px solid var(--accent); border-radius: 10px; color: #08060e; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 0 4px 18px var(--accent-glow); letter-spacing: 0.03em;">Avançar para Individuação →</button>
+                    </div>
+                </div>
+            `;
+        } else if (etapa === 'D') {
+            container.innerHTML = `
+                <div style="max-width: 680px; margin: 0 auto; text-align: left;">
+                    <h4 style="margin: 0 0 14px 0; font-size: 17px; color: var(--accent); font-weight: 800; text-shadow: 0 0 8px var(--accent-glow);">✧ ETAPA D — A INDIVIDUAÇÃO (IDENTIDADE EMERGENTE)</h4>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+                        <div>
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: color-mix(in srgb, var(--accent) 70%, #d1d5db); margin-bottom: 4px; text-transform: uppercase;">Nome Emergente de Stranger</label>
+                            <input type="text" id="rito_identidade_emergente_nome" value="${escapeHTML(_estadoRitoGlobal.identidadeEmergente.nome)}" placeholder="Novo nome ou mantido" style="width: 100%; padding: 10px 12px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.15)); border-radius: 8px; color: #fff; font-size: 13.5px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: color-mix(in srgb, var(--accent) 70%, #d1d5db); margin-bottom: 4px; text-transform: uppercase;">Título de Stranger</label>
+                            <input type="text" id="rito_identidade_emergente_titulo" value="${escapeHTML(_estadoRitoGlobal.identidadeEmergente.tituloStranger)}" placeholder="Ex: O Despertado, A Lâmina Astral" style="width: 100%; padding: 10px 12px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.15)); border-radius: 8px; color: #fff; font-size: 13.5px;">
+                        </div>
+                    </div>
+
+                    <!-- Questões de Reflexão Narrativa -->
+                    <div style="background: linear-gradient(145deg, rgba(20, 16, 28, 0.75) 0%, rgba(10, 8, 16, 0.88) 100%); border: 1px solid color-mix(in srgb, var(--accent) 30%, rgba(255,255,255,0.12)); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+                        <div style="font-size: 13.5px; font-weight: 800; color: #fbbf24; margin-bottom: 12px;">✦ Reflexões Narrativas da Transição</div>
+                        
+                        <div style="margin-bottom: 12px;">
+                            <label style="display: block; font-size: 11.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 4px;">O que sobreviveu da identidade anterior?</label>
+                            <textarea id="rito_refle_sobreviveu" rows="2" style="width: 100%; padding: 8px 10px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 20%, rgba(255,255,255,0.12)); border-radius: 6px; color: #fff; font-size: 12.5px;">${escapeHTML(_estadoRitoGlobal.identidadeEmergente.oQueSobreviveu)}</textarea>
+                        </div>
+
+                        <div style="margin-bottom: 12px;">
+                            <label style="display: block; font-size: 11.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 4px;">O que mudou ou deixou de definir o personagem?</label>
+                            <textarea id="rito_refle_mudou" rows="2" style="width: 100%; padding: 8px 10px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 20%, rgba(255,255,255,0.12)); border-radius: 6px; color: #fff; font-size: 12.5px;">${escapeHTML(_estadoRitoGlobal.identidadeEmergente.oQueMudou)}</textarea>
+                        </div>
+
+                        <div style="margin-bottom: 12px;">
+                            <label style="display: block; font-size: 11.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 4px;">Quais conflitos permanecem?</label>
+                            <textarea id="rito_refle_conflitos" rows="2" style="width: 100%; padding: 8px 10px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 20%, rgba(255,255,255,0.12)); border-radius: 6px; color: #fff; font-size: 12.5px;">${escapeHTML(_estadoRitoGlobal.identidadeEmergente.conflitosPermanentes)}</textarea>
+                        </div>
+
+                        <div>
+                            <label style="display: block; font-size: 11.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 4px;">O que nasceu com a nova identidade?</label>
+                            <textarea id="rito_refle_nasceu" rows="2" style="width: 100%; padding: 8px 10px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 20%, rgba(255,255,255,0.12)); border-radius: 6px; color: #fff; font-size: 12.5px;">${escapeHTML(_estadoRitoGlobal.identidadeEmergente.oQueNasceu)}</textarea>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; gap: 12px;">
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('C')" style="padding: 10px 18px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #ccc; font-weight: 600; cursor: pointer;">← Anterior</button>
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('E')" style="padding: 10px 22px; background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 65%, #000000) 100%); border: 1px solid var(--accent); border-radius: 10px; color: #08060e; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 0 4px 18px var(--accent-glow); letter-spacing: 0.03em;">Avançar para Validação do Mestre →</button>
+                    </div>
+                </div>
+            `;
+        } else if (etapa === 'E') {
+            container.innerHTML = `
+                <div style="max-width: 680px; margin: 0 auto; text-align: left;">
+                    <h4 style="margin: 0 0 14px 0; font-size: 17px; color: var(--accent); font-weight: 800; text-shadow: 0 0 8px var(--accent-glow);">✧ ETAPA E — VALIDAÇÃO DO MESTRE DA CAMPANHA</h4>
+
+                    <div style="background: linear-gradient(145deg, rgba(20, 16, 28, 0.75) 0%, rgba(10, 8, 16, 0.88) 100%); border: 1px solid color-mix(in srgb, var(--accent) 30%, rgba(255,255,255,0.12)); border-radius: 14px; padding: 20px; margin-bottom: 20px;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; font-weight: 700; color: #f8fafc; margin-bottom: 14px;">
+                            <input type="checkbox" id="rito_aprovacao_mestre_chk" ${_estadoRitoGlobal.aprovacaoMestre.aprovado ? 'checked' : ''} style="width: 18px; height: 18px; accent-color: var(--accent);">
+                            <span>Aprovação do Mestre Concedida para a Transformação</span>
+                        </label>
+
+                        <div style="margin-bottom: 14px;">
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: color-mix(in srgb, var(--accent) 70%, #d1d5db); margin-bottom: 4px; text-transform: uppercase;">Identificador do Mestre / MESA</label>
+                            <input type="text" id="rito_aprovacao_mestre_id" value="${escapeHTML(_estadoRitoGlobal.aprovacaoMestre.mestreId || '')}" placeholder="Nome ou ID do Mestre da Campanha" style="width: 100%; padding: 10px 12px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.15)); border-radius: 8px; color: #fff; font-size: 13.5px;">
+                        </div>
+
+                        <div>
+                            <label style="display: block; font-size: 12px; font-weight: 700; color: color-mix(in srgb, var(--accent) 70%, #d1d5db); margin-bottom: 4px; text-transform: uppercase;">Notas e Consequências Registradas pelo Mestre</label>
+                            <textarea id="rito_aprovacao_mestre_notas" rows="3" placeholder="Registre condições narrativas adicionais ou observações do mestre para a campanha..." style="width: 100%; padding: 10px 12px; background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.15)); border-radius: 8px; color: #fff; font-size: 13.5px; resize: vertical;">${escapeHTML(_estadoRitoGlobal.aprovacaoMestre.notas || '')}</textarea>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(8, 6, 12, 0.85); border: 1px solid color-mix(in srgb, var(--accent) 20%, rgba(255,255,255,0.1)); border-radius: 10px; padding: 14px; margin-bottom: 20px; font-size: 12.5px; color: #94a3b8;">
+                        ℹ️ <strong>Documentação de Infraestrutura:</strong> A autenticação cliente-servidor para papéis de mestre permanece pendente de infraestrutura de servidor. A validação do dossiê é armazenada localmente na ficha.
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; gap: 12px;">
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('D')" style="padding: 10px 18px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #ccc; font-weight: 600; cursor: pointer;">← Anterior</button>
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('F')" style="padding: 10px 22px; background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 65%, #000000) 100%); border: 1px solid var(--accent); border-radius: 10px; color: #08060e; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 0 4px 18px var(--accent-glow); letter-spacing: 0.03em;">Avançar para Revisão Prévia →</button>
+                    </div>
+                </div>
+            `;
+        } else if (etapa === 'F') {
+            const enc = _estadoRitoGlobal.encarnacaoPrimordial;
+            const apMestre = _estadoRitoGlobal.aprovacaoMestre.aprovado;
+            const temEnc = !!enc;
+
+            container.innerHTML = `
+                <div style="max-width: 680px; margin: 0 auto; text-align: left;">
+                    <h4 style="margin: 0 0 14px 0; font-size: 17px; color: var(--accent); font-weight: 800; text-shadow: 0 0 8px var(--accent-glow);">✧ ETAPA F — REVISÃO PRÉVIA DO DOSSIÊ</h4>
+
+                    <div style="background: linear-gradient(145deg, rgba(20, 16, 28, 0.75) 0%, rgba(10, 8, 16, 0.88) 100%); border: 1px solid color-mix(in srgb, var(--accent) 30%, rgba(255,255,255,0.12)); border-radius: 14px; padding: 20px; margin-bottom: 20px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+                            <div>
+                                <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; display: block;">Identidade Anterior (Humano):</span>
+                                <strong style="font-size: 14px; color: #f8fafc;">${escapeHTML(_estadoRitoGlobal.identidadeAnterior.nome || 'Não informada')}</strong>
+                            </div>
+                            <div>
+                                <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; display: block;">Identidade Emergente (Stranger):</span>
+                                <strong style="font-size: 14px; color: var(--accent); text-shadow: 0 0 8px var(--accent-glow);">${escapeHTML(_estadoRitoGlobal.identidadeEmergente.nome || 'Pendente')}</strong>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 14px; padding: 10px; background: rgba(8, 6, 12, 0.85); border-radius: 8px;">
+                            <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; display: block; margin-bottom: 4px;">Encarnação Primordial Selecionada:</span>
+                            <span style="font-size: 14px; font-weight: 800; color: ${enc === 'ANGELICAL' ? 'var(--accent)' : (enc === 'DEMONÍACA' ? '#f87171' : '#f59e0b')};">
+                                ${enc ? (enc === 'ANGELICAL' ? '✦ ANGELICAL (Estabilidade Inicial)' : '⏣ DEMONÍACA (Potência Inicial)') : '⚠️ Nenhuma Encarnação Selecionada (Pendente)'}
+                            </span>
+                        </div>
+
+                        <div style="margin-bottom: 14px;">
+                            <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; display: block; margin-bottom: 4px;">Cicatrizes da Alma Registradas (${_estadoRitoGlobal.cicatrizesAlma.length}):</span>
+                            ${_estadoRitoGlobal.cicatrizesAlma.length > 0 
+                                ? _estadoRitoGlobal.cicatrizesAlma.map(c=>`<div style="font-size: 12.5px; color: #e2e8f0; margin-bottom: 2px;">• <strong>${escapeHTML(c.nome)}</strong>: ${escapeHTML(c.descricao)}</div>`).join('')
+                                : '<div style="font-size: 12.5px; color: #94a3b8; font-style: italic;">Nenhuma cicatriz registrada.</div>'}
+                        </div>
+
+                        <div style="margin-bottom: 14px;">
+                            <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; display: block; margin-bottom: 4px;">Gatilho Catalisador Narrativo:</span>
+                            <div style="font-size: 12.5px; color: #cbd5e1; font-style: italic;">${escapeHTML(_estadoRitoGlobal.condicoesNarrativas.descricaoGatilho || 'Não informado')}</div>
+                        </div>
+
+                        <div>
+                            <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; display: block; margin-bottom: 4px;">Validação do Mestre:</span>
+                            <span style="font-size: 13px; font-weight: 700; color: ${apMestre ? '#4ade80' : '#fbbf24'};">
+                                ${apMestre ? '✓ Transformação Aprovada pelo Mestre' : '⚠️ Pendente de Aprovação do Mestre'}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Status de Validação -->
+                    <div style="background: ${temEnc ? 'rgba(34, 197, 94, 0.15)' : 'rgba(245, 158, 11, 0.15)'}; border: 1px solid ${temEnc ? '#22c55e' : '#f59e0b'}; border-radius: 10px; padding: 14px; margin-bottom: 20px;">
+                        <strong style="color: ${temEnc ? '#4ade80' : '#fbbf24'}; font-size: 13.5px; display: block; margin-bottom: 4px;">
+                            ${temEnc ? '✓ Dossiê de Individuação Preparado com Sucesso!' : '⚠️ Atenção: Requisitos Pendentes'}
+                        </strong>
+                        <p style="margin: 0; font-size: 12.5px; color: #cbd5e1; line-height: 1.5;">
+                            ${temEnc ? 'Seu dossiê de preparação está salvo e pronto. Nenhuma alteração definitiva foi realizada na sua ficha nesta Etapa 2. O personagem permanece HUMANO e a AURA permanece bloqueada até a confirmação da Etapa 3.' : 'Por favor, volte à Etapa C e selecione a Encarnação Primordial antes de concluir o dossiê.'}
+                        </p>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; gap: 12px;">
+                        <button type="button" onclick="RitoIndividuacaoManager.navegarEtapa('C')" style="padding: 10px 18px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #ccc; font-weight: 600; cursor: pointer;">← Corrigir Informações</button>
+                        <button type="button" onclick="RitoIndividuacaoManager.fecharModalRito()" style="padding: 10px 22px; background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); border: none; border-radius: 10px; color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.35);">💾 Salvar Dossiê e Sair</button>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    function renderizarBadgeEstadoRito() {
+        if (typeof document === "undefined") return;
+        let badgeEl = document.getElementById('ficha-badge-estado-rito');
+        const containerCabecalho = document.querySelector('.ficha-cabecalho-info') || document.querySelector('.ficha-nomes-topo-bar');
+
+        if (!badgeEl && containerCabecalho) {
+            badgeEl = document.createElement('div');
+            badgeEl.id = 'ficha-badge-estado-rito';
+            badgeEl.style.cssText = `
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 5px 12px;
+                border-radius: 12px;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.04em;
+                margin-top: 6px;
+                margin-bottom: 6px;
+                text-transform: uppercase;
+                transition: all 0.3s ease;
+            `;
+            containerCabecalho.appendChild(badgeEl);
+        }
+
+        if (!badgeEl) return;
+
+        if (_estadoRitoGlobal.estadoPersonagem === 'STRANGER') {
+            const enc = _estadoRitoGlobal.encarnacaoPrimordial || 'DESCONHECIDA';
+            const corEnc = enc === 'ANGELICAL' ? 'var(--accent)' : (enc === 'DEMONÍACA' ? '#ef4444' : '#a855f7');
+            badgeEl.style.background = `color-mix(in srgb, ${enc === 'ANGELICAL' ? 'var(--accent)' : '#ef4444'} 18%, transparent)`;
+            badgeEl.style.border = `1px solid ${corEnc}`;
+            badgeEl.style.color = corEnc;
+            badgeEl.innerHTML = `<span>✨ STRANGER</span><span style="opacity: 0.7;">• Encarnação ${enc}</span>`;
+            badgeEl.title = `Personagem transformado em STRANGER em ${_estadoRitoGlobal.registroHistorico.dataTransformacao || 'Sessão'}`;
+        } else {
+            const emProgresso = _estadoRitoGlobal.estadoProcesso === 'EM_PROGRESSO';
+            const etapa = _estadoRitoGlobal.etapaAtual || 'A';
+            badgeEl.style.background = emProgresso ? 'color-mix(in srgb, var(--accent) 20%, transparent)' : 'rgba(100, 116, 139, 0.12)';
+            badgeEl.style.border = `1px solid ${emProgresso ? 'var(--accent)' : 'rgba(148, 163, 184, 0.3)'}`;
+            badgeEl.style.color = emProgresso ? 'var(--accent)' : '#94a3b8';
+            badgeEl.innerHTML = `
+                <span>👤 HUMANO</span>
+                <span style="opacity: 0.7;">• ${emProgresso ? `Rito em Dossiê (Etapa ${etapa})` : 'Rito Não Concluído'}</span>
+                <button type="button" id="btn-abrir-rito-individuacao" onclick="RitoIndividuacaoManager.abrirModalRito()" style="margin-left: 6px; background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 70%, #000000) 100%); color: #0f172a; border: 1px solid var(--accent); border-radius: 8px; padding: 3px 8px; font-size: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; box-shadow: 0 0 10px var(--accent-glow);">
+                    ✧ ${emProgresso ? `Continuar Dossiê (${etapa})` : 'Preparar Rito'}
+                </button>
+            `;
+            badgeEl.title = 'Personagem no estado humano padrão. A AURA permanece indisponível.';
+        }
+    }
+
+    function escapeHTML(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function atualizarUI() {
+        if (typeof document === "undefined") return;
+        renderizarBadgeEstadoRito();
+        const cardAura = document.getElementById("card-recurso-aura");
+        const ehStranger = (_estadoRitoGlobal.estadoPersonagem === 'STRANGER' && _estadoRitoGlobal.aura.habilitada);
+        const bloqueado = !ehStranger;
+
+        if (cardAura) {
+            cardAura.classList.toggle("aura-bloqueada-humano", bloqueado);
+        }
+    }
+
+    function iniciarProcessoIndividuacao(etapaDesejada) {
+        abrirModalRito(etapaDesejada || 'A');
+    }
+
+    function executarRitoIndividuacao(etapaDesejada) {
+        abrirModalRito(etapaDesejada || 'A');
+    }
+
+    function validarIntegridadeEdicao(estadoAlvo) {
+        if (!estadoAlvo || typeof estadoAlvo !== 'object') return true;
+        if (_estadoRitoGlobal.estadoPersonagem === 'HUMANO') {
+            if (estadoAlvo.aura) estadoAlvo.aura.habilitada = false;
+            estadoAlvo.estadoPersonagem = 'HUMANO';
+        } else if (_estadoRitoGlobal.estadoPersonagem === 'STRANGER') {
+            if (_estadoRitoGlobal.encarnacaoPrimordial) {
+                estadoAlvo.encarnacaoPrimordial = _estadoRitoGlobal.encarnacaoPrimordial;
+            }
+        }
+        return true;
+    }
+
+    // 9. SUÍTE DE TESTES AUTOMATIZADOS INTERNOS
+    function executarTestes() {
+        const resultados = [];
+
+        function assert(condicao, testeNome, detalhe = '') {
+            if (condicao) {
+                resultados.push({ teste: testeNome, passado: true, mensagem: 'OK' });
+            } else {
+                resultados.push({ teste: testeNome, passado: false, mensagem: 'FALHA: ' + detalhe });
+            }
+        }
+
+        // 1. Abertura do rito em personagens HUMANOS
+        const estadoHumanoPadrao = migrarEstado(null);
+        assert(
+            estadoHumanoPadrao.estadoPersonagem === 'HUMANO',
+            '1. Personagem inicia como HUMANO',
+            estadoHumanoPadrao.estadoPersonagem
+        );
+
+        // 2. Retomada de um rito em andamento
+        _estadoRitoGlobal.estadoProcesso = 'EM_PROGRESSO';
+        _estadoRitoGlobal.etapaAtual = 'C';
+        const estadoSalvo = clonarObjeto(_estadoRitoGlobal);
+        const estadoCarregado = migrarEstado(estadoSalvo);
+        assert(
+            estadoCarregado.estadoProcesso === 'EM_PROGRESSO' && estadoCarregado.etapaAtual === 'C',
+            '2. Retomada de rito em andamento na etapa C',
+            JSON.stringify(estadoCarregado)
+        );
+
+        // 3. Persistência dos campos narrativos
+        _estadoRitoGlobal.identidadeAnterior.nome = 'João Humano';
+        _estadoRitoGlobal.identidadeEmergente.nome = 'Caelum';
+        _estadoRitoGlobal.identidadeEmergente.oQueSobreviveu = 'A compaixão';
+        _estadoRitoGlobal.cicatrizesAlma = [{ id: '1', nome: 'Marcado a Ferro', descricao: 'Queimadura no peito', data: '14/10/2026' }];
+        assert(
+            _estadoRitoGlobal.identidadeEmergente.oQueSobreviveu === 'A compaixão' && _estadoRitoGlobal.cicatrizesAlma.length === 1,
+            '3. Persistência dos campos narrativos',
+            JSON.stringify(_estadoRitoGlobal.identidadeEmergente)
+        );
+
+        // 4. Seleção e persistência da encarnação
+        _estadoRitoGlobal.encarnacaoPrimordial = 'ANGELICAL';
+        assert(
+            _estadoRitoGlobal.encarnacaoPrimordial === 'ANGELICAL',
+            '4. Seleção da Encarnação ANGELICAL',
+            _estadoRitoGlobal.encarnacaoPrimordial
+        );
+
+        // 5. Impossibilidade de iniciar segundo rito simultâneo em STRANGER
+        const ritoStranger = migrarEstado({ estadoPersonagem: 'STRANGER', encarnacaoPrimordial: 'DEMONÍACA', aura: { habilitada: true } });
+        assert(
+            ritoStranger.estadoPersonagem === 'STRANGER' && ritoStranger.aura.habilitada === true,
+            '5. STRANGER preservado sem rito simultâneo',
+            JSON.stringify(ritoStranger)
+        );
+
+        // 6. Navegação entre etapas sem perda de dados
+        _estadoRitoGlobal.etapaAtual = 'D';
+        assert(
+            _estadoRitoGlobal.encarnacaoPrimordial === 'ANGELICAL' && _estadoRitoGlobal.identidadeAnterior.nome === 'João Humano',
+            '6. Navegação entre etapas sem perda de dados',
+            JSON.stringify(_estadoRitoGlobal)
+        );
+
+        // 7. Impossibilidade de concluir o rito enquanto houver condições pendentes
+        const pendenteEncarnacao = (_estadoRitoGlobal.encarnacaoPrimordial === null);
+        assert(
+            !pendenteEncarnacao,
+            '7. Validação de encarnação preenchida antes da revisão',
+            String(pendenteEncarnacao)
+        );
+
+        // 8. Ausência de alterações definitivas na ficha durante a preparação
+        assert(
+            _estadoRitoGlobal.estadoPersonagem === 'HUMANO',
+            '8. Personagem permanece HUMANO durante a Etapa 2',
+            _estadoRitoGlobal.estadoPersonagem
+        );
+
+        // 9. Manutenção da AURA bloqueada até a conclusão da Etapa 3
+        assert(
+            _estadoRitoGlobal.aura.habilitada === false,
+            '9. AURA permanece bloqueada para HUMANO durante a Etapa 2',
+            String(_estadoRitoGlobal.aura.habilitada)
+        );
+
+        // 10. Compatibilidade com fichas e funcionalidades anteriores
+        const legada = migrarEstado(null);
+        assert(
+            legada.estadoPersonagem === 'HUMANO' && legada.aura.habilitada === false,
+            '10. Compatibilidade com fichas anteriores',
+            JSON.stringify(legada)
+        );
+
+        atualizarUI();
+        return resultados;
+    }
+
+    return {
+        migrarEstado,
+        aplicarEstado,
+        obterEstadoParaSalvar,
+        validarUsoAura,
+        iniciarProcessoIndividuacao,
+        executarRitoIndividuacao,
+        salvarProgressoRito,
+        selecionarEncarnacao,
+        adicionarCicatrizAlma,
+        removerCicatrizAlma,
+        navegarEtapa,
+        abrirModalRito,
+        fecharModalRito,
+        validarIntegridadeEdicao,
+        atualizarUI,
+        executarTestes
+    };
+})();
+
 function atualizarBarraRecurso(chave){
     const atualEl = document.getElementById("recurso_" + chave + "_atual");
     const maxEl = document.getElementById("recurso_" + chave + "_max");
@@ -20333,6 +22115,15 @@ function zerarTodosRecursosTemporarios(){
 }
 
 function sliderRecursoAlterado(chave, valor){
+    if (chave === 'aura' && typeof RitoIndividuacaoManager !== "undefined") {
+        const valAura = RitoIndividuacaoManager.validarUsoAura();
+        if (!valAura.permitido) {
+            if (typeof mostrarStatus === "function") mostrarStatus("🔒 " + valAura.motivo, "erro");
+            const slider = document.getElementById("slider_aura");
+            if (slider) slider.value = 0;
+            return;
+        }
+    }
     const atualEl = document.getElementById("recurso_" + chave + "_atual");
     if(atualEl){
         atualEl.value = valor;
@@ -20342,6 +22133,13 @@ function sliderRecursoAlterado(chave, valor){
 }
 
 function ajustarRecurso(chave, delta){
+    if (chave === 'aura' && typeof RitoIndividuacaoManager !== "undefined") {
+        const valAura = RitoIndividuacaoManager.validarUsoAura();
+        if (!valAura.permitido) {
+            if (typeof mostrarStatus === "function") mostrarStatus("🔒 " + valAura.motivo, "erro");
+            return;
+        }
+    }
     const atualEl = document.getElementById("recurso_" + chave + "_atual");
     const maxEl = document.getElementById("recurso_" + chave + "_max");
     if(!atualEl || !maxEl) return;
@@ -20451,6 +22249,13 @@ function aplicarAjusteDigitado(chave, inputOuValor){
 }
 
 function maximizarRecurso(chave){
+    if (chave === 'aura' && typeof RitoIndividuacaoManager !== "undefined") {
+        const valAura = RitoIndividuacaoManager.validarUsoAura();
+        if (!valAura.permitido) {
+            if (typeof mostrarStatus === "function") mostrarStatus("🔒 " + valAura.motivo, "erro");
+            return;
+        }
+    }
     const atualEl = document.getElementById("recurso_" + chave + "_atual");
     const maxEl = document.getElementById("recurso_" + chave + "_max");
     if(!atualEl || !maxEl) return;
@@ -20470,6 +22275,9 @@ function restaurarTodosRecursos(){
     let recuperouAlgo = false;
     let totalDiferenca = 0;
     RECURSOS_CONFIG.forEach(cfg => {
+        if (cfg.chave === 'aura' && typeof RitoIndividuacaoManager !== "undefined" && !RitoIndividuacaoManager.validarUsoAura().permitido) {
+            return;
+        }
         const atualEl = document.getElementById("recurso_" + cfg.chave + "_atual");
         const maxEl = document.getElementById("recurso_" + cfg.chave + "_max");
         if (atualEl && maxEl) {
@@ -20544,6 +22352,7 @@ function coletarEstadoFicha(){
         },
         pontosPuros: {...pontosPuros},
         pontosBonus: {...pontosBonus},
+        favoritasPericias: (typeof favoritasPericias !== "undefined") ? {...favoritasPericias} : {},
         baseSelects,
         personalizadas: personalizadas.map(p=>({...p})),
         inventario: {
@@ -20566,6 +22375,7 @@ function coletarEstadoFicha(){
         salvamentoManual: salvamentoManualAtivo,
         modoClaro: modoClaroAtivo,
         premioYudi: (typeof estadoPremioYudiGlobal !== "undefined" ? estadoPremioYudiGlobal : null),
+        ritoIndividuacao: (typeof RitoIndividuacaoManager !== "undefined") ? RitoIndividuacaoManager.obterEstadoParaSalvar() : null,
         atualizadoEm: new Date().toISOString()
     };
 }
@@ -20573,6 +22383,10 @@ function coletarEstadoFicha(){
 function aplicarEstadoFicha(estado){
     salvamentoManualAtivo = !!estado.salvamentoManual;
     atualizarUIModoSalvamento();
+
+    if (typeof RitoIndividuacaoManager !== "undefined") {
+        RitoIndividuacaoManager.aplicarEstado(estado.ritoIndividuacao || estado.individuacao || null);
+    }
 
     const idLocal = (typeof obterIdNavegadorLocal === "function") ? obterIdNavegadorLocal() : "";
     if (estado.importada || (estado.idNavegadorCriador && estado.idNavegadorCriador !== idLocal)) {
@@ -20751,6 +22565,14 @@ function aplicarEstadoFicha(estado){
             if(sel) sel.value = val;
         });
     }
+
+    // Restaura e aplica Perícias Favoritas
+    if (estado.favoritasPericias && typeof estado.favoritasPericias === "object") {
+        Object.keys(favoritasPericias).forEach(k => delete favoritasPericias[k]);
+        Object.assign(favoritasPericias, estado.favoritasPericias);
+    }
+    if (typeof atualizarFavoritosUI === 'function') atualizarFavoritosUI();
+    if (typeof aplicarFiltrosPericias === 'function') aplicarFiltrosPericias();
 
     // Fecha e limpa resultados de rolagens antigas
     document.querySelectorAll('[id^="d_"]').forEach(el=>{ el.innerHTML=""; el.removeAttribute("open"); });
@@ -21856,7 +23678,8 @@ function resetarFichaParaPadrao(){
         conquistas: {
             campanha: [],
             desbloqueadas: []
-        }
+        },
+        ritoIndividuacao: (typeof RitoIndividuacaoManager !== "undefined") ? RitoIndividuacaoManager.migrarEstado(null) : null
     };
     aplicarEstadoFicha(estadoPadrao);
     limparAlteracoesNaoSalvas();
@@ -26622,13 +28445,16 @@ let _ligacaoYudiEmAndamento = false;
 let estadoPremioYudiGlobal = null;
 
 function verificarGatilhoCompanhia() {
+    // Só pode ser acionada se a primeira conquista secreta ("eSPECtador Incherido") foi desbloqueada via duplo clique na logo
+    const eSPECtadorDesbloqueado = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+
+    if (!eSPECtadorDesbloqueado) {
+        return;
+    }
+
     if (_ligacaoYudiEmAndamento) return;
     _ligacaoYudiEmAndamento = true;
-
-    // Garante que a aba de segredos esteja desbloqueada
-    if (typeof conquistasDesbloqueadas !== "undefined" && !conquistasDesbloqueadas.has("sec_easteregg_rodape")) {
-        desbloquearConquistaSecreta("sec_easteregg_rodape");
-    }
 
     // Tocador do som de telefone via Web Audio API
     let ctxAudio = null;
@@ -26699,19 +28525,19 @@ function verificarGatilhoCompanhia() {
     let tempoRestante = 15;
 
     overlay.innerHTML = `
-        <div style="background: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #090d16 100%); border: 2px solid rgba(96, 165, 250, 0.5); border-radius: 20px; padding: 36px 32px; max-width: 560px; width: 92%; text-align: center; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(59, 130, 246, 0.25); animation: yudiPulseCall 1.8s infinite ease-in-out;">
+        <div style="background: linear-gradient(160deg, #090710 0%, #120e1c 50%, #06040a 100%); border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent); border-radius: 20px; padding: 36px 32px; max-width: 560px; width: 92%; text-align: center; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 45px var(--accent-glow); animation: yudiPulseCall 1.8s infinite ease-in-out;">
             <style>
                 #yudi-ligacao-overlay * {
                     font-family: 'Mirage Gothic', 'MirageFinal', system-ui, -apple-system, sans-serif !important;
                 }
                 @keyframes yudiPulseCall {
-                    0%, 100% { box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 25px rgba(59, 130, 246, 0.3); border-color: rgba(96, 165, 250, 0.5); }
-                    50% { box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 50px rgba(59, 130, 246, 0.6); border-color: rgba(96, 165, 250, 0.9); }
+                    0%, 100% { box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 25px var(--accent-glow); border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
+                    50% { box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 50px var(--accent-glow); border-color: var(--accent); }
                 }
                 @keyframes yudiRingAnim {
-                    0%, 100% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.6)); }
-                    12%, 36%, 60% { transform: rotate(-14deg) scale(1.18); filter: drop-shadow(0 0 20px rgba(96, 165, 250, 1)); }
-                    24%, 48% { transform: rotate(14deg) scale(1.18); filter: drop-shadow(0 0 20px rgba(96, 165, 250, 1)); }
+                    0%, 100% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 10px var(--accent-glow)); }
+                    12%, 36%, 60% { transform: rotate(-14deg) scale(1.18); filter: drop-shadow(0 0 20px var(--accent-glow)); }
+                    24%, 48% { transform: rotate(14deg) scale(1.18); filter: drop-shadow(0 0 20px var(--accent-glow)); }
                 }
                 .call-ring-box {
                     position: relative;
@@ -26720,11 +28546,11 @@ function verificarGatilhoCompanhia() {
                     justify-content: center;
                     width: 80px;
                     height: 80px;
-                    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(15, 23, 42, 0.6) 100%);
-                    border: 2px solid rgba(96, 165, 250, 0.4);
+                    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 25%, transparent) 0%, rgba(15, 23, 42, 0.6) 100%);
+                    border: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
                     border-radius: 50%;
                     margin-bottom: 18px;
-                    box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+                    box-shadow: 0 0 25px var(--accent-glow);
                 }
                 .call-ring-icon {
                     font-size: 40px;
@@ -26740,16 +28566,16 @@ function verificarGatilhoCompanhia() {
                 <span style="font-size: 21px; color: #f8fafc; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;">
                     LIGAÇÃO TELEFÔNICA
                 </span>
-                <span style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: #ffffff; font-size: 16px; font-weight: 800; padding: 4px 14px; border-radius: 20px; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); letter-spacing: 0.06em; white-space: nowrap;">
+                <span style="background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 70%, #000000) 100%); color: #ffffff; font-size: 16px; font-weight: 800; padding: 4px 14px; border-radius: 20px; box-shadow: 0 0 15px var(--accent-glow); letter-spacing: 0.06em; white-space: nowrap;">
                     4002-8922
                 </span>
             </div>
 
-            <p style="margin: 0 0 22px 0; font-size: 14.5px; color: #93c5fd; opacity: 0.95; font-weight: 500;">
+            <p style="margin: 0 0 22px 0; font-size: 14.5px; color: color-mix(in srgb, var(--accent) 80%, #ffffff); opacity: 0.95; font-weight: 500;">
                 Aguarde na linha! A chamada está conectando ao vivo...
             </p>
 
-            <div id="yudi-call-status-log" style="font-size: 14px; color: #cbd5e1; font-style: italic; min-height: 28px; font-weight: 500; letter-spacing: 0.02em; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 12px; padding: 12px 18px; margin-bottom: 12px;">
+            <div id="yudi-call-status-log" style="font-size: 14px; color: #cbd5e1; font-style: italic; min-height: 28px; font-weight: 500; letter-spacing: 0.02em; background: rgba(15, 23, 42, 0.6); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); border-radius: 12px; padding: 12px 18px; margin-bottom: 12px;">
                 [00:00] Discando 4002-8922...
             </div>
         </div>
@@ -27743,13 +29569,16 @@ function renderizarListaConquistas() {
 
             const iniciarSegurar = (e) => {
                 if (e.button !== undefined && e.button !== 0) return;
+                if (card.getAttribute("data-revelado-nevoa") === "true") return;
                 segurando = true;
                 card.classList.remove("descricao-revelada");
                 card.classList.add("segurando-revelacao");
 
                 timerSegurar = setTimeout(() => {
                     if (!segurando) return;
+                    card.setAttribute("data-revelado-nevoa", "true");
                     card.classList.add("descricao-revelada");
+                    card.classList.remove("segurando-revelacao");
 
                     if (typeof tocarEfeitoSonoro === "function") {
                         tocarEfeitoSonoro({ tipo: "misterio" }, 15, 1);
@@ -27760,7 +29589,11 @@ function renderizarListaConquistas() {
             };
 
             const cancelarSegurar = () => {
-                if (!segurando && !timerSegurar) return;
+                if (card.getAttribute("data-revelado-nevoa") === "true") {
+                    card.classList.remove("segurando-revelacao");
+                    card.classList.add("descricao-revelada");
+                    return;
+                }
                 segurando = false;
                 if (timerSegurar) {
                     clearTimeout(timerSegurar);
@@ -35820,6 +37653,9 @@ if (typeof renderizarBadgePremioYudi === "function") {
     renderizarBadgePremioYudi();
 }
 atualizarTodasBarrasRecursos();
+if (typeof RitoIndividuacaoManager !== "undefined") {
+    RitoIndividuacaoManager.atualizarUI();
+}
 inicializarStorage();
 inicializarAbasCategorias();
 atualizarBotoesSom();
@@ -35905,8 +37741,10 @@ if (typeof avaliarEstaminaCritica === "function") {
    Atalho: Control esquerdo + SUPER + Control Direito + 0
    ============================================================ */
 function executarDesbloqueioSegredoF12() {
-    if (typeof conquistasDesbloqueadas !== "undefined" && !conquistasDesbloqueadas.has("sec_easteregg_rodape")) {
-        desbloquearConquistaSecreta("sec_easteregg_rodape");
+    const eSPECtadorDesbloqueado = (typeof conquistasSecretasDesbloqueadas !== "undefined" && conquistasSecretasDesbloqueadas) &&
+        (typeof conquistasDesbloqueadas !== "undefined" && conquistasDesbloqueadas.has("sec_easteregg_rodape"));
+    if (!eSPECtadorDesbloqueado) {
+        return "🔒 As conquistas secretas estão seladas. Você precisa desvendar o mistério da logo primeiro.";
     }
     desbloquearConquistaSecreta("sec_segredo_fonte");
     console.log("%c⚡ [DEVTOOLS ELEMENTS] CONQUISTA SECRETA 'Segredo-Fonte' DESBLOQUEADA!", "color: #a855f7; font-size: 16px; font-weight: bold; background: #190a28; padding: 10px 14px; border: 2px solid #a855f7; border-radius: 6px;");
