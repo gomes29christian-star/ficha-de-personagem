@@ -3349,6 +3349,61 @@ body.modo-claro .btn-modo-salvamento.manual-ativo{
   display: none !important;
 }
 
+/* GERENCIADOR DE ATRIBUTOS DENTRO DO CARD DE PERÍCIA */
+.pericia-atributos-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--line-soft);
+}
+
+.pericia-atributos-rotulo {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--ink-faint);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pericia-attr-pills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.attr-pill-toggle {
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: var(--bg-inset);
+  border: 1px solid var(--line-soft);
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.attr-pill-toggle:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.attr-pill-toggle.ativo {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 800;
+  box-shadow: 0 0 6px var(--accent-glow, rgba(168, 85, 247, 0.25));
+}
+
+
 
 .btn-secundario{
   width:100%;padding:11px;background:transparent;color:var(--accent);
@@ -17385,143 +17440,96 @@ pontosBonus[nome]=(valor??"").trim();
 atualizarPainel();
 }
 
-function obterAtributoPrincipal(pericia){
-    if (pericia.atributos.length === 1) return pericia.atributos[0];
+/* GERENCIADOR DE ATRIBUTOS CUSTOMIZÁVEIS POR PERÍCIA */
+const atributosPersonalizadosPericia = {};
 
-    const id = "base_" + idSeguro(pericia.nome);
+function obterAtributosAtivosDePericia(pericia) {
+    const nome = typeof pericia === 'string' ? pericia : (pericia?.nome || '');
+    if (!nome) return ['HPR'];
+    
+    if (atributosPersonalizadosPericia[nome] && Array.isArray(atributosPersonalizadosPericia[nome]) && atributosPersonalizadosPericia[nome].length > 0) {
+        return [...atributosPersonalizadosPericia[nome]];
+    }
+    
+    const pObj = typeof pericia === 'object' ? pericia : (typeof encontrarPericia === 'function' ? encontrarPericia(nome) : null);
+    if (pObj && Array.isArray(pObj.atributos) && pObj.atributos.length > 0) {
+        return [...pObj.atributos];
+    }
+    return ['HPR'];
+}
+
+function alternarAtributoEmPericia(nome, attr) {
+    if (!nome || !attr) return;
+    const attrsAtivos = obterAtributosAtivosDePericia(nome);
+    
+    if (attrsAtivos.includes(attr)) {
+        if (attrsAtivos.length <= 1) {
+            if (typeof mostrarStatus === 'function') {
+                mostrarStatus('⚠️ A perícia precisa ter pelo menos um Atributo!', 'aviso');
+            }
+            return;
+        }
+        atributosPersonalizadosPericia[nome] = attrsAtivos.filter(a => a !== attr);
+    } else {
+        atributosPersonalizadosPericia[nome] = [...attrsAtivos, attr];
+    }
+
+    atualizarPainel();
+    if (typeof aplicarFiltrosPericias === 'function') aplicarFiltrosPericias();
+    if (typeof salvarSilencioso === 'function') salvarSilencioso();
+}
+
+function obterAtributoPrincipal(pericia){
+    const attrsAtivos = obterAtributosAtivosDePericia(pericia);
+    if (attrsAtivos.length === 1) return attrsAtivos[0];
+
+    const id = "base_" + idSeguro(typeof pericia === 'string' ? pericia : pericia.nome);
     const select = document.getElementById(id);
 
-    // O valor atual do seletor é SEMPRE o Atributo Principal.
-    return select && select.value ? select.value : pericia.atributos[0];
+    return (select && select.value && attrsAtivos.includes(select.value)) ? select.value : attrsAtivos[0];
 }
+
 function obterAtributosAuxiliares(pericia){
-if(pericia.atributos.length<=1)return [];
-const principal=obterAtributoPrincipal(pericia);
-return pericia.atributos.filter(attr=>attr!==principal);
+    const attrsAtivos = obterAtributosAtivosDePericia(pericia);
+    if (attrsAtivos.length <= 1) return [];
+    const principal = obterAtributoPrincipal(pericia);
+    return attrsAtivos.filter(attr => attr !== principal);
 }
 
-// Pontos Relacionados vêm SOMENTE dos Pontos Puros das Perícias Relacionadas.
-// (Nunca de seus Pontos Bônus nem de seus Pontos Totais — para não gerar efeito bola de neve.)
-function calcularRelacionados(pericia){
-if(!pericia.aux?.length)return 0;
-let soma=0;
-pericia.aux.forEach(nome=>soma+=pontosPurosDe(nome));
-return Math.floor(soma/pericia.divisor);
+function calcularRelacionados(pericia) {
+    if (!pericia) return 0;
+    const attrsAux = typeof obterAtributosAuxiliares === 'function' ? obterAtributosAuxiliares(pericia) : [];
+    const somaAux = attrsAux.reduce((acc, attr) => acc + (typeof valorAtributo === 'function' ? valorAtributo(attr) : 0), 0);
+    
+    let somaDivisor = 0;
+    if (pericia.aux && Array.isArray(pericia.aux) && pericia.aux.length > 0) {
+        const somaS = pericia.aux.reduce((acc, a) => acc + (typeof valorAtributo === 'function' ? valorAtributo(a) : 0), 0);
+        somaDivisor = Math.floor(somaS / (pericia.divisor || 1));
+    }
+    return somaAux + somaDivisor;
 }
 
-function calcularTotal(pericia){
-return pontosPurosDe(pericia.nome)+pontosBonusDe(pericia.nome)+calcularRelacionados(pericia);
-}
-
-function criarCard(pericia){
-const card=document.createElement("div");
-card.className="pericia-card";
-const id=idSeguro(pericia.nome);
-
-const header=document.createElement("div");
-header.className="pericia-header";
-
-const titulo=document.createElement("div");
-titulo.className="pericia-title";
-titulo.textContent=pericia.nome;
-
-const base=document.createElement("div");
-base.className="pericia-base";
-base.append("Atributo Principal: ");
-
-if(pericia.atributos.length>1){
-const select=document.createElement("select");
-select.id="base_"+id;
-pericia.atributos.forEach(attr=>{
-const option=document.createElement("option");
-option.value=attr; option.textContent=attr;
-select.appendChild(option);
-});
-select.addEventListener("change",function(){ atualizarPainel(); });
-select.addEventListener("input",function(){ atualizarPainel(); });
-base.appendChild(select);
-}else{
-const span=document.createElement("strong");
-span.textContent=pericia.atributos[0];
-base.appendChild(span);
-}
-header.append(titulo,base);
-
-const corpo=document.createElement("div");
-corpo.className="pericia-corpo";
-
-const grupoPuros=document.createElement("div");
-grupoPuros.className="input-group";
-const labelPuros=document.createElement("label");
-labelPuros.textContent="Pontos Puros";
-const inputPuros=document.createElement("input");
-inputPuros.type="number"; inputPuros.min="0"; inputPuros.value=pontosPuros[pericia.nome]||0;
-inputPuros.id="pp_"+id;
-inputPuros.addEventListener("change",function(){ definirPontosPuros(pericia.nome,this.value); });
-grupoPuros.append(labelPuros,inputPuros);
-
-const grupoBonus=document.createElement("div");
-grupoBonus.className="input-group";
-const labelBonus=document.createElement("label");
-labelBonus.textContent="Pontos Bônus";
-const inputBonus=document.createElement("input");
-inputBonus.type="text"; inputBonus.placeholder="0 ou +1D6"; inputBonus.maxLength=16;
-inputBonus.title="Aceita números negativos e ajustes de dados, ex: -2 ou +1D6";
-inputBonus.value=pontosBonus[pericia.nome]||"0";
-inputBonus.id="pb_"+id;
-inputBonus.addEventListener("change",function(){ definirPontosBonus(pericia.nome,this.value); });
-grupoBonus.append(labelBonus,inputBonus);
-
-const caixaRelacionados=document.createElement("div");
-caixaRelacionados.className="resultado-box";
-caixaRelacionados.innerHTML='<span class="rotulo">Relacionados</span><span id="rel_'+id+'">0</span>';
-
-const caixaTotal=document.createElement("div");
-caixaTotal.className="resultado-box total";
-caixaTotal.innerHTML='<span class="rotulo">Total</span><span id="tot_'+id+'">0</span>';
-
-corpo.append(grupoPuros,grupoBonus,caixaRelacionados,caixaTotal);
-
-const formula=document.createElement("div");
-formula.className="formula";
-formula.id="formula_"+id;
-
-const botao=document.createElement("button");
-botao.className="btn-rolar";
-botao.textContent="Rolar Dados";
-botao.onclick=()=>rolar(pericia.nome);
-
-const dados=document.createElement("details");
-dados.id="d_"+id;
-dados.className="dados-resultado";
-
-card.append(header,corpo,formula,botao,dados);
-return card;
-}
-
-function criarPainel(){
-/* Os cards já vêm no HTML para funcionarem também em visualizadores
-   Android que demoram ou restringem a execução de JavaScript. */
-pericias.forEach(pericia=>{
-    if(pontosPuros[pericia.nome]===undefined)pontosPuros[pericia.nome]=0;
-    if(pontosBonus[pericia.nome]===undefined)pontosBonus[pericia.nome]=0;
-});
-atualizarPainel();
+function calcularTotal(pericia) {
+    if (!pericia) return 0;
+    const pObj = typeof pericia === 'object' ? pericia : (typeof encontrarPericia === 'function' ? encontrarPericia(pericia) : { nome: pericia });
+    const nome = pObj?.nome || String(pericia);
+    const puros = typeof pontosPurosDe === 'function' ? pontosPurosDe(nome) : (pontosPuros[nome] || 0);
+    const bonus = typeof pontosBonusDe === 'function' ? pontosBonusDe(nome) : 0;
+    const relacionados = calcularRelacionados(pObj);
+    return puros + bonus + relacionados;
 }
 
 function montarFormula(pericia){
     const principal = obterAtributoPrincipal(pericia);
-    const atributosAux = pericia.atributos.filter(attr => attr !== principal);
+    const attrsAtivos = obterAtributosAtivosDePericia(pericia);
+    const atributosAux = attrsAtivos.filter(attr => attr !== principal);
 
-    // Principal = quantidade de D6.
-    // Relacionado restante = Atributo Auxiliar, simplesmente somado.
     let texto = `${principal} × D6`;
 
     if (atributosAux.length > 0) {
         texto += " + " + atributosAux.join(" + ");
     }
 
-    // Bônus proveniente das Perícias Auxiliares.
     if (pericia.aux && pericia.aux.length > 0) {
         texto += ` + ⌊(${pericia.aux.join(" + ")}) ÷ ${pericia.divisor}⌋`;
     }
@@ -17529,9 +17537,88 @@ function montarFormula(pericia){
     return texto;
 }
 
+function atualizarAtributosCardUI(pericia) {
+    if (typeof document === 'undefined') return;
+    const id = idSeguro(pericia.nome);
+    const card = document.getElementById("formula_" + id)?.closest('.pericia-card') 
+              || document.querySelector(`input[id="pp_${id}"]`)?.closest('.pericia-card');
+    
+    if (!card) return;
+
+    const attrsAtivos = obterAtributosAtivosDePericia(pericia);
+    const baseWrap = card.querySelector('.pericia-base');
+
+    if (baseWrap) {
+        let valAtual = document.getElementById("base_" + id)?.value;
+        if (!valAtual || !attrsAtivos.includes(valAtual)) {
+            valAtual = attrsAtivos[0];
+        }
+
+        if (attrsAtivos.length > 1) {
+            let select = document.getElementById("base_" + id);
+            if (!select) {
+                select = document.createElement("select");
+                select.id = "base_" + id;
+                select.addEventListener("change", function(){ atualizarPainel(); });
+                select.addEventListener("input", function(){ atualizarPainel(); });
+            }
+            select.innerHTML = "";
+            attrsAtivos.forEach(attr => {
+                const opt = document.createElement("option");
+                opt.value = attr;
+                opt.textContent = attr;
+                if (attr === valAtual) opt.selected = true;
+                select.appendChild(opt);
+            });
+            baseWrap.innerHTML = "Atributo Principal: ";
+            baseWrap.appendChild(select);
+        } else {
+            baseWrap.innerHTML = `Atributo Principal: <strong>${attrsAtivos[0]}</strong>`;
+        }
+    }
+
+    let attrBar = card.querySelector('.pericia-atributos-bar');
+    if (!attrBar) {
+        attrBar = document.createElement('div');
+        attrBar.className = 'pericia-atributos-bar';
+        attrBar.innerHTML = `
+            <div class="pericia-atributos-rotulo">
+              <span>Atributos influenciadores:</span>
+            </div>
+            <div class="pericia-attr-pills"></div>
+        `;
+        const headerEl = card.querySelector('.pericia-header');
+        if (headerEl && headerEl.nextSibling) {
+            card.insertBefore(attrBar, headerEl.nextSibling);
+        } else {
+            card.appendChild(attrBar);
+        }
+    }
+
+    const pillsWrap = attrBar.querySelector('.pericia-attr-pills');
+    if (pillsWrap) {
+        const todosAtributos = ['HPR', 'PRX', 'PSI', 'QI'];
+        pillsWrap.innerHTML = '';
+        todosAtributos.forEach(attr => {
+            const ativo = attrsAtivos.includes(attr);
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `attr-pill-toggle ${ativo ? 'ativo' : ''}`;
+            btn.title = ativo ? `Remover ${attr} desta perícia` : `Adicionar ${attr} a esta perícia`;
+            btn.innerHTML = `${ativo ? '✓ ' : '+ '}${attr}`;
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                alternarAtributoEmPericia(pericia.nome, attr);
+            };
+            pillsWrap.appendChild(btn);
+        });
+    }
+}
+
 function atualizarPainel(){
     const listaCompleta = pericias.concat(personalizadas);
     listaCompleta.forEach(pericia => {
+        atualizarAtributosCardUI(pericia);
         const id = idSeguro(pericia.nome);
         const relacionados = calcularRelacionados(pericia);
         const total = calcularTotal(pericia);
@@ -22353,6 +22440,7 @@ function coletarEstadoFicha(){
         pontosPuros: {...pontosPuros},
         pontosBonus: {...pontosBonus},
         favoritasPericias: (typeof favoritasPericias !== "undefined") ? {...favoritasPericias} : {},
+        atributosPersonalizadosPericia: (typeof atributosPersonalizadosPericia !== "undefined") ? JSON.parse(JSON.stringify(atributosPersonalizadosPericia)) : {},
         baseSelects,
         personalizadas: personalizadas.map(p=>({...p})),
         inventario: {
@@ -22566,7 +22654,11 @@ function aplicarEstadoFicha(estado){
         });
     }
 
-    // Restaura e aplica Perícias Favoritas
+    // Restaura e aplica Atributos Customizados por Perícia e Perícias Favoritas
+    if (estado.atributosPersonalizadosPericia && typeof estado.atributosPersonalizadosPericia === "object") {
+        Object.keys(atributosPersonalizadosPericia).forEach(k => delete atributosPersonalizadosPericia[k]);
+        Object.assign(atributosPersonalizadosPericia, JSON.parse(JSON.stringify(estado.atributosPersonalizadosPericia)));
+    }
     if (estado.favoritasPericias && typeof estado.favoritasPericias === "object") {
         Object.keys(favoritasPericias).forEach(k => delete favoritasPericias[k]);
         Object.assign(favoritasPericias, estado.favoritasPericias);
@@ -36750,6 +36842,9 @@ function exibirToastConquistaIndividual(conquista, jogadorNome, ehSecreta = fals
     const descBase = c.desc || "";
 
     if (ehSecreta || c.nivel1 === 'secretas') {
+        if (typeof conquistasDesbloqueadas === 'undefined' || !conquistasDesbloqueadas.has("sec_easteregg_rodape")) {
+            return;
+        }
         exibirToastMesa({
             tipo: 'secreta',
             icone: c.icone || '🔮',
@@ -37644,7 +37739,9 @@ function inicializarCampanhasMultiplayer() {
     });
 }
 
-criarPainel();
+if (typeof atualizarPainel === "function") {
+    atualizarPainel();
+}
 instalarListenersAtributos();
 instalarListenersRastreamentoAlteracoes();
 atualizarOpcoesClasse();
@@ -37694,6 +37791,8 @@ try {
     const contornoSalvo = localStorage.getItem("we_are_strangers_tema_contorno_ativo");
     if (contornoSalvo !== null) {
         alternarContornoLetras(contornoSalvo === "true", false, false);
+    } else {
+        alternarContornoLetras(true, false, false);
     }
     const contornoCorSalva = localStorage.getItem("we_are_strangers_tema_contorno_cor");
     if (contornoCorSalva) {
